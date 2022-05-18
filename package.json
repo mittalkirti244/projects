@@ -1,0 +1,92 @@
+{
+    "name": "hcl-mro-requestdolphin",
+    "version": "1.0.2",
+    "description": "MRO RequestDolphin (Rel20220518)",
+    "repository": "<Add your repository here>",
+    "license": "UNLICENSED",
+    "private": true,
+    "dependencies": {
+        "@sap-cloud-sdk/core": "^1.54.0",
+        "@sap/cds": "^5.9.0",
+        "@sap/cds-odata-v2-adapter-proxy": "^1.8.5",
+        "@sap/cds-runtime": "^3.3.0",
+        "date-and-time": "^2.1.0",
+        "email-validator": "^2.0.4",
+        "express": "^4",
+        "hdb": "^0.18.3",
+        "passport": "^0.5.2",
+        "validate-phone-number-node-js": "0.0.1"
+    },
+    "devDependencies": {
+        "@sap/hdi-deploy": "^4.2.3",
+        "@sap/ux-specification": "^1.100.2",
+        "sqlite3": "^5.0.2"
+    },
+    "scripts": {
+        "start": "cds run",
+        "watch-mro-requestdolphin-ui": "cds watch --open mro-requestdolphin-ui/webapp/index.html#fe-lrop-v4"
+    },
+    "eslintConfig": {
+        "extends": "eslint:recommended",
+        "env": {
+            "es2020": true,
+            "node": true,
+            "jest": true,
+            "mocha": true
+        },
+        "globals": {
+            "SELECT": true,
+            "INSERT": true,
+            "UPDATE": true,
+            "DELETE": true,
+            "CREATE": true,
+            "DROP": true,
+            "CDL": true,
+            "CQL": true,
+            "CXL": true,
+            "cds": true
+        },
+        "rules": {
+            "no-console": "off",
+            "require-atomic-updates": "off"
+        }
+    },
+    "cds": {
+        "i18n": {
+            "folders": [
+                "app/mro-requestdolphin-ui/webapp/i18n"
+            ]
+        },
+        "requires": {
+            "db": {
+                "kind": "sqlite",
+                "[production]": {
+                    "kind": "hana"
+                },
+                "credentials": {
+                    "database": "db/mr.db"
+                }
+            },
+            "MAINTREQ_SB": {
+                "kind": "odata-v2",
+                "model": "srv/external/MAINTREQ_SB",
+                "credentials": {
+                    "destination": "MaintReq"
+                }
+            },
+            "NumberRangeService": {
+                "kind": "odata",
+                "model": "srv/external/NumberRangeService",
+                "credentials": {
+                    "destination": "NumberRange"
+                }
+            }
+        },
+        "hana": {
+            "deploy-format": "hdbtable"
+        }
+    },
+    "sapux": [
+        "app/mro-requestdolphin-ui"
+    ]
+}

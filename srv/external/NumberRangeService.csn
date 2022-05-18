@@ -1,0 +1,169 @@
+{
+  "meta": {
+    "creator": "cds-dk 4.8.2"
+  },
+  "$version": "2.0",
+  "definitions": {
+    "NumberRangeService.NumberRanges": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "elements": {
+        "createdAt": {
+          "type": "cds.Timestamp",
+          "@odata.precision": 7,
+          "@odata.type": "Edm.DateTimeOffset"
+        },
+        "modifiedAt": {
+          "type": "cds.Timestamp",
+          "@odata.precision": 7,
+          "@odata.type": "Edm.DateTimeOffset"
+        },
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "numberRangeID": {
+          "type": "cds.LargeString"
+        },
+        "description": {
+          "type": "cds.LargeString"
+        },
+        "prefix": {
+          "type": "cds.LargeString"
+        },
+        "runningNumber": {
+          "type": "cds.Integer"
+        },
+        "postfix": {
+          "type": "cds.LargeString"
+        },
+        "status": {
+          "type": "cds.LargeString"
+        },
+        "numberStart": {
+          "type": "cds.Integer"
+        },
+        "numberEnd": {
+          "type": "cds.Integer"
+        },
+        "autoRepeat": {
+          "type": "cds.LargeString"
+        },
+        "concatinatedLastRunningNo": {
+          "type": "cds.LargeString"
+        },
+        "IsActiveEntity": {
+          "key": true,
+          "type": "cds.Boolean"
+        },
+        "HasActiveEntity": {
+          "type": "cds.Boolean"
+        },
+        "HasDraftEntity": {
+          "type": "cds.Boolean"
+        },
+        "DraftAdministrativeData": {
+          "type": "cds.Association",
+          "@cds.ambiguous": "missing on condition?",
+          "target": "NumberRangeService.DraftAdministrativeData",
+          "cardinality": {
+            "max": 1
+          },
+          "keys": []
+        },
+        "SiblingEntity": {
+          "type": "cds.Association",
+          "@cds.ambiguous": "missing on condition?",
+          "target": "NumberRangeService.NumberRanges",
+          "cardinality": {
+            "max": 1
+          },
+          "keys": []
+        }
+      },
+      "actions": {
+        "draftPrepare": {
+          "kind": "action",
+          "params": {
+            "SideEffectsQualifier": {
+              "type": "cds.LargeString"
+            }
+          },
+          "returns": {
+            "type": "NumberRangeService.NumberRanges"
+          }
+        },
+        "draftActivate": {
+          "kind": "action",
+          "returns": {
+            "type": "NumberRangeService.NumberRanges"
+          }
+        },
+        "draftEdit": {
+          "kind": "action",
+          "params": {
+            "PreserveChanges": {
+              "type": "cds.Boolean"
+            }
+          },
+          "returns": {
+            "type": "NumberRangeService.NumberRanges"
+          }
+        }
+      }
+    },
+    "NumberRangeService.DraftAdministrativeData": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "elements": {
+        "DraftUUID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "CreationDateTime": {
+          "type": "cds.Timestamp",
+          "@odata.precision": 7,
+          "@odata.type": "Edm.DateTimeOffset"
+        },
+        "CreatedByUser": {
+          "type": "cds.String",
+          "length": 256
+        },
+        "DraftIsCreatedByMe": {
+          "type": "cds.Boolean"
+        },
+        "LastChangeDateTime": {
+          "type": "cds.Timestamp",
+          "@odata.precision": 7,
+          "@odata.type": "Edm.DateTimeOffset"
+        },
+        "LastChangedByUser": {
+          "type": "cds.String",
+          "length": 256
+        },
+        "InProcessByUser": {
+          "type": "cds.String",
+          "length": 256
+        },
+        "DraftIsProcessedByMe": {
+          "type": "cds.Boolean"
+        }
+      }
+    },
+    "NumberRangeService.getLastRunningNumber": {
+      "kind": "function",
+      "params": {
+        "numberRangeID": {
+          "type": "cds.LargeString"
+        }
+      },
+      "returns": {
+        "type": "cds.LargeString"
+      }
+    },
+    "NumberRangeService": {
+      "kind": "service",
+      "@cds.external": true
+    }
+  }
+}

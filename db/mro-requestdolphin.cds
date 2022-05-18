@@ -1,0 +1,256 @@
+namespace com.hcl.mro.requestdolphin;
+
+using {
+    managed,
+    sap.common,
+} from '@sap/cds/common';
+
+entity MaintenanceRequests : managed {
+    key ID                     : UUID                                             @title         : '{i18n>ID}'  @Core.Computed; //unique ID for Maintenace request
+        requestNo              : String                                           @title         : '{i18n>requestNo}'; // will generate after selecting request type
+        requestDesc            : String                                           @title         : '{i18n>requestDesc}'; // maintenance request Description
+        businessPartner        : String                                           @title         : '{i18n>businessPartner}'; //bp service from s4
+        businessPartner1       : String                                           @title         : '{i18n>businessPartner}'; // bp to be display on only list report page to perform filteration
+        businessPartnerName    : String                                           @title         : '{i18n>businessPartnerName}'; //autopopulate after selecting business partner
+        businessPartnerName1   : String                                           @title         : '{i18n>businessPartnerName}'; //bp name to be display on list report page so that user see bp name after selecting bp from selection
+        bpConcatenation        : String; //Concatenated BP value 101(Boeing Ltd.) used in ovp card of Busines partner
+        eqMaterial             : String                                           @title         : '{i18n>eqMaterial}'; //Equipment Material
+        eqSerialNumber         : String                                           @title         : '{i18n>eqSerialNumber}'; //Equipment serial number
+        equipment              : String                                           @title         : '{i18n>equipment}'; // Equipment VH having filterable property(Material and serial number)
+        equipmentName          : String                                           @title         : '{i18n>equipmentName}'; //equipment name will display after selecting equipment
+        locationWC             : String                                           @title         : '{i18n>locationWC}'; //workcenter
+        locationWCDetail       : String                                           @title         : '{i18n>locationWCDetail}'; //work center Detail(Work Center Name)
+        locationWCPlant        : String                                           @title         : '{i18n>locationWCPlant}'; //workcenter plant = planning plant
+        listOfServices         : String                                           @title         : '{i18n>listOfServices}'; // standard product VH service (list of services)
+        contract               : String                                           @title         : '{i18n>contract}'; // Contracts assosiated with BP (contract no, desc and Turn around time)
+        contractName           : String                                           @title         : '{i18n>contractName}'; //contract name will auto populate after selcting right contract
+        expectedArrivalDate    : Date                                             @title         : '{i18n>expectedArrivalDate}'; //System current date
+        expectedDeliveryDate   : Date                                             @title         : '{i18n>expectedDeliveryDate}'; //System current date and user can change date-turn around time from contract s4 service will be stored in expected delivery date
+        startDate              : Date                                             @title         : '{i18n>startDate}'; //System current date
+        endDate                : Date                                             @title         : '{i18n>endDate}'; //System current date
+        mName                  : String                                           @title         : '{i18n>mName}'; //Manufacturer Name
+        mModel                 : String                                           @title         : '{i18n>mModel}'; //Manufacturer Model
+        mSerialNumber          : String                                           @title         : '{i18n>mSerialNumber}'; //Manufacturer Serial Number
+        functionalLocation     : String                                           @title         : '{i18n>functionalLocation}'; //VH for fucntional location s4 service with filter criteria(mname,mmodel and mserialNumber)
+        functionalLocationName : String                                           @title         : '{i18n>functionalLocationName}'; //readonly field for functional location
+        revisionNo             : String                                           @title         : '{i18n>revisionNo}'; // create by trigerring when request status is confirmed
+        revisionType           : String                                           @title         : '{i18n>revisionType}'; // It will hold the value as A1
+        revisionText           : String                                           @title         : '{i18n>revisionText}'; // concatenation of request Number and request Ddescription
+        ccpersonName           : String                                           @title         : '{i18n>ccpersonName}'  @UI.Placeholder    : 'Name'; //free text field comes from BP
+        ccemail                : String                                           @title         : '{i18n>ccemail}'  @UI.Placeholder         : 'Email'; //free text field comes from BP
+        ccphoneNumber          : String                                           @title         : '{i18n>ccphoneNumber}'  @UI.Placeholder   : 'Phone Number'; //free text field comes from BP
+        criticalityLevel       : Integer; //It will decide the color combination of Request status and Request phase
+        emailFlag              : Boolean; //True indicates -> mail sent & false indicates -> mail not sent
+        uiHidden               : Boolean not null default false; //datafield to apply hidden criteria for request type and request status
+        uiHidden1              : Boolean not null default true; //datafield to apply hidden criteria for request type and request status
+        requestType1           : Integer                                          @title         : '{i18n>requestType1}'; //to assign the request type at the time of edit and readonly field
+        requestStatus1         : String default 'Draft'                           @title         : '{i18n>requestStatus1}'; //to assign the request status at the time of create and make it readonly field
+        mrCount                : Integer default 1; //Used in views to show count of the requests
+        createdAtDate          : Date                                             @cds.on.insert : $now  @title                              : '{i18n>createdAtDate}'; //Used as a filter criteria for Overview page(Date DataType works as a date picker)
+        to_requestType         : Association to RequestTypes                      @title :         '{i18n>requestType}'  @assert.integrity   : false; //as dropdown - request number will generate through request type
+        to_requestStatus       : Association to RequestStatuses                   @title :         '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
+        to_requestPhase        : Association to RequestPhases                     @title :         '{i18n>requestPhase}'  @assert.integrity  : false; //at create = initial
+        to_document            : Composition of many Documents
+                                     on to_document.to_maintenanceRequest = $self @title         : '{i18n>document}'; //One to many (1 MR - multiple documents links) i.e. Attaching multiple url w.r.t. MR
+        to_botStatus           : Association to BotStatuses                       @title :         '{i18n>botStatus}'  @assert.integrity     : false; // Status will get update when mail is sent to customer
+/* to_listOfServices      : Composition of many ListOfServices
+                              on to_listOfServices.to_maintenanceRequest = $self*/
+};
+
+entity RequestTypes { //Admin screen
+    key ID    : Integer;
+    key rType : String;
+};
+
+entity RequestStatuses {
+    key rStatus : String; //Admin screen
+};
+
+entity RequestPhases {
+    key rPhase : String default 'Initial';
+};
+
+entity Documents : managed {
+    key UUID                  : UUID    @Core.Computed; //Unique ID as UUID
+        ID                    : Integer @title : '{i18n>document_ID}'; //It got incremented by 1 w.r.t. MR
+        url                   : String  @title : '{i18n>document_url}'; //document url
+        documentDesc          : String  @title : '{i18n>document_desc}'; //url decription
+        to_maintenanceRequest : Association to MaintenanceRequests; //one to one(1 document link - 1 MR)
+};
+
+entity BotStatuses {
+    key ID      : Integer; //Unique ID for Bot statuses
+    key bStatus : String; //Bot status (Mail Sent, Mail Received, Request Validated, Work Items Created, Notifications Created)
+};
+
+entity Configurations : managed {
+    key ID                 : UUID                             @Core.Computed; //Unique ID
+        manufacturerName   : Boolean; //Manufacturer Name
+        manfuracterModel   : Boolean; //Manfuracter Model
+        manurafacturerSl   : Boolean; //Manurafacturer Sl
+        materialNo         : Boolean; //Material
+        serialNo           : Boolean; //Serial
+        to_requestType     : Association to RequestTypes      @assert.integrity : false;
+        to_requestIndustry : Association to RequestIndustries @assert.integrity : false;
+        to_schemaType      : Association to SchemaTypes       @assert.integrity : false;
+}
+
+entity RequestIndustries {
+    key rIndustry : String //Industry
+}
+
+entity SchemaTypes {
+    key sSchema : String //Search Schema
+}
+
+//Number of Request based on Request Statuses on Overview Page
+@Aggregation.ApplySupported.PropertyRestrictions : true
+view AggregatedMaintenanceReqOnStatuses as
+    select from MaintenanceRequests {
+            @Analytics.Dimension : true
+        key to_requestStatus,
+            @Analytics.Dimension : true
+            createdAtDate,
+            @Analytics.Measure   : true
+            @Aggregation.default : #SUM
+            mrCount
+    };
+
+//Number of Request based on Request Phases on Overview Page
+@Aggregation.ApplySupported.PropertyRestrictions : true
+view AggregatedMaintenanceReqOnPhases as
+    select from MaintenanceRequests {
+            @Analytics.Dimension : true
+        key to_requestPhase,
+            @Analytics.Dimension : true
+            createdAtDate,
+            @Analytics.Measure   : true
+            @Aggregation.default : #SUM
+            mrCount
+    };
+
+//Number of Request based on MR type(Complete Asset) which has wc on x-axis and status on y-axis
+@Aggregation.ApplySupported.PropertyRestrictions : true
+view AggregatedReqByCompleteAssetAndWC as
+    select from MaintenanceRequests {
+            @Analytics.Dimension : true
+        key to_requestType,
+            @Analytics.Dimension : true
+        key to_requestStatus,
+            @Analytics.Dimension : true
+        key locationWC,
+            @Analytics.Dimension : true
+            createdAtDate,
+            @Analytics.Measure   : true
+            @Aggregation.default : #SUM
+            mrCount
+    }
+    where
+        to_requestType.rType = 'Complete Asset';
+
+//Number of Request based on MR type(Component) which has wc on x-axis and status on y-axis
+@Aggregation.ApplySupported.PropertyRestrictions : true
+view AggregatedReqByComponentAndWC as
+    select from MaintenanceRequests {
+            @Analytics.Dimension : true
+        key to_requestType,
+            @Analytics.Dimension : true
+        key to_requestStatus,
+            @Analytics.Dimension : true
+        key locationWC,
+            @Analytics.Dimension : true
+            createdAtDate,
+            @Analytics.Measure   : true
+            @Aggregation.default : #SUM
+            mrCount
+    }
+    where
+        to_requestType.rType = 'Component';
+
+//Number of Request based on MR type(Assembly) which has wc on x-axis and status on y-axis
+@Aggregation.ApplySupported.PropertyRestrictions : true
+view AggregatedReqByAssemblyAndWC as
+    select from MaintenanceRequests {
+            @Analytics.Dimension : true
+        key to_requestType,
+            @Analytics.Dimension : true
+        key to_requestStatus,
+            @Analytics.Dimension : true
+        key locationWC,
+            @Analytics.Dimension : true
+            createdAtDate,
+            @Analytics.Measure   : true
+            @Aggregation.default : #SUM
+            mrCount
+    }
+    where
+        to_requestType.rType = 'Assembly';
+
+//Number of Request based on MR type(Complete Asset) which has BP on x-axis and status on y-axis
+@Aggregation.ApplySupported.PropertyRestrictions : true
+view AggregatedReqByCompleteAssetAndBP as
+    select from MaintenanceRequests {
+            @Analytics.Dimension : true
+        key to_requestType,
+            @Analytics.Dimension : true
+        key to_requestStatus,
+            @Analytics.Dimension : true
+        key businessPartner1,
+            @Analytics.Dimension : true
+        key businessPartnerName1,
+            @Analytics.Dimension : true
+        key bpConcatenation,
+            @Analytics.Dimension : true
+            createdAtDate,
+            @Analytics.Measure   : true
+            @Aggregation.default : #SUM
+            mrCount
+    }
+    where
+        to_requestType.rType = 'Complete Asset';
+
+//Number of Request based on MR type(Component) which has BP on x-axis and status on y-axis
+@Aggregation.ApplySupported.PropertyRestrictions : true
+view AggregatedReqByComponentAndBP as
+    select from MaintenanceRequests {
+            @Analytics.Dimension : true
+        key to_requestType,
+            @Analytics.Dimension : true
+        key to_requestStatus,
+            @Analytics.Dimension : true
+        key businessPartner1,
+            @Analytics.Dimension : true
+        key businessPartnerName1,
+            @Analytics.Dimension : true
+        key bpConcatenation,
+            @Analytics.Dimension : true
+            createdAtDate,
+            @Analytics.Measure   : true
+            @Aggregation.default : #SUM
+            mrCount
+    }
+    where
+        to_requestType.rType = 'Component';
+
+//Number of Request based on MR type(Assembly) which has BP on x-axis and status on y-axis
+@Aggregation.ApplySupported.PropertyRestrictions : true
+view AggregatedReqByAssemblyAndBP as
+    select from MaintenanceRequests {
+            @Analytics.Dimension : true
+        key to_requestType,
+            @Analytics.Dimension : true
+        key to_requestStatus,
+            @Analytics.Dimension : true
+        key businessPartner1,
+            @Analytics.Dimension : true
+        key businessPartnerName1,
+            @Analytics.Dimension : true
+        key bpConcatenation,
+            @Analytics.Dimension : true
+            createdAtDate,
+            @Analytics.Measure   : true
+            @Aggregation.default : #SUM
+            mrCount
+    }
+    where
+        to_requestType.rType = 'Assembly';

@@ -1,0 +1,15 @@
+{
+    "welcomeFile": "mro-requestdolphin-ui/webapp/",
+    "authenticationMethod": "none",
+    "routes": [
+        {
+            "source": "^/mro-requestdolphin-ui/webapp/(.*)$",
+            "target": "$1",
+            "localDir": "mro-requestdolphin-ui/webapp/"
+        },
+        {
+            "source": "^(.*)$",
+            "destination": "srv-api"
+        }
+    ]
+}

@@ -1,0 +1,119 @@
+## Generated mta.yaml based on template version 0.4.0
+## appName = hcl-mro-requestdolphin
+## language=nodejs; multitenant=false
+## approuter=
+_schema-version: "3.1"
+ID: hcl-mro-requestdolphin
+version: 1.0.2
+description: "MRO RequestDolphin (Rel20220518)"
+parameters:
+  enable-parallel-deployments: true
+
+build-parameters:
+  before-all:
+    - builder: custom
+      commands:
+        - npm install --production
+        - npx -p @sap/cds-dk cds build --production
+
+modules:
+  # --------------------- SERVER MODULE ------------------------
+  - name: hcl-mro-requestdolphin-srv
+    # ------------------------------------------------------------
+    type: nodejs
+    path: gen/srv
+    parameters:
+      buildpack: nodejs_buildpack
+      memory: 512M
+      disk-quota: 512M
+    requires:
+      # Resources extracted from CAP configuration
+      - name: com-hcl-mro-requestdolphin-db
+      - name: com-hcl-mro-requestdolphin-destination
+      - name: com-hcl-mro-requestdolphin-uaa
+      - name: com-hcl-mro-requestdolphin-connectivity
+    provides:
+      - name: srv-api # required by consumers of CAP services (e.g. approuter)
+        properties:
+          srv-url: ${default-url}
+
+  # -------------------- SIDECAR MODULE ------------------------
+  - name: hcl-mro-requestdolphin-db-deployer
+    # ------------------------------------------------------------
+    type: hdb
+    path: gen/db
+    parameters:
+      buildpack: nodejs_buildpack
+      memory: 100M
+      disk-quota: 100M
+    requires:
+      # 'hana' and 'xsuaa' resources extracted from CAP configuration
+      - name: com-hcl-mro-requestdolphin-db
+      - name: com-hcl-mro-requestdolphin-destination
+      - name: com-hcl-mro-requestdolphin-uaa
+      - name: com-hcl-mro-requestdolphin-connectivity
+
+  # -------------------------UI  MODULE ------------------------
+  - name: hcl-mro-requestdolphin-ui
+    # ------------------------------------------------------------
+    type: nodejs
+    path: app
+    parameters:
+      buildpack: https://github.com/cloudfoundry/nodejs-buildpack/releases/download/v1.7.25/nodejs-buildpack-cflinuxfs3-v1.7.25.zip
+      disk-quota: 512M
+      memory: 512M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          forwardAuthToken: true
+          name: srv-api
+          strictSSL: true
+          url: ~{srv-url}
+      - name: com-hcl-mro-requestdolphin-db
+      - name: com-hcl-mro-requestdolphin-destination
+      - name: com-hcl-mro-requestdolphin-uaa
+      - name: com-hcl-mro-requestdolphin-connectivity
+
+resources:
+  # services extracted from CAP configuration
+  # 'service-plan' can be configured via 'cds.requires.<name>.vcap.plan'
+  # ------------------------------------------------------------
+  - name: com-hcl-mro-requestdolphin-db
+    # ------------------------------------------------------------
+    type: com.sap.xs.hdi-container
+    parameters:
+      service: hana # or 'hanatrial' on trial landscapes
+      service-plan: hdi-shared
+    properties:
+      hdi-service-name: ${service-name}
+
+  # ------------------------------------------------------------
+  - name: com-hcl-mro-requestdolphin-destination
+    # ------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service-name: com-hcl-mro-requestdolphin-destination
+      service: destination
+      service-plan: lite
+
+  # ------------------------------------------------------------
+  - name: com-hcl-mro-requestdolphin-uaa
+    # ------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application
+      config:
+        xsappname: hcl-mro-requestdolphin-${space} #  name + space dependency
+        tenant-mode: dedicated
+
+  # ------------------------------------------------------------
+  - name: com-hcl-mro-requestdolphin-connectivity
+    # ------------------------------------------------------------
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: connectivity
+      service-plan: lite
+      service-name: com-hcl-mro-requestdolphin-connectivity

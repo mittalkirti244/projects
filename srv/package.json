@@ -1,0 +1,24 @@
+{
+    "name": "proj-hcl-mro-requestdolphin-sol",
+    "version": "1.0.0",
+    "dependencies": {
+        "@sap/cds": "^5.9.0",
+        "@sap/hana-client": "^2.4.167",
+        "express": "^4.17.1",
+        "passport": "^0.5.2"
+    },
+    "engines": {
+        "node": "^10"
+    },
+    "scripts": {
+        "start": "cds serve gen/csn.json"
+    },
+    "cds": {
+        "requires": {
+            "db": {
+                "kind": "hana",
+                "model": "gen/csn.json"
+            }
+        }
+    }
+}

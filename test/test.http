@@ -1,0 +1,19 @@
+### GET all data
+GET http://localhost:4004/mrorequestdolphin/Revisions
+
+### POST data for Revision
+POST http://localhost:4004/mrorequestdolphin/Revisions
+Content-Type: application/json
+
+{   
+    "PlanningPlant": "X001",
+    "RevisionType": "A1",
+    "RevisionText": "Half Yearly Inspection",
+    "WorkCenter": "REPAIR",
+    "WorkCenterPlant": "0001",
+    "RevisionStartDate": "2020-01-01",
+    "RevisionStartTime": "00:00:00.0",
+    "RevisionEndDate": "2020-01-01",
+    "RevisionEndTime": "00:00:00.0"
+
+}
