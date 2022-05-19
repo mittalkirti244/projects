@@ -107,43 +107,47 @@ entity SchemaTypes {
 @Aggregation.ApplySupported.PropertyRestrictions : true
 view AggregatedMaintenanceReqOnStatuses as
     select from MaintenanceRequests {
-            @Analytics.Dimension : true
-        key to_requestStatus,
-            @Analytics.Dimension : true
-            createdAtDate,
-            @Analytics.Measure   : true
-            @Aggregation.default : #SUM
-            mrCount
+        @Analytics.Dimension : true
+        to_requestStatus,
+        createdAtDate,
+        locationWC,
+        businessPartner1,
+        bpConcatenation,
+        @Analytics.Measure   : true
+        @Aggregation.default : #SUM
+        mrCount
     };
 
 //Number of Request based on Request Phases on Overview Page
 @Aggregation.ApplySupported.PropertyRestrictions : true
 view AggregatedMaintenanceReqOnPhases as
     select from MaintenanceRequests {
-            @Analytics.Dimension : true
-        key to_requestPhase,
-            @Analytics.Dimension : true
-            createdAtDate,
-            @Analytics.Measure   : true
-            @Aggregation.default : #SUM
-            mrCount
+        @Analytics.Dimension : true
+        to_requestPhase,
+        createdAtDate,
+        locationWC,
+        businessPartner1,
+        bpConcatenation,
+        @Analytics.Measure   : true
+        @Aggregation.default : #SUM
+        mrCount
     };
 
 //Number of Request based on MR type(Complete Asset) which has wc on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
 view AggregatedReqByCompleteAssetAndWC as
     select from MaintenanceRequests {
-            @Analytics.Dimension : true
-        key to_requestType,
-            @Analytics.Dimension : true
-        key to_requestStatus,
-            @Analytics.Dimension : true
-        key locationWC,
-            @Analytics.Dimension : true
-            createdAtDate,
-            @Analytics.Measure   : true
-            @Aggregation.default : #SUM
-            mrCount
+        to_requestType,
+        @Analytics.Dimension : true
+        to_requestStatus,
+        @Analytics.Dimension : true
+        locationWC,
+        businessPartner1,
+        bpConcatenation,
+        createdAtDate,
+        @Analytics.Measure   : true
+        @Aggregation.default : #SUM
+        mrCount
     }
     where
         to_requestType.rType = 'Complete Asset';
@@ -152,17 +156,17 @@ view AggregatedReqByCompleteAssetAndWC as
 @Aggregation.ApplySupported.PropertyRestrictions : true
 view AggregatedReqByComponentAndWC as
     select from MaintenanceRequests {
-            @Analytics.Dimension : true
-        key to_requestType,
-            @Analytics.Dimension : true
-        key to_requestStatus,
-            @Analytics.Dimension : true
-        key locationWC,
-            @Analytics.Dimension : true
-            createdAtDate,
-            @Analytics.Measure   : true
-            @Aggregation.default : #SUM
-            mrCount
+        to_requestType,
+        @Analytics.Dimension : true
+        to_requestStatus,
+        @Analytics.Dimension : true
+        locationWC,
+        businessPartner1,
+        bpConcatenation,
+        createdAtDate,
+        @Analytics.Measure   : true
+        @Aggregation.default : #SUM
+        mrCount
     }
     where
         to_requestType.rType = 'Component';
@@ -171,17 +175,17 @@ view AggregatedReqByComponentAndWC as
 @Aggregation.ApplySupported.PropertyRestrictions : true
 view AggregatedReqByAssemblyAndWC as
     select from MaintenanceRequests {
-            @Analytics.Dimension : true
-        key to_requestType,
-            @Analytics.Dimension : true
-        key to_requestStatus,
-            @Analytics.Dimension : true
-        key locationWC,
-            @Analytics.Dimension : true
-            createdAtDate,
-            @Analytics.Measure   : true
-            @Aggregation.default : #SUM
-            mrCount
+        to_requestType,
+        @Analytics.Dimension : true
+        to_requestStatus,
+        @Analytics.Dimension : true
+        locationWC,
+        businessPartner1,
+        bpConcatenation,
+        createdAtDate,
+        @Analytics.Measure   : true
+        @Aggregation.default : #SUM
+        mrCount
     }
     where
         to_requestType.rType = 'Assembly';
@@ -190,21 +194,17 @@ view AggregatedReqByAssemblyAndWC as
 @Aggregation.ApplySupported.PropertyRestrictions : true
 view AggregatedReqByCompleteAssetAndBP as
     select from MaintenanceRequests {
-            @Analytics.Dimension : true
-        key to_requestType,
-            @Analytics.Dimension : true
-        key to_requestStatus,
-            @Analytics.Dimension : true
-        key businessPartner1,
-            @Analytics.Dimension : true
-        key businessPartnerName1,
-            @Analytics.Dimension : true
-        key bpConcatenation,
-            @Analytics.Dimension : true
-            createdAtDate,
-            @Analytics.Measure   : true
-            @Aggregation.default : #SUM
-            mrCount
+        to_requestType,
+        @Analytics.Dimension : true
+        to_requestStatus,
+        businessPartner1,
+        @Analytics.Dimension : true
+        bpConcatenation,
+        locationWC,
+        createdAtDate,
+        @Analytics.Measure   : true
+        @Aggregation.default : #SUM
+        mrCount
     }
     where
         to_requestType.rType = 'Complete Asset';
@@ -213,21 +213,17 @@ view AggregatedReqByCompleteAssetAndBP as
 @Aggregation.ApplySupported.PropertyRestrictions : true
 view AggregatedReqByComponentAndBP as
     select from MaintenanceRequests {
-            @Analytics.Dimension : true
-        key to_requestType,
-            @Analytics.Dimension : true
-        key to_requestStatus,
-            @Analytics.Dimension : true
-        key businessPartner1,
-            @Analytics.Dimension : true
-        key businessPartnerName1,
-            @Analytics.Dimension : true
-        key bpConcatenation,
-            @Analytics.Dimension : true
-            createdAtDate,
-            @Analytics.Measure   : true
-            @Aggregation.default : #SUM
-            mrCount
+        to_requestType,
+        @Analytics.Dimension : true
+        to_requestStatus,
+        businessPartner1,
+        @Analytics.Dimension : true
+        bpConcatenation,
+        locationWC,
+        createdAtDate,
+        @Analytics.Measure   : true
+        @Aggregation.default : #SUM
+        mrCount
     }
     where
         to_requestType.rType = 'Component';
@@ -236,21 +232,17 @@ view AggregatedReqByComponentAndBP as
 @Aggregation.ApplySupported.PropertyRestrictions : true
 view AggregatedReqByAssemblyAndBP as
     select from MaintenanceRequests {
-            @Analytics.Dimension : true
-        key to_requestType,
-            @Analytics.Dimension : true
-        key to_requestStatus,
-            @Analytics.Dimension : true
-        key businessPartner1,
-            @Analytics.Dimension : true
-        key businessPartnerName1,
-            @Analytics.Dimension : true
-        key bpConcatenation,
-            @Analytics.Dimension : true
-            createdAtDate,
-            @Analytics.Measure   : true
-            @Aggregation.default : #SUM
-            mrCount
+        to_requestType,
+        @Analytics.Dimension : true
+        to_requestStatus,
+        businessPartner1,
+        @Analytics.Dimension : true
+        bpConcatenation,
+        locationWC,
+        createdAtDate,
+        @Analytics.Measure   : true
+        @Aggregation.default : #SUM
+        mrCount
     }
     where
         to_requestType.rType = 'Assembly';
