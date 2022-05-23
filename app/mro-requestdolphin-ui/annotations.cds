@@ -750,6 +750,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             },
             {
                 $Type             : 'Common.ValueListParameterIn',
+                LocalDataProperty : 'mPartNumber',
+                ValueListProperty : 'ManufacturerPartNmbr'
+            },
+            {
+                $Type             : 'Common.ValueListParameterIn',
                 LocalDataProperty : 'mSerialNumber',
                 ValueListProperty : 'ManufacturerSerialNumber'
             },
@@ -774,6 +779,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'ManufacturerPartTypeName'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'ManufacturerPartNmbr'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',

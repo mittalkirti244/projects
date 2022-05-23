@@ -39,6 +39,7 @@ service alphamasterService {
             ManufacturerPartTypeName,
             ManufacturerSerialNumber,
             ManufacturerName,
+            ManufacturerPartNmbr,
             Plant
     };
 

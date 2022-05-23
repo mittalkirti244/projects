@@ -82,6 +82,7 @@ extend service mrorequestdolphinService with {
             ManufacturerPartTypeName @(Common.Label : '{i18n>ManufacturerPartTypeName}'),
             ManufacturerSerialNumber @(Common.Label : '{i18n>ManufacturerSerialNumber}'),
             ManufacturerName         @(Common.Label : '{i18n>ManufacturerName}'),
+            ManufacturerPartNmbr     @(Common.Label : '{i18n>ManufacturerPartNmbr}'),
             Plant                    @UI.HiddenFilter
     };
 

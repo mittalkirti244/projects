@@ -31,6 +31,7 @@ entity MaintenanceRequests : managed {
         mName                  : String                                           @title         : '{i18n>mName}'; //Manufacturer Name
         mModel                 : String                                           @title         : '{i18n>mModel}'; //Manufacturer Model
         mSerialNumber          : String                                           @title         : '{i18n>mSerialNumber}'; //Manufacturer Serial Number
+        mPartNumber            : String                                           @title         : '{i18n>mPartNumber}';//Manufacturer Part Number
         functionalLocation     : String                                           @title         : '{i18n>functionalLocation}'; //VH for fucntional location s4 service with filter criteria(mname,mmodel and mserialNumber)
         functionalLocationName : String                                           @title         : '{i18n>functionalLocationName}'; //readonly field for functional location
         revisionNo             : String                                           @title         : '{i18n>revisionNo}'; // create by trigerring when request status is confirmed
