@@ -901,6 +901,10 @@ annotate mrorequestdolphinService.Documents with @(UI : {
     LineItem            : [
         // {Value : ID},
         {
+            Value : mailRecievedDate,
+            Label : '{i18n>mailRecievedDate}'
+        },
+        {
             Value : createdAt,
             Label : '{i18n>createdAt}'
         },
@@ -914,7 +918,14 @@ annotate mrorequestdolphinService.Documents with @(UI : {
              width : '50%',
          },*/
         },
-        {Value : documentDesc}
+        {Value : documentDesc},
+        {Value : attachmentType},
+        {Value : fileFormatCheckRequired},
+        {Value : formatCheck},
+        {Value : processedBy},
+        {Value : workItemsCreated},
+        {Value : emailSent},
+        {Value : remarks}
     ],
     //It is used for setting the count for documents
     HeaderInfo          : {

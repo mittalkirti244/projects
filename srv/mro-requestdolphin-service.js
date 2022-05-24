@@ -16,7 +16,8 @@ module.exports = cds.service.impl(async function () {
         EquipmentVH,
         Revisions,
         SalesContractItemVH,
-        UnitOfMeasureVH
+        UnitOfMeasureVH,
+        Documents
     } = this.entities
     const service1 = await cds.connect.to('NumberRangeService');
     const service2 = await cds.connect.to('alphamasterService');
@@ -71,6 +72,8 @@ module.exports = cds.service.impl(async function () {
         //Date field for Overview page    
         req.data.createdAtDate = returnDate(new Date())
         console.log(' req.data.createdAtDate ', req.data.createdAtDate)
+
+        
     });
 
     this.before('CREATE', 'MaintenanceRequests', async (req) => {
@@ -246,6 +249,18 @@ module.exports = cds.service.impl(async function () {
         req.data.businessPartner1 = req.data.businessPartner
         req.data.businessPartnerName1 = req.data.businessPartnerName
 
+        if (req.data.to_document.fileTypeFormatCheck == null){
+            req.data.to_document.fileTypeFormatCheck = false
+        }
+        if (req.data.to_document.formatCheck == null){
+            req.data.to_document.formatCheck = false
+        }
+        if (req.data.to_document.botProcessing == null){
+            req.data.to_document.botProcessing = false
+        }
+        if (req.data.to_document.emailSent == null){
+            req.data.to_document.emailSent = false
+        }
     });
 
     this.before('UPDATE', 'MaintenanceRequests', async (req) => {
