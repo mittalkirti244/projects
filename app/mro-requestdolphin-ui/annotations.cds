@@ -113,6 +113,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         $Type          : 'UI.HeaderInfoType',
         TypeName       : '{i18n>Maintenance Request}',
         TypeNamePlural : '{i18n>Maintenance Requests}',
+        //Title          : {Value : revisionNo},
         Title          : {Value : requestNo},
         Description    : {Value : requestDesc}
     },
@@ -129,7 +130,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {
             $Type  : 'UI.ReferenceFacet',
             Target : '@UI.FieldGroup#Detail'
-        }
+        },
+        {
+            $Type  : 'UI.ReferenceFacet',
+            Target : '@UI.FieldGroup#revision'
+        },        
     ],
     //Column 1 for header facet
     FieldGroup #Basic2               : {Data : [
@@ -169,6 +174,16 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         }
     ]},
 
+    //Column 4 for header facet
+    FieldGroup #revision              : {Data : [
+        {
+            Value                     : revisionNo,
+           Label                      : '{i18n>RevisionNumber}'
+        }
+    ]},    
+
+
+
     //Tabs for facets on object page
     //There are two collection fields that's why ID is required at collection facet
     Facets                           : [
@@ -184,12 +199,19 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                     Target : '@UI.FieldGroup#group1',
                 // Label  : '{i18n>group1}'
                 },
+                 {
+                    //expexte arrival, delivey date and bot status
+                    $Type  : 'UI.ReferenceFacet',
+                    Target : '@UI.FieldGroup#generalgroup3',
+                // Label  : '{i18n>generalgroup3}'   
+                },
                 {
                     //start and end date
                     $Type  : 'UI.ReferenceFacet',
                     Target : '@UI.FieldGroup#group2',
                 // Label  : '{i18n>group2}'
                 }
+               
             ],
         },
         //Tab 2 = Asset Details
@@ -220,31 +242,31 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ],
         },
         //Tab 3 = Contracts
-        {
-            $Type  : 'UI.CollectionFacet',
-            Label  : '{i18n>details}',
-            ID     : 'details',
-            Facets : [
-                {
-                    //contract details
-                    $Type  : 'UI.ReferenceFacet',
-                    Target : '@UI.FieldGroup#group7',
-                // Label  : '{i18n>group7}'
-                },
-                /*{
-                     //expected arrival and delivery dates
-                     $Type  : 'UI.ReferenceFacet',
-                     Target : '@UI.FieldGroup#group5',
-                 // Label  : '{i18n>group5}'
-                 },*/
-                {
-                    //revision and list of services
-                    $Type  : 'UI.ReferenceFacet',
-                    Target : '@UI.FieldGroup#group8',
-                // Label  : '{i18n>group8}'
-                },
-            ],
-        },
+        // {
+        //     $Type  : 'UI.CollectionFacet',
+        //     Label  : '{i18n>details}',
+        //     ID     : 'details',
+        //     Facets : [
+        //         {
+        //             //contract details
+        //             $Type  : 'UI.ReferenceFacet',
+        //             Target : '@UI.FieldGroup#group7',
+        //         // Label  : '{i18n>group7}'
+        //         },
+        //         /*{
+        //              //expected arrival and delivery dates
+        //              $Type  : 'UI.ReferenceFacet',
+        //              Target : '@UI.FieldGroup#group5',
+        //          // Label  : '{i18n>group5}'
+        //          },*/
+        //         {
+        //             //revision and list of services
+        //             $Type  : 'UI.ReferenceFacet',
+        //             Target : '@UI.FieldGroup#group8',
+        //         // Label  : '{i18n>group8}'
+        //         },
+        //     ],
+        // },
         //  Tab 4 = Documents
         {
             $Type  : 'UI.ReferenceFacet',
@@ -279,18 +301,36 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value         : requestStatus1,
             ![@UI.Hidden] : uiHidden, //Inital value in CREATE-> visible,  In edit -> not visible
         },
+        // {Value : businessPartner},
+        // {Value : businessPartnerName},
+        // {Value : contract},
+        // {Value : contractName},
+        // {
+        //     $Type  : 'UI.DataFieldForAnnotation',
+        //     Target : '@UI.ConnectedFields#CustomerContact'
+        // }
+    ]},
+
+    FieldGroup #generalgroup3               : {Data : [
         {Value : businessPartner},
         {Value : businessPartnerName},
+ 
         {
             $Type  : 'UI.DataFieldForAnnotation',
             Target : '@UI.ConnectedFields#CustomerContact'
-        }
+        },
+        {Value : contract},
+        {Value : contractName}, 
     ]},
+        
     FieldGroup #group2               : {Data : [
-        {Value : startDate},
-        {Value : endDate},
+        {Value : expectedArrivalDate},
+        {Value : expectedDeliveryDate},
+        // {Value : startDate},
+        // {Value : endDate},
         {Value : to_botStatus_ID}
     ]},
+
     FieldGroup #group6               : {Data : [
         {Value : locationWC},
         {Value : locationWCDetail},
@@ -299,29 +339,32 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #group3               : {Data : [
         {Value : mName},
         {Value : mModel},
+        {Value : mPartNumber},
         {Value : mSerialNumber},
         {Value : eqMaterial},
-        {Value : eqSerialNumber}
+        {Value : eqSerialNumber},
     ]},
     FieldGroup #group4               : {Data : [
         {Value : functionalLocation},
         {Value : functionalLocationName},
+        {Value : '                                                                  '},
         {Value : equipment},
+        // {Value : '  '},
         {Value : equipmentName}
     ]},
-    FieldGroup #group7               : {Data : [
-        {Value : contract},
-        {Value : contractName},
-        {Value : expectedArrivalDate},
-        {Value : expectedDeliveryDate},
-    ]},
+    // FieldGroup #group7               : {Data : [
+    //     {Value : contract},
+    //     {Value : contractName},
+    //     {Value : expectedArrivalDate},
+    //     {Value : expectedDeliveryDate},
+    // ]},
     /*  FieldGroup #group5               : {Data : [
                                                   // {Value : expectedArrivalDate},
                                                   // {Value : expectedDeliveryDate},
                                                  ]},*/
-    FieldGroup #group8               : {Data : [{Value : revisionNo},
-                                                                      //  {Value : listOfServices}
-                                                         ]},
+    // FieldGroup #group8               : {Data : [{Value : revisionNo},
+    //                                                                   //  {Value : listOfServices}
+    //                                                      ]},
 
     //Connected fields for cutomer contact field
     ConnectedFields #CustomerContact : {
