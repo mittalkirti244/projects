@@ -111,8 +111,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     //Header Information in Object Page
     HeaderInfo                       : {
         $Type          : 'UI.HeaderInfoType',
-        TypeName       : '{i18n>Maintenance Request}',
-        TypeNamePlural : '{i18n>Maintenance Requests}',
+        TypeName       : '{i18n>requestForMaintenance}',
+        TypeNamePlural : '{i18n>requestsForMaintenance}',
         //Title          : {Value : revisionNo},
         Title          : {Value : requestNo},
         Description    : {Value : requestDesc}
@@ -339,7 +339,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #group3               : {Data : [
         {Value : mName},
         {Value : mModel},
-        {Value : mPartNumber},
+      //  {Value : mPartNumber},
         {Value : mSerialNumber},
         {Value : eqMaterial},
         {Value : eqSerialNumber},
@@ -347,7 +347,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #group4               : {Data : [
         {Value : functionalLocation},
         {Value : functionalLocationName},
-        {Value : '                                                                  '},
+      //  {Value : '                                                                  '},
         {Value : equipment},
         // {Value : '  '},
         {Value : equipmentName}
