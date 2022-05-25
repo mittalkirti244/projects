@@ -134,7 +134,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {
             $Type  : 'UI.ReferenceFacet',
             Target : '@UI.FieldGroup#revision'
-        },        
+        },
     ],
     //Column 1 for header facet
     FieldGroup #Basic2               : {Data : [
@@ -175,13 +175,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     ]},
 
     //Column 4 for header facet
-    FieldGroup #revision              : {Data : [
-        {
-            Value                     : revisionNo,
-           Label                      : '{i18n>RevisionNumber}'
-        }
-    ]},    
-
+    FieldGroup #revision             : {Data : [{
+        Value : revisionNo,
+        Label : '{i18n>RevisionNumber}'
+    }]},
 
 
     //Tabs for facets on object page
@@ -199,11 +196,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                     Target : '@UI.FieldGroup#group1',
                 // Label  : '{i18n>group1}'
                 },
-                 {
+                {
                     //expexte arrival, delivey date and bot status
                     $Type  : 'UI.ReferenceFacet',
                     Target : '@UI.FieldGroup#generalgroup3',
-                // Label  : '{i18n>generalgroup3}'   
+                // Label  : '{i18n>generalgroup3}'
                 },
                 {
                     //start and end date
@@ -211,7 +208,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                     Target : '@UI.FieldGroup#group2',
                 // Label  : '{i18n>group2}'
                 }
-               
+
             ],
         },
         //Tab 2 = Asset Details
@@ -301,28 +298,28 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value         : requestStatus1,
             ![@UI.Hidden] : uiHidden, //Inital value in CREATE-> visible,  In edit -> not visible
         },
-        // {Value : businessPartner},
-        // {Value : businessPartnerName},
-        // {Value : contract},
-        // {Value : contractName},
-        // {
-        //     $Type  : 'UI.DataFieldForAnnotation',
-        //     Target : '@UI.ConnectedFields#CustomerContact'
-        // }
+    // {Value : businessPartner},
+    // {Value : businessPartnerName},
+    // {Value : contract},
+    // {Value : contractName},
+    // {
+    //     $Type  : 'UI.DataFieldForAnnotation',
+    //     Target : '@UI.ConnectedFields#CustomerContact'
+    // }
     ]},
 
-    FieldGroup #generalgroup3               : {Data : [
+    FieldGroup #generalgroup3        : {Data : [
         {Value : businessPartner},
         {Value : businessPartnerName},
- 
+
         {
             $Type  : 'UI.DataFieldForAnnotation',
             Target : '@UI.ConnectedFields#CustomerContact'
         },
         {Value : contract},
-        {Value : contractName}, 
+        {Value : contractName},
     ]},
-        
+
     FieldGroup #group2               : {Data : [
         {Value : expectedArrivalDate},
         {Value : expectedDeliveryDate},
@@ -339,7 +336,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #group3               : {Data : [
         {Value : mName},
         {Value : mModel},
-      //  {Value : mPartNumber},
+        //  {Value : mPartNumber},
         {Value : mSerialNumber},
         {Value : eqMaterial},
         {Value : eqSerialNumber},
@@ -347,7 +344,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #group4               : {Data : [
         {Value : functionalLocation},
         {Value : functionalLocationName},
-      //  {Value : '                                                                  '},
+        //  {Value : '                                                                  '},
         {Value : equipment},
         // {Value : '  '},
         {Value : equipmentName}
@@ -920,6 +917,62 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     })
 };
 
+//Drop down for Processed By
+annotate mrorequestdolphinService.Documents with {
+    to_typeOfProcess @(Common : {
+        Text      : {
+            $value                 : to_typeOfProcess_processType,
+            ![@UI.TextArrangement] : #TextLast
+        },
+        //Label     : '{i18n>ProcessedBy}',
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'ProcessTypes',
+            Label          : '{i18n>ProcessType}',
+            //  SearchSupported : true,
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_typeOfProcess_ID',
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_typeOfProcess_processType',
+                    ValueListProperty : 'processType'
+                }
+            ]
+        }
+    })
+};
+//Drop down for Attachment Type
+annotate mrorequestdolphinService.Documents with {
+    to_typeOfAttachment @(Common : {
+        Text      : {
+            $value                 : to_typeOfAttachment_attachmentType,
+            ![@UI.TextArrangement] : #TextLast
+        },
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'AttachmentTypes',
+            Label          : '{i18n>AttachmentType}',
+            //  SearchSupported : true,
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_typeOfAttachment_ID',
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_typeOfAttachment_attachmentType',
+                    ValueListProperty : 'attachmentType'
+                }
+            ]
+        }
+    })
+};
+
 annotate mrorequestdolphinService.MaintenanceRequests {
     businessPartner        @mandatory;
     requestDesc            @mandatory;
@@ -962,10 +1015,10 @@ annotate mrorequestdolphinService.Documents with @(UI : {
          },*/
         },
         {Value : documentDesc},
-        {Value : attachmentType},
+        {Value : to_typeOfAttachment_ID},
         {Value : fileFormatCheckRequired},
         {Value : formatCheck},
-        {Value : processedBy},
+        {Value : to_typeOfProcess_ID},
         {Value : workItemsCreated},
         {Value : emailSent},
         {Value : remarks}
@@ -986,7 +1039,6 @@ annotate mrorequestdolphinService.Documents with @(UI : {
         }]
     }
 }, );
-
 
 annotate mrorequestdolphinService.Documents {
     ID  @readonly;

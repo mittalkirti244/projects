@@ -72,21 +72,30 @@ entity RequestPhases {
 };
 
 entity Documents : managed {
-    key UUID                    : UUID    @Core.Computed; //Unique ID as UUID
-        ID                      : Integer @title : '{i18n>document_ID}'; //It got incremented by 1 w.r.t. MR
-        url                     : String  @title : '{i18n>document_url}'; //document url
-        documentDesc            : String  @title : '{i18n>document_desc}'; //url decription
-        mailRecievedDate        : Date    @title : '{i18n>mailRecievedDate}'; //Maile Recieved Date
-        attachmentType          : String  @title : '{i18n>attachmentType}'; //Attachment Type (file extension)
-        fileFormatCheckRequired : Boolean @title : '{i18n>fileFormatCheckRequired}'; // File Format Check RequiredY/N.
-        formatCheck             : Boolean @title : '{i18n>formatCheck}'; // Format Check Y/N.
-        processedBy             : String  @title : '{i18n>processedBy}'; //Processed By. Bot/ Manual
-        emailSent               : Boolean @title : '{i18n>emailSent}'; // Email Sent Y/N
-        workItemsCreated        : Boolean @title : '{i18n>workItemsCreated}';// WorkItems Created Y/N
-        remarks                 : String  @title : '{i18n>remarks}'; // Remarks
+    key UUID                    : UUID                           @Core.Computed; //Unique ID as UUID
+        ID                      : Integer                        @title :            '{i18n>document_ID}'; //It got incremented by 1 w.r.t. MR
+        url                     : String                         @title :            '{i18n>document_url}'; //document url
+        documentDesc            : String                         @title :            '{i18n>document_desc}'; //url decription
+        mailRecievedDate        : DateTime                       @title :            '{i18n>mailRecievedDate}'; //Maile Recieved Date
+        fileFormatCheckRequired : Boolean not null default false @title :            '{i18n>fileFormatCheckRequired}'; // File Format Check RequiredY/N.
+        formatCheck             : Boolean not null default false @title :            '{i18n>formatCheck}'; // Format Check Y/N.
+        emailSent               : Boolean not null default false @title :            '{i18n>emailSent}'; // Email Sent Y/N
+        workItemsCreated        : Boolean not null default false @title :            '{i18n>workItemsCreated}'; // WorkItems Created Y/N
+        remarks                 : String                         @title :            '{i18n>remarks}'; // Remarks
+        to_typeOfProcess        : Association to ProcessTypes    @assert.integrity : false  @title : '{i18n>to_typeOfProcess}'; //Processed By. Bot/ Manual
+        to_typeOfAttachment     : Association to AttachmentTypes @assert.integrity : false  @title : '{i18n>to_typeOfAttachment}'; //Attachment Type (file extension)
         to_maintenanceRequest   : Association to MaintenanceRequests; //one to one(1 document link - 1 MR)
-
 };
+
+entity ProcessTypes {
+    key ID          : String;
+    key processType : String;
+}
+
+entity AttachmentTypes {
+    key ID             : String;
+    key attachmentType : String;
+}
 
 entity BotStatuses {
     key ID      : Integer; //Unique ID for Bot statuses
