@@ -181,9 +181,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
            Label                      : '{i18n>RevisionNumber}'
         }
     ]},    
-
-
-
+    
     //Tabs for facets on object page
     //There are two collection fields that's why ID is required at collection facet
     Facets                           : [
@@ -236,7 +234,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                     //floc and equip
                     $Type  : 'UI.ReferenceFacet',
                     Target : '@UI.FieldGroup#group4',
-                    Label  : '{i18n>group4}'
+                   Label : '{i18n>group4}'
                 },
 
             ],
@@ -313,6 +311,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
 
     FieldGroup #generalgroup3               : {Data : [
         {Value : businessPartner},
+       //{Value : bpConcatenation},
         {Value : businessPartnerName},
  
         {
@@ -339,18 +338,19 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #group3               : {Data : [
         {Value : mName},
         {Value : mModel},
-      //  {Value : mPartNumber},
+        {Value : mPartNumber},
         {Value : mSerialNumber},
-        {Value : eqMaterial},
-        {Value : eqSerialNumber},
-    ]},
-    FieldGroup #group4               : {Data : [
         {Value : functionalLocation},
         {Value : functionalLocationName},
-      //  {Value : '                                                                  '},
+        //{Value : eqMaterial},
+        //{Value : eqSerialNumber},
+    ]},
+    FieldGroup #group4               : {Data : [
+        {Value : eqMaterial},
+        {Value : eqSerialNumber},
         {Value : equipment},
-        // {Value : '  '},
         {Value : equipmentName}
+        
     ]},
     // FieldGroup #group7               : {Data : [
     //     {Value : contract},
@@ -408,6 +408,19 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
 
 }, };
 
+// annotate mrorequestdolphinService.MaintenanceRequests with {
+//     requestDesc @(Common : {Text : {
+//         $value                 : requestNo,
+//         ![@UI.TextArrangement] : #TextLast
+//     }});
+// };
+
+// annotate mrorequestdolphinService.MaintenanceRequests with {
+//     businessPartner1 @(Common : {Text : {
+//         $value                 : businessPartnerName1,
+//         ![@UI.TextArrangement] : #TextFirst
+//     }});
+// };
 
 //In list report page Request Description and request nummber will be concatenated
 /*annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -533,6 +546,69 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 };
 
 //Business partner value Help for object page
+
+annotate mrorequestdolphinService.MaintenanceRequests with {
+    bpConcatenation @(Common : {
+                                Text      : {
+                                    $value                 : businessPartnerName,
+                                    ![@UI.TextArrangement] : #TextLast
+                                },
+                               ValueList : {
+        CollectionPath : 'BusinessPartnerVH',
+        Label          : '{i18n>businessPartner}',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'businessPartner',
+                ValueListProperty : 'BusinessPartner'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'businessPartnerName',
+                ValueListProperty : 'BusinessPartnerName'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'FirstName'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'LastName'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'Description'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'SearchTerm1'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'SearchTerm2'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'ccpersonName',
+                ValueListProperty : 'ContactPersonName',
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'ccemail',
+                ValueListProperty : 'ContactPersonEmailID'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'ccphoneNumber',
+                ValueListProperty : 'TelephoneNo'
+            }
+        ]
+    }});
+};
+
+
+
+
 annotate mrorequestdolphinService.MaintenanceRequests with {
     businessPartner @(Common : {
                                 /*Text      : {
