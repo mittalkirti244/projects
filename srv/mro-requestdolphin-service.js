@@ -119,6 +119,7 @@ module.exports = cds.service.impl(async function () {
                 req.data.businessPartnerName = query1[i].BusinessPartnerName
             }
         }
+
         req.data.bpConcatenation = req.data.businessPartner + '(' + req.data.businessPartnerName + ')'
         console.log('bpConcatenation', req.data.bpConcatenation)
 

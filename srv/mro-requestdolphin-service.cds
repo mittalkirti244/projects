@@ -89,7 +89,7 @@ extend service mrorequestdolphinService with {
     @readonly
     entity SalesContractVH     as projection on alpha.SalesContractVH {
         key SalesContract  @(Common.Label : '{i18n>SalesContract}'),
-            SalesContractName,
+            SalesContractName@(Common.Label : '{i18n>SalesContractName}'),
             SoldToPartyBP  @(Common.Label : '{i18n>SoldToPartyBP}'),
             TurnAroundTime @(Common.Label : '{i18n>TurnAroundTime}')
     };
