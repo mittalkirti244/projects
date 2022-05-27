@@ -945,6 +945,7 @@ annotate mrorequestdolphinService.Documents with {
         }
     })
 };
+
 //Drop down for Attachment Type
 annotate mrorequestdolphinService.Documents with {
     to_typeOfAttachment @(Common : {
@@ -995,32 +996,30 @@ annotate mrorequestdolphinService.MaintenanceRequests {
 
 annotate mrorequestdolphinService.Documents with @(UI : {
     LineItem            : [
-        // {Value : ID},
-        {
-            Value : mailRecievedDate,
-            Label : '{i18n>mailRecievedDate}'
-        },
-        {
-            Value : createdAt,
-            Label : '{i18n>createdAt}'
-        },
+        {Value : documentName},
         {
             $Type : 'UI.DataFieldWithUrl',
             Value : url,
             Url   : url,
-
+        },
+         {
+            Value : createdAt,
+            Label : '{i18n>createdAt}'
+        },
+        {
+            Value : eMailRecievedDateAndTime,
+            Label : '{i18n>eMailRecievedDateAndTime}'
+        },
         /* ![@HTML5.CssDefaults] : {
              $Type : 'HTML5.CssDefaultsType',
              width : '50%',
          },*/
-        },
-        {Value : documentDesc},
         {Value : to_typeOfAttachment_ID},
+        {Value : to_typeOfProcess_ID},
         {Value : fileFormatCheckRequired},
         {Value : formatCheck},
-        {Value : to_typeOfProcess_ID},
+        {Value : eMailSent},
         {Value : workItemsCreated},
-        {Value : emailSent},
         {Value : remarks}
     ],
     //It is used for setting the count for documents

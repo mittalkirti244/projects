@@ -129,11 +129,21 @@
                             "controlConfiguration": {
                                 "to_document/@com.sap.vocabularies.UI.v1.LineItem": {
                                     "tableSettings": {
+                                        "personalization": {
+                                            "column": true,
+                                            "sort": false
+                                        },
+                                        "multiSelect": true,
+                                        "selectAll": false,
                                         "enablePaste": false,
                                         "enableExport": true,
-                                        "enableSettings": false,
+                                        "enableSettings": false
+                                    }
+                                },
+                                "to_document/@com.sap.vocabularies.UI.v1.PresentationVariant<@com.sap.vocabularies.UI.v1.LineItem>": {
+                                    "tableSettings": {
                                         "creationMode": {
-                                            "createAtEnd": false
+                                            "name": "NewPage"
                                         }
                                     }
                                 }
