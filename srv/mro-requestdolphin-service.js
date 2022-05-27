@@ -16,7 +16,8 @@ module.exports = cds.service.impl(async function () {
         EquipmentVH,
         Revisions,
         SalesContractItemVH,
-        UnitOfMeasureVH
+        UnitOfMeasureVH,
+        Documents
     } = this.entities
     const service1 = await cds.connect.to('NumberRangeService');
     const service2 = await cds.connect.to('alphamasterService');
@@ -71,6 +72,8 @@ module.exports = cds.service.impl(async function () {
         //Date field for Overview page    
         req.data.createdAtDate = returnDate(new Date())
         console.log(' req.data.createdAtDate ', req.data.createdAtDate)
+
+
     });
 
     this.before('CREATE', 'MaintenanceRequests', async (req) => {
@@ -110,7 +113,7 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.before(['CREATE', 'UPDATE'], 'MaintenanceRequests', async (req) => {
-
+        
         // To make business partner name as readonly field
         let query1 = await service2.read(BusinessPartnerVH)
         var bp = req.data.businessPartner

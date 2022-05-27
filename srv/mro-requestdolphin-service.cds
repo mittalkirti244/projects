@@ -37,6 +37,8 @@ service mrorequestdolphinService {
     entity Documents           as projection on maintReq.Documents;
 
     entity BotStatuses         as projection on maintReq.BotStatuses;
+    entity ProcessTypes        as projection on maintReq.ProcessTypes;
+    entity AttachmentTypes     as projection on maintReq.AttachmentTypes;
     entity Configurations      as projection on maintReq.Configurations;
     entity RequestIndustries   as projection on maintReq.RequestIndustries;
     entity SchemaTypes         as projection on maintReq.SchemaTypes;

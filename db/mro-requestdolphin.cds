@@ -31,7 +31,7 @@ entity MaintenanceRequests : managed {
         mName                  : String                                           @title         : '{i18n>mName}'; //Manufacturer Name
         mModel                 : String                                           @title         : '{i18n>mModel}'; //Manufacturer Model
         mSerialNumber          : String                                           @title         : '{i18n>mSerialNumber}'; //Manufacturer Serial Number
-        mPartNumber            : String                                           @title         : '{i18n>mPartNumber}';//Manufacturer Part Number
+        mPartNumber            : String                                           @title         : '{i18n>mPartNumber}'; //Manufacturer Part Number
         functionalLocation     : String                                           @title         : '{i18n>functionalLocation}'; //VH for fucntional location s4 service with filter criteria(mname,mmodel and mserialNumber)
         functionalLocationName : String                                           @title         : '{i18n>functionalLocationName}'; //readonly field for functional location
         revisionNo             : String                                           @title         : '{i18n>revisionNo}'; // create by trigerring when request status is confirmed
@@ -72,12 +72,30 @@ entity RequestPhases {
 };
 
 entity Documents : managed {
-    key UUID                  : UUID    @Core.Computed; //Unique ID as UUID
-        ID                    : Integer @title : '{i18n>document_ID}'; //It got incremented by 1 w.r.t. MR
-        url                   : String  @title : '{i18n>document_url}'; //document url
-        documentDesc          : String  @title : '{i18n>document_desc}'; //url decription
-        to_maintenanceRequest : Association to MaintenanceRequests; //one to one(1 document link - 1 MR)
+    key UUID                     : UUID                           @Core.Computed; //Unique ID as UUID
+        ID                       : Integer                        @title :            '{i18n>document_ID}'; //It got incremented by 1 w.r.t. MR
+        url                      : String                         @title :            '{i18n>document_url}'; //document url
+        documentName             : String                         @title :            '{i18n>documentName}'; //url decription
+        eMailRecievedDateAndTime : DateTime                       @title :            '{i18n>eMailRecievedDateAndTime}'; //E-Mail Recieved Date
+        fileFormatCheckRequired  : Boolean not null default false @title :            '{i18n>fileFormatCheckRequired}'; // File Format Check RequiredY/N.
+        formatCheck              : Boolean not null default false @title :            '{i18n>formatCheck}'; // Format Check Y/N.
+        eMailSent                : Boolean not null default false @title :            '{i18n>eMailSent}'; // Email Sent Y/N
+        workItemsCreated         : Boolean not null default false @title :            '{i18n>workItemsCreated}'; // WorkItems Created Y/N
+        remarks                  : String                         @title :            '{i18n>remarks}'; // Remarks
+        to_typeOfProcess         : Association to ProcessTypes    @assert.integrity : false  @title : '{i18n>to_typeOfProcess}'; //Processed By. Bot/ Manual
+        to_typeOfAttachment      : Association to AttachmentTypes @assert.integrity : false  @title : '{i18n>to_typeOfAttachment}'; //Attachment Type (file extension)
+        to_maintenanceRequest    : Association to MaintenanceRequests; //one to one(1 document link - 1 MR)
 };
+
+entity ProcessTypes {
+    key ID          : String;
+    key processType : String;
+}
+
+entity AttachmentTypes {
+    key ID             : String;
+    key attachmentType : String;
+}
 
 entity BotStatuses {
     key ID      : Integer; //Unique ID for Bot statuses

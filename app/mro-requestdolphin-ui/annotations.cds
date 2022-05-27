@@ -360,6 +360,13 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
+//Text Arrangment for Revision and Revision Description
+/*annotate mrorequestdolphinService.MaintenanceRequests with {
+    revisionNo @(Common : {Text : {
+        $value                 : revisionText,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};*/
 
 //Text Arrangment for contract and contract  name will be concatenated
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -612,12 +619,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 
 //Functional Location Value help
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    functionalLocation @(Common : {
-                                   // Text      : {
-                                   //     $value                 : functionalLocationName,
-                                   //     ![@UI.TextArrangement] : #TextFirst
-                                   // },
-                                  ValueList : {
+    functionalLocation @(Common : {ValueList : {
         CollectionPath  : 'FunctionLocationVH',
         SearchSupported : true,
         Label           : '{i18n>functionalLocation}',
@@ -683,13 +685,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 
 //Equipment Value help
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    equipment @(Common : {
-                          // Text      : {
-                          //     $value                 : equipmentName,
-                          //     ![@UI.TextArrangement] : #TextFirst
-                          // },
-
-                         ValueList : {
+    equipment @(Common : {ValueList : {
         CollectionPath  : 'EquipmentVH',
         SearchSupported : true,
         Label           : '{i18n>equipment}',
@@ -814,6 +810,63 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     })
 };
 
+//Drop down for Processed By
+annotate mrorequestdolphinService.Documents with {
+    to_typeOfProcess @(Common : {
+        Text      : {
+            $value                 : to_typeOfProcess_processType,
+            ![@UI.TextArrangement] : #TextLast
+        },
+        //Label     : '{i18n>ProcessedBy}',
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'ProcessTypes',
+            Label          : '{i18n>ProcessType}',
+            //  SearchSupported : true,
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_typeOfProcess_ID',
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_typeOfProcess_processType',
+                    ValueListProperty : 'processType'
+                }
+            ]
+        }
+    })
+};
+
+//Drop down for Attachment Type
+annotate mrorequestdolphinService.Documents with {
+    to_typeOfAttachment @(Common : {
+        Text      : {
+            $value                 : to_typeOfAttachment_attachmentType,
+            ![@UI.TextArrangement] : #TextLast
+        },
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'AttachmentTypes',
+            Label          : '{i18n>AttachmentType}',
+            //  SearchSupported : true,
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_typeOfAttachment_ID',
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_typeOfAttachment_attachmentType',
+                    ValueListProperty : 'attachmentType'
+                }
+            ]
+        }
+    })
+};
+
 annotate mrorequestdolphinService.MaintenanceRequests {
     businessPartner        @mandatory;
     requestDesc            @mandatory;
@@ -875,22 +928,31 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
 
 annotate mrorequestdolphinService.Documents with @(UI : {
     LineItem            : [
-        // {Value : ID},
+        {Value : documentName},
+        {
+            $Type : 'UI.DataFieldWithUrl',
+            Value : url,
+            Url   : url,
+        },
         {
             Value : createdAt,
             Label : '{i18n>createdAt}'
         },
         {
-            $Type : 'UI.DataFieldWithUrl',
-            Value : url,
-            Url   : url,
-
+            Value : eMailRecievedDateAndTime,
+            Label : '{i18n>eMailRecievedDateAndTime}'
+        },
         /* ![@HTML5.CssDefaults] : {
              $Type : 'HTML5.CssDefaultsType',
              width : '50%',
          },*/
-        },
-        {Value : documentDesc}
+        {Value : to_typeOfAttachment_ID},
+        {Value : to_typeOfProcess_ID},
+        {Value : fileFormatCheckRequired},
+        {Value : formatCheck},
+        {Value : eMailSent},
+        {Value : workItemsCreated},
+        {Value : remarks}
     ],
     //It is used for setting the count for documents
     HeaderInfo          : {
@@ -912,4 +974,5 @@ annotate mrorequestdolphinService.Documents with @(UI : {
 annotate mrorequestdolphinService.Documents {
     ID  @readonly;
     url @mandatory;
+    remarks @UI.MultiLineText;
 }
