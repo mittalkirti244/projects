@@ -84,11 +84,6 @@
                     "pattern": "MaintenanceRequests({key}):?query:",
                     "name": "MaintenanceRequestsObjectPage",
                     "target": "MaintenanceRequestsObjectPage"
-                },
-                {
-                    "pattern": "MaintenanceRequests({key})/to_listOfServices({key2}):?query:",
-                    "name": "ListOfServicesObjectPage",
-                    "target": "ListOfServicesObjectPage"
                 }
             ],
             "targets": {
@@ -139,32 +134,8 @@
                                         "enableExport": true,
                                         "enableSettings": false
                                     }
-                                },
-                                "to_document/@com.sap.vocabularies.UI.v1.PresentationVariant<@com.sap.vocabularies.UI.v1.LineItem>": {
-                                    "tableSettings": {
-                                        "creationMode": {
-                                            "name": "NewPage"
-                                        }
-                                    }
                                 }
                             },
-                            "navigation": {
-                                "to_listOfServices": {
-                                    "detail": {
-                                        "route": "ListOfServicesObjectPage"
-                                    }
-                                }
-                            }
-                        }
-                    }
-                },
-                "ListOfServicesObjectPage": {
-                    "type": "Component",
-                    "id": "ListOfServicesObjectPage",
-                    "name": "sap.fe.templates.ObjectPage",
-                    "options": {
-                        "settings": {
-                            "entitySet": "ListOfServices",
                             "navigation": {}
                         }
                     }

@@ -16,6 +16,19 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Label  : '{i18n>requestMail}',
         },
         {Value : requestNo},
+        /* {
+             $Type           : 'UI.DataFieldForIntentBasedNavigation',
+             SemanticObject  : 'NavigateToWorkItem',
+             Action          : 'manage',
+             RequiresContext : true,
+             Mapping         : [{
+                 $Type                  : 'Common.SemanticObjectMappingType',
+                 LocalProperty          : requestNo,
+                 SemanticObjectProperty : 'integerProperty',
+             }, ],
+         // ![@UI.Importance] : #High,
+
+         },*/
         {Value : businessPartner1},
         {Value : expectedDeliveryDate},
         {Value : locationWC},
@@ -167,7 +180,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Label : '{i18n>modifiedBy}'
         }
     ]},
-
     //Column 3 for header facet
     FieldGroup #Detail                          : {Data : [
         {
@@ -179,7 +191,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value                     : to_requestPhase_rPhase,
             Criticality               : criticalityLevel,
             CriticalityRepresentation : #WithoutIcon
-
         }
     ]},
 
@@ -972,7 +983,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
 }, );
 
 annotate mrorequestdolphinService.Documents {
-    ID  @readonly;
-    url @mandatory;
+    ID      @readonly;
+    url     @mandatory;
     remarks @UI.MultiLineText;
 }
