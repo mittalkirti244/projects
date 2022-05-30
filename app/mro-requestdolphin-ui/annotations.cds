@@ -973,6 +973,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
 
 annotate mrorequestdolphinService.Documents {
     ID  @readonly;
+    UUID @readonly;
     url @mandatory;
     remarks @UI.MultiLineText;
 }

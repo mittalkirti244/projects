@@ -89,6 +89,11 @@
                     "pattern": "MaintenanceRequests({key})/to_listOfServices({key2}):?query:",
                     "name": "ListOfServicesObjectPage",
                     "target": "ListOfServicesObjectPage"
+                },
+                {
+                    "pattern": "MaintenanceRequests({key})/to_document({key2}):?query:",
+                    "name": "DocumentsObjectPage",
+                    "target": "DocumentsObjectPage"
                 }
             ],
             "targets": {
@@ -139,19 +144,17 @@
                                         "enableExport": true,
                                         "enableSettings": false
                                     }
-                                },
-                                "to_document/@com.sap.vocabularies.UI.v1.PresentationVariant<@com.sap.vocabularies.UI.v1.LineItem>": {
-                                    "tableSettings": {
-                                        "creationMode": {
-                                            "name": "NewPage"
-                                        }
-                                    }
                                 }
                             },
                             "navigation": {
                                 "to_listOfServices": {
                                     "detail": {
                                         "route": "ListOfServicesObjectPage"
+                                    }
+                                },
+                                "to_document": {
+                                    "detail": {
+                                        "route": "DocumentsObjectPage"
                                     }
                                 }
                             }
@@ -166,6 +169,18 @@
                         "settings": {
                             "entitySet": "ListOfServices",
                             "navigation": {}
+                        }
+                    }
+                },
+                "DocumentsObjectPage": {
+                    "type": "Component",
+                    "id": "DocumentsObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "entitySet": "Documents",
+                            "navigation": {},
+                            "sectionLayout": "Page"
                         }
                     }
                 }
