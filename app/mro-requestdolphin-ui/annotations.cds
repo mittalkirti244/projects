@@ -927,7 +927,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
 
 
 annotate mrorequestdolphinService.Documents with @(UI : {
-    LineItem            : [
+    LineItem                  : [
         {Value : documentName},
         {
             $Type : 'UI.DataFieldWithUrl',
@@ -938,14 +938,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
             Value : createdAt,
             Label : '{i18n>createdAt}'
         },
-        {
-            Value : eMailRecievedDateAndTime,
-            Label : '{i18n>eMailRecievedDateAndTime}'
-        },
-        /* ![@HTML5.CssDefaults] : {
-             $Type : 'HTML5.CssDefaultsType',
-             width : '50%',
-         },*/
+        {Value : eMailRecievedDateAndTime},
         {Value : to_typeOfAttachment_ID},
         {Value : to_typeOfProcess_ID},
         {Value : fileFormatCheckRequired},
@@ -955,12 +948,12 @@ annotate mrorequestdolphinService.Documents with @(UI : {
         {Value : remarks}
     ],
     //It is used for setting the count for documents
-    HeaderInfo          : {
+    HeaderInfo                : {
         $Type          : 'UI.HeaderInfoType',
         TypeName       : '{i18n>documentLocation}',
         TypeNamePlural : '{i18n>documentLocations}'
     },
-    PresentationVariant : {
+    PresentationVariant       : {
         $Type          : 'UI.PresentationVariantType',
         Visualizations : [@UI.LineItem],
         SortOrder      : [{
@@ -968,71 +961,58 @@ annotate mrorequestdolphinService.Documents with @(UI : {
             Property   : createdAt,
             Descending : true,
         }]
+    },
+    Facets                    : [{
+        $Type  : 'UI.ReferenceFacet',
+        ID     : 'documentEntry',
+        Target : '@UI.FieldGroup#documentEntry',
+    }],
+    FieldGroup #documentEntry : {
+        $Type : 'UI.FieldGroupType',
+        Data  : [
+            {Value : documentName, },
+            {Value : url, },
+            {Value : createdAt, },
+            {Value : eMailRecievedDateAndTime, },
+            {Value : to_typeOfAttachment_ID, },
+            {Value : to_typeOfProcess_ID, },
+            {Value : fileFormatCheckRequired, },
+            {Value : formatCheck, },
+            {Value : eMailSent, },
+            {Value : workItemsCreated, },
+            {Value : remarks, },
+        ]
     }
 }, );
 
 // Documents Object page general tab
-annotate mrorequestdolphinService.Documents with @(
-    UI.Facets              : [{
+/*annotate mrorequestdolphinService.Documents with @(
+    UI.Facets                    : [{
         $Type  : 'UI.ReferenceFacet',
-        //Label  : '',
         ID     : 'documentEntry',
         Target : '@UI.FieldGroup#documentEntry',
     }, ],
     UI.FieldGroup #documentEntry : {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {
-                $Type : 'UI.DataField',
-                Value : documentName,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : url,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : createdAt,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : eMailRecievedDateAndTime,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : to_typeOfAttachment_ID,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : to_typeOfProcess_ID,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : fileFormatCheckRequired,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : formatCheck,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : eMailSent,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : workItemsCreated,
-            },
-            {
-                $Type : 'UI.DataField',
-                Value : remarks,
-            },
+            {Value : documentName, },
+            {Value : url, },
+            {Value : createdAt, },
+            {Value : eMailRecievedDateAndTime, },
+            {Value : to_typeOfAttachment_ID, },
+            {Value : to_typeOfProcess_ID, },
+            {Value : fileFormatCheckRequired, },
+            {Value : formatCheck, },
+            {Value : eMailSent, },
+            {Value : workItemsCreated, },
+            {Value : remarks, },
         ]
     }
-);
+);*/
 
 annotate mrorequestdolphinService.Documents {
-    ID  @readonly;
-    UUID @readonly;
-    url @mandatory;
+    ID      @readonly;
+    UUID    @readonly;
+    url     @mandatory;
     remarks @UI.MultiLineText;
-}
+};
