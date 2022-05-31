@@ -71,13 +71,15 @@
                 "kind": "odata-v2",
                 "model": "srv/external/MAINTREQ_SB",
                 "credentials": {
-                    "destination": "MaintReq"
+                    "url": "http://104.46.112.167:8001/sap/opu/odata/ISAMMRCO/MAINTREQ_SB/",
+                    "username": "usaklani",
+                    "password": "Zuzu@123456"
                 }
             },
             "NumberRangeService": {
                 "kind": "odata",
                 "model": "srv/external/NumberRangeService",
-                "credentials": {
+                "--credentials": {
                     "destination": "NumberRange"
                 }
             }

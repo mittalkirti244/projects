@@ -14,7 +14,7 @@ service mrorequestdolphinService {
 
     entity RevisionVH          as
         select from maintReq.MaintenanceRequests {
-            revisionNo,
+            MaintenanceRevision,
             revisionText @UI.HiddenFilter,
             revisionType
         }

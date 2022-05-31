@@ -6,7 +6,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         requestNo,
         businessPartner1,
         expectedDeliveryDate,
-        revisionNo
+        MaintenanceRevision
     ],
     //Line Item in List Report Page
     LineItem                                    : [
@@ -36,7 +36,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : equipment},
         {Value : functionalLocation},
         {Value : contract},
-        {Value : revisionNo},
+        {Value : MaintenanceRevision},
         //fields to be hidden in settings tab on list report page
         {
             Value : businessPartner,
@@ -196,7 +196,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
 
     //Column 4 for header facet (Revision Number)
     FieldGroup #Revision                        : {Data : [{
-        Value : revisionNo,
+        Value : MaintenanceRevision,
         Label : '{i18n>RevisionNumber}'
     }]},
 
@@ -302,7 +302,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
 
     FieldGroup #locationGroup                   : {Data : [
         {Value : locationWC},
-        {Value : locationWCPlant}
+        {Value : MaintenancePlanningPlant}
     ]},
     FieldGroup #referenceObjectsGroup           : {Data : [
         {Value : mName},
@@ -373,7 +373,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 
 //Text Arrangment for Revision and Revision Description
 /*annotate mrorequestdolphinService.MaintenanceRequests with {
-    revisionNo @(Common : {Text : {
+    MaintenanceRevision @(Common : {Text : {
         $value                 : revisionText,
         ![@UI.TextArrangement] : #TextFirst
     }});
@@ -541,15 +541,15 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 
 //Revision Number value Help
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    revisionNo @(Common : {ValueList : {
+    MaintenanceRevision @(Common : {ValueList : {
         CollectionPath  : 'RevisionVH',
         SearchSupported : true,
-        Label           : '{i18n>revisionNo}',
+        Label           : '{i18n>MaintenanceRevision}',
         Parameters      : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'revisionNo',
-                ValueListProperty : 'revisionNo'
+                LocalDataProperty : 'MaintenanceRevision',
+                ValueListProperty : 'MaintenanceRevision'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
@@ -620,7 +620,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'locationWCPlant',
+                LocalDataProperty : 'MaintenancePlanningPlant',
                 ValueListProperty : 'Plant'
             },
 
@@ -637,7 +637,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         Parameters      : [
             {
                 $Type             : 'Common.ValueListParameterIn',
-                LocalDataProperty : 'locationWCPlant',
+                LocalDataProperty : 'MaintenancePlanningPlant',
                 ValueListProperty : 'Plant'
             },
             {
@@ -703,7 +703,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         Parameters      : [
             {
                 $Type             : 'Common.ValueListParameterIn',
-                LocalDataProperty : 'locationWCPlant',
+                LocalDataProperty : 'MaintenancePlanningPlant',
                 ValueListProperty : 'Plant'
             },
             {
@@ -879,23 +879,23 @@ annotate mrorequestdolphinService.Documents with {
 };
 
 annotate mrorequestdolphinService.MaintenanceRequests {
-    businessPartner        @mandatory;
-    requestDesc            @mandatory;
-    to_requestType         @mandatory;
-    to_requestPhase        @mandatory;
-    locationWC             @mandatory;
-    revisionType           @readonly;
-    revisionDescription    @readonly;
-    businessPartnerName    @readonly;
-    locationWCDetail       @readonly;
-    // locationWCPlant        @readonly;
-    locationWCPlant        @Common : {FieldControl : #Inapplicable};
-    equipmentName          @readonly;
-    functionalLocationName @readonly;
-    contractName           @readonly;
-    requestType1           @readonly;
-    requestStatus1         @readonly;
-    revisionNo             @readonly;
+    businessPartner          @mandatory;
+    requestDesc              @mandatory;
+    to_requestType           @mandatory;
+    to_requestPhase          @mandatory;
+    locationWC               @mandatory;
+    revisionType             @readonly;
+    revisionDescription      @readonly;
+    businessPartnerName      @readonly;
+    locationWCDetail         @readonly;
+    // MaintenancePlanningPlant        @readonly;
+    MaintenancePlanningPlant @Common : {FieldControl : #Inapplicable};
+    equipmentName            @readonly;
+    functionalLocationName   @readonly;
+    contractName             @readonly;
+    requestType1             @readonly;
+    requestStatus1           @readonly;
+    MaintenanceRevision      @readonly;
 }
 
 //Hide fields in Adapt filters on list report page
