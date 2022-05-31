@@ -86,11 +86,6 @@
                     "target": "MaintenanceRequestsObjectPage"
                 },
                 {
-                    "pattern": "MaintenanceRequests({key})/to_listOfServices({key2}):?query:",
-                    "name": "ListOfServicesObjectPage",
-                    "target": "ListOfServicesObjectPage"
-                },
-                {
                     "pattern": "MaintenanceRequests({key})/to_document({key2}):?query:",
                     "name": "DocumentsObjectPage",
                     "target": "DocumentsObjectPage"
@@ -147,28 +142,12 @@
                                 }
                             },
                             "navigation": {
-                                "to_listOfServices": {
-                                    "detail": {
-                                        "route": "ListOfServicesObjectPage"
-                                    }
-                                },
                                 "to_document": {
                                     "detail": {
                                         "route": "DocumentsObjectPage"
                                     }
                                 }
                             }
-                        }
-                    }
-                },
-                "ListOfServicesObjectPage": {
-                    "type": "Component",
-                    "id": "ListOfServicesObjectPage",
-                    "name": "sap.fe.templates.ObjectPage",
-                    "options": {
-                        "settings": {
-                            "entitySet": "ListOfServices",
-                            "navigation": {}
                         }
                     }
                 },

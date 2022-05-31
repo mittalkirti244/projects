@@ -14,7 +14,7 @@ service mrorequestdolphinService {
 
     entity RevisionVH          as
         select from maintReq.MaintenanceRequests {
-            revisionNo,
+            MaintenanceRevision,
             revisionText @UI.HiddenFilter,
             revisionType
         }
@@ -90,10 +90,10 @@ extend service mrorequestdolphinService with {
 
     @readonly
     entity SalesContractVH     as projection on alpha.SalesContractVH {
-        key SalesContract  @(Common.Label : '{i18n>SalesContract}'),
-            SalesContractName@(Common.Label : '{i18n>SalesContractName}'),
-            SoldToPartyBP  @(Common.Label : '{i18n>SoldToPartyBP}'),
-            TurnAroundTime @(Common.Label : '{i18n>TurnAroundTime}')
+        key SalesContract     @(Common.Label : '{i18n>SalesContract}'),
+            SalesContractName @(Common.Label : '{i18n>SalesContractName}'),
+            SoldToPartyBP     @(Common.Label : '{i18n>SoldToPartyBP}'),
+            TurnAroundTime    @(Common.Label : '{i18n>TurnAroundTime}')
     };
 
     @readonly

@@ -110,10 +110,14 @@ module.exports = cds.service.impl(async function () {
         req.data.uiHidden = true
         req.data.uiHidden1 = false
         req.data.requestType1 = req.data.to_requestType_ID
+
+        //calculateBufferDays(req.data.expectedDeliveryDate)
+        //calculateTimeLapsedDays(req.data.expectedArrivalDate)
+
     });
 
     this.before(['CREATE', 'UPDATE'], 'MaintenanceRequests', async (req) => {
-        
+
         // To make business partner name as readonly field
         let query1 = await service2.read(BusinessPartnerVH)
         var bp = req.data.businessPartner
@@ -132,7 +136,7 @@ module.exports = cds.service.impl(async function () {
         for (let i = 0; i < query2.length; i++) {
             if (locWC == query2[i].WorkCenter) {
                 req.data.locationWCDetail = query2[i].WorkCenterText
-                // req.data.locationWCPlant = query2[i].Plant
+                // req.data.MaintenancePlanningPlant = query2[i].Plant
             }
         }
 
@@ -262,7 +266,7 @@ module.exports = cds.service.impl(async function () {
         //Fetching planning plant, request desc, work center and arrival and delivery date for performing POST request to MaintRevision S4 Service
         //Mandatory fields for creating a revision
         if (reqwcPlant == null) {
-            vplanningPlant = req.data.locationWCPlant
+            vplanningPlant = req.data.MaintenancePlanningPlant
         }
         else {
             vplanningPlant = reqwcPlant
@@ -274,7 +278,7 @@ module.exports = cds.service.impl(async function () {
         //After selecting thw workcenter that is coming from patch
         //supose user refresh the screen then plant will get removed -> if else condition is used to resolve this issue
         if (reqwcPlant == null) {
-            vworkCenterPlant = req.data.locationWCPlant
+            vworkCenterPlant = req.data.MaintenancePlanningPlant
         }
         else {
             vworkCenterPlant = reqwcPlant
@@ -294,7 +298,7 @@ module.exports = cds.service.impl(async function () {
         //Revision will trigger when requestphase will change from intial to planning
         if (req.data.to_requestPhase_rPhase == 'Planning') {
             //One request should always have 1 MR
-            if (req.data.revisionNo == null) {
+            if (req.data.MaintenanceRevision == null) {
                 try {
                     if (vplanningPlant != null && vrevisionText != null && vworkCenter != null && vworkCenterPlant != null && vrevisionStartDate != null && vrevisionEndDate != null) {
                         const tx = service3.tx(req)
@@ -340,12 +344,12 @@ module.exports = cds.service.impl(async function () {
                             }
                         }
                         // console.log('result', result)
-                        req.data.revisionNo = result.RevisionNo
+                        req.data.MaintenanceRevision = result.RevisionNo
                         req.data.revisionType = result.RevisionType
                         req.data.revisionText = result.RevisionText
                         // console.log(' result.FunctionLocation value is ', result.FunctionLocation)
                         // console.log(' result.Equipment value is ', result.Equipment)
-                        req.info(101, 'Revision ' + req.data.revisionNo + ' created')
+                        req.info(101, 'Revision ' + req.data.MaintenanceRevision + ' created')
                         req.data.to_requestStatus_rStatus = 'Revision Created'
                         return result
                         /* const { result1 } = await this.transaction(req).run(await tx.send({ method: 'POST', path: 'MaintRevision', data }))
@@ -364,7 +368,7 @@ module.exports = cds.service.impl(async function () {
                     req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
                 }
             }
-            else if (req.data.revisionNo != null && req.data.to_requestStatus_rStatus == 'Confirmed') {
+            else if (req.data.MaintenanceRevision != null && req.data.to_requestStatus_rStatus == 'Confirmed') {
                 req.data.to_requestStatus_rStatus = 'Revision Created'
                 req.info(101, 'Revision is already been created for this Maintenance Request')
             }
@@ -387,7 +391,7 @@ module.exports = cds.service.impl(async function () {
             var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
             //console.log('query.........', query[i].to_botStatus_ID)
 
-            if (query[i].revisionNo != null && query[i].to_botStatus_ID != 1) {
+            if (query[i].MaintenanceRevision != null && query[i].to_botStatus_ID != 1) {
                 req.info(101, 'Request for Mail sent.')
 
                 const affectedRows = await UPDATE(MaintenanceRequests).set({
@@ -396,9 +400,9 @@ module.exports = cds.service.impl(async function () {
                 }).where({ ID: query[i].ID })
             }
             else {
-                if (query[i].revisionNo == null && query[i].to_botStatus_ID == 1) {
+                if (query[i].revisMaintenanceRevisionionNo == null && query[i].to_botStatus_ID == 1) {
                     req.error(406, 'Email cannot be sent, as Revision is not created for Maintenance Request ' + query[i].requestNo)
-                } else if (query[i].revisionNo == null) {
+                } else if (query[i].MaintenanceRevision == null) {
                     req.error(406, 'Email cannot be sent, as Revision is not created for Maintenance Request ' + query[i].requestNo)
                 } else if (query[i].to_botStatus_ID == 1) {
                     req.error(406, 'Email already sent for Maintenance Request ' + query[i].requestNo)
@@ -422,4 +426,21 @@ module.exports = cds.service.impl(async function () {
         var result = String(vyear) + '-' + String(vmonth) + '-' + String(vdate)
         return result
     }
+
+    /* function calculateBufferDays(deliveryDate) {
+         var bufferDays = date.addDays(deliveryDate, 10)
+         console.log('Buffer Days', bufferDays)
+ 
+     }
+ 
+     function calculateTimeLapsedDays(arrivalDate) {
+         var differenceInTime = new Date().getTime() - new Date(arrivalDate).getTime();
+ 
+         // To calculate the no. of days between two dates
+         var differenceInDays = differenceInTime / (1000 * 3600 * 24);
+ 
+         //To display the final no. of days (result)
+         console.log('Total Number of Days lapsed ', differenceInDays)
+     }*/
+
 })
