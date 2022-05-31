@@ -111,8 +111,8 @@ module.exports = cds.service.impl(async function () {
         req.data.uiHidden1 = false
         req.data.requestType1 = req.data.to_requestType_ID
 
-        calculateBufferDays(req.data.expectedDeliveryDate)
-        calculateTimeLapsedDays(req.data.expectedArrivalDate)
+       // calculateBufferDays(req.data.expectedDeliveryDate)
+       // calculateTimeLapsedDays(req.data.expectedArrivalDate)
 
     });
 
