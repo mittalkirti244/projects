@@ -975,11 +975,11 @@ annotate mrorequestdolphinService.Documents with @(UI : {
 annotate mrorequestdolphinService.Documents with @(
     UI.Facets              : [{
         $Type  : 'UI.ReferenceFacet',
-        Label  : 'General',
-        ID     : 'General',
-        Target : '@UI.FieldGroup#General',
+        //Label  : '',
+        ID     : 'documentEntry',
+        Target : '@UI.FieldGroup#documentEntry',
     }, ],
-    UI.FieldGroup #General : {
+    UI.FieldGroup #documentEntry : {
         $Type : 'UI.FieldGroupType',
         Data  : [
             {
