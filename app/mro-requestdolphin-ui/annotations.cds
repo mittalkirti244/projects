@@ -971,6 +971,65 @@ annotate mrorequestdolphinService.Documents with @(UI : {
     }
 }, );
 
+// Documents Object page general tab
+annotate mrorequestdolphinService.Documents with @(
+    UI.Facets              : [{
+        $Type  : 'UI.ReferenceFacet',
+        Label  : 'General',
+        ID     : 'General',
+        Target : '@UI.FieldGroup#General',
+    }, ],
+    UI.FieldGroup #General : {
+        $Type : 'UI.FieldGroupType',
+        Data  : [
+            {
+                $Type : 'UI.DataField',
+                Value : documentName,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : url,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : createdAt,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : eMailRecievedDateAndTime,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : to_typeOfAttachment_ID,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : to_typeOfProcess_ID,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : fileFormatCheckRequired,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : formatCheck,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : eMailSent,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : workItemsCreated,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : remarks,
+            },
+        ]
+    }
+);
+
 annotate mrorequestdolphinService.Documents {
     ID  @readonly;
     UUID @readonly;

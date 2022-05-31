@@ -180,7 +180,8 @@
                         "settings": {
                             "entitySet": "Documents",
                             "navigation": {},
-                            "sectionLayout": "Page"
+                            "sectionLayout": "Page",
+                            "editableHeaderContent": false
                         }
                     }
                 }
