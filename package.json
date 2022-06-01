@@ -1,7 +1,7 @@
 {
     "name": "hcl-mro-requestdolphin",
     "version": "2.0.0",
-    "description": "MRO RequestDolphin (Rel20220530)",
+    "description": "MRO RequestDolphin (Rel20220601)",
     "repository": "<Add your repository here>",
     "license": "UNLICENSED",
     "private": true,
@@ -10,7 +10,7 @@
         "@sap/cds": "^5.9.0",
         "@sap/cds-odata-v2-adapter-proxy": "^1.8.5",
         "@sap/cds-runtime": "^3.3.0",
-        "date-and-time": "^2.1.0",
+        "date-and-time": "^2.3.1",
         "email-validator": "^2.0.4",
         "express": "^4",
         "hdb": "^0.18.3",
@@ -71,15 +71,13 @@
                 "kind": "odata-v2",
                 "model": "srv/external/MAINTREQ_SB",
                 "credentials": {
-                    "url": "http://104.46.112.167:8001/sap/opu/odata/ISAMMRCO/MAINTREQ_SB/",
-                    "username": "usaklani",
-                    "password": "Zuzu@123456"
+                    "destination": "MaintReq"
                 }
             },
             "NumberRangeService": {
                 "kind": "odata",
                 "model": "srv/external/NumberRangeService",
-                "--credentials": {
+                "credentials": {
                     "destination": "NumberRange"
                 }
             }

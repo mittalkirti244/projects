@@ -27,6 +27,7 @@ module.exports = cds.service.impl(async function () {
 
     var vplanningPlant, vrevisionText, vworkCenter, vworkCenterPlant, vrevisionStartDate, vrevisionEndDate, vfunctionalLocation, vequipment, reqwcPlant, reqwcDetail
     let cvalue = 1;
+    var vforeCastDays, vforeCastDate, vdiffInCurrentAndArrivalDate, vdiffInArrivalAndDeliveryDate
 
     this.on('READ', NumberRanges, req => {
         return service1.tx(req).run(req.query);
@@ -110,10 +111,6 @@ module.exports = cds.service.impl(async function () {
         req.data.uiHidden = true
         req.data.uiHidden1 = false
         req.data.requestType1 = req.data.to_requestType_ID
-
-       // calculateBufferDays(req.data.expectedDeliveryDate)
-       // calculateTimeLapsedDays(req.data.expectedArrivalDate)
-
     });
 
     this.before(['CREATE', 'UPDATE'], 'MaintenanceRequests', async (req) => {
@@ -161,23 +158,24 @@ module.exports = cds.service.impl(async function () {
         //Validation for all dates value
         var arrivalDate = req.data.expectedArrivalDate
         var deliveryDate = req.data.expectedDeliveryDate
-        var startDate = req.data.startDate
-        var endDate = req.data.endDate
+        // var startDate = req.data.startDate
+        // var endDate = req.data.endDate
 
-        if (deliveryDate < arrivalDate && endDate < startDate)
-            return req.error(406, 'Expected Delivery Date and End Date should not be less than Expected Arrival Date and Start Date respectively')
-        else if (deliveryDate < arrivalDate)
+        if (deliveryDate < arrivalDate)
+            // if (deliveryDate < arrivalDate && endDate < startDate)
             return req.error(406, 'Expected Delivery Date should not be less than Expected Arrival Date')
-        else if (endDate < startDate)
-            return req.error(406, 'End Date should not be less than Start Date')
-        else if (startDate < arrivalDate && endDate < deliveryDate)
-            return req.error(406, 'Start Date should not be less than Expected Arrival Date and End Date should not be less than Expected Delivery Date')
-        else if (startDate < arrivalDate)
-            return req.error(406, 'Start Date should not be less than Expected Arrival Date')
-        else if (endDate < deliveryDate)
-            return req.error(406, 'End Date should always be greater than Expected Delivery Date')
-        else if (deliveryDate < startDate)
-            return req.error(406, 'Expected Delivery Date should not be less that Start Date')
+        /* else if (deliveryDate < arrivalDate)
+             return req.error(406, 'Expected Delivery Date should not be less than Expected Arrival Date')
+         /*else if (endDate < startDate)
+             return req.error(406, 'End Date should not be less than Start Date')
+         else if (startDate < arrivalDate && endDate < deliveryDate)
+             return req.error(406, 'Start Date should not be less than Expected Arrival Date and End Date should not be less than Expected Delivery Date')
+         else if (startDate < arrivalDate)
+             return req.error(406, 'Start Date should not be less than Expected Arrival Date')
+         else if (endDate < deliveryDate)
+             return req.error(406, 'End Date should always be greater than Expected Delivery Date')
+         else if (deliveryDate < startDate)
+             return req.error(406, 'Expected Delivery Date should not be less that Start Date')*/
 
         //Validation for Phone Number(It starts with (+) operator as optional and should always contains only numbers in it)
         //Phone number should be greater than 7 and validates all valid phone number 
@@ -253,6 +251,20 @@ module.exports = cds.service.impl(async function () {
         //Assigning BP and BP Name to the fields of BP i.e. present on list page, so that it can filter accordingly
         req.data.businessPartner1 = req.data.businessPartner
         req.data.businessPartnerName1 = req.data.businessPartnerName
+
+        // req.data.foreCastDays = calculateForeCastDays(req.data.expectedDeliveryDate)
+        // req.data.foreCastDays = 11
+        req.data.foreCastDate = calculateForeCastDate(req.data.expectedDeliveryDate)
+        req.data.diffInCurrentAndArrivalDate = calculateDiffInCurrentAndArrivalDate(req.data.expectedArrivalDate)
+        req.data.diffInDeliveryAndArrivalDate = calculateDiffInDeliveryAndArrivalDate(req.data.expectedDeliveryDate, req.data.expectedArrivalDate)
+
+        console.log('req.data.foreCastDays', req.data.foreCastDays)
+        console.log('req.data.foreCastDate', req.data.foreCastDate)
+        console.log('req.data.diffInCurrentAndArrivalDate', req.data.diffInCurrentAndArrivalDate)
+        console.log('req.data.diffInDeliveryAndArrivalDate', req.data.diffInDeliveryAndArrivalDate)
+
+        req.data.startDate = req.data.expectedArrivalDate
+        req.data.endDate = req.data.expectedDeliveryDate
 
     });
 
@@ -427,20 +439,46 @@ module.exports = cds.service.impl(async function () {
         return result
     }
 
-    /* function calculateBufferDays(deliveryDate) {
-         var bufferDays = date.addDays(deliveryDate, 10)
-         console.log('Buffer Days', bufferDays)
- 
-     }
- 
-     function calculateTimeLapsedDays(arrivalDate) {
-         var differenceInTime = new Date().getTime() - new Date(arrivalDate).getTime();
- 
-         // To calculate the no. of days between two dates
-         var differenceInDays = differenceInTime / (1000 * 3600 * 24);
- 
-         //To display the final no. of days (result)
-         console.log('Total Number of Days lapsed ', differenceInDays)
-     }*/
+    /*function calculateForeCastDays(deliveryDate) {
+        //Total ForeCast days -> 11
+        vforeCastDays = new Date(deliveryDate).getDate() + 10
+        console.log('Forecast Days', vforeCastDays)
+        return vforeCastDays;
+    }*/
 
+    function calculateForeCastDate(deliveryDate) {
+        //Date after adding buffer days
+        var newDate = new Date(deliveryDate);
+        vforeCastDate = returnDate(newDate.setDate(newDate.getDate() + 10))
+        console.log('date After adding Forecast date', vforeCastDate)
+
+        return vforeCastDate
+    }
+
+    function calculateDiffInCurrentAndArrivalDate(arrivalDate) {
+        var vdifferenceInTime = new Date().getTime() - new Date(arrivalDate).getTime();
+
+        // To calculate the no. of days between two dates
+        var vdifferenceInDays = vdifferenceInTime / (1000 * 3600 * 24);
+
+        //To display the final no. of days
+        vdiffInCurrentAndArrivalDate = Math.trunc(vdifferenceInDays)
+        console.log('Difference in Current and Arrival Date ', vdiffInCurrentAndArrivalDate)
+
+        return vdiffInCurrentAndArrivalDate
+    }
+
+    function calculateDiffInDeliveryAndArrivalDate(deliveryDate, arrivalDate) {
+        var vdifferenceInTime = new Date(deliveryDate).getTime() - new Date(arrivalDate).getTime();
+
+        // To calculate the no. of days between two dates
+        var vdifferenceInDays = vdifferenceInTime / (1000 * 3600 * 24);
+
+        //To display the final no. of days
+        vdiffInArrivalAndDeliveryDate = Math.trunc(vdifferenceInDays)
+        console.log('Difference in Delivery and Arrival Date', vdiffInArrivalAndDeliveryDate)
+
+        return vdiffInArrivalAndDeliveryDate
+
+    }
 })
