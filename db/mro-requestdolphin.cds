@@ -34,7 +34,7 @@ entity MaintenanceRequests : managed {
         mPartNumber                  : String                                           @title                 : '{i18n>mPartNumber}'; //Manufacturer Part Number
         functionalLocation           : String                                           @title                 : '{i18n>functionalLocation}'; //VH for fucntional location s4 service with filter criteria(mname,mmodel and mserialNumber)
         functionalLocationName       : String                                           @title                 : '{i18n>functionalLocationName}'; //readonly field for functional location
-        MaintenanceRevision          : String                                           @title                 : '{i18n>MaintenanceRevision}'; // create by trigerring when request status is confirmed
+        MaintenanceRevision          : String                                           @Common.SemanticObject : 'MaintenanceRevisionOverview'  @title     : '{i18n>MaintenanceRevision}'; // create by trigerring when request status is confirmed
         revisionType                 : String                                           @title                 : '{i18n>revisionType}'; // It will hold the value as A1
         revisionText                 : String                                           @title                 : '{i18n>revisionText}'; // concatenation of request Number and request Ddescription
         ccpersonName                 : String                                           @title                 : '{i18n>ccpersonName}'  @UI.Placeholder    : 'Name'; //free text field comes from BP

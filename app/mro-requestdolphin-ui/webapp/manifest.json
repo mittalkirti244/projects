@@ -84,6 +84,11 @@
                     "pattern": "MaintenanceRequests({key}):?query:",
                     "name": "MaintenanceRequestsObjectPage",
                     "target": "MaintenanceRequestsObjectPage"
+                },
+                {
+                    "pattern": "MaintenanceRequests({key})/to_document({key2}):?query:",
+                    "name": "DocumentsObjectPage",
+                    "target": "DocumentsObjectPage"
                 }
             ],
             "targets": {
@@ -136,7 +141,26 @@
                                     }
                                 }
                             },
-                            "navigation": {}
+                            "navigation": {
+                                "to_document": {
+                                    "detail": {
+                                        "route": "DocumentsObjectPage"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "DocumentsObjectPage": {
+                    "type": "Component",
+                    "id": "DocumentsObjectPage",
+                    "name": "sap.fe.templates.ObjectPage",
+                    "options": {
+                        "settings": {
+                            "entitySet": "Documents",
+                            "navigation": {},
+                            "sectionLayout": "Page",
+                            "editableHeaderContent": false
                         }
                     }
                 }
