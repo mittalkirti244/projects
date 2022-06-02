@@ -73,8 +73,6 @@ module.exports = cds.service.impl(async function () {
         //Date field for Overview page    
         req.data.createdAtDate = returnDate(new Date())
         console.log(' req.data.createdAtDate ', req.data.createdAtDate)
-
-
     });
 
     this.before('CREATE', 'MaintenanceRequests', async (req) => {
