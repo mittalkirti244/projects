@@ -68,21 +68,4 @@ service alphamasterService {
             WorkCenter,
             WorkCenterPlant
     };
-
-    entity SalesContractItemVH as projection on s4maintReq.SalesContractItemVH {
-        key SalesContract,
-        key SalesContractItem,
-            BaseUnit,
-            Material,
-            Plant,
-            CreatedByUser,
-            Product
-    };
-
-    entity UnitOfMeasureVH     as projection on s4maintReq.UnitOfMeasureVH {
-        key UnitOfMeasure,
-            UnitOfMeasureDimension,
-            UnitOfMeasureDimensionName,
-            UnitOfMeasureLongName
-    };
 }

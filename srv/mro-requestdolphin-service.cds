@@ -56,58 +56,59 @@ service mrorequestdolphinService {
 extend service mrorequestdolphinService with {
 
     @readonly
-    entity BusinessPartnerVH   as projection on alpha.BusinessPartnerVH {
+    entity BusinessPartnerVH  as projection on alpha.BusinessPartnerVH {
         key BusinessPartner      @(Common.Label : '{i18n>BusinessPartner}'),
             BusinessPartnerName  @(Common.Label : '{i18n>BusinessPartnerName}') @UI.HiddenFilter,
             FirstName            @(Common.Label : '{i18n>FirstName}'),
             LastName             @(Common.Label : '{i18n>LastName}'),
+            SearchTerm1          @(Common.Label : '{i18n>SearchTerm1}'),
+            SearchTerm2          @(Common.Label : '{i18n>SearchTerm2}'),
             Description          @(Common.Label : '{i18n>Description}') @UI.HiddenFilter,
             ContactPersonName    @(Common.Label : '{i18n>ContactPersonName}') @UI.HiddenFilter,
             ContactPersonEmailID @(Common.Label : '{i18n>ContactPersonEmailID}'),
-            TelephoneNo          @(Common.Label : '{i18n>TelephoneNo}'),
-            SearchTerm1          @(Common.Label : '{i18n>SearchTerm1}'),
-            SearchTerm2          @(Common.Label : '{i18n>SearchTerm2}')
+            TelephoneNo          @(Common.Label : '{i18n>TelephoneNo}')
     };
 
     @readonly
-    entity WorkCenterVH        as projection on alpha.WorkCenterVH {
-        key Plant                  @(Common.Label : '{i18n>Plant}'),
+    entity WorkCenterVH       as projection on alpha.WorkCenterVH {
         key WorkCenter             @(Common.Label : '{i18n>WorkCenter}'),
-            WorkCenterCategoryCode @(Common.Label : '{i18n>WorkCenterCategoryCode}'),
+        key Plant                  @(Common.Label : '{i18n>Plant}'),
             WorkCenterText         @(Common.Label : '{i18n>WorkCenterText}'),
+            WorkCenterCategoryCode @(Common.Label : '{i18n>WorkCenterCategoryCode}')
     };
 
     @readonly
-    entity FunctionLocationVH  as projection on alpha.FunctionLocationVH {
+    entity FunctionLocationVH as projection on alpha.FunctionLocationVH {
         key functionalLocation       @(Common.Label : '{i18n>functionalLocation}'),
             FunctionalLocationName   @(Common.Label : '{i18n>FunctionalLocationName}'),
-            ManufacturerPartTypeName @(Common.Label : '{i18n>ManufacturerPartTypeName}'),
-            ManufacturerSerialNumber @(Common.Label : '{i18n>ManufacturerSerialNumber}'),
             ManufacturerName         @(Common.Label : '{i18n>ManufacturerName}'),
+            ManufacturerPartTypeName @(Common.Label : '{i18n>ManufacturerPartTypeName}'),
             ManufacturerPartNmbr     @(Common.Label : '{i18n>ManufacturerPartNmbr}'),
+            ManufacturerSerialNumber @(Common.Label : '{i18n>ManufacturerSerialNumber}'),
             Plant                    @UI.HiddenFilter
     };
 
     @readonly
-    entity SalesContractVH     as projection on alpha.SalesContractVH {
+    entity SalesContractVH    as projection on alpha.SalesContractVH {
         key SalesContract     @(Common.Label : '{i18n>SalesContract}'),
             SalesContractName @(Common.Label : '{i18n>SalesContractName}'),
-            SoldToPartyBP     @(Common.Label : '{i18n>SoldToPartyBP}'),
-            TurnAroundTime    @(Common.Label : '{i18n>TurnAroundTime}')
+            TurnAroundTime    @(Common.Label : '{i18n>TurnAroundTime}'),
+            SoldToPartyBP     @(Common.Label : '{i18n>SoldToPartyBP}') @UI.HiddenFilter
+
     };
 
     @readonly
-    entity EquipmentVH         as projection on alpha.EquipmentVH {
+    entity EquipmentVH        as projection on alpha.EquipmentVH {
         key Equipment,
             EquipmentName      @(Common.Label : '{i18n>EquipmentName}'),
-            Material,
-            MaterialName,
-            SerialNumber       @(Common.Label : '{i18n>SerialNumber}'),
             FunctionalLocation @(Common.Label : '{i18n>functionalLocation}'),
+            Material,
+            MaterialName       @UI.HiddenFilter,
+            SerialNumber       @(Common.Label : '{i18n>SerialNumber}'),
             Plant              @UI.HiddenFilter
     };
 
-    entity Revisions           as projection on alpha.Revisions {
+    entity Revisions          as projection on alpha.Revisions {
         key PlanningPlant,
         key RevisionNo,
             Equipment,
@@ -120,23 +121,6 @@ extend service mrorequestdolphinService with {
             RevisionType,
             WorkCenter,
             WorkCenterPlant
-    };
-
-    entity SalesContractItemVH as projection on alpha.SalesContractItemVH {
-        key SalesContract,
-        key SalesContractItem,
-            BaseUnit,
-            Material,
-            Plant,
-            CreatedByUser,
-            Product
-    };
-
-    entity UnitOfMeasureVH     as projection on alpha.UnitOfMeasureVH {
-        key UnitOfMeasure,
-            UnitOfMeasureDimension,
-            UnitOfMeasureDimensionName,
-            UnitOfMeasureLongName
     };
 }
 

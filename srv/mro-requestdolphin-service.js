@@ -14,11 +14,7 @@ module.exports = cds.service.impl(async function () {
         NumberRanges,
         SalesContractVH,
         EquipmentVH,
-        Revisions,
-        SalesContractItemVH,
-        UnitOfMeasureVH,
-        Documents
-    } = this.entities
+        Revisions } = this.entities
     const service1 = await cds.connect.to('NumberRangeService');
     const service2 = await cds.connect.to('alphamasterService');
     const service3 = await cds.connect.to('MAINTREQ_SB');
@@ -27,22 +23,21 @@ module.exports = cds.service.impl(async function () {
 
     var vplanningPlant, vrevisionText, vworkCenter, vworkCenterPlant, vrevisionStartDate, vrevisionEndDate, vfunctionalLocation, vequipment, reqwcPlant, reqwcDetail
     let cvalue = 1;
-    var vforeCastDays, vforeCastDate, vdiffInCurrentAndArrivalDate, vdiffInArrivalAndDeliveryDate, vdiffInCurrentAndDeliveryDate
+    // var vforeCastDays, vforeCastDate, vdiffInCurrentAndArrivalDate, vdiffInArrivalAndDeliveryDate, vdiffInCurrentAndDeliveryDate
 
     this.on('READ', NumberRanges, req => {
         return service1.tx(req).run(req.query);
     });
 
-    this.on('READ', [BusinessPartnerVH, WorkCenterVH, FunctionLocationVH, SalesContractVH, EquipmentVH, Revisions, SalesContractItemVH,
-        UnitOfMeasureVH], req => {
-            // try {
-            return service2.tx(req).run(req.query);
-            /* } catch (error) {
-                 var vstatusCode = error.statusCode
-                 var verrorMessage = error.innererror.response.body.error.message.value
-                 req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
-             }*/
-        });
+    this.on('READ', [BusinessPartnerVH, WorkCenterVH, FunctionLocationVH, SalesContractVH, EquipmentVH, Revisions], req => {
+        // try {
+        return service2.tx(req).run(req.query);
+        /* } catch (error) {
+             var vstatusCode = error.statusCode
+             var verrorMessage = error.innererror.response.body.error.message.value
+             req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
+         }*/
+    });
 
     //Custom handler for new create(To load details at the time of first CREATE Button i.e., present on list page)
     this.before('NEW', 'MaintenanceRequests', async (req) => {
