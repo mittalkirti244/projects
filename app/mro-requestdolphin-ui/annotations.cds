@@ -117,7 +117,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         TypeName       : '{i18n>requestForMaintenance}',
         TypeNamePlural : '{i18n>requestsForMaintenance}',
         Title          : {Value : requestNo},
-    //Description    : {Value : requestDesc}
+        Description    : {Value : ''}
     },
     //Header Facets Information in Object Page
     HeaderFacets                                : [
