@@ -27,7 +27,7 @@ module.exports = cds.service.impl(async function () {
 
     var vplanningPlant, vrevisionText, vworkCenter, vworkCenterPlant, vrevisionStartDate, vrevisionEndDate, vfunctionalLocation, vequipment, reqwcPlant, reqwcDetail
     let cvalue = 1;
-    var vforeCastDays, vforeCastDate, vdiffInCurrentAndArrivalDate, vdiffInArrivalAndDeliveryDate
+    var vforeCastDays, vforeCastDate, vdiffInCurrentAndArrivalDate, vdiffInArrivalAndDeliveryDate, vdiffInCurrentAndDeliveryDate
 
     this.on('READ', NumberRanges, req => {
         return service1.tx(req).run(req.query);
@@ -250,16 +250,17 @@ module.exports = cds.service.impl(async function () {
         req.data.businessPartner1 = req.data.businessPartner
         req.data.businessPartnerName1 = req.data.businessPartnerName
 
-        // req.data.foreCastDays = calculateForeCastDays(req.data.expectedDeliveryDate)
-        // req.data.foreCastDays = 11
-        req.data.foreCastDate = calculateForeCastDate(req.data.expectedDeliveryDate)
-        req.data.diffInCurrentAndArrivalDate = calculateDiffInCurrentAndArrivalDate(req.data.expectedArrivalDate)
-        req.data.diffInDeliveryAndArrivalDate = calculateDiffInDeliveryAndArrivalDate(req.data.expectedDeliveryDate, req.data.expectedArrivalDate)
-
-        console.log('req.data.foreCastDays', req.data.foreCastDays)
-        console.log('req.data.foreCastDate', req.data.foreCastDate)
-        console.log('req.data.diffInCurrentAndArrivalDate', req.data.diffInCurrentAndArrivalDate)
-        console.log('req.data.diffInDeliveryAndArrivalDate', req.data.diffInDeliveryAndArrivalDate)
+        //Details for Bullet micro Chart
+        /* req.data.foreCastDate = calculateForeCastDate(req.data.expectedDeliveryDate)
+         req.data.diffInCurrentAndArrivalDate = calculateDiffInCurrentAndArrivalDate(req.data.expectedArrivalDate)
+         req.data.diffInCurrentAndDeliveryDate = calculateDiffInCurrentAndDeliveryDate(req.data.expectedDeliveryDate)
+         req.data.diffInDeliveryAndArrivalDate = calculateDiffInDeliveryAndArrivalDate(req.data.expectedDeliveryDate, req.data.expectedArrivalDate)
+         req.data.foreCastDaysValue = req.data.diffInDeliveryAndArrivalDate + 10
+ 
+         console.log('req.data.foreCastDays', req.data.foreCastDays)
+         console.log('req.data.foreCastDate', req.data.foreCastDate)
+         console.log('req.data.diffInCurrentAndArrivalDate', req.data.diffInCurrentAndArrivalDate)
+         console.log('req.data.diffInDeliveryAndArrivalDate', req.data.diffInDeliveryAndArrivalDate)*/
 
         req.data.startDate = req.data.expectedArrivalDate
         req.data.endDate = req.data.expectedDeliveryDate
@@ -437,14 +438,7 @@ module.exports = cds.service.impl(async function () {
         return result
     }
 
-    /*function calculateForeCastDays(deliveryDate) {
-        //Total ForeCast days -> 11
-        vforeCastDays = new Date(deliveryDate).getDate() + 10
-        console.log('Forecast Days', vforeCastDays)
-        return vforeCastDays;
-    }*/
-
-    function calculateForeCastDate(deliveryDate) {
+    /*function calculateForeCastDate(deliveryDate) {
         //Date after adding buffer days
         var newDate = new Date(deliveryDate);
         vforeCastDate = returnDate(newDate.setDate(newDate.getDate() + 10))
@@ -466,6 +460,19 @@ module.exports = cds.service.impl(async function () {
         return vdiffInCurrentAndArrivalDate
     }
 
+    function calculateDiffInCurrentAndDeliveryDate(deliveryDate) {
+        var vdifferenceInTime = new Date().getTime() - new Date(deliveryDate).getTime();
+
+        // To calculate the no. of days between two dates
+        var vdifferenceInDays = vdifferenceInTime / (1000 * 3600 * 24);
+
+        //To display the final no. of days
+        vdiffInCurrentAndDeliveryDate = Math.trunc(vdifferenceInDays)
+        console.log('Difference in Current and Delivery Date ', vdiffInCurrentAndDeliveryDate)
+
+        return vdiffInCurrentAndDeliveryDate
+    }
+
     function calculateDiffInDeliveryAndArrivalDate(deliveryDate, arrivalDate) {
         var vdifferenceInTime = new Date(deliveryDate).getTime() - new Date(arrivalDate).getTime();
 
@@ -477,6 +484,6 @@ module.exports = cds.service.impl(async function () {
         console.log('Difference in Delivery and Arrival Date', vdiffInArrivalAndDeliveryDate)
 
         return vdiffInArrivalAndDeliveryDate
+    }*/
 
-    }
 })

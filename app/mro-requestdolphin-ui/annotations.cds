@@ -16,19 +16,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Label  : '{i18n>requestMail}',
         },
         {Value : requestNo},
-        /* {
-             $Type           : 'UI.DataFieldForIntentBasedNavigation',
-             SemanticObject  : 'NavigateToWorkItem',
-             Action          : 'manage',
-             RequiresContext : true,
-             Mapping         : [{
-                 $Type                  : 'Common.SemanticObjectMappingType',
-                 LocalProperty          : requestNo,
-                 SemanticObjectProperty : 'integerProperty',
-             }, ],
-         // ![@UI.Importance] : #High,
-
-         },*/
         {Value : businessPartner1},
         {Value : expectedDeliveryDate},
         {Value : locationWC},
@@ -79,10 +66,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ![@UI.Hidden]
         },
         {
-            Value : listOfServices,
-            ![@UI.Hidden]
-        },
-        {
             Value : to_botStatus_bStatus,
             ![@UI.Hidden]
         },
@@ -118,9 +101,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value : requestDesc,
             ![@UI.Hidden]
         }
-
     ],
-
     //Sort the Request based on createdAt in list report page
     PresentationVariant                         : {
         SortOrder      : [{
@@ -130,7 +111,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         }, ],
         Visualizations : ['@UI.LineItem']
     },
-
     //Header Information in Object Page
     HeaderInfo                                  : {
         $Type          : 'UI.HeaderInfoType',
@@ -157,6 +137,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             $Type  : 'UI.ReferenceFacet',
             Target : '@UI.FieldGroup#Revision'
         },
+    /* {
+         $Type  : 'UI.ReferenceFacet',
+         Target : '@UI.Chart#Bulletchart',
+     }*/
     ],
     //Column 1 for header facet
     FieldGroup #Basic2                          : {Data : [
@@ -197,7 +181,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     //Column 4 for header facet (Revision Number)
     FieldGroup #Revision                        : {Data : [{
         Value : MaintenanceRevision,
-        Label : '{i18n>RevisionNumber}'
+        Label : '{i18n>MaintenanceRevision}'
     }]},
 
     //Tabs for facets on object page
@@ -227,8 +211,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                     Target : '@UI.FieldGroup#generalGroup3',
                 // Label  : '{i18n>generalGroup3}'
                 }
-
-            ],
+            ]
         },
         //Tab 2 = Asset Information
         {
@@ -254,7 +237,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                     Target : '@UI.FieldGroup#additionalReferenceObjectsGroup',
                     Label  : '{i18n>additionalReferenceObjectsGroup}'
                 }
-            ],
+            ]
         },
         //  Tab 3 = Documents
         {
@@ -337,6 +320,29 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         }
     }
 });
+
+//Bullet Micro Chart for dates
+/*annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {Chart #Bulletchart : {
+    $Type             : 'UI.ChartDefinitionType',
+    ChartType         : #Bullet,
+    Title             : 'Bullet Micro chart',
+    //Description : 'REPLACE_WITH_CHART_DESCRIPTION',
+    Measures          : [expectedArrivalDate],
+    MeasureAttributes : [{
+        Measure   : expectedArrivalDate,
+        Role      : #Axis1,
+        DataPoint : '@UI.DataPoint#BulletchartDatapoint'
+    }]
+}});
+
+annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {DataPoint #BulletchartDatapoint : {
+    $Type         : 'UI.DataPointType',
+    Value         : diffInCurrentAndArrivalDate,
+    TargetValue   : diffInDeliveryAndArrivalDate,
+    ForecastValue : foreCastDaysValue, //diffInDeliveryAndArrivalDate+10
+    Criticality   : #Positive
+// MinimumValue  : 0
+}});*/
 
 //Text Arrangment
 //Request nummber and request Description  will be concatenated -> text(1001)
@@ -801,10 +807,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             $value                 : to_botStatus_bStatus,
             ![@UI.TextArrangement] : #TextLast
         },
-        Label     : '{i18n>botStatus}',
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'BotStatuses',
+            Label          : '{i18n>botStatus}',
             Parameters     : [
                 {
                     $Type             : 'Common.ValueListParameterInOut',
@@ -828,11 +834,10 @@ annotate mrorequestdolphinService.Documents with {
             $value                 : to_typeOfProcess_processType,
             ![@UI.TextArrangement] : #TextLast
         },
-        //Label     : '{i18n>ProcessedBy}',
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'ProcessTypes',
-            Label          : '{i18n>ProcessType}',
+            Label          : '{i18n>to_typeOfProcess}',
             //  SearchSupported : true,
             Parameters     : [
                 {
@@ -860,8 +865,7 @@ annotate mrorequestdolphinService.Documents with {
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'AttachmentTypes',
-            Label          : '{i18n>AttachmentType}',
-            //  SearchSupported : true,
+            Label          : '{i18n>to_typeOfAttachment}',
             Parameters     : [
                 {
                     $Type             : 'Common.ValueListParameterInOut',
@@ -913,7 +917,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         to_requestType_ID,
         uiHidden,
         uiHidden1,
-        listOfServices,
         bpConcatenation,
         mrCount,
         equipmentName,
@@ -980,45 +983,23 @@ annotate mrorequestdolphinService.Documents with @(UI : {
     FieldGroup #documentEntry : {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {Value : documentName },
-            {Value : url },
-            {Value : createdAt},
-            {Value : eMailRecievedDateAndTime },
+            {Value : documentName},
+            {Value : url},
+            {
+                Value : createdAt,
+                Label : '{i18n>createdAt}'
+            },
+            {Value : eMailRecievedDateAndTime},
             {Value : to_typeOfAttachment_ID},
-            {Value : to_typeOfProcess_ID },
-            {Value : fileFormatCheckRequired },
-            {Value : formatCheck },
-            {Value : eMailSent },
-            {Value : workItemsCreated, },
-            {Value : remarks, },
+            {Value : to_typeOfProcess_ID},
+            {Value : fileFormatCheckRequired},
+            {Value : formatCheck},
+            {Value : eMailSent},
+            {Value : workItemsCreated},
+            {Value : remarks}
         ]
     }
 }, );
-
-// Documents Object page general tab
-/*annotate mrorequestdolphinService.Documents with @(
-    UI.Facets                    : [{
-        $Type  : 'UI.ReferenceFacet',
-        ID     : 'documentEntry',
-        Target : '@UI.FieldGroup#documentEntry',
-    }, ],
-    UI.FieldGroup #documentEntry : {
-        $Type : 'UI.FieldGroupType',
-        Data  : [
-            {Value : documentName, },
-            {Value : url, },
-            {Value : createdAt, },
-            {Value : eMailRecievedDateAndTime, },
-            {Value : to_typeOfAttachment_ID, },
-            {Value : to_typeOfProcess_ID, },
-            {Value : fileFormatCheckRequired, },
-            {Value : formatCheck, },
-            {Value : eMailSent, },
-            {Value : workItemsCreated, },
-            {Value : remarks, },
-        ]
-    }
-);*/
 
 annotate mrorequestdolphinService.Documents {
     ID      @readonly;
