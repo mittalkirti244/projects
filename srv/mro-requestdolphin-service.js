@@ -179,7 +179,7 @@ module.exports = cds.service.impl(async function () {
         //Validation for Email Address
         const emailCheck = validator.validate(req.data.ccemail);
         if (emailCheck == false && req.data.ccemail != '')
-            req.error(406, 'Please enter a valid Email Address')
+            req.error(406, 'Please enter a valid E-Mail Address')
 
         //To fetch the tat and contract name from contract service
         let query3 = await service2.read(SalesContractVH)
@@ -397,23 +397,26 @@ module.exports = cds.service.impl(async function () {
             var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
             //console.log('query.........', query[i].to_botStatus_ID)
 
-            if (query[i].MaintenanceRevision != null && query[i].to_botStatus_ID != 1) {
-                req.info(101, 'Request for Mail sent.')
+            // if (query[i].MaintenanceRevision != null && query[i].to_botStatus_ID != 1) {
+            if (query[i].to_botStatus_ID != 1) {
+                req.info(101, 'Request for E-Mail sent.')
 
                 const affectedRows = await UPDATE(MaintenanceRequests).set({
                     to_botStatus_ID: 1,
-                    to_botStatus_bStatus: 'Mail Requested'
+                    to_botStatus_bStatus: 'E-Mail Requested'
                 }).where({ ID: query[i].ID })
             }
-            else {
-                if (query[i].revisMaintenanceRevisionionNo == null && query[i].to_botStatus_ID == 1) {
-                    req.error(406, 'Email cannot be sent, as Revision is not created for Maintenance Request ' + query[i].requestNo)
-                } else if (query[i].MaintenanceRevision == null) {
-                    req.error(406, 'Email cannot be sent, as Revision is not created for Maintenance Request ' + query[i].requestNo)
-                } else if (query[i].to_botStatus_ID == 1) {
-                    req.error(406, 'Email already sent for Maintenance Request ' + query[i].requestNo)
-                }
+            // else {
+            /* if (query[i].MaintenanceRevision == null && query[i].to_botStatus_ID == 1) {
+                 req.error(406, 'E-Mail cannot be sent, as Revision is not created for Maintenance Request ' + query[i].requestNo)
+             }
+             // else if (query[i].MaintenanceRevision == null) {
+               //  req.error(406, 'E-Mail cannot be sent, as Revision is not created for Maintenance Request ' + query[i].requestNo)
+             } */
+            else if (query[i].to_botStatus_ID == 1) {
+                req.error(406, 'E-Mail already sent for Maintenance Request ' + query[i].requestNo)
             }
+            // }
         }
     });
 
