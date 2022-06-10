@@ -142,9 +142,12 @@ module.exports = cds.service.impl(async function () {
         //To make equipment name as readonly field
         let q2 = await service2.read(EquipmentVH)
         var equip = req.data.equipment
-        for (let i = 0; i < q2.length; i++) {
-            if (equip == q2[i].Equipment) {
-                req.data.equipmentName = q2[i].EquipmentName
+        console.log('equip', equip)
+        for (let j = 0; j < q2.length; j++) {
+            if (equip == q2[j].Equipment) {
+                console.log('q2[i].EquipmentName...........................', q2[j].EquipmentName)
+                req.data.equipmentName = q2[j].EquipmentName
+                console.log(' req.data.equipmentName**********************##################################', req.data.equipmentName)
             }
         }
 
@@ -259,6 +262,8 @@ module.exports = cds.service.impl(async function () {
 
         req.data.startDate = req.data.expectedArrivalDate
         req.data.endDate = req.data.expectedDeliveryDate
+
+        req.data.requestNoConcat = req.data.requestNo
 
     });
 

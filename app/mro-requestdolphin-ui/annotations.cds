@@ -3,7 +3,7 @@ using from '../../srv/mro-requestdolphin-service';
 annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     //Selection Fields in Header of List Report Page
     SelectionFields                             : [
-        requestNo,
+        requestNoConcat,
         businessPartner1,
         expectedDeliveryDate,
         MaintenanceRevision
@@ -15,18 +15,79 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Action : 'mrorequestdolphinService.requestMail',
             Label  : '{i18n>requestMail}',
         },
-        {Value : requestNo},
-        {Value : businessPartner1},
-        {Value : expectedDeliveryDate},
-        {Value : locationWC},
-        {Value : to_requestStatus_rStatus},
-        {Value : equipment},
-        {Value : functionalLocation},
-        {Value : contract},
-        {Value : MaintenanceRevision},
+        {
+            Value                 : requestNoConcat,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : businessPartner1,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : locationWC,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : MaintenanceRevision,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                     : to_requestStatus_rStatus,
+            ![@HTML5.CssDefaults]     : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            },
+            Criticality               : criticalityLevel,
+            CriticalityRepresentation : #WithoutIcon
+        },
+        {
+            Value                 : expectedDeliveryDate,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : functionalLocation,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : equipment,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : contract,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+
         //fields to be hidden in settings tab on list report page
         {
             Value : businessPartner,
+            ![@UI.Hidden]
+        },
+        {
+            Value : requestNo,
             ![@UI.Hidden]
         },
         {
@@ -117,7 +178,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         TypeName       : '{i18n>requestForMaintenance}',
         TypeNamePlural : '{i18n>requestsForMaintenance}',
         Title          : {Value : requestNo},
-        Description    : {Value : ''}
+        Description    : {Value : requestDesc}
     },
     //Header Facets Information in Object Page
     HeaderFacets                                : [
@@ -190,8 +251,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         //Tab 1 = General
         {
             $Type  : 'UI.CollectionFacet',
-            Label  : '{i18n>General}',
-            ID     : 'General',
+            Label  : '{i18n>generalInformation}',
+            ID     : 'generalInformation',
             Facets : [
                 {
                     //request desc and bp
@@ -259,21 +320,29 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ![@UI.Hidden] : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
         },
         {
-            Value         : to_requestStatus_rStatus,
-            ![@UI.Hidden] : uiHidden1 //Inital value in CREATE-> not visible, In edit -> visible
+            Value                     : to_requestStatus_rStatus,
+            ![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
+            Criticality               : criticalityLevel,
+            CriticalityRepresentation : #WithoutIcon
         },
         {
-            Value         : requestStatus1,
-            ![@UI.Hidden] : uiHidden, //Inital value in CREATE-> visible,  In edit -> not visible
-        }
+            Value                     : requestStatus1,
+            ![@UI.Hidden]             : uiHidden, //Inital value in CREATE-> visible,  In edit -> not visible
+            Criticality               : criticalityLevel,
+            CriticalityRepresentation : #WithoutIcon
+        },
+        {Value : businessPartner}
     ]},
 
     FieldGroup #generalGroup2                   : {Data : [
-        {Value : businessPartner},
-        {
-            $Type  : 'UI.DataFieldForAnnotation',
-            Target : '@UI.ConnectedFields#CustomerContact'
-        },
+        // {Value : businessPartner},
+        /* {
+             $Type  : 'UI.DataFieldForAnnotation',
+             Target : '@UI.ConnectedFields#CustomerContact'
+         },*/
+        {Value : ccpersonName},
+        {Value : ccemail},
+        {Value : ccphoneNumber},
         {Value : contract}
     ]},
 
@@ -300,25 +369,25 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : equipment}
     ]},
 
-    //Connected fields for cutomer contact field
-    ConnectedFields #CustomerContact            : {
-        Label    : 'Customer Contact',
-        Template : '{Name}/{Email}/{PhoneNumber}',
-        Data     : {
-            Name        : {
-                $Type : 'UI.DataField',
-                Value : ccpersonName
-            },
-            Email       : {
-                $Type : 'UI.DataField',
-                Value : ccemail
-            },
-            PhoneNumber : {
-                $Type : 'UI.DataField',
-                Value : ccphoneNumber
-            }
-        }
-    }
+//Connected fields for cutomer contact field
+/* ConnectedFields #CustomerContact            : {
+     Label    : 'Customer Contact',
+     Template : '{Name}/{Email}/{PhoneNumber}',
+     Data     : {
+         Name        : {
+             $Type : 'UI.DataField',
+             Value : ccpersonName
+         },
+         Email       : {
+             $Type : 'UI.DataField',
+             Value : ccemail
+         },
+         PhoneNumber : {
+             $Type : 'UI.DataField',
+             Value : ccphoneNumber
+         }
+     }
+ }*/
 });
 
 //Bullet Micro Chart for dates
@@ -347,7 +416,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {DataPoint #Bu
 //Text Arrangment
 //Request nummber and request Description  will be concatenated -> text(1001)
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    requestNo @(Common : {Text : {
+    requestNoConcat @(Common : {Text : {
         $value                 : requestDesc,
         ![@UI.TextArrangement] : #TextFirst
     }});
@@ -357,7 +426,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 annotate mrorequestdolphinService.MaintenanceRequests with {
     requestType1 @(Common : {Text : {
         $value                 : to_requestType_rType,
-        ![@UI.TextArrangement] : #TextLast,
+        ![@UI.TextArrangement] : #TextFirst,
     }});
 };
 
@@ -365,7 +434,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 annotate mrorequestdolphinService.MaintenanceRequests with {
     businessPartner1 @(Common : {Text : {
         $value                 : businessPartnerName1,
-        ![@UI.TextArrangement] : #TextLast,
+        ![@UI.TextArrangement] : #TextFirst,
     }});
 };
 
@@ -428,6 +497,26 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 $Type             : 'Common.ValueListParameterInOut',
                 LocalDataProperty : 'requestNo',
                 ValueListProperty : 'requestNo'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'requestDesc'
+            }
+        ]
+    }});
+}
+
+//Request Number value Help for List Page
+annotate mrorequestdolphinService.MaintenanceRequests with {
+    requestNoConcat @(Common : {ValueList : {
+        CollectionPath  : 'MaintenanceRequests',
+        SearchSupported : true,
+        Label           : '{i18n>requestNo}',
+        Parameters      : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'requestNoConcat',
+                ValueListProperty : 'requestNoConcat'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
@@ -628,8 +717,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'MaintenancePlanningPlant',
                 ValueListProperty : 'Plant'
-            },
-
+            }
         ]
     }});
 };
@@ -762,7 +850,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestType @(Common : {
         Text      : {
             $value                 : to_requestType_rType,
-            ![@UI.TextArrangement] : #TextLast
+            ![@UI.TextArrangement] : #TextFirst
         },
         ValueListWithFixedValues,
         ValueList : {
@@ -805,7 +893,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     to_botStatus @(Common : {
         Text      : {
             $value                 : to_botStatus_bStatus,
-            ![@UI.TextArrangement] : #TextLast
+            ![@UI.TextArrangement] : #TextFirst
         },
         ValueListWithFixedValues,
         ValueList : {
@@ -934,7 +1022,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         eqSerialNumber,
         locationWCDetail,
         revisionText,
-        revisionType
+        revisionType,
+        requestNo
     ]
 }, };
 

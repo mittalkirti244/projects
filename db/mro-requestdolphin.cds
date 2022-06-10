@@ -8,6 +8,7 @@ using {
 entity MaintenanceRequests : managed {
     key ID                       : UUID                                             @title                 : '{i18n>ID}'  @Core.Computed; //unique ID for Maintenace request
         requestNo                : String                                           @Common.SemanticObject : 'maintenancerequest'  @title              : '{i18n>requestNo}'; // will generate after selecting request type
+        requestNoConcat          : String                                           @title                 : '{i18n>requestNo}';
         requestDesc              : String                                           @title                 : '{i18n>requestDesc}'; // maintenance request Description
         businessPartner          : String                                           @title                 : '{i18n>businessPartner}'; //bp service from s4
         businessPartner1         : String                                           @title                 : '{i18n>businessPartner}'; // bp to be display on only list report page to perform filteration
@@ -38,7 +39,7 @@ entity MaintenanceRequests : managed {
         revisionText             : String                                           @title                 : '{i18n>revisionText}'; // concatenation of request Number and request Ddescription
         ccpersonName             : String                                           @title                 : '{i18n>ccpersonName}'  @UI.Placeholder    : 'Name'; //free text field comes from BP
         ccemail                  : String                                           @title                 : '{i18n>ccemail}'  @UI.Placeholder         : 'Email'; //free text field comes from BP
-        ccphoneNumber            : String                                           @title                 : '{i18n>ccphoneNumber}'  @UI.Placeholder   : 'Phone Number'; //free text field comes from BP
+        ccphoneNumber            : String                                           @title                 : '{i18n>ccphoneNumber}'  @UI.Placeholder   : 'Telephone Number'; //free text field comes from BP
         criticalityLevel         : Integer; //It will decide the color combination of Request status and Request phase
         emailFlag                : Boolean; //True indicates -> mail sent & false indicates -> mail not sent
         uiHidden                 : Boolean not null default false; //datafield to apply hidden criteria for request type and request status
@@ -132,6 +133,7 @@ view AggregatedMaintenanceReqOnStatuses as
         @Analytics.Dimension : true
         to_requestStatus,
         createdAtDate,
+        MaintenancePlanningPlant,
         locationWC,
         businessPartner1,
         bpConcatenation,
@@ -147,6 +149,7 @@ view AggregatedMaintenanceReqOnPhases as
         @Analytics.Dimension : true
         to_requestPhase,
         createdAtDate,
+        MaintenancePlanningPlant,
         locationWC,
         businessPartner1,
         bpConcatenation,
@@ -167,6 +170,7 @@ view AggregatedReqByCompleteAssetAndWC as
         businessPartner1,
         bpConcatenation,
         createdAtDate,
+        MaintenancePlanningPlant,
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
@@ -186,6 +190,7 @@ view AggregatedReqByComponentAndWC as
         businessPartner1,
         bpConcatenation,
         createdAtDate,
+        MaintenancePlanningPlant,
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
@@ -205,6 +210,7 @@ view AggregatedReqByAssemblyAndWC as
         businessPartner1,
         bpConcatenation,
         createdAtDate,
+        MaintenancePlanningPlant,
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
@@ -224,6 +230,7 @@ view AggregatedReqByCompleteAssetAndBP as
         bpConcatenation,
         locationWC,
         createdAtDate,
+        MaintenancePlanningPlant,
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
@@ -243,6 +250,7 @@ view AggregatedReqByComponentAndBP as
         bpConcatenation,
         locationWC,
         createdAtDate,
+        MaintenancePlanningPlant,
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
@@ -262,6 +270,7 @@ view AggregatedReqByAssemblyAndBP as
         bpConcatenation,
         locationWC,
         createdAtDate,
+        MaintenancePlanningPlant,
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
