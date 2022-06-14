@@ -981,7 +981,7 @@ annotate mrorequestdolphinService.MaintenanceRequests {
     businessPartnerName      @readonly;
     locationWCDetail         @readonly;
     //MaintenancePlanningPlant @readonly;
-    MaintenancePlanningPlant @Common : {FieldControl : #Inapplicable};
+    //MaintenancePlanningPlant @Common : {FieldControl : #Inapplicable};
     equipmentName            @readonly;
     functionalLocationName   @readonly;
     contractName             @readonly;
