@@ -980,7 +980,7 @@ annotate mrorequestdolphinService.MaintenanceRequests {
     revisionDescription      @readonly;
     businessPartnerName      @readonly;
     locationWCDetail         @readonly;
-    // MaintenancePlanningPlant        @readonly;
+    //MaintenancePlanningPlant @readonly;
     MaintenancePlanningPlant @Common : {FieldControl : #Inapplicable};
     equipmentName            @readonly;
     functionalLocationName   @readonly;
@@ -1025,7 +1025,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         revisionType,
         requestNo
     ]
-}, };
+}};
 
 
 annotate mrorequestdolphinService.Documents with @(UI : {

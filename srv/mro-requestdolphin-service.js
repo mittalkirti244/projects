@@ -123,16 +123,19 @@ module.exports = cds.service.impl(async function () {
         //To make location WC plant and location detail as readonly field
         let query2 = await service2.read(WorkCenterVH)
         var locWC = req.data.locationWC
+        console.log('locWC', locWC)
         for (let i = 0; i < query2.length; i++) {
             if (locWC == query2[i].WorkCenter) {
+                console.log('query2[i].WorkCenter', query2[i].WorkCenter)
                 req.data.locationWCDetail = query2[i].WorkCenterText
-                // req.data.MaintenancePlanningPlant = query2[i].Plant
+                //req.data.MaintenancePlanningPlant = query2[i].Plant
             }
         }
 
         //To make functional location name as readonly field
         let q1 = await service2.read(FunctionLocationVH)
         var floc = req.data.functionalLocation
+        console.log('foc length', q1.length)//64
         for (let i = 0; i < q1.length; i++) {
             if (floc == q1[i].functionalLocation) {
                 req.data.functionalLocationName = q1[i].FunctionalLocationName
@@ -143,11 +146,16 @@ module.exports = cds.service.impl(async function () {
         let q2 = await service2.read(EquipmentVH)
         var equip = req.data.equipment
         console.log('equip', equip)
+        var equipName = req.data.equipmentName
+        console.log('equipName', equipName)
+        console.log('q2', q2)
+        console.log('q2.length', q2.length)//100
         for (let j = 0; j < q2.length; j++) {
             if (equip == q2[j].Equipment) {
+                console.log('q2[j].Equipment', q2[j].Equipment)
                 console.log('q2[i].EquipmentName...........................', q2[j].EquipmentName)
                 req.data.equipmentName = q2[j].EquipmentName
-                console.log(' req.data.equipmentName**********************##################################', req.data.equipmentName)
+                console.log('req.data.equipmentName**********************', req.data.equipmentName)
             }
         }
 
