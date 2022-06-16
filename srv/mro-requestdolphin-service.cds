@@ -77,6 +77,7 @@ extend service mrorequestdolphinService with {
             WorkCenterCategoryCode @(Common.Label : '{i18n>WorkCenterCategoryCode}')
     };
 
+
     @readonly
     entity FunctionLocationVH as projection on alpha.FunctionLocationVH {
         key functionalLocation       @(Common.Label : '{i18n>functionalLocation}'),
@@ -98,7 +99,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    //   @cds.query.limit: 1000
+    //@cds.query.limit: 1000
     entity EquipmentVH        as projection on alpha.EquipmentVH {
         key Equipment,
             EquipmentName      @(Common.Label : '{i18n>EquipmentName}'),

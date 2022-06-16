@@ -109,55 +109,29 @@ module.exports = cds.service.impl(async function () {
     this.before(['CREATE', 'UPDATE'], 'MaintenanceRequests', async (req) => {
 
         // To make business partner name as readonly field
-        let query1 = await service2.read(BusinessPartnerVH)
-        var bp = req.data.businessPartner
-        for (let i = 0; i < query1.length; i++) {
-            if (bp == query1[i].BusinessPartner) {
-                req.data.businessPartnerName = query1[i].BusinessPartnerName
-            }
-        }
+        let query1 = await service2.read(BusinessPartnerVH).where({ BusinessPartner: req.data.businessPartner })
+        if (req.data.businessPartner != null)
+            req.data.businessPartnerName = query1[0].BusinessPartnerName
 
         req.data.bpConcatenation = req.data.businessPartner + '(' + req.data.businessPartnerName + ')'
         console.log('bpConcatenation', req.data.bpConcatenation)
 
         //To make location WC plant and location detail as readonly field
-        let query2 = await service2.read(WorkCenterVH)
-        var locWC = req.data.locationWC
-        console.log('locWC', locWC)
-        for (let i = 0; i < query2.length; i++) {
-            if (locWC == query2[i].WorkCenter) {
-                console.log('query2[i].WorkCenter', query2[i].WorkCenter)
-                req.data.locationWCDetail = query2[i].WorkCenterText
-                //req.data.MaintenancePlanningPlant = query2[i].Plant
-            }
+        let query2 = await service2.read(WorkCenterVH).where({ WorkCenter: req.data.locationWC })
+        if (req.data.locationWC != null) {
+            req.data.locationWCDetail = query2[0].WorkCenterText
+            // req.data.MaintenancePlanningPlant = query2[0].Plant
         }
 
         //To make functional location name as readonly field
-        let q1 = await service2.read(FunctionLocationVH)
-        var floc = req.data.functionalLocation
-        console.log('foc length', q1.length)//64
-        for (let i = 0; i < q1.length; i++) {
-            if (floc == q1[i].functionalLocation) {
-                req.data.functionalLocationName = q1[i].FunctionalLocationName
-            }
-        }
+        let q1 = await service2.read(FunctionLocationVH).where({ functionalLocation: req.data.functionalLocation })
+        if (req.data.functionalLocation != null)
+            req.data.functionalLocationName = q1[0].FunctionalLocationName
 
         //To make equipment name as readonly field
-        let q2 = await service2.read(EquipmentVH)
-        var equip = req.data.equipment
-        console.log('equip', equip)
-        var equipName = req.data.equipmentName
-        console.log('equipName', equipName)
-        console.log('q2', q2)
-        console.log('q2.length', q2.length)//100
-        for (let j = 0; j < q2.length; j++) {
-            if (equip == q2[j].Equipment) {
-                console.log('q2[j].Equipment', q2[j].Equipment)
-                console.log('q2[i].EquipmentName...........................', q2[j].EquipmentName)
-                req.data.equipmentName = q2[j].EquipmentName
-                console.log('req.data.equipmentName**********************', req.data.equipmentName)
-            }
-        }
+        let q2 = await service2.read(EquipmentVH).where({ Equipment: req.data.equipment })
+        if (req.data.equipment != null)
+            req.data.equipmentName = q2[0].EquipmentName
 
         //Validation for all dates value
         var arrivalDate = req.data.expectedArrivalDate
@@ -193,17 +167,17 @@ module.exports = cds.service.impl(async function () {
             req.error(406, 'Please enter a valid E-Mail Address')
 
         //To fetch the tat and contract name from contract service
-        let query3 = await service2.read(SalesContractVH)
-        var contract = req.data.contract
-        console.log('contract', contract)
+        let query3 = await service2.read(SalesContractVH).where({ SalesContract: req.data.contract })
+        //var contract = req.data.contract
+        //console.log('contract', contract)
         if (req.data.contract != null) {
-            for (let i = 0; i < query3.length; i++) {
-                if (contract == query3[i].SalesContract) {
-                    req.data.contractName = query3[i].SalesContractName
-                    tat = query3[i].TurnAroundTime
-                    // console.log('tat value :', tat)
-                }
-            }
+            // for (let i = 0; i < query3.length; i++) {
+            //     if (contract == query3[i].SalesContract) {
+            req.data.contractName = query3[0].SalesContractName
+            tat = query3[0].TurnAroundTime
+            // console.log('tat value :', tat)
+            //     }
+            // }
         }
         else
             req.data.contractName = ''

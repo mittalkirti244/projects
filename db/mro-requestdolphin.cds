@@ -38,7 +38,7 @@ entity MaintenanceRequests : managed {
         revisionType             : String                                           @title                 : '{i18n>revisionType}'; // It will hold the value as A1
         revisionText             : String                                           @title                 : '{i18n>revisionText}'; // concatenation of request Number and request Ddescription
         ccpersonName             : String                                           @title                 : '{i18n>ccpersonName}'  @UI.Placeholder    : 'Name'; //free text field comes from BP
-        ccemail                  : String                                           @title                 : '{i18n>ccemail}'  @UI.Placeholder         : 'Email'; //free text field comes from BP
+        ccemail                  : String                                           @title                 : '{i18n>ccemail}'  @UI.Placeholder         : 'E-Mail'; //free text field comes from BP
         ccphoneNumber            : String                                           @title                 : '{i18n>ccphoneNumber}'  @UI.Placeholder   : 'Telephone Number'; //free text field comes from BP
         criticalityLevel         : Integer; //It will decide the color combination of Request status and Request phase
         emailFlag                : Boolean; //True indicates -> mail sent & false indicates -> mail not sent
