@@ -8,8 +8,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         to_requestStatus1_rStatus,
         to_requestPhase_rPhase,
         businessPartner1,
-        MaintenanceRevision,
-        expectedDeliveryDate
+        expectedDeliveryDate,
+        MaintenanceRevision
     ],
     //Line Item in List Report Page
     LineItem                                    : [
