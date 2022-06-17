@@ -4,7 +4,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     //Selection Fields in Header of List Report Page
     SelectionFields                             : [
         requestNoConcat,
-        to_requestType_ID,
+        to_requestType_rType,
         to_requestStatus1_rStatus,
         to_requestPhase_rPhase,
         businessPartner1,
@@ -839,7 +839,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             Label          : '{i18n>requestType}',
             Parameters     : [
                 {
-                    $Type             : 'Common.ValueListParameterInOut',
+                    $Type             : 'Common.ValueListParameterOut',
                     LocalDataProperty : 'to_requestType_ID',
                     ValueListProperty : 'ID'
                 },
@@ -1015,7 +1015,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         emailFlag,
         requestStatus1,
         requestType1,
-        to_requestType_ID,
         uiHidden,
         uiHidden1,
         bpConcatenation,
@@ -1037,7 +1036,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         revisionText,
         revisionType,
         requestNo,
-        to_requestType_rType
+        to_requestType_ID
     ]
 }};
 

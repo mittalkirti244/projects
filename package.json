@@ -71,7 +71,7 @@
                 "kind": "odata-v2",
                 "model": "srv/external/MAINTREQ_SB",
                 "credentials": {
-                    "destination":"MaintReq"
+                    "destination": "MaintReq"
                 }
             },
             "NumberRangeService": {
