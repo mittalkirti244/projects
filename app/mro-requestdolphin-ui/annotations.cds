@@ -4,12 +4,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     //Selection Fields in Header of List Report Page
     SelectionFields                             : [
         requestNoConcat,
+        to_requestType_ID,
         to_requestStatus1_rStatus,
         to_requestPhase_rPhase,
         businessPartner1,
         MaintenanceRevision,
-        expectedDeliveryDate,
-        modifiedBy
+        expectedDeliveryDate
     ],
     //Line Item in List Report Page
     LineItem                                    : [
@@ -57,16 +57,15 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                 width : '10rem',
             }
         },
-
-        {
-            Value                 : MaintenanceRevision,
+         {
+            Value                 : expectedDeliveryDate,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
             }
         },
         {
-            Value                 : expectedDeliveryDate,
+            Value                 : MaintenanceRevision,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -336,7 +335,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     ],
 
     FieldGroup #generalGroup1                   : {Data : [
-        // {Value:requestNo},
         {Value : requestDesc},
         {
             Value         : to_requestType_ID,
@@ -526,26 +524,26 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 LocalDataProperty : 'businessPartnerName1',
                 ValueListProperty : 'BusinessPartnerName'
             },
-            {
+           /* {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'FirstName'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'LastName'
-            },
+            },*/
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'Description'
             },
-            {
+           /* {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'SearchTerm1'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'SearchTerm2'
-            },
+            },*/
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'ContactPersonName',
@@ -578,26 +576,26 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 LocalDataProperty : 'businessPartnerName',
                 ValueListProperty : 'BusinessPartnerName'
             },
-            {
+            /*{
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'FirstName'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'LastName'
-            },
+            },*/
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'Description'
             },
-            {
+            /*{
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'SearchTerm1'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'SearchTerm2'
-            },
+            },*/
             {
                 $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'ccpersonName',
