@@ -1406,12 +1406,8 @@
       "@sap.content.version": "1",
       "@sap.label": "Work Center Value Help",
       "elements": {
-        "WorkCenterID": {
-          "key": true,
-          "type": "cds.String",
-          "length": 12
-        },
         "Plant": {
+          "key": true,
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
@@ -1419,6 +1415,7 @@
           "@sap.quickinfo": "Plant"
         },
         "WorkCenter": {
+          "key": true,
           "type": "cds.String",
           "length": 8,
           "@sap.display.format": "UpperCase",

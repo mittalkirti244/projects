@@ -4,15 +4,20 @@ using {alphamasterService as alpha} from './mro-alphamaster-service';
 
 service mrorequestdolphinService {
 
-    entity NumberRanges        as projection on numberRange.NumberRanges;
+    entity NumberRanges         as projection on numberRange.NumberRanges;
 
     @odata.draft.enabled
     @cds.redirection.target
-    entity MaintenanceRequests as projection on maintReq.MaintenanceRequests actions {
+    entity MaintenanceRequests  as projection on maintReq.MaintenanceRequests actions {
         action requestMail();
     };
 
-    entity RevisionVH          as
+    entity MaintenanceRequests1 as projection on maintReq.MaintenanceRequests {
+        requestNoConcat @UI.HiddenFilter,
+        requestDesc     @UI.HiddenFilter
+    };
+
+    entity RevisionVH           as
         select from maintReq.MaintenanceRequests {
             MaintenanceRevision,
             revisionText @UI.HiddenFilter,
@@ -21,9 +26,10 @@ service mrorequestdolphinService {
         where
             to_requestStatus.rStatus = 'Revision Created';
 
-    entity RequestTypes        as projection on maintReq.RequestTypes;
-    entity RequestStatuses     as projection on maintReq.RequestStatuses;
-    entity RequestPhases       as projection on maintReq.RequestPhases;
+    entity RequestTypes         as projection on maintReq.RequestTypes;
+    entity RequestStatuses      as projection on maintReq.RequestStatuses;
+    entity RequestStatuses1     as projection on maintReq.RequestStatuses1;
+    entity RequestPhases        as projection on maintReq.RequestPhases;
 
     @Capabilities.SearchRestrictions : {
         $Type      : 'Capabilities.SearchRestrictionsType',
@@ -34,14 +40,14 @@ service mrorequestdolphinService {
         $Type    : 'Capabilities.SortRestrictionsType',
         Sortable : false
     }
-    entity Documents           as projection on maintReq.Documents;
+    entity Documents            as projection on maintReq.Documents;
 
-    entity BotStatuses         as projection on maintReq.BotStatuses;
-    entity ProcessTypes        as projection on maintReq.ProcessTypes;
-    entity AttachmentTypes     as projection on maintReq.AttachmentTypes;
-    entity Configurations      as projection on maintReq.Configurations;
-    entity RequestIndustries   as projection on maintReq.RequestIndustries;
-    entity SchemaTypes         as projection on maintReq.SchemaTypes;
+    entity BotStatuses          as projection on maintReq.BotStatuses;
+    entity ProcessTypes         as projection on maintReq.ProcessTypes;
+    entity AttachmentTypes      as projection on maintReq.AttachmentTypes;
+    entity Configurations       as projection on maintReq.Configurations;
+    entity RequestIndustries    as projection on maintReq.RequestIndustries;
+    entity SchemaTypes          as projection on maintReq.SchemaTypes;
     view AggregatedMaintenanceReqOnStatuses as select from maintReq.AggregatedMaintenanceReqOnStatuses;
     view AggregatedMaintenanceReqOnPhases as select from maintReq.AggregatedMaintenanceReqOnPhases;
     view AggregatedReqByCompleteAssetAndWC as select from maintReq.AggregatedReqByCompleteAssetAndWC;

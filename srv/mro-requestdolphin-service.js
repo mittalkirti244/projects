@@ -129,7 +129,7 @@ module.exports = cds.service.impl(async function () {
             req.data.functionalLocationName = q1[0].FunctionalLocationName
 
         //To make equipment name as readonly field
-        let q2 = await service2.read(EquipmentVH).where({ Equipment: req.data.equipment })
+        let q2 = await service2.read(EquipmentVH).where({Equipment: req.data.equipment})
         if (req.data.equipment != null)
             req.data.equipmentName = q2[0].EquipmentName
 
@@ -246,6 +246,8 @@ module.exports = cds.service.impl(async function () {
         req.data.endDate = req.data.expectedDeliveryDate
 
         req.data.requestNoConcat = req.data.requestNo
+
+        req.data.to_requestStatus1_rStatus = req.data.to_requestStatus_rStatus
 
     });
 

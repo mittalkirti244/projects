@@ -4,9 +4,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     //Selection Fields in Header of List Report Page
     SelectionFields                             : [
         requestNoConcat,
+        to_requestStatus1_rStatus,
+        to_requestPhase_rPhase,
         businessPartner1,
+        MaintenanceRevision,
         expectedDeliveryDate,
-        MaintenanceRevision
+        modifiedBy
     ],
     //Line Item in List Report Page
     LineItem                                    : [
@@ -23,21 +26,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             }
         },
         {
-            Value                 : businessPartner1,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },
-        {
-            Value                 : locationWC,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },
-        {
-            Value                 : MaintenanceRevision,
+            Value                 : to_requestType_ID,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -52,8 +41,39 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Criticality               : criticalityLevel,
             CriticalityRepresentation : #WithoutIcon
         },
+         {
+            Value                     : to_requestPhase_rPhase,
+            ![@HTML5.CssDefaults]     : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            },
+            Criticality               : criticalityLevel,
+            CriticalityRepresentation : #WithoutIcon
+        },
+        {
+            Value                 : businessPartner1,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+
+        {
+            Value                 : MaintenanceRevision,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
         {
             Value                 : expectedDeliveryDate,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : locationWC,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -80,7 +100,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                 width : '10rem',
             }
         },
-
+        {
+            Value                 : modifiedBy,
+            Label                 : '{i18n>modifiedBy}',
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
         //fields to be hidden in settings tab on list report page
         {
             Value : businessPartner,
@@ -105,10 +132,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {
             Value : requestType1,
             ![@UI.Hidden]
-        },
-        {
-            Value : to_requestType_rType,
-            ![@UI.Hidden],
         },
         {
             Value : uiHidden,
@@ -203,30 +226,9 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
          Target : '@UI.Chart#Bulletchart',
      }*/
     ],
-    //Column 1 for header facet
-    FieldGroup #Basic2                          : {Data : [
-        {
-            Value : createdAt,
-            Label : '{i18n>createdAt}'
-        },
-        {
-            Value : modifiedAt,
-            Label : '{i18n>modifiedAt}'
-        },
-    ]},
-    //Coulmn2 for header facet
+    //Coulmn1 for header facet
     FieldGroup #Basic1                          : {Data : [
-        {
-            Value : createdBy,
-            Label : '{i18n>createdBy}'
-        },
-        {
-            Value : modifiedBy,
-            Label : '{i18n>modifiedBy}'
-        }
-    ]},
-    //Column 3 for header facet
-    FieldGroup #Detail                          : {Data : [
+        {Value : to_requestType_ID},
         {
             Value                     : to_requestStatus_rStatus,
             Criticality               : criticalityLevel,
@@ -238,12 +240,36 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             CriticalityRepresentation : #WithoutIcon
         }
     ]},
+    //Column 2 for header facet
+    FieldGroup #Basic2                          : {Data : [
+        {Value : locationWC},
+        {Value : MaintenancePlanningPlant},
+        {Value : MaintenanceRevision}
+    ]},
+
+    //Column 3 for header facet
+    FieldGroup #Detail                          : {Data : [
+        {
+            Value : createdBy,
+            Label : '{i18n>createdBy}'
+        },
+        {
+            Value : modifiedBy,
+            Label : '{i18n>modifiedBy}'
+        }
+    ]},
 
     //Column 4 for header facet (Revision Number)
-    FieldGroup #Revision                        : {Data : [{
-        Value : MaintenanceRevision,
-        Label : '{i18n>MaintenanceRevision}'
-    }]},
+    FieldGroup #Revision                        : {Data : [
+        {
+            Value : createdAt,
+            Label : '{i18n>createdAt}'
+        },
+        {
+            Value : modifiedAt,
+            Label : '{i18n>modifiedAt}'
+        }
+    ]},
 
     //Tabs for facets on object page
     //There are two collection fields that's why ID is required at collection facet
@@ -310,6 +336,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     ],
 
     FieldGroup #generalGroup1                   : {Data : [
+        // {Value:requestNo},
         {Value : requestDesc},
         {
             Value         : to_requestType_ID,
@@ -335,11 +362,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     ]},
 
     FieldGroup #generalGroup2                   : {Data : [
-        // {Value : businessPartner},
-        /* {
-             $Type  : 'UI.DataFieldForAnnotation',
-             Target : '@UI.ConnectedFields#CustomerContact'
-         },*/
         {Value : ccpersonName},
         {Value : ccemail},
         {Value : ccphoneNumber},
@@ -367,27 +389,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : eqMaterial},
         {Value : eqSerialNumber},
         {Value : equipment}
-    ]},
-
-//Connected fields for cutomer contact field
-/* ConnectedFields #CustomerContact            : {
-     Label    : 'Customer Contact',
-     Template : '{Name}/{Email}/{PhoneNumber}',
-     Data     : {
-         Name        : {
-             $Type : 'UI.DataField',
-             Value : ccpersonName
-         },
-         Email       : {
-             $Type : 'UI.DataField',
-             Value : ccemail
-         },
-         PhoneNumber : {
-             $Type : 'UI.DataField',
-             Value : ccphoneNumber
-         }
-     }
- }*/
+    ]}
 });
 
 //Bullet Micro Chart for dates
@@ -486,30 +488,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Request Number value Help
-annotate mrorequestdolphinService.MaintenanceRequests with {
-    requestNo @(Common : {ValueList : {
-        CollectionPath  : 'MaintenanceRequests',
-        SearchSupported : true,
-        Label           : '{i18n>requestNo}',
-        Parameters      : [
-            {
-                $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'requestNo',
-                ValueListProperty : 'requestNo'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'requestDesc'
-            }
-        ]
-    }});
-}
 
 //Request Number value Help for List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     requestNoConcat @(Common : {ValueList : {
-        CollectionPath  : 'MaintenanceRequests',
+        CollectionPath  : 'MaintenanceRequests1',
         SearchSupported : true,
         Label           : '{i18n>requestNo}',
         Parameters      : [
@@ -872,7 +855,23 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     })
 };
 
-//Request Status DropDown
+//Request Status DropDown on List Page
+annotate mrorequestdolphinService.MaintenanceRequests with {
+    to_requestStatus1 @(Common : {
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'RequestStatuses1',
+            Label          : '{i18n>requestStatus}',
+            Parameters     : [{
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'to_requestStatus1_rStatus',
+                ValueListProperty : 'rStatus'
+            }]
+        }
+    });
+};
+
+//Request Status DropDown on Object Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestStatus @(Common : {
         ValueListWithFixedValues,
@@ -883,6 +882,22 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 $Type             : 'Common.ValueListParameterInOut',
                 LocalDataProperty : 'to_requestStatus_rStatus',
                 ValueListProperty : 'rStatus'
+            }]
+        }
+    });
+};
+
+//Phase Dropdown
+annotate mrorequestdolphinService.MaintenanceRequests with {
+    to_requestPhase @(Common : {
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'RequestPhases',
+            Label          : '{i18n>requestPhases}',
+            Parameters     : [{
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'to_requestPhase_rPhase',
+                ValueListProperty : 'rPhase'
             }]
         }
     });
@@ -971,23 +986,23 @@ annotate mrorequestdolphinService.Documents with {
 };
 
 annotate mrorequestdolphinService.MaintenanceRequests {
-    businessPartner          @mandatory;
-    requestDesc              @mandatory;
-    to_requestType           @mandatory;
-    to_requestPhase          @mandatory;
-    locationWC               @mandatory;
-    revisionType             @readonly;
-    revisionDescription      @readonly;
-    businessPartnerName      @readonly;
-    locationWCDetail         @readonly;
+    businessPartner        @mandatory;
+    requestDesc            @mandatory;
+    to_requestType         @mandatory;
+    to_requestPhase        @mandatory;
+    locationWC             @mandatory;
+    revisionType           @readonly;
+    revisionDescription    @readonly;
+    businessPartnerName    @readonly;
+    locationWCDetail       @readonly;
     //MaintenancePlanningPlant @readonly;
     //MaintenancePlanningPlant @Common : {FieldControl : #Inapplicable};
-    equipmentName            @readonly;
-    functionalLocationName   @readonly;
-    contractName             @readonly;
-    requestType1             @readonly;
-    requestStatus1           @readonly;
-    MaintenanceRevision      @readonly;
+    equipmentName          @readonly;
+    functionalLocationName @readonly;
+    contractName           @readonly;
+    requestType1           @readonly;
+    requestStatus1         @readonly;
+    MaintenanceRevision    @readonly;
 }
 
 //Hide fields in Adapt filters on list report page
@@ -1023,7 +1038,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         locationWCDetail,
         revisionText,
         revisionType,
-        requestNo
+        requestNo,
+        to_requestType_rType
     ]
 }};
 

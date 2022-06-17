@@ -7,8 +7,8 @@ using {
 
 entity MaintenanceRequests : managed {
     key ID                       : UUID                                             @title                 : '{i18n>ID}'  @Core.Computed; //unique ID for Maintenace request
-        requestNo                : String                                           @Common.SemanticObject : 'maintenancerequest'  @title              : '{i18n>requestNo}'; // will generate after selecting request type
-        requestNoConcat          : String                                           @title                 : '{i18n>requestNo}';
+        requestNo                : String                                           @title                 : '{i18n>requestNo}'; // will generate after selecting request type
+        requestNoConcat          : String                                           @Common.SemanticObject : 'maintenancerequest'  @title              : '{i18n>requestNo}';
         requestDesc              : String                                           @title                 : '{i18n>requestDesc}'; // maintenance request Description
         businessPartner          : String                                           @title                 : '{i18n>businessPartner}'; //bp service from s4
         businessPartner1         : String                                           @title                 : '{i18n>businessPartner}'; // bp to be display on only list report page to perform filteration
@@ -56,19 +56,24 @@ entity MaintenanceRequests : managed {
         // diffInDeliveryAndArrivalDate : Integer;
         to_requestType           : Association to RequestTypes                      @title :                 '{i18n>requestType}'  @assert.integrity   : false; //as dropdown - request number will generate through request type
         to_requestStatus         : Association to RequestStatuses                   @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
+        to_requestStatus1        : Association to RequestStatuses1                  @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
         to_requestPhase          : Association to RequestPhases                     @title :                 '{i18n>requestPhase}'  @assert.integrity  : false; //at create = initial
         to_document              : Composition of many Documents
                                        on to_document.to_maintenanceRequest = $self @title                 : '{i18n>document}'; //One to many (1 MR - multiple documents links) i.e. Attaching multiple url w.r.t. MR
         to_botStatus             : Association to BotStatuses                       @title :                 '{i18n>botStatus}'  @assert.integrity     : false; // Status will get update when mail is sent to customer
 };
 
-entity RequestTypes { //Admin screen
+entity RequestTypes {
     key ID    : Integer;
     key rType : String;
 };
 
 entity RequestStatuses {
-    key rStatus : String; //Admin screen
+    key rStatus : String;
+};
+
+entity RequestStatuses1 {
+    key rStatus : String;
 };
 
 entity RequestPhases {
