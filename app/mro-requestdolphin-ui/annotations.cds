@@ -41,7 +41,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Criticality               : criticalityLevel,
             CriticalityRepresentation : #WithoutIcon
         },
-         {
+        {
             Value                     : to_requestPhase_rPhase,
             ![@HTML5.CssDefaults]     : {
                 $Type : 'HTML5.CssDefaultsType',
@@ -57,7 +57,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                 width : '10rem',
             }
         },
-         {
+        {
             Value                 : expectedDeliveryDate,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
@@ -280,22 +280,22 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ID     : 'generalInformation',
             Facets : [
                 {
-                    //request desc and bp
+                    //Maintenance Request
                     $Type  : 'UI.ReferenceFacet',
                     Target : '@UI.FieldGroup#generalGroup1',
-                // Label  : '{i18n>generalGroup1}'
+                    Label  : '{i18n>generalGroup1}'
                 },
                 {
-                    //expexte arrival, delivey date and bot status
+                    //Business partner
                     $Type  : 'UI.ReferenceFacet',
                     Target : '@UI.FieldGroup#generalGroup2',
-                // Label  : '{i18n>generalGroup2}'
+                    Label  : '{i18n>generalGroup2}'
                 },
                 {
-                    //start and end date
+                    // User information
                     $Type  : 'UI.ReferenceFacet',
                     Target : '@UI.FieldGroup#generalGroup3',
-                // Label  : '{i18n>generalGroup3}'
+                    Label  : '{i18n>generalGroup3}'
                 }
             ]
         },
@@ -356,10 +356,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Criticality               : criticalityLevel,
             CriticalityRepresentation : #WithoutIcon
         },
-        {Value : businessPartner}
+        {Value : to_requestPhase_rPhase}
     ]},
 
     FieldGroup #generalGroup2                   : {Data : [
+        {Value : businessPartner},
         {Value : ccpersonName},
         {Value : ccemail},
         {Value : ccphoneNumber},
@@ -369,7 +370,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #generalGroup3                   : {Data : [
         {Value : expectedArrivalDate},
         {Value : expectedDeliveryDate},
-        {Value : to_botStatus_ID}
+    //{Value : to_botStatus_ID}
     ]},
 
     FieldGroup #locationGroup                   : {Data : [
@@ -524,26 +525,26 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 LocalDataProperty : 'businessPartnerName1',
                 ValueListProperty : 'BusinessPartnerName'
             },
-           /* {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'FirstName'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'LastName'
-            },*/
+            /* {
+                 $Type             : 'Common.ValueListParameterDisplayOnly',
+                 ValueListProperty : 'FirstName'
+             },
+             {
+                 $Type             : 'Common.ValueListParameterDisplayOnly',
+                 ValueListProperty : 'LastName'
+             },*/
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'Description'
             },
-           /* {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'SearchTerm1'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'SearchTerm2'
-            },*/
+            /* {
+                 $Type             : 'Common.ValueListParameterDisplayOnly',
+                 ValueListProperty : 'SearchTerm1'
+             },
+             {
+                 $Type             : 'Common.ValueListParameterDisplayOnly',
+                 ValueListProperty : 'SearchTerm2'
+             },*/
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'ContactPersonName',
