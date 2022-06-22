@@ -356,7 +356,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Criticality               : criticalityLevel,
             CriticalityRepresentation : #WithoutIcon
         },
-        {Value : to_requestPhase_rPhase}
+        //{Value : to_requestPhase_rPhase}
     ]},
 
     FieldGroup #generalGroup2                   : {Data : [
@@ -989,6 +989,7 @@ annotate mrorequestdolphinService.MaintenanceRequests {
     requestDesc            @mandatory;
     to_requestType         @mandatory;
     to_requestPhase        @mandatory;
+    to_requestPhase_rPhase @readonly;
     locationWC             @mandatory;
     revisionType           @readonly;
     revisionDescription    @readonly;
