@@ -412,7 +412,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {Identificatio
     {
         $Type  : 'UI.DataFieldForAction',
         Action : 'mrorequestdolphinService.newWorkListReceived',
-        Label  : 'New Work List Recieved'
+        Label  : 'New WorkList Recieved'
     },
     {
         $Type  : 'UI.DataFieldForAction',
