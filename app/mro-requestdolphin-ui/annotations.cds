@@ -346,17 +346,24 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         },
         {
             Value                     : to_requestStatus_rStatus,
-            ![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
+            // ![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
             Criticality               : criticalityLevel,
             CriticalityRepresentation : #WithoutIcon
         },
         {
-            Value                     : requestStatus1,
-            ![@UI.Hidden]             : uiHidden, //Inital value in CREATE-> visible,  In edit -> not visible
+            Value                     : to_requestPhase_rPhase,
+            // ![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
             Criticality               : criticalityLevel,
             CriticalityRepresentation : #WithoutIcon
         },
-        //{Value : to_requestPhase_rPhase}
+
+    /* {
+         Value                     : requestStatus1,
+         ![@UI.Hidden]             : uiHidden, //Inital value in CREATE-> visible,  In edit -> not visible
+         Criticality               : criticalityLevel,
+         CriticalityRepresentation : #WithoutIcon
+     },*/
+    //{Value : to_requestPhase_rPhase}
     ]},
 
     FieldGroup #generalGroup2                   : {Data : [
@@ -390,6 +397,65 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : equipment}
     ]}
 });
+
+annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {Identification : [
+    {
+        $Type  : 'UI.DataFieldForAction',
+        Action : 'mrorequestdolphinService.readyForWorkListRequested',
+        Label  : 'Ready For WorkList Requested'
+    },
+    {
+        $Type  : 'UI.DataFieldForAction',
+        Action : 'mrorequestdolphinService.workListRequested',
+        Label  : 'WorkList Requested'
+    },
+    {
+        $Type  : 'UI.DataFieldForAction',
+        Action : 'mrorequestdolphinService.newWorkListReceived',
+        Label  : 'New Work List Recieved'
+    },
+    {
+        $Type  : 'UI.DataFieldForAction',
+        Action : 'mrorequestdolphinService.workListValidated',
+        Label  : 'WorkList Validated'
+    },
+    {
+        $Type  : 'UI.DataFieldForAction',
+        Action : 'mrorequestdolphinService.workListUploaded',
+        Label  : 'WorkList Uploaded'
+    },
+    {
+        $Type  : 'UI.DataFieldForAction',
+        Action : 'mrorequestdolphinService.allWorkListReceived',
+        Label  : 'All WorkList Received'
+    },
+    {
+        $Type  : 'UI.DataFieldForAction',
+        Action : 'mrorequestdolphinService.revisionCreated',
+        Label  : 'Create Revision'
+    },
+    {
+        $Type  : 'UI.DataFieldForAction',
+        Action : 'mrorequestdolphinService.allTaskListIdentified',
+        Label  : 'All Task List Identified'
+    },
+    {
+        $Type  : 'UI.DataFieldForAction',
+        Action : 'mrorequestdolphinService.allNotificationCreated',
+        Label  : 'All Notification Created'
+    },
+    {
+        $Type  : 'UI.DataFieldForAction',
+        Action : 'mrorequestdolphinService.mrReadyForApproval',
+        Label  : 'MR Ready for Approval'
+    },
+    {
+        $Type  : 'UI.DataFieldForAction',
+        Action : 'mrorequestdolphinService.requestApproved',
+        Label  : 'Requested Approved'
+    }
+]});
+
 
 //Bullet Micro Chart for dates
 /*annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {Chart #Bulletchart : {
@@ -871,7 +937,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 };
 
 //Request Status DropDown on Object Page
-annotate mrorequestdolphinService.MaintenanceRequests with {
+/*annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestStatus @(Common : {
         ValueListWithFixedValues,
         ValueList : {
@@ -884,10 +950,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             }]
         }
     });
-};
+};*/
 
 //Phase Dropdown
-annotate mrorequestdolphinService.MaintenanceRequests with {
+/*annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestPhase @(Common : {
         ValueListWithFixedValues,
         ValueList : {
@@ -900,7 +966,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             }]
         }
     });
-};
+};*/
 
 //Bot Status DropDown
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -988,8 +1054,8 @@ annotate mrorequestdolphinService.MaintenanceRequests {
     businessPartner        @mandatory;
     requestDesc            @mandatory;
     to_requestType         @mandatory;
-    to_requestPhase        @mandatory;
-    to_requestPhase_rPhase @readonly;
+    to_requestPhase        @mandatory  @readonly;
+    to_requestStatus       @readonly;
     locationWC             @mandatory;
     revisionType           @readonly;
     revisionDescription    @readonly;

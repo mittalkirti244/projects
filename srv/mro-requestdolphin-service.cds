@@ -10,6 +10,17 @@ service mrorequestdolphinService {
     @cds.redirection.target
     entity MaintenanceRequests  as projection on maintReq.MaintenanceRequests actions {
         action requestMail();
+        action readyForWorkListRequested();
+        action workListRequested();
+        action newWorkListReceived();
+        action workListValidated();
+        action workListUploaded();
+        action allWorkListReceived();
+        action revisionCreated();
+        action allTaskListIdentified();
+        action allNotificationCreated();
+        action mrReadyForApproval();
+        action requestApproved();
     };
 
     entity MaintenanceRequests1 as projection on maintReq.MaintenanceRequests {
@@ -65,10 +76,10 @@ extend service mrorequestdolphinService with {
     entity BusinessPartnerVH  as projection on alpha.BusinessPartnerVH {
         key BusinessPartner      @(Common.Label : '{i18n>BusinessPartner}'),
             BusinessPartnerName  @(Common.Label : '{i18n>BusinessPartnerName}') @UI.HiddenFilter,
-            FirstName            @(Common.Label : '{i18n>FirstName}')@UI.HiddenFilter,
-            LastName             @(Common.Label : '{i18n>LastName}')@UI.HiddenFilter,
-            SearchTerm1          @(Common.Label : '{i18n>SearchTerm1}')@UI.HiddenFilter,
-            SearchTerm2          @(Common.Label : '{i18n>SearchTerm2}')@UI.HiddenFilter,
+            FirstName            @(Common.Label : '{i18n>FirstName}') @UI.HiddenFilter,
+            LastName             @(Common.Label : '{i18n>LastName}') @UI.HiddenFilter,
+            SearchTerm1          @(Common.Label : '{i18n>SearchTerm1}') @UI.HiddenFilter,
+            SearchTerm2          @(Common.Label : '{i18n>SearchTerm2}') @UI.HiddenFilter,
             Description          @(Common.Label : '{i18n>Description}') @UI.HiddenFilter,
             ContactPersonName    @(Common.Label : '{i18n>ContactPersonName}') @UI.HiddenFilter,
             ContactPersonEmailID @(Common.Label : '{i18n>ContactPersonEmailID}'),

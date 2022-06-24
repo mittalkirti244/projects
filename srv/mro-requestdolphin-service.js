@@ -92,11 +92,13 @@ module.exports = cds.service.impl(async function () {
         }
 
         //to auto populate the request status and request phase at the time of create
-        if (req.data.to_requestStatus_rStatus == 'Confirmed' || req.data.to_requestStatus_rStatus == '') {
+       /* if (req.data.to_requestStatus_rStatus == 'Confirmed' || req.data.to_requestStatus_rStatus == '') {
             req.data.to_requestStatus_rStatus = 'Draft'
             req.data.to_requestPhase_rPhase = 'Initial'
             req.info(101, 'Request Status should always be Draft when you create a new Maintenance Request')
-        }
+        }*/
+
+        req.data.to_requestStatus_rStatus ='Created'
 
         //Insert and update restrictions using hidden criteria
         //To set the request type disable after create
@@ -129,7 +131,7 @@ module.exports = cds.service.impl(async function () {
             req.data.functionalLocationName = q1[0].FunctionalLocationName
 
         //To make equipment name as readonly field
-        let q2 = await service2.read(EquipmentVH).where({Equipment: req.data.equipment})
+        let q2 = await service2.read(EquipmentVH).where({ Equipment: req.data.equipment })
         if (req.data.equipment != null)
             req.data.equipmentName = q2[0].EquipmentName
 
@@ -408,6 +410,126 @@ module.exports = cds.service.impl(async function () {
             // }
         }
     });
+
+    this.on('readyForWorkListRequested', async (req) => {
+        const tx1 = cds.transaction(req)
+        var query = await tx1.read(MaintenanceRequests)
+        console.log('query', query[0])
+        console.log('query[0].ID', query[0].ID)
+
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: 'Ready For WorkList Requested',
+            requestStatus1: 'Ready For WorkList Requested',
+            to_requestPhase_rPhase: 'Initial'
+        }).where({ ID: query[0].ID })
+
+        console.log('affected', affectedRows)
+        console.log(' to_requestStatus_rStatus', req.data.to_requestStatus_rStatus)
+        console.log(' requestStatus1', req.data.requestStatus1)
+
+    })
+
+    this.on('workListRequested', async (req) => {
+        const tx1 = cds.transaction(req)
+        var query = await tx1.read(MaintenanceRequests)
+
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: 'WorkList Requested',
+            to_requestPhase_rPhase: 'Initial'
+        }).where({ ID: query[0].ID })
+    })
+
+    this.on('newWorkListReceived', async (req) => {
+        const tx1 = cds.transaction(req)
+        var query = await tx1.read(MaintenanceRequests)
+
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: 'New WorkList Received',
+            to_requestPhase_rPhase: 'Screening'
+        }).where({ ID: query[0].ID })
+    })
+
+    this.on('workListValidated', async (req) => {
+        const tx1 = cds.transaction(req)
+        var query = await tx1.read(MaintenanceRequests)
+
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: 'WorkList Validated',
+            to_requestPhase_rPhase: 'Screening'
+        }).where({ ID: query[0].ID })
+    })
+
+    this.on('workListUploaded', async (req) => {
+        const tx1 = cds.transaction(req)
+        var query = await tx1.read(MaintenanceRequests)
+
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: 'WorkList Uploaded',
+            to_requestPhase_rPhase: 'Planning'
+        }).where({ ID: query[0].ID })
+    })
+
+    this.on('allWorkListReceived', async (req) => {
+        const tx1 = cds.transaction(req)
+        var query = await tx1.read(MaintenanceRequests)
+
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: 'All WorkList Received',
+            to_requestPhase_rPhase: 'Planning'
+        }).where({ ID: query[0].ID })
+    })
+
+    this.on('revisionCreated', async (req) => {
+        const tx1 = cds.transaction(req)
+        var query = await tx1.read(MaintenanceRequests)
+
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: 'Revision Created',
+            to_requestPhase_rPhase: 'Planning'
+        }).where({ ID: query[0].ID })
+    })
+
+    this.on('allTaskListIdentified', async (req) => {
+        const tx1 = cds.transaction(req)
+        var query = await tx1.read(MaintenanceRequests)
+
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: 'All TaskList Identified',
+            to_requestPhase_rPhase: 'Planning'
+        }).where({ ID: query[0].ID })
+    })
+
+    this.on('allNotificationCreated', async (req) => {
+        const tx1 = cds.transaction(req)
+        var query = await tx1.read(MaintenanceRequests)
+
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: 'All Notification Created',
+            to_requestPhase_rPhase: 'Planning'
+        }).where({ ID: query[0].ID })
+    })
+
+    this.on('mrReadyForApproval', async (req) => {
+        const tx1 = cds.transaction(req)
+        var query = await tx1.read(MaintenanceRequests)
+
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: 'MR Ready For Approval',
+            to_requestPhase_rPhase: 'Planning'
+        }).where({ ID: query[0].ID })
+
+    })
+
+    this.on('requestApproved', async (req) => {
+        const tx1 = cds.transaction(req)
+        var query = await tx1.read(MaintenanceRequests)
+
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: 'Request Approved',
+            to_requestPhase_rPhase: 'MR Request Completed'
+        }).where({ ID: query[0].ID })
+
+    })
 
     //Function for converting date into (YYYY-MM-DD) format
     function returnDate(dateValue) {
