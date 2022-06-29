@@ -1,2 +1,14 @@
-rStatus
-Confirmed
+rStatus;rStatusDesc
+DRAFT;Draft
+CREATED;Created
+READYFORWLREQ;Ready For WorkList Requested
+WLREQ;WorkList Requested
+NEWWLRECEIVED;New WorkList Received
+WLVALIDATED;WorkList Validated
+WLUPLOADED;WorkList Uploaded
+ALLWLRECEIVED;All WorkList Received
+REVISIONCREATED;Revision Created
+TLIDENTIFIED;All TaskList Identified
+NOTIFCREATED;All Notification Created
+MRREADYFORAPPROVAL;MR Ready for Approval
+REQAPPROVED;Requested Approved

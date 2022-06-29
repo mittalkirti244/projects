@@ -10,17 +10,101 @@ service mrorequestdolphinService {
     @cds.redirection.target
     entity MaintenanceRequests  as projection on maintReq.MaintenanceRequests actions {
         action requestMail();
+        @(
+            cds.odata.bindingparameter.name : '_readyForWorkListRequestedParam',
+            Common.SideEffects              : {TargetProperties : [
+                '_readyForWorkListRequestedParam/to_requestStatus_rStatusDesc',
+                '_readyForWorkListRequestedParam/to_requestPhase_rPhaseDesc'
+            ]}
+        )
         action readyForWorkListRequested();
+
+        @(
+            cds.odata.bindingparameter.name : '_workListRequestedParam',
+            Common.SideEffects              : {TargetProperties : [
+                '_workListRequestedParam/to_requestStatus_rStatusDesc',
+                '_workListRequestedParam/to_requestPhase_rPhaseDesc'
+            ]}
+        )
         action workListRequested();
+
+        @(
+            cds.odata.bindingparameter.name : '_newWorkListReceivedParam',
+            Common.SideEffects              : {TargetProperties : [
+                '_newWorkListReceivedParam/to_requestStatus_rStatusDesc',
+                '_newWorkListReceivedParam/to_requestPhase_rPhaseDesc'
+            ]}
+        )
         action newWorkListReceived();
+
+        @(
+            cds.odata.bindingparameter.name : '_workListValidatedParam',
+            Common.SideEffects              : {TargetProperties : [
+                '_workListValidatedParam/to_requestStatus_rStatusDesc',
+                '_workListValidatedParam/to_requestPhase_rPhaseDesc'
+            ]}
+        )
         action workListValidated();
+
+        @(
+            cds.odata.bindingparameter.name : '_workListUploadedParam',
+            Common.SideEffects              : {TargetProperties : [
+                '_workListUploadedParam/to_requestStatus_rStatusDesc',
+                '_workListUploadedParam/to_requestPhase_rPhaseDesc'
+            ]}
+        )
         action workListUploaded();
+        @(
+            cds.odata.bindingparameter.name : '_allWorkListReceivedParam',
+            Common.SideEffects              : {TargetProperties : [
+                '_allWorkListReceivedParam/to_requestStatus_rStatusDesc',
+                '_allWorkListReceivedParam/to_requestPhase_rPhaseDesc'
+            ]}
+        )
         action allWorkListReceived();
+        @(
+            cds.odata.bindingparameter.name : '_revisionCreatedParam',
+            Common.SideEffects              : {TargetProperties : [
+                '_revisionCreatedParam/to_requestStatus_rStatusDesc',
+                '_revisionCreatedParam/to_requestPhase_rPhaseDesc',
+                '_revisionCreatedParam/MaintenanceRevision'
+            ]},
+            
+        )
         action revisionCreated();
+
+        @(
+            cds.odata.bindingparameter.name : '_allTaskListIdentifiedParam',
+            Common.SideEffects              : {TargetProperties : [
+                '_allTaskListIdentifiedParam/to_requestStatus_rStatusDesc',
+                '_allTaskListIdentifiedParam/to_requestPhase_rPhaseDesc'
+            ]}
+        )
         action allTaskListIdentified();
+        @(
+            cds.odata.bindingparameter.name : '_allNotificationCreatedParam',
+            Common.SideEffects              : {TargetProperties : [
+                '_allNotificationCreatedParam/to_requestStatus_rStatusDesc',
+                '_allNotificationCreatedParam/to_requestPhase_rPhaseDesc'
+            ]}
+        )
         action allNotificationCreated();
+        @(
+            cds.odata.bindingparameter.name : '_mrReadyForApprovalParam',
+            Common.SideEffects              : {TargetProperties : [
+                '_mrReadyForApprovalParam/to_requestStatus_rStatusDesc',
+                '_mrReadyForApprovalParam/to_requestPhase_rPhaseDesc'
+            ]}
+        )
         action mrReadyForApproval();
-        action requestApproved();
+        @(
+            cds.odata.bindingparameter.name : '_requestedApprovedParam',
+            Common.SideEffects              : {TargetProperties : [
+                '_requestedApprovedParam/to_requestStatus_rStatusDesc',
+                '_requestedApprovedParam/to_requestPhase_rPhaseDesc'
+            ]}
+        )
+        action requestedApproved();
     };
 
     entity MaintenanceRequests1 as projection on maintReq.MaintenanceRequests {
@@ -35,7 +119,7 @@ service mrorequestdolphinService {
             revisionType
         }
         where
-            to_requestStatus.rStatus = 'Revision Created';
+            to_requestStatus.rStatus = 'REVISIONCREATED';
 
     entity RequestTypes         as projection on maintReq.RequestTypes;
     entity RequestStatuses      as projection on maintReq.RequestStatuses;

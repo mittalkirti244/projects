@@ -8,6 +8,8 @@ module.exports = cds.service.impl(async function () {
     const {
         MaintenanceRequests,
         RequestTypes,
+        RequestStatuses,
+        RequestPhases,
         BusinessPartnerVH,
         WorkCenterVH,
         FunctionLocationVH,
@@ -98,7 +100,8 @@ module.exports = cds.service.impl(async function () {
              req.info(101, 'Request Status should always be Draft when you create a new Maintenance Request')
          }*/
 
-        req.data.to_requestStatus_rStatus = 'Created'
+        req.data.to_requestStatus_rStatusDesc = 'Created'
+        req.data.to_requestStatus_rStatus = 'CREATED'
 
         //Insert and update restrictions using hidden criteria
         //To set the request type disable after create
@@ -259,120 +262,7 @@ module.exports = cds.service.impl(async function () {
         if (req.data.to_requestStatus_rStatus == 'Confirmed') {
             req.data.to_requestPhase_rPhase = 'Planning'
         }
-
-        //     //Fetching planning plant, request desc, work center and arrival and delivery date for performing POST request to MaintRevision S4 Service
-        //     //Mandatory fields for creating a revision
-        //     if (reqwcPlant == null) {
-        //         vplanningPlant = req.data.MaintenancePlanningPlant
-        //     }
-        //     else {
-        //         vplanningPlant = reqwcPlant
-        //     }
-        //     //Revision text will contain Request description + request Number
-        //     vrevisionText = req.data.requestNo + ' ' + req.data.requestDesc
-        //     vworkCenter = req.data.locationWC
-
-        //     //After selecting thw workcenter that is coming from patch
-        //     //supose user refresh the screen then plant will get removed -> if else condition is used to resolve this issue
-        //     if (reqwcPlant == null) {
-        //         vworkCenterPlant = req.data.MaintenancePlanningPlant
-        //     }
-        //     else {
-        //         vworkCenterPlant = reqwcPlant
-        //     }
-        //     /* /Date(1224043200000)/ */
-        //     var vexpectedArrivalDate = new Date(req.data.expectedArrivalDate)
-        //     var vformatexpectedArrivalDate = '/Date(' + vexpectedArrivalDate.getTime() + ')/'
-        //     //console.log('vformatexpectedArrivalDate', vformatexpectedArrivalDate)
-        //     vrevisionStartDate = req.data.expectedArrivalDate
-        //     var vexpectedDeliveryDate = new Date(req.data.expectedDeliveryDate)
-        //     var vformatedexpectedDeliveryDate = '/Date(' + vexpectedDeliveryDate.getTime() + ')/'
-        //     // console.log('vformatedexpectedDeliveryDate', vformatedexpectedDeliveryDate)
-        //     vrevisionEndDate = req.data.expectedDeliveryDate
-        //     vfunctionalLocation = req.data.functionalLocation
-        //     vequipment = req.data.equipment
-
-        //     //Revision will trigger when requestphase will change from intial to planning
-        //     if (req.data.to_requestPhase_rPhase == 'Planning') {
-        //         //One request should always have 1 MR
-        //         if (req.data.MaintenanceRevision == null) {
-        //             try {
-        //                 if (vplanningPlant != null && vrevisionText != null && vworkCenter != null && vworkCenterPlant != null && vrevisionStartDate != null && vrevisionEndDate != null) {
-        //                     const tx = service3.tx(req)
-        //                     var data = {
-        //                         "PlanningPlant": vplanningPlant,
-        //                         "RevisionType": 'A1',
-        //                         "RevisionText": vrevisionText,
-        //                         "WorkCenter": vworkCenter,
-        //                         "WorkCenterPlant": vworkCenterPlant,
-        //                         "RevisionStartDate": vformatexpectedArrivalDate,
-        //                         "RevisionStartTime": 'PT00H00M00S',
-        //                         "RevisionEndDate": vformatedexpectedDeliveryDate,
-        //                         "RevisionEndTime": 'PT00H00M00S'
-        //                     }
-        //                     if (vfunctionalLocation == null && vequipment == null) {
-        //                         var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-        //                     }
-        //                     else if (vequipment != null && vfunctionalLocation == null) {
-        //                         var data1 = Object.create(data)
-        //                         data.Equipment = vequipment
-        //                         var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-        //                     }
-        //                     else if (vfunctionalLocation != null && vequipment == null) {
-        //                         var data1 = Object.create(data)
-        //                         data.FunctionLocation = vfunctionalLocation
-        //                         var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-        //                     }
-        //                     //If user selects both floc and equipment
-        //                     else if (vfunctionalLocation != null && vequipment != null) {
-        //                         //If there is a parent-child relationship then try block runs
-        //                         //Function Location - A350-MSN-AA-31      
-        //                         //Equipment - 10000095
-        //                         try {
-        //                             var data1 = Object.create(data)
-        //                             data.FunctionLocation = vfunctionalLocation
-        //                             data.Equipment = vequipment
-        //                             var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-        //                         } catch (error) {
-        //                             //If floc and equip are not in parent-child relation then floc will pass to create a revision
-        //                             var data1 = Object.create(data)
-        //                             data.FunctionLocation = FunctionLocation
-        //                             var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-        //                         }
-        //                     }
-        //                     // console.log('result', result)
-        //                     req.data.MaintenanceRevision = result.RevisionNo
-        //                     req.data.revisionType = result.RevisionType
-        //                     req.data.revisionText = result.RevisionText
-        //                     // console.log(' result.FunctionLocation value is ', result.FunctionLocation)
-        //                     // console.log(' result.Equipment value is ', result.Equipment)
-        //                     req.info(101, 'Revision ' + req.data.MaintenanceRevision + ' created')
-        //                     req.data.to_requestStatus_rStatus = 'Revision Created'
-        //                     return result
-        //                     /* const { result1 } = await this.transaction(req).run(await tx.send({ method: 'POST', path: 'MaintRevision', data }))
-        //                     // await tx.run(req.query);
-        //                      req.on('succeeded', () => {
-        //                          console.log('abc ------------------------')
-        //                      })
-        //                      console.log('result1....value..........', result1)*/
-        //                 }
-        //                 /* else
-        //                      req.error(406, 'Work center is required to create a revision')*/
-        //             }
-        //             catch (error) {
-        //                 var vstatusCode = error.statusCode
-        //                 var verrorMessage = error.innererror.response.body.error.message.value
-        //                 req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
-        //             }
-        //         }
-        //         else if (req.data.MaintenanceRevision != null && req.data.to_requestStatus_rStatus == 'Confirmed') {
-        //             req.data.to_requestStatus_rStatus = 'Revision Created'
-        //             req.info(101, 'Revision is already been created for this Maintenance Request')
-        //         }
-        //     }
-
-    }
-    );
+    });
 
     this.after('PATCH', 'MaintenanceRequests', async (req) => {
         //Fetch delivery date whenever user select the field at UI
@@ -383,7 +273,6 @@ module.exports = cds.service.impl(async function () {
     this.on('requestMail', async (req) => {
         for (let i = 0; i < req.params.length; i++) {
             const id1 = req.params[i].ID
-            //console.log('id1', id1)
             const tx1 = cds.transaction(req)
 
             var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
@@ -413,274 +302,270 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.on('readyForWorkListRequested', async (req) => {
-        for (let i = 0; i < req.params.length; i++) {
-            const id1 = req.params[i].ID
-            const tx1 = cds.transaction(req)
-            var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
-            console.log('query', query)
-            console.log('query[0].ID', query[0].ID)
-
-            const affectedRows = await UPDATE(MaintenanceRequests).set({
-                to_requestStatus_rStatus: 'Ready For WorkList Requested',
-                requestStatus1: 'Ready For WorkList Requested',
-                to_requestPhase_rPhase: 'Initial'
-            }).where({ ID: id1 })
-
-            console.log('affected', affectedRows)
-            console.log(' to_requestStatus_rStatus', req.data.to_requestStatus_rStatus)
-            console.log(' requestStatus1', req.data.requestStatus1)
-        }
+        const id1 = req.params[0].ID
+        const tx1 = cds.transaction(req)
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'Ready For WorkList Requested' })
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Initial' })
+        console.log('queryPhase',queryPhase)
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: queryStatus[0].rStatus,
+            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestPhase_rPhase: queryPhase[0].rPhase,
+            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+        }).where({ ID: id1 })
     })
 
     this.on('workListRequested', async (req) => {
-        for (let i = 0; i < req.params.length; i++) {
-            const id1 = req.params[i].ID
-            const tx1 = cds.transaction(req)
-            var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
-
-            const affectedRows = await UPDATE(MaintenanceRequests).set({
-                to_requestStatus_rStatus: 'WorkList Requested',
-                to_requestPhase_rPhase: 'Initial'
-            }).where({ ID: id1 })
-        }
+        const id1 = req.params[0].ID
+        const tx1 = cds.transaction(req)
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'WorkList Requested' })
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Initial' })
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: queryStatus[0].rStatus,
+            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestPhase_rPhase: queryPhase[0].rPhase,
+            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+        }).where({ ID: id1 })
     })
 
     this.on('newWorkListReceived', async (req) => {
-        for (let i = 0; i < req.params.length; i++) {
-            const id1 = req.params[i].ID
-            const tx1 = cds.transaction(req)
-            var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
+        const id1 = req.params[0].ID
+        const tx1 = cds.transaction(req)
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'New WorkList Received' })
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Screening' })
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: queryStatus[0].rStatus,
+            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestPhase_rPhase: queryPhase[0].rPhase,
+            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+        }).where({ ID: id1 })
 
-            const affectedRows = await UPDATE(MaintenanceRequests).set({
-                to_requestStatus_rStatus: 'New WorkList Received',
-                to_requestPhase_rPhase: 'Screening'
-            }).where({ ID: id1 })
-        }
     })
 
     this.on('workListValidated', async (req) => {
-        for (let i = 0; i < req.params.length; i++) {
-            const id1 = req.params[i].ID
-            const tx1 = cds.transaction(req)
-            var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
-
-            const affectedRows = await UPDATE(MaintenanceRequests).set({
-                to_requestStatus_rStatus: 'WorkList Validated',
-                to_requestPhase_rPhase: 'Screening'
-            }).where({ ID: id1 })
-        }
+        const id1 = req.params[0].ID
+        const tx1 = cds.transaction(req)
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'WorkList Validated' })
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Screening' })
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: queryStatus[0].rStatus,
+            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestPhase_rPhase: queryPhase[0].rPhase,
+            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+        }).where({ ID: id1 })
     })
 
     this.on('workListUploaded', async (req) => {
-        for (let i = 0; i < req.params.length; i++) {
-            const id1 = req.params[i].ID
-            const tx1 = cds.transaction(req)
-            var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
-
-            const affectedRows = await UPDATE(MaintenanceRequests).set({
-                to_requestStatus_rStatus: 'WorkList Uploaded',
-                to_requestPhase_rPhase: 'Planning'
-            }).where({ ID: id1 })
-        }
+        const id1 = req.params[0].ID
+        const tx1 = cds.transaction(req)
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'WorkList Uploaded' })
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: queryStatus[0].rStatus,
+            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestPhase_rPhase: queryPhase[0].rPhase,
+            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+        }).where({ ID: id1 })
     })
 
     this.on('allWorkListReceived', async (req) => {
-        for (let i = 0; i < req.params.length; i++) {
-            const id1 = req.params[i].ID
-            const tx1 = cds.transaction(req)
-            var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
-
-            const affectedRows = await UPDATE(MaintenanceRequests).set({
-                to_requestStatus_rStatus: 'All WorkList Received',
-                to_requestPhase_rPhase: 'Planning'
-            }).where({ ID: id1 })
-        }
+        const id1 = req.params[0].ID
+        const tx1 = cds.transaction(req)
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'All WorkList Received' })
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: queryStatus[0].rStatus,
+            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestPhase_rPhase: queryPhase[0].rPhase,
+            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+        }).where({ ID: id1 })
     })
 
     this.on('revisionCreated', async (req) => {
-        for (let i = 0; i < req.params.length; i++) {
-            const id1 = req.params[i].ID
-            const tx1 = cds.transaction(req)
-            var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
+        // for (let i = 0; i < req.params.length; i++) {
+        const id1 = req.params[0].ID
+        const tx1 = cds.transaction(req)
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'Revision Created' })
+        console.log('query', queryStatus)
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
+        console.log('query', queryPhase)
+        var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
+        console.log('query...........',query)
 
-            /* const affectedRows = await UPDATE(MaintenanceRequests).set({
-                 to_requestStatus_rStatus: 'Revision Created',
-                 to_requestPhase_rPhase: 'Planning'
-             }).where({ ID: query[0].ID })*/
+        //Fetching planning plant, request desc, work center and arrival and delivery date for performing POST request to MaintRevision S4 Service
+        //Mandatory fields for creating a revision
+        if (reqwcPlant == null) {
+            vplanningPlant = query[0].MaintenancePlanningPlant
+        }
+        else {
+            vplanningPlant = reqwcPlant
+        }
+        //Revision text will contain Request description + request Number
+        vrevisionText = query[0].requestNo + ' ' + query[0].requestDesc
+        vworkCenter = query[0].locationWC
 
-            //Fetching planning plant, request desc, work center and arrival and delivery date for performing POST request to MaintRevision S4 Service
-            //Mandatory fields for creating a revision
-            if (reqwcPlant == null) {
-                vplanningPlant = query[0].MaintenancePlanningPlant
-            }
-            else {
-                vplanningPlant = reqwcPlant
-            }
-            //Revision text will contain Request description + request Number
-            vrevisionText = query[0].requestNo + ' ' + query[0].requestDesc
-            vworkCenter = query[0].locationWC
+        //After selecting thw workcenter that is coming from patch
+        //supose user refresh the screen then plant will get removed -> if else condition is used to resolve this issue
+        if (reqwcPlant == null) {
+            vworkCenterPlant = query[0].MaintenancePlanningPlant
+        }
+        else {
+            vworkCenterPlant = reqwcPlant
+        }
+        /* /Date(1224043200000)/ */
+        var vexpectedArrivalDate = new Date(query[0].expectedArrivalDate)
+        var vformatexpectedArrivalDate = '/Date(' + vexpectedArrivalDate.getTime() + ')/'
+        //console.log('vformatexpectedArrivalDate', vformatexpectedArrivalDate)
+        vrevisionStartDate = query[0].expectedArrivalDate
+        var vexpectedDeliveryDate = new Date(query[0].expectedDeliveryDate)
+        var vformatedexpectedDeliveryDate = '/Date(' + vexpectedDeliveryDate.getTime() + ')/'
+        // console.log('vformatedexpectedDeliveryDate', vformatedexpectedDeliveryDate)
+        vrevisionEndDate = query[0].expectedDeliveryDate
+        vfunctionalLocation = query[0].functionalLocation
+        vequipment = query[0].equipment
 
-            //After selecting thw workcenter that is coming from patch
-            //supose user refresh the screen then plant will get removed -> if else condition is used to resolve this issue
-            if (reqwcPlant == null) {
-                vworkCenterPlant = query[0].MaintenancePlanningPlant
-            }
-            else {
-                vworkCenterPlant = reqwcPlant
-            }
-            /* /Date(1224043200000)/ */
-            var vexpectedArrivalDate = new Date(query[0].expectedArrivalDate)
-            var vformatexpectedArrivalDate = '/Date(' + vexpectedArrivalDate.getTime() + ')/'
-            //console.log('vformatexpectedArrivalDate', vformatexpectedArrivalDate)
-            vrevisionStartDate = query[0].expectedArrivalDate
-            var vexpectedDeliveryDate = new Date(query[0].expectedDeliveryDate)
-            var vformatedexpectedDeliveryDate = '/Date(' + vexpectedDeliveryDate.getTime() + ')/'
-            // console.log('vformatedexpectedDeliveryDate', vformatedexpectedDeliveryDate)
-            vrevisionEndDate = query[0].expectedDeliveryDate
-            vfunctionalLocation = query[0].functionalLocation
-            vequipment = query[0].equipment
-
-            //Revision will trigger when requestphase will change from intial to planning
-            // if (query[0].to_requestPhase_rPhase == 'Planning') {
-            //One request should always have 1 MR
-            if (query[0].MaintenanceRevision == null) {
-                try {
-                    if (vplanningPlant != null && vrevisionText != null && vworkCenter != null && vworkCenterPlant != null && vrevisionStartDate != null && vrevisionEndDate != null) {
-                        const tx = service3.tx(req)
-                        var data = {
-                            "PlanningPlant": vplanningPlant,
-                            "RevisionType": 'A1',
-                            "RevisionText": vrevisionText,
-                            "WorkCenter": vworkCenter,
-                            "WorkCenterPlant": vworkCenterPlant,
-                            "RevisionStartDate": vformatexpectedArrivalDate,
-                            "RevisionStartTime": 'PT00H00M00S',
-                            "RevisionEndDate": vformatedexpectedDeliveryDate,
-                            "RevisionEndTime": 'PT00H00M00S'
-                        }
-                        if (vfunctionalLocation == null && vequipment == null) {
-                            var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-                        }
-                        else if (vequipment != null && vfunctionalLocation == null) {
-                            var data1 = Object.create(data)
-                            data.Equipment = vequipment
-                            var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-                        }
-                        else if (vfunctionalLocation != null && vequipment == null) {
+        //Revision will trigger when requestphase will change from intial to planning
+        // if (query[0].to_requestPhase_rPhase == 'Planning') {
+        //One request should always have 1 MR
+        if (query[0].MaintenanceRevision == null) {
+            try {
+                if (vplanningPlant != null && vrevisionText != null && vworkCenter != null && vworkCenterPlant != null && vrevisionStartDate != null && vrevisionEndDate != null) {
+                    const tx = service3.tx(req)
+                    var data = {
+                        "PlanningPlant": vplanningPlant,
+                        "RevisionType": 'A1',
+                        "RevisionText": vrevisionText,
+                        "WorkCenter": vworkCenter,
+                        "WorkCenterPlant": vworkCenterPlant,
+                        "RevisionStartDate": vformatexpectedArrivalDate,
+                        "RevisionStartTime": 'PT00H00M00S',
+                        "RevisionEndDate": vformatedexpectedDeliveryDate,
+                        "RevisionEndTime": 'PT00H00M00S'
+                    }
+                    if (vfunctionalLocation == null && vequipment == null) {
+                        var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                    }
+                    else if (vequipment != null && vfunctionalLocation == null) {
+                        var data1 = Object.create(data)
+                        data.Equipment = vequipment
+                        var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                    }
+                    else if (vfunctionalLocation != null && vequipment == null) {
+                        var data1 = Object.create(data)
+                        data.FunctionLocation = vfunctionalLocation
+                        var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                    }
+                    //If user selects both floc and equipment
+                    else if (vfunctionalLocation != null && vequipment != null) {
+                        //If there is a parent-child relationship then try block runs
+                        //Function Location - A350-MSN-AA-31      
+                        //Equipment - 10000095
+                        try {
                             var data1 = Object.create(data)
                             data.FunctionLocation = vfunctionalLocation
+                            data.Equipment = vequipment
+                            var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                        } catch (error) {
+                            //If floc and equip are not in parent-child relation then floc will pass to create a revision
+                            var data1 = Object.create(data)
+                            data.FunctionLocation = FunctionLocation
                             var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
                         }
-                        //If user selects both floc and equipment
-                        else if (vfunctionalLocation != null && vequipment != null) {
-                            //If there is a parent-child relationship then try block runs
-                            //Function Location - A350-MSN-AA-31      
-                            //Equipment - 10000095
-                            try {
-                                var data1 = Object.create(data)
-                                data.FunctionLocation = vfunctionalLocation
-                                data.Equipment = vequipment
-                                var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-                            } catch (error) {
-                                //If floc and equip are not in parent-child relation then floc will pass to create a revision
-                                var data1 = Object.create(data)
-                                data.FunctionLocation = FunctionLocation
-                                var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-                            }
-                        }
-                        console.log('Revision', result)
-                        const affectedRows = await UPDATE(MaintenanceRequests).set({
-                            MaintenanceRevision: result.RevisionNo,
-                            revisionType: result.RevisionType,
-                            revisionText: result.RevisionText,
-                            to_requestStatus_rStatus: 'Revision Created',
-                            to_requestPhase_rPhase: 'Planning'
-                        }).where({ ID: id1 })
-                        // console.log('result', result)
-                        // query[0].MaintenanceRevision = result.RevisionNo
-                        // query[0].revisionType = result.RevisionType
-                        // query[0].revisionText = result.RevisionText
-                        // console.log(' result.FunctionLocation value is ', result.FunctionLocation)
-                        // console.log(' result.Equipment value is ', result.Equipment)
-                        req.info(101, 'Revision ' + req.data.MaintenanceRevision + ' created')
-                        // query[0].to_requestStatus_rStatus = 'Revision Created'
-                        return result
-                        /* const { result1 } = await this.transaction(req).run(await tx.send({ method: 'POST', path: 'MaintRevision', data }))
-                        // await tx.run(req.query);
-                         req.on('succeeded', () => {
-                             console.log('abc ------------------------')
-                         })
-                         console.log('result1....value..........', result1)*/
                     }
-                    /* else
-                         req.error(406, 'Work center is required to create a revision')*/
+                    console.log('Revision', result)
+                    const affectedRows = await UPDATE(MaintenanceRequests).set({
+                        MaintenanceRevision: result.RevisionNo,
+                        revisionType: result.RevisionType,
+                        revisionText: result.RevisionText,
+                        to_requestStatus_rStatus: queryStatus[0].rStatus,
+                        to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
+                        to_requestPhase_rPhase: queryPhase[0].rPhase,
+                        to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+                    }).where({ ID: id1 })
+                    // console.log('result', result)
+                    // query[0].MaintenanceRevision = result.RevisionNo
+                    // query[0].revisionType = result.RevisionType
+                    // query[0].revisionText = result.RevisionText
+                    // console.log(' result.FunctionLocation value is ', result.FunctionLocation)
+                    // console.log(' result.Equipment value is ', result.Equipment)
+                    req.info(101, 'Revision ' + result.RevisionNo + ' created')
+                    // query[0].to_requestStatus_rStatus = 'Revision Created'
+                    return result
+                    /* const { result1 } = await this.transaction(req).run(await tx.send({ method: 'POST', path: 'MaintRevision', data }))
+                    // await tx.run(req.query);
+                     req.on('succeeded', () => {
+                         console.log('abc ------------------------')
+                     })
+                     console.log('result1....value..........', result1)*/
                 }
-                catch (error) {
-                    var vstatusCode = error.statusCode
-                    var verrorMessage = error.innererror.response.body.error.message.value
-                    req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
-                }
+                /* else
+                     req.error(406, 'Work center is required to create a revision')*/
             }
-            else if (query[0].MaintenanceRevision != null && query[0].to_requestStatus_rStatus == 'Revision Created') {
-                req.data.to_requestStatus_rStatus = 'Revision Created'
-                req.info(101, 'Revision is already been created for this Maintenance Request')
+            catch (error) {
+                var vstatusCode = error.statusCode
+                var verrorMessage = error.innererror.response.body.error.message.value
+                req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
             }
         }
-    }
-        // }
-    )
+        else if (query[0].MaintenanceRevision != null && query[0].to_requestStatus_rStatus == 'Revision Created') {
+            req.data.to_requestStatus_rStatus = 'Revision Created'
+            req.info(101, 'Revision is already been created for this Maintenance Request')
+        }
+        //}
+
+    })
 
     this.on('allTaskListIdentified', async (req) => {
-        for (let i = 0; i < req.params.length; i++) {
-            const id1 = req.params[i].ID
-            const tx1 = cds.transaction(req)
-            var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
-
-            const affectedRows = await UPDATE(MaintenanceRequests).set({
-                to_requestStatus_rStatus: 'All TaskList Identified',
-                to_requestPhase_rPhase: 'Planning'
-            }).where({ ID: id1 })
-        }
+        const id1 = req.params[0].ID
+        const tx1 = cds.transaction(req)
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'All TaskList Identified' })
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: queryStatus[0].rStatus,
+            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestPhase_rPhase: queryPhase[0].rPhase,
+            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+        }).where({ ID: id1 })
     })
 
     this.on('allNotificationCreated', async (req) => {
-        for (let i = 0; i < req.params.length; i++) {
-            const id1 = req.params[i].ID
-            const tx1 = cds.transaction(req)
-            var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
+        const id1 = req.params[0].ID
+        const tx1 = cds.transaction(req)
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'All Notification Created' })
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: queryStatus[0].rStatus,
+            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestPhase_rPhase: queryPhase[0].rPhase,
+            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+        }).where({ ID: id1 })
 
-            const affectedRows = await UPDATE(MaintenanceRequests).set({
-                to_requestStatus_rStatus: 'All Notification Created',
-                to_requestPhase_rPhase: 'Planning'
-            }).where({ ID: id1 })
-        }
     })
 
     this.on('mrReadyForApproval', async (req) => {
-        for (let i = 0; i < req.params.length; i++) {
-            const id1 = req.params[i].ID
-            const tx1 = cds.transaction(req)
-            var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
-
-            const affectedRows = await UPDATE(MaintenanceRequests).set({
-                to_requestStatus_rStatus: 'MR Ready For Approval',
-                to_requestPhase_rPhase: 'Planning'
-            }).where({ ID: id1 })
-        }
+        const id1 = req.params[0].ID
+        const tx1 = cds.transaction(req)
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'MR Ready for Approval' })
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: queryStatus[0].rStatus,
+            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestPhase_rPhase: queryPhase[0].rPhase,
+            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+        }).where({ ID: id1 })
     })
 
     this.on('requestApproved', async (req) => {
-        for (let i = 0; i < req.params.length; i++) {
-            const id1 = req.params[i].ID
-            const tx1 = cds.transaction(req)
-            var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
-
-            const affectedRows = await UPDATE(MaintenanceRequests).set({
-                to_requestStatus_rStatus: 'Request Approved',
-                to_requestPhase_rPhase: 'MR Request Completed'
-            }).where({ ID: id1 })
-        }
-
+        const id1 = req.params[0].ID
+        const tx1 = cds.transaction(req)
+        var queryStatus = await tx1.read(RequestStatuses).where({rStatusDesc: 'Requested Approved'})
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'MR Request Completed' })
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: queryStatus[0].rStatus,
+            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestPhase_rPhase: queryPhase[0].rPhase,
+            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+        }).where({ ID: id1 })
     })
 
     //Function for converting date into (YYYY-MM-DD) format

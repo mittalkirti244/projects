@@ -124,6 +124,73 @@
                     "name": "sap.fe.templates.ObjectPage",
                     "options": {
                         "settings": {
+                            "content": {
+                                "header": {
+                                    "actions": {
+                                        "readyForWorkListRequested": {
+                                            "press": "MaintenanceRequests.custom.CustomActions.readyForWorkListRequested",
+                                            "text": "Ready For WorkList Requested"
+                                        },
+                                        "workListRequested": {
+                                            "press": "mrorequestdolphinService.workListRequested",
+                                            "text": "WorkList Requested"
+                                        },
+                                        "newWorkListReceived": {
+                                            "press": "mrorequestdolphinService.newWorkListReceived",
+                                            "text": "New WorkList Recieved"
+                                        },
+                                        "workListValidated": {
+                                            "press": "mrorequestdolphinService.workListValidated",
+                                            "text": "WorkList Validated"
+                                        },
+                                        "workListUploaded": {
+                                            "press": "mrorequestdolphinService.workListUploaded",
+                                            "text": "WorkList Uploaded"
+                                        },
+                                        "allWorkListReceived": {
+                                            "press": "mrorequestdolphinService.allWorkListReceived",
+                                            "text": "All WorkList Received"
+                                        },
+                                        "revisionCreated": {
+                                            "press": "mrorequestdolphinService.revisionCreated",
+                                            "text": "Create Revision"
+                                        },
+                                        "allTaskListIdentified": {
+                                            "press": "mrorequestdolphinService.allTaskListIdentified",
+                                            "text": "All TaskList Identified"
+                                        },
+                                        "allNotificationCreated": {
+                                            "press": "mrorequestdolphinService.allNotificationCreated",
+                                            "text": "All Notification Created"
+                                        },
+                                        "mrReadyForApproval": {
+                                            "press": "mrorequestdolphinService.mrReadyForApproval",
+                                            "text": "MR Ready for Approval"
+                                        },
+                                        "requestedApproved": {
+                                            "press": "mrorequestdolphinService.requestedApproved",
+                                            "text": "Requested Approved"
+                                        },
+                                        "MenuActions": {
+                                            "text": "My Menu Button",
+                                            "menu": [
+                                                "readyForWorkListRequested",
+                                                "workListRequested",
+                                                "newWorkListReceived",
+                                                "workListValidated",
+                                                "workListUploaded",
+                                                "allWorkListReceived",
+                                                "revisionCreated",
+                                                "allTaskListIdentified",
+                                                "allNotificationCreated",
+                                                "mrReadyForApproval",
+                                                "requestedApproved",
+                                                "DataFieldForAction::readyForWorkListRequested.BoundActionWithParams"
+                                            ]
+                                        }
+                                    }
+                                }
+                            },
                             "editableHeaderContent": false,
                             "entitySet": "MaintenanceRequests",
                             "controlConfiguration": {

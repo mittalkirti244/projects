@@ -1,3 +1,5 @@
-rPhase
-Initial
-Planning
+rPhase;rPhaseDesc
+INITIAL;Initial
+SCREENING;Screening
+PLANNING;Planning
+MRREQCOMPLETED;MR Request Completed

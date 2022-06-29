@@ -69,7 +69,8 @@ entity RequestTypes {
 };
 
 entity RequestStatuses {
-    key rStatus : String;
+    key rStatus     : String default 'DRAFT';
+    key rStatusDesc : String default 'Draft';
 };
 
 entity RequestStatuses1 {
@@ -77,7 +78,8 @@ entity RequestStatuses1 {
 };
 
 entity RequestPhases {
-    key rPhase : String default 'Initial';
+    key rPhase     : String default 'INITIAL';
+    key rPhaseDesc : String default 'Initial';
 };
 
 entity Documents : managed {
