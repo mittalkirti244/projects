@@ -127,65 +127,20 @@
                             "content": {
                                 "header": {
                                     "actions": {
-                                        "readyForWorkListRequested": {
-                                            "press": "MaintenanceRequests.custom.CustomActions.readyForWorkListRequested",
-                                            "text": "Ready For WorkList Requested"
-                                        },
-                                        "workListRequested": {
-                                            "press": "mrorequestdolphinService.workListRequested",
-                                            "text": "WorkList Requested"
-                                        },
-                                        "newWorkListReceived": {
-                                            "press": "mrorequestdolphinService.newWorkListReceived",
-                                            "text": "New WorkList Recieved"
-                                        },
-                                        "workListValidated": {
-                                            "press": "mrorequestdolphinService.workListValidated",
-                                            "text": "WorkList Validated"
-                                        },
-                                        "workListUploaded": {
-                                            "press": "mrorequestdolphinService.workListUploaded",
-                                            "text": "WorkList Uploaded"
-                                        },
-                                        "allWorkListReceived": {
-                                            "press": "mrorequestdolphinService.allWorkListReceived",
-                                            "text": "All WorkList Received"
-                                        },
-                                        "revisionCreated": {
-                                            "press": "mrorequestdolphinService.revisionCreated",
-                                            "text": "Create Revision"
-                                        },
-                                        "allTaskListIdentified": {
-                                            "press": "mrorequestdolphinService.allTaskListIdentified",
-                                            "text": "All TaskList Identified"
-                                        },
-                                        "allNotificationCreated": {
-                                            "press": "mrorequestdolphinService.allNotificationCreated",
-                                            "text": "All Notification Created"
-                                        },
-                                        "mrReadyForApproval": {
-                                            "press": "mrorequestdolphinService.mrReadyForApproval",
-                                            "text": "MR Ready for Approval"
-                                        },
-                                        "requestedApproved": {
-                                            "press": "mrorequestdolphinService.requestedApproved",
-                                            "text": "Requested Approved"
-                                        },
                                         "MenuActions": {
                                             "text": "My Menu Button",
                                             "menu": [
-                                                "readyForWorkListRequested",
-                                                "workListRequested",
-                                                "newWorkListReceived",
-                                                "workListValidated",
-                                                "workListUploaded",
-                                                "allWorkListReceived",
-                                                "revisionCreated",
-                                                "allTaskListIdentified",
-                                                "allNotificationCreated",
-                                                "mrReadyForApproval",
-                                                "requestedApproved",
-                                                "DataFieldForAction::readyForWorkListRequested.BoundActionWithParams"
+                                                "DataFieldForAction::mrorequestdolphinService.readyForWorkListRequested",
+                                                "DataFieldForAction::mrorequestdolphinService.workListRequested",
+                                                "DataFieldForAction::mrorequestdolphinService.newWorkListReceived",
+                                                "DataFieldForAction::mrorequestdolphinService.workListValidated",
+                                                "DataFieldForAction::mrorequestdolphinService.workListUploaded",
+                                                "DataFieldForAction::mrorequestdolphinService.allWorkListReceived",
+                                                "DataFieldForAction::mrorequestdolphinService.revisionCreated",
+                                                "DataFieldForAction::mrorequestdolphinService.allTaskListIdentified",
+                                                "DataFieldForAction::mrorequestdolphinService.allNotificationCreated",
+                                                "DataFieldForAction::mrorequestdolphinService.mrReadyForApproval",
+                                                "DataFieldForAction::mrorequestdolphinService.requestedApproved"
                                             ]
                                         }
                                     }

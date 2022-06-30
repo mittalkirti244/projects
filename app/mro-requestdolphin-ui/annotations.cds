@@ -416,12 +416,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(Common.SideEffects 
     }
 );*/
 
-/*annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {Identification : [
+annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {Identification : [
     {
         $Type  : 'UI.DataFieldForAction',
         Action : 'mrorequestdolphinService.readyForWorkListRequested',
-        Label  : 'Ready For WorkList Requested',
-
+        Label  : 'Ready For WorkList Requested'
     },
     {
         $Type  : 'UI.DataFieldForAction',
@@ -473,7 +472,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(Common.SideEffects 
         Action : 'mrorequestdolphinService.requestedApproved',
         Label  : 'Requested Approved'
     }
-]});*/
+]});
 
 
 //Bullet Micro Chart for dates

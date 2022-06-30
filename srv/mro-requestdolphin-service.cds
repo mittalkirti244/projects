@@ -10,98 +10,115 @@ service mrorequestdolphinService {
     @cds.redirection.target
     entity MaintenanceRequests  as projection on maintReq.MaintenanceRequests actions {
         action requestMail();
+
+        //Update the UI after action readyForWorkListRequested
         @(
-            cds.odata.bindingparameter.name : '_readyForWorkListRequestedParam',
+            cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_readyForWorkListRequestedParam/to_requestStatus_rStatusDesc',
-                '_readyForWorkListRequestedParam/to_requestPhase_rPhaseDesc'
+                '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
+        // @Common.IsActionCritical : true (For Confirmation message)
         action readyForWorkListRequested();
 
+        //Update the UI after action workListRequested
         @(
-            cds.odata.bindingparameter.name : '_workListRequestedParam',
+            cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_workListRequestedParam/to_requestStatus_rStatusDesc',
-                '_workListRequestedParam/to_requestPhase_rPhaseDesc'
+                '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
         action workListRequested();
 
+        //Update the UI after action newWorkListReceived
         @(
-            cds.odata.bindingparameter.name : '_newWorkListReceivedParam',
+            cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_newWorkListReceivedParam/to_requestStatus_rStatusDesc',
-                '_newWorkListReceivedParam/to_requestPhase_rPhaseDesc'
+                '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
         action newWorkListReceived();
 
+        //Update the UI after action workListValidated
         @(
-            cds.odata.bindingparameter.name : '_workListValidatedParam',
+            cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_workListValidatedParam/to_requestStatus_rStatusDesc',
-                '_workListValidatedParam/to_requestPhase_rPhaseDesc'
+                '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
         action workListValidated();
 
+        //Update the UI after action workListUploaded
         @(
-            cds.odata.bindingparameter.name : '_workListUploadedParam',
+            cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_workListUploadedParam/to_requestStatus_rStatusDesc',
-                '_workListUploadedParam/to_requestPhase_rPhaseDesc'
+                '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
         action workListUploaded();
+
+        //Update the UI after action allWorkListReceived
         @(
-            cds.odata.bindingparameter.name : '_allWorkListReceivedParam',
+            cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_allWorkListReceivedParam/to_requestStatus_rStatusDesc',
-                '_allWorkListReceivedParam/to_requestPhase_rPhaseDesc'
+                '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
         action allWorkListReceived();
+
+        //Update the UI after action revisionCreated
         @(
-            cds.odata.bindingparameter.name : '_revisionCreatedParam',
+            cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_revisionCreatedParam/to_requestStatus_rStatusDesc',
-                '_revisionCreatedParam/to_requestPhase_rPhaseDesc',
-                '_revisionCreatedParam/MaintenanceRevision'
-            ]},
-            
+                '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestPhase_rPhaseDesc',
+                '_it/MaintenanceRevision'
+            ]}
         )
         action revisionCreated();
 
+        //Update the UI after action allTaskListIdentified
         @(
-            cds.odata.bindingparameter.name : '_allTaskListIdentifiedParam',
+            cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_allTaskListIdentifiedParam/to_requestStatus_rStatusDesc',
-                '_allTaskListIdentifiedParam/to_requestPhase_rPhaseDesc'
+                '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
         action allTaskListIdentified();
+
+        //Update the UI after action allNotificationCreated
         @(
-            cds.odata.bindingparameter.name : '_allNotificationCreatedParam',
+            cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_allNotificationCreatedParam/to_requestStatus_rStatusDesc',
-                '_allNotificationCreatedParam/to_requestPhase_rPhaseDesc'
+                '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
         action allNotificationCreated();
+
+        //Update the UI after action mrReadyForApproval
         @(
-            cds.odata.bindingparameter.name : '_mrReadyForApprovalParam',
+            cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_mrReadyForApprovalParam/to_requestStatus_rStatusDesc',
-                '_mrReadyForApprovalParam/to_requestPhase_rPhaseDesc'
+                '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
         action mrReadyForApproval();
+
+        //Update the UI after action requestedApproved
         @(
-            cds.odata.bindingparameter.name : '_requestedApprovedParam',
+            cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_requestedApprovedParam/to_requestStatus_rStatusDesc',
-                '_requestedApprovedParam/to_requestPhase_rPhaseDesc'
+                '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
         action requestedApproved();

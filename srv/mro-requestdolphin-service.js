@@ -555,7 +555,7 @@ module.exports = cds.service.impl(async function () {
         }).where({ ID: id1 })
     })
 
-    this.on('requestApproved', async (req) => {
+    this.on('requestedApproved', async (req) => {
         const id1 = req.params[0].ID
         const tx1 = cds.transaction(req)
         var queryStatus = await tx1.read(RequestStatuses).where({rStatusDesc: 'Requested Approved'})
