@@ -306,96 +306,16 @@ module.exports = cds.service.impl(async function () {
     this.on('changeStatus', async (req) => {
         const id1 = req.params[0].ID
         const tx1 = cds.transaction(req)
-        console.log('req..................',req.data)
+        console.log('req..................', req.data)
         var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: req.data.status })
-        console.log('query/...............',queryStatus)
+        console.log('query/...............', queryStatus)
         var queryPhase = await tx1.read(RequestPhases).where({ rPhase: queryStatus[0].to_rPhase_rPhase })
-        console.log('query pahse',queryPhase)
+        console.log('query pahse', queryPhase)
         const affectedRows = await UPDATE(MaintenanceRequests).set({
             to_requestStatus_rStatus: queryStatus[0].rStatus,
             to_requestStatus1_rStatus: queryStatus[0].rStatus,
             to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
             to_requestStatus1_rStatusDesc: queryStatus[0].rStatusDesc,
-            to_requestPhase_rPhase: queryPhase[0].rPhase,
-            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
-        }).where({ ID: id1 })
-    })
-
-    this.on('readyForWorkListRequested', async (req) => {
-        const id1 = req.params[0].ID
-        const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'Ready For WorkList Requested' })
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Initial' })
-        console.log('queryPhase',queryPhase)
-        const affectedRows = await UPDATE(MaintenanceRequests).set({
-            to_requestStatus_rStatus: queryStatus[0].rStatus,
-            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
-            to_requestPhase_rPhase: queryPhase[0].rPhase,
-            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
-        }).where({ ID: id1 })
-    })
-
-    this.on('workListRequested', async (req) => {
-        const id1 = req.params[0].ID
-        const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'WorkList Requested' })
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Initial' })
-        const affectedRows = await UPDATE(MaintenanceRequests).set({
-            to_requestStatus_rStatus: queryStatus[0].rStatus,
-            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
-            to_requestPhase_rPhase: queryPhase[0].rPhase,
-            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
-        }).where({ ID: id1 })
-    })
-
-    this.on('newWorkListReceived', async (req) => {
-        const id1 = req.params[0].ID
-        const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'New WorkList Received' })
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Screening' })
-        const affectedRows = await UPDATE(MaintenanceRequests).set({
-            to_requestStatus_rStatus: queryStatus[0].rStatus,
-            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
-            to_requestPhase_rPhase: queryPhase[0].rPhase,
-            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
-        }).where({ ID: id1 })
-
-    })
-
-    this.on('workListValidated', async (req) => {
-        const id1 = req.params[0].ID
-        const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'WorkList Validated' })
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Screening' })
-        const affectedRows = await UPDATE(MaintenanceRequests).set({
-            to_requestStatus_rStatus: queryStatus[0].rStatus,
-            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
-            to_requestPhase_rPhase: queryPhase[0].rPhase,
-            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
-        }).where({ ID: id1 })
-    })
-
-    this.on('workListUploaded', async (req) => {
-        const id1 = req.params[0].ID
-        const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'WorkList Uploaded' })
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
-        const affectedRows = await UPDATE(MaintenanceRequests).set({
-            to_requestStatus_rStatus: queryStatus[0].rStatus,
-            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
-            to_requestPhase_rPhase: queryPhase[0].rPhase,
-            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
-        }).where({ ID: id1 })
-    })
-
-    this.on('allWorkListReceived', async (req) => {
-        const id1 = req.params[0].ID
-        const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'All WorkList Received' })
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
-        const affectedRows = await UPDATE(MaintenanceRequests).set({
-            to_requestStatus_rStatus: queryStatus[0].rStatus,//Abbrea
-            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
             to_requestPhase_rPhase: queryPhase[0].rPhase,
             to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
         }).where({ ID: id1 })
@@ -410,7 +330,7 @@ module.exports = cds.service.impl(async function () {
         var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Preparation' })
         console.log('query', queryPhase)
         var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
-        console.log('query...........',query)
+        console.log('query...........', query)
 
         //Fetching planning plant, request desc, work center and arrival and delivery date for performing POST request to MaintRevision S4 Service
         //Mandatory fields for creating a revision
@@ -498,7 +418,9 @@ module.exports = cds.service.impl(async function () {
                         revisionType: result.RevisionType,
                         revisionText: result.RevisionText,
                         to_requestStatus_rStatus: 'CREATEDREVISION',
+                        to_requestStatus1_rStatus: 'CREATEDREVISION',
                         to_requestStatus_rStatusDesc: 'Created Revision',
+                        to_requestStatus1_rStatusDesc: 'Created Revision',
                         to_requestPhase_rPhase: 'PREPARATION',
                         to_requestPhase_rPhaseDesc: 'Preparation'
                     }).where({ ID: id1 })
@@ -533,59 +455,6 @@ module.exports = cds.service.impl(async function () {
         }
         //}
 
-    })
-
-    this.on('allTaskListIdentified', async (req) => {
-        const id1 = req.params[0].ID
-        const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'All TaskList Identified' })
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
-        const affectedRows = await UPDATE(MaintenanceRequests).set({
-            to_requestStatus_rStatus: queryStatus[0].rStatus,
-            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
-            to_requestPhase_rPhase: queryPhase[0].rPhase,
-            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
-        }).where({ ID: id1 })
-    })
-
-    this.on('allNotificationCreated', async (req) => {
-        const id1 = req.params[0].ID
-        const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'All Notification Created' })
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
-        const affectedRows = await UPDATE(MaintenanceRequests).set({
-            to_requestStatus_rStatus: queryStatus[0].rStatus,
-            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
-            to_requestPhase_rPhase: queryPhase[0].rPhase,
-            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
-        }).where({ ID: id1 })
-
-    })
-
-    this.on('mrReadyForApproval', async (req) => {
-        const id1 = req.params[0].ID
-        const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'MR Ready for Approval' })
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
-        const affectedRows = await UPDATE(MaintenanceRequests).set({
-            to_requestStatus_rStatus: queryStatus[0].rStatus,
-            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
-            to_requestPhase_rPhase: queryPhase[0].rPhase,
-            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
-        }).where({ ID: id1 })
-    })
-
-    this.on('requestedApproved', async (req) => {
-        const id1 = req.params[0].ID
-        const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({rStatusDesc: 'Requested Approved'})
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'MR Request Completed' })
-        const affectedRows = await UPDATE(MaintenanceRequests).set({
-            to_requestStatus_rStatus: queryStatus[0].rStatus,
-            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
-            to_requestPhase_rPhase: queryPhase[0].rPhase,
-            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
-        }).where({ ID: id1 })
     })
 
     //Function for converting date into (YYYY-MM-DD) format

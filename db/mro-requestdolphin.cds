@@ -70,7 +70,7 @@ entity RequestStatuses {
 
 entity RequestStatuses1 {
     key rStatus     : String default 'DRAFT';
-    key rStatusDesc : String default 'DRAFT';
+    key rStatusDesc : String default 'Draft';
 };
 
 entity RequestPhases {

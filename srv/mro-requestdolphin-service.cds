@@ -33,73 +33,6 @@ service mrorequestdolphinService {
             },
         });
 
-        //Update the UI after action readyForWorkListRequested
-        @(
-            cds.odata.bindingparameter.name : '_it',
-            Common.SideEffects              : {TargetProperties : [
-                '_it/to_requestStatus_rStatusDesc',
-                '_it/to_requestStatus1_rStatusDesc',
-                '_it/to_requestPhase_rPhaseDesc'
-            ]}
-        )
-        // @Common.IsActionCritical : true (For Confirmation message)
-        action readyForWorkListRequested();
-
-        //Update the UI after action workListRequested
-        @(
-            cds.odata.bindingparameter.name : '_it',
-            Common.SideEffects              : {TargetProperties : [
-                '_it/to_requestStatus_rStatusDesc',
-                '_it/to_requestStatus1_rStatusDesc',
-                '_it/to_requestPhase_rPhaseDesc'
-            ]}
-        )
-        action workListRequested();
-
-        //Update the UI after action newWorkListReceived
-        @(
-            cds.odata.bindingparameter.name : '_it',
-            Common.SideEffects              : {TargetProperties : [
-                '_it/to_requestStatus_rStatusDesc',
-                '_it/to_requestStatus1_rStatusDesc',
-                '_it/to_requestPhase_rPhaseDesc'
-            ]}
-        )
-        action newWorkListReceived();
-
-        //Update the UI after action workListValidated
-        @(
-            cds.odata.bindingparameter.name : '_it',
-            Common.SideEffects              : {TargetProperties : [
-                '_it/to_requestStatus_rStatusDesc',
-                '_it/to_requestStatus1_rStatusDesc',
-                '_it/to_requestPhase_rPhaseDesc'
-            ]}
-        )
-        action workListValidated();
-
-        //Update the UI after action workListUploaded
-        @(
-            cds.odata.bindingparameter.name : '_it',
-            Common.SideEffects              : {TargetProperties : [
-                '_it/to_requestStatus_rStatusDesc',
-                '_it/to_requestStatus1_rStatusDesc',
-                '_it/to_requestPhase_rPhaseDesc'
-            ]}
-        )
-        action workListUploaded();
-
-        //Update the UI after action allWorkListReceived
-        @(
-            cds.odata.bindingparameter.name : '_it',
-            Common.SideEffects              : {TargetProperties : [
-                '_it/to_requestStatus_rStatusDesc',
-                '_it/to_requestStatus1_rStatusDesc',
-                '_it/to_requestPhase_rPhaseDesc'
-            ]}
-        )
-        action allWorkListReceived();
-
         //Update the UI after action revisionCreated
         @(
             cds.odata.bindingparameter.name : '_it',
@@ -111,50 +44,6 @@ service mrorequestdolphinService {
             ]}
         )
         action revisionCreated();
-
-        //Update the UI after action allTaskListIdentified
-        @(
-            cds.odata.bindingparameter.name : '_it',
-            Common.SideEffects              : {TargetProperties : [
-                '_it/to_requestStatus_rStatusDesc',
-                '_it/to_requestStatus1_rStatusDesc',
-                '_it/to_requestPhase_rPhaseDesc'
-            ]}
-        )
-        action allTaskListIdentified();
-
-        //Update the UI after action allNotificationCreated
-        @(
-            cds.odata.bindingparameter.name : '_it',
-            Common.SideEffects              : {TargetProperties : [
-                '_it/to_requestStatus_rStatusDesc',
-                '_it/to_requestStatus1_rStatusDesc',
-                '_it/to_requestPhase_rPhaseDesc'
-            ]}
-        )
-        action allNotificationCreated();
-
-        //Update the UI after action mrReadyForApproval
-        @(
-            cds.odata.bindingparameter.name : '_it',
-            Common.SideEffects              : {TargetProperties : [
-                '_it/to_requestStatus_rStatusDesc',
-                '_it/to_requestStatus1_rStatusDesc',
-                '_it/to_requestPhase_rPhaseDesc'
-            ]}
-        )
-        action mrReadyForApproval();
-
-        //Update the UI after action requestedApproved
-        @(
-            cds.odata.bindingparameter.name : '_it',
-            Common.SideEffects              : {TargetProperties : [
-                '_it/to_requestStatus_rStatusDesc',
-                '_it/to_requestStatus1_rStatusDesc',
-                '_it/to_requestPhase_rPhaseDesc'
-            ]}
-        )
-        action requestedApproved();
     };
 
     entity MaintenanceRequests1 as projection on maintReq.MaintenanceRequests {
