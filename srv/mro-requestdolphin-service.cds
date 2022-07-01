@@ -16,6 +16,29 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestStatus1_rStatusDesc',
+                '_it/to_requestPhase_rPhaseDesc'
+            ]}
+        )
+        action changeStatus(status : String @title : 'Maintenance Request Status'  @Common : {
+            ValueListWithFixedValues,
+            ValueList : {
+                $Type          : 'Common.ValueListType',
+                CollectionPath : 'RequestStatuses',
+                Parameters     : [{
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'status',
+                    ValueListProperty : 'rStatusDesc'
+                }, ],
+            },
+        });
+
+        //Update the UI after action readyForWorkListRequested
+        @(
+            cds.odata.bindingparameter.name : '_it',
+            Common.SideEffects              : {TargetProperties : [
+                '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestStatus1_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
@@ -27,6 +50,7 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestStatus1_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
@@ -37,6 +61,7 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestStatus1_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
@@ -47,6 +72,7 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestStatus1_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
@@ -57,6 +83,7 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestStatus1_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
@@ -67,6 +94,7 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestStatus1_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
@@ -77,6 +105,7 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestStatus1_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc',
                 '_it/MaintenanceRevision'
             ]}
@@ -88,6 +117,7 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestStatus1_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
@@ -98,6 +128,7 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestStatus1_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
@@ -108,6 +139,7 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestStatus1_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
@@ -118,6 +150,7 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
+                '_it/to_requestStatus1_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc'
             ]}
         )

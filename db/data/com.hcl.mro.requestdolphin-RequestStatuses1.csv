@@ -1,3 +1,16 @@
-rStatus
-Draft
-Revision Created
+rStatus;rStatusDesc
+DRAFT;Draft
+CREATED;Created
+REQFORWL;Request for Work List
+REQWL;Requested Work List
+RECEIVEDNEWWL;Received New Work List
+SCREENNEWWL;Screen New Work List
+VALIDATEDWL;Validated Work List 
+CREATEDWL;Created Work List 
+RECEIVEDALWL;Received All Work List 
+READYFORAPPROVAL;Ready for Approval
+APPROVEDMR;Approved Maintenance Request
+UPDATEDTL;Updated Task List 
+CREATEDREVISION;Created Revision
+CREATEDNOTIF;Created Notification 
+COMPLETEDMRDOC;Completed Maintenance Request Doc

@@ -252,17 +252,19 @@ module.exports = cds.service.impl(async function () {
 
         req.data.requestNoConcat = req.data.requestNo
 
+        //STatus and Phase value for list report page 
         req.data.to_requestStatus1_rStatus = req.data.to_requestStatus_rStatus
+        req.data.to_requestStatus1_rStatusDesc = req.data.to_requestStatus_rStatusDesc
 
     });
 
-    this.before('UPDATE', 'MaintenanceRequests', async (req) => {
+    /*this.before('UPDATE', 'MaintenanceRequests', async (req) => {
 
         // the request phase will change after selecting request status from edit screen
         if (req.data.to_requestStatus_rStatus == 'Confirmed') {
             req.data.to_requestPhase_rPhase = 'Planning'
         }
-    });
+    });*/
 
     this.after('PATCH', 'MaintenanceRequests', async (req) => {
         //Fetch delivery date whenever user select the field at UI
@@ -300,6 +302,24 @@ module.exports = cds.service.impl(async function () {
             // }
         }
     });
+
+    this.on('changeStatus', async (req) => {
+        const id1 = req.params[0].ID
+        const tx1 = cds.transaction(req)
+        console.log('req..................',req.data)
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: req.data.status })
+        console.log('query/...............',queryStatus)
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhase: queryStatus[0].to_rPhase_rPhase })
+        console.log('query pahse',queryPhase)
+        const affectedRows = await UPDATE(MaintenanceRequests).set({
+            to_requestStatus_rStatus: queryStatus[0].rStatus,
+            to_requestStatus1_rStatus: queryStatus[0].rStatus,
+            to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestStatus1_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestPhase_rPhase: queryPhase[0].rPhase,
+            to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+        }).where({ ID: id1 })
+    })
 
     this.on('readyForWorkListRequested', async (req) => {
         const id1 = req.params[0].ID
@@ -385,9 +405,9 @@ module.exports = cds.service.impl(async function () {
         // for (let i = 0; i < req.params.length; i++) {
         const id1 = req.params[0].ID
         const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'Revision Created' })
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'Created Revision' })
         console.log('query', queryStatus)
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Preparation' })
         console.log('query', queryPhase)
         var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
         console.log('query...........',query)
@@ -477,10 +497,10 @@ module.exports = cds.service.impl(async function () {
                         MaintenanceRevision: result.RevisionNo,
                         revisionType: result.RevisionType,
                         revisionText: result.RevisionText,
-                        to_requestStatus_rStatus: queryStatus[0].rStatus,
-                        to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
-                        to_requestPhase_rPhase: queryPhase[0].rPhase,
-                        to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
+                        to_requestStatus_rStatus: 'CREATEDREVISION',
+                        to_requestStatus_rStatusDesc: 'Created Revision',
+                        to_requestPhase_rPhase: 'PREPARATION',
+                        to_requestPhase_rPhaseDesc: 'Preparation'
                     }).where({ ID: id1 })
                     // console.log('result', result)
                     // query[0].MaintenanceRevision = result.RevisionNo
@@ -507,8 +527,8 @@ module.exports = cds.service.impl(async function () {
                 req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
             }
         }
-        else if (query[0].MaintenanceRevision != null && query[0].to_requestStatus_rStatus == 'Revision Created') {
-            req.data.to_requestStatus_rStatus = 'Revision Created'
+        else if (query[0].MaintenanceRevision != null && query[0].to_requestStatus_rStatus == 'CREATEDREVISION') {
+            req.data.to_requestStatus_rStatus = 'CREATEDREVISION'
             req.info(101, 'Revision is already been created for this Maintenance Request')
         }
         //}

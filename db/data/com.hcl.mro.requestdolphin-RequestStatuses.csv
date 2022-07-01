@@ -1,14 +1,13 @@
-rStatus;rStatusDesc
-DRAFT;Draft
-CREATED;Created
-READYFORWLREQ;Ready For WorkList Requested
-WLREQ;WorkList Requested
-NEWWLRECEIVED;New WorkList Received
-WLVALIDATED;WorkList Validated
-WLUPLOADED;WorkList Uploaded
-ALLWLRECEIVED;All WorkList Received
-REVISIONCREATED;Revision Created
-TLIDENTIFIED;All TaskList Identified
-NOTIFCREATED;All Notification Created
-MRREADYFORAPPROVAL;MR Ready for Approval
-REQAPPROVED;Requested Approved
+rStatus;rStatusDesc;to_rPhase_rPhase
+REQFORWL;Request for Work List;INITIATION
+REQWL;Requested Work List;INITIATION
+RECEIVEDNEWWL;Received New Work List;INITIATION
+SCREENNEWWL;Screen New Work List;SCREENING
+VALIDATEDWL;Validated Work List;SCREENING
+CREATEDWL;Created Work List;SCREENING
+RECEIVEDALWL;Received All Work List;SCREENING
+READYFORAPPROVAL;Ready for Approval;PREPARATION
+APPROVEDMR;Approved Maintenance Request;PREPARATION
+UPDATEDTL;Updated Task List;PREPARATION
+CREATEDNOTIF;Created Notification;PREPARATION 
+COMPLETEDMRDOC;Completed Maintenance Request;PREPARATION

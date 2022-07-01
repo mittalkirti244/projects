@@ -48,12 +48,6 @@ entity MaintenanceRequests : managed {
         requestStatus1           : String default 'Draft'                           @title                 : '{i18n>requestStatus1}'; //to assign the request status at the time of create and make it readonly field
         mrCount                  : Integer default 1; //Used in views to show count of the requests
         createdAtDate            : Date                                             @cds.on.insert         : $now  @title                              : '{i18n>createdAtDate}'; //Used as a filter criteria for Overview page(Date DataType works as a date picker)
-        // foreCastDays                 : Integer default 11;
-        // foreCastDaysValue            : Integer;
-        // foreCastDate                 : Date;
-        // diffInCurrentAndArrivalDate  : Integer;
-        // diffInCurrentAndDeliveryDate : Integer;
-        // diffInDeliveryAndArrivalDate : Integer;
         to_requestType           : Association to RequestTypes                      @title :                 '{i18n>requestType}'  @assert.integrity   : false; //as dropdown - request number will generate through request type
         to_requestStatus         : Association to RequestStatuses                   @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
         to_requestStatus1        : Association to RequestStatuses1                  @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
@@ -71,15 +65,17 @@ entity RequestTypes {
 entity RequestStatuses {
     key rStatus     : String default 'DRAFT';
     key rStatusDesc : String default 'Draft';
+        to_rPhase   : Association to RequestPhases;
 };
 
 entity RequestStatuses1 {
-    key rStatus : String;
+    key rStatus     : String default 'DRAFT';
+    key rStatusDesc : String default 'DRAFT';
 };
 
 entity RequestPhases {
-    key rPhase     : String default 'INITIAL';
-    key rPhaseDesc : String default 'Initial';
+    key rPhase     : String default 'INITIATION';
+    key rPhaseDesc : String default 'Initiation';
 };
 
 entity Documents : managed {

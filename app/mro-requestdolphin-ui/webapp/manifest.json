@@ -124,28 +124,6 @@
                     "name": "sap.fe.templates.ObjectPage",
                     "options": {
                         "settings": {
-                            "content": {
-                                "header": {
-                                    "actions": {
-                                        "MenuActions": {
-                                            "text": "My Menu Button",
-                                            "menu": [
-                                                "DataFieldForAction::mrorequestdolphinService.readyForWorkListRequested",
-                                                "DataFieldForAction::mrorequestdolphinService.workListRequested",
-                                                "DataFieldForAction::mrorequestdolphinService.newWorkListReceived",
-                                                "DataFieldForAction::mrorequestdolphinService.workListValidated",
-                                                "DataFieldForAction::mrorequestdolphinService.workListUploaded",
-                                                "DataFieldForAction::mrorequestdolphinService.allWorkListReceived",
-                                                "DataFieldForAction::mrorequestdolphinService.revisionCreated",
-                                                "DataFieldForAction::mrorequestdolphinService.allTaskListIdentified",
-                                                "DataFieldForAction::mrorequestdolphinService.allNotificationCreated",
-                                                "DataFieldForAction::mrorequestdolphinService.mrReadyForApproval",
-                                                "DataFieldForAction::mrorequestdolphinService.requestedApproved"
-                                            ]
-                                        }
-                                    }
-                                }
-                            },
                             "editableHeaderContent": false,
                             "entitySet": "MaintenanceRequests",
                             "controlConfiguration": {

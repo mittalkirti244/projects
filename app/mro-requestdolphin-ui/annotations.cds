@@ -5,7 +5,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     SelectionFields                             : [
         requestNoConcat,
         to_requestType_rType,
-        to_requestStatus_rStatusDesc,
+        to_requestStatus1_rStatusDesc,
         to_requestPhase_rPhaseDesc,
         businessPartner1,
         expectedDeliveryDate,
@@ -17,6 +17,16 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             $Type  : 'UI.DataFieldForAction',
             Action : 'mrorequestdolphinService.requestMail',
             Label  : '{i18n>requestMail}',
+        },
+        {
+            $Type  : 'UI.DataFieldForAction',
+            Action : 'mrorequestdolphinService.revisionCreated',
+            Label  : 'Create Revision'
+        },
+        {
+            $Type  : 'UI.DataFieldForAction',
+            Action : 'mrorequestdolphinService.changeStatus',
+            Label  : 'Change Status'
         },
         {
             Value                 : requestNoConcat,
@@ -33,7 +43,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             }
         },
         {
-            Value                     : to_requestStatus_rStatusDesc,
+            Value                     : to_requestStatus1_rStatusDesc,
             ![@HTML5.CssDefaults]     : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -419,58 +429,13 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(Common.SideEffects 
 annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {Identification : [
     {
         $Type  : 'UI.DataFieldForAction',
-        Action : 'mrorequestdolphinService.readyForWorkListRequested',
-        Label  : 'Ready For WorkList Requested'
-    },
-    {
-        $Type  : 'UI.DataFieldForAction',
-        Action : 'mrorequestdolphinService.workListRequested',
-        Label  : 'WorkList Requested'
-    },
-    {
-        $Type  : 'UI.DataFieldForAction',
-        Action : 'mrorequestdolphinService.newWorkListReceived',
-        Label  : 'New WorkList Recieved'
-    },
-    {
-        $Type  : 'UI.DataFieldForAction',
-        Action : 'mrorequestdolphinService.workListValidated',
-        Label  : 'WorkList Validated'
-    },
-    {
-        $Type  : 'UI.DataFieldForAction',
-        Action : 'mrorequestdolphinService.workListUploaded',
-        Label  : 'WorkList Uploaded'
-    },
-    {
-        $Type  : 'UI.DataFieldForAction',
-        Action : 'mrorequestdolphinService.allWorkListReceived',
-        Label  : 'All WorkList Received'
+        Action : 'mrorequestdolphinService.changeStatus',
+        Label  : 'Change Status'
     },
     {
         $Type  : 'UI.DataFieldForAction',
         Action : 'mrorequestdolphinService.revisionCreated',
         Label  : 'Create Revision'
-    },
-    {
-        $Type  : 'UI.DataFieldForAction',
-        Action : 'mrorequestdolphinService.allTaskListIdentified',
-        Label  : 'All Task List Identified'
-    },
-    {
-        $Type  : 'UI.DataFieldForAction',
-        Action : 'mrorequestdolphinService.allNotificationCreated',
-        Label  : 'All Notification Created'
-    },
-    {
-        $Type  : 'UI.DataFieldForAction',
-        Action : 'mrorequestdolphinService.mrReadyForApproval',
-        Label  : 'MR Ready for Approval'
-    },
-    {
-        $Type  : 'UI.DataFieldForAction',
-        Action : 'mrorequestdolphinService.requestedApproved',
-        Label  : 'Requested Approved'
     }
 ]});
 
@@ -571,7 +536,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-
 //Request Number value Help for List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     requestNoConcat @(Common : {ValueList : {
@@ -590,7 +554,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             }
         ]
     }});
-}
+};
 
 //Business Partner1 value Help for list report page
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -600,12 +564,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         Label           : '{i18n>businessPartner}',
         Parameters      : [
             {
-                $Type             : 'Common.ValueListParameterInOut',
+                $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'businessPartner1',
                 ValueListProperty : 'BusinessPartner'
             },
             {
-                $Type             : 'Common.ValueListParameterInOut',
+                $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'businessPartnerName1',
                 ValueListProperty : 'BusinessPartnerName'
             },
@@ -940,35 +904,19 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 
 //Request Status DropDown on List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    to_requestStatus @(Common : {
+    to_requestStatus1 @(Common : {
         ValueListWithFixedValues,
         ValueList : {
-            CollectionPath : 'RequestStatuses',
+            CollectionPath : 'RequestStatuses1',
             Label          : '{i18n>requestStatus}',
             Parameters     : [{
-                $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'to_requestStatus_rStatusDesc',
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'to_requestStatus1_rStatusDesc',
                 ValueListProperty : 'rStatusDesc'
             }]
         }
     });
 };
-
-//Request Status DropDown on Object Page
-/*annotate mrorequestdolphinService.MaintenanceRequests with {
-    to_requestStatus @(Common : {
-        ValueListWithFixedValues,
-        ValueList : {
-            CollectionPath : 'RequestStatuses',
-            Label          : '{i18n>requestStatus}',
-            Parameters     : [{
-                $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'to_requestStatus_rStatus',
-                ValueListProperty : 'rStatus'
-            }]
-        }
-    });
-};*/
 
 //Phase Dropdown
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -978,7 +926,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             CollectionPath : 'RequestPhases',
             Label          : '{i18n>requestPhases}',
             Parameters     : [{
-                $Type             : 'Common.ValueListParameterInOut',
+                $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'to_requestPhase_rPhaseDesc',
                 ValueListProperty : 'rPhaseDesc'
             }]
