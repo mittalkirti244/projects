@@ -374,7 +374,7 @@ module.exports = cds.service.impl(async function () {
         var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'All WorkList Received' })
         var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Planning' })
         const affectedRows = await UPDATE(MaintenanceRequests).set({
-            to_requestStatus_rStatus: queryStatus[0].rStatus,
+            to_requestStatus_rStatus: queryStatus[0].rStatus,//Abbrea
             to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
             to_requestPhase_rPhase: queryPhase[0].rPhase,
             to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
