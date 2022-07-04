@@ -193,6 +193,27 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {
             Value : requestDesc,
             ![@UI.Hidden]
+        },
+        {
+            Value : to_requestStatus_ID,
+            ![@UI.Hidden]
+        },
+        {
+            Value : to_requestStatus_rStatus,
+            ![@UI.Hidden]
+        },
+        {
+            Value : to_requestStatus_rStatusDesc,
+            ![@UI.Hidden]
+        },
+        {
+            Value : to_requestStatus1_rStatus,
+            ![@UI.Hidden]
+        },
+
+       {
+            Value : to_requestType_rType,
+            ![@UI.Hidden]
         }
     ],
     //Sort the Request based on createdAt in list report page
@@ -366,7 +387,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Criticality               : criticalityLevel,
             CriticalityRepresentation : #WithoutIcon
         },
-
     /* {
          Value                     : requestStatus1,
          ![@UI.Hidden]             : uiHidden, //Inital value in CREATE-> visible,  In edit -> not visible
@@ -389,7 +409,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : expectedDeliveryDate},
     //{Value : to_botStatus_ID}
     ]},
-
     FieldGroup #locationGroup                   : {Data : [
         {Value : locationWC},
         {Value : MaintenancePlanningPlant}
@@ -408,34 +427,16 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     ]}
 });
 
-/*@cds.odata.bindingparameter.name : '_it'
-annotate mrorequestdolphinService.MaintenanceRequests with @(Common.SideEffects #readyForWorkListRequested : {
-    $Type : 'Common.SideEffectsType',
-    EffectTypes : #ValueChange,
-    TargetProperties : [
-        'to_requestStatus_rStatusDesc'
-    ],
-    //TriggerAction : 'mrorequestdolphinService.MaintenanceRequests/readyForWorkListRequested',
-    //TargetEntities: [ '_it/to_requestStatus' ]
-});*/
-
-/*annotate mrorequestdolphinService.MaintenanceRequests @(
-    Common.SideEffects #readyForWorkListRequested : {
-        EffectTypes : #ValueChange,
-        TargetProperties : ['to_requestStatus_rStatusDesc','to_requestPhase_rPhaseDesc']
-    }
-);*/
-
 annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {Identification : [
     {
         $Type  : 'UI.DataFieldForAction',
         Action : 'mrorequestdolphinService.changeStatus',
-        Label  : 'Change Status'
+        Label  : '{i18n>changeStatus}'
     },
     {
         $Type  : 'UI.DataFieldForAction',
         Action : 'mrorequestdolphinService.revisionCreated',
-        Label  : 'Create Revision'
+        Label  : '{i18n>revisionCreated}'
     }
 ]});
 
@@ -495,14 +496,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         ![@UI.TextArrangement] : #TextFirst
     }});
 };
-
-//Text Arrangment for Revision and Revision Description
-/*annotate mrorequestdolphinService.MaintenanceRequests with {
-    MaintenanceRevision @(Common : {Text : {
-        $value                 : revisionText,
-        ![@UI.TextArrangement] : #TextFirst
-    }});
-};*/
 
 //Text Arrangment for contract and contract  name will be concatenated
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -1070,7 +1063,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         revisionText,
         revisionType,
         requestNo,
-        to_requestType_ID
+        requestType1,
+        to_requestType_ID,
+        to_requestStatus_ID,
+        to_requestStatus_rStatus,
+        to_requestStatus_rStatusDesc,
+        to_requestStatus1_rStatus
     ]
 }};
 

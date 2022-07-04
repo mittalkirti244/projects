@@ -10,4 +10,4 @@ ID;rStatus;rStatusDesc;to_rPhase_rPhase
 9;APPROVEDMR;Approved Maintenance Request;PREPARATION
 10;UPDATEDTL;Updated Task List;PREPARATION
 11;CREATEDNOTIF;Created Notification;PREPARATION 
-12;COMPLETEDMRDOC;Completed Maintenance Request;PREPARATION
+12;COMPLETEDMR;Completed Maintenance Request;PREPARATION
