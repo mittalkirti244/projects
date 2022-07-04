@@ -22,15 +22,25 @@ service mrorequestdolphinService {
         )
         action changeStatus(status : String @title : 'Maintenance Request Status'  @Common : {
             ValueListWithFixedValues,
+            Text      : {
+                $value                 : to_requestType_rType,
+                ![@UI.TextArrangement] : #TextFirst
+            },
             ValueList : {
                 $Type          : 'Common.ValueListType',
                 CollectionPath : 'RequestStatuses',
-                Parameters     : [{
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'status',
-                    ValueListProperty : 'rStatusDesc'
-                }, ],
-            },
+                Parameters     : [
+                    {
+                        $Type             : 'Common.ValueListParameterDisplayOnly',
+                        ValueListProperty : 'ID',
+                    },
+                    {
+                        $Type             : 'Common.ValueListParameterInOut',
+                        LocalDataProperty : 'status',
+                        ValueListProperty : 'rStatusDesc'
+                    }
+                ]
+            }
         });
 
         //Update the UI after action revisionCreated

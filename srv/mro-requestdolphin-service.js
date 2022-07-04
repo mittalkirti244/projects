@@ -70,6 +70,8 @@ module.exports = cds.service.impl(async function () {
         //Date field for Overview page    
         req.data.createdAtDate = returnDate(new Date())
         console.log(' req.data.createdAtDate ', req.data.createdAtDate)
+
+        console.log('req.data.........................',req.data)
     });
 
     this.before('CREATE', 'MaintenanceRequests', async (req) => {
@@ -306,11 +308,11 @@ module.exports = cds.service.impl(async function () {
     this.on('changeStatus', async (req) => {
         const id1 = req.params[0].ID
         const tx1 = cds.transaction(req)
-        console.log('req..................', req.data)
         var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: req.data.status })
-        console.log('query/...............', queryStatus)
+        console.log('query Status...............', queryStatus)
         var queryPhase = await tx1.read(RequestPhases).where({ rPhase: queryStatus[0].to_rPhase_rPhase })
         console.log('query pahse', queryPhase)
+
         const affectedRows = await UPDATE(MaintenanceRequests).set({
             to_requestStatus_rStatus: queryStatus[0].rStatus,
             to_requestStatus1_rStatus: queryStatus[0].rStatus,
