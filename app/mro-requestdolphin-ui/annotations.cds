@@ -13,20 +13,20 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     ],
     //Line Item in List Report Page
     LineItem                                    : [
+        /* {
+             $Type  : 'UI.DataFieldForAction',
+             Action : 'mrorequestdolphinService.requestMail',
+             Label  : '{i18n>requestMail}',
+         },*/
         {
             $Type  : 'UI.DataFieldForAction',
-            Action : 'mrorequestdolphinService.requestMail',
-            Label  : '{i18n>requestMail}',
+            Action : 'mrorequestdolphinService.changeStatus',
+            Label  : 'Change Status'
         },
         {
             $Type  : 'UI.DataFieldForAction',
             Action : 'mrorequestdolphinService.revisionCreated',
             Label  : 'Create Revision'
-        },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'mrorequestdolphinService.changeStatus',
-            Label  : 'Change Status'
         },
         {
             Value                 : requestNoConcat,
@@ -194,10 +194,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value : requestDesc,
             ![@UI.Hidden]
         },
-        {
-            Value : to_requestStatus_ID,
-            ![@UI.Hidden]
-        },
+        /* {
+             Value : to_requestStatus_ID,
+             ![@UI.Hidden]
+         },*/
         {
             Value : to_requestStatus_rStatus,
             ![@UI.Hidden]
@@ -1065,7 +1065,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         requestNo,
         requestType1,
         to_requestType_ID,
-        to_requestStatus_ID,
+        // to_requestStatus_ID,
         to_requestStatus_rStatus,
         to_requestStatus_rStatusDesc,
         to_requestStatus1_rStatus,

@@ -273,7 +273,7 @@ module.exports = cds.service.impl(async function () {
         //console.log('Value of selectedDeliveryDate: ', reqDeliveryDate)
     });
 
-    this.on('requestMail', async (req) => {
+    /*this.on('requestMail', async (req) => {
         for (let i = 0; i < req.params.length; i++) {
             const id1 = req.params[i].ID
             const tx1 = cds.transaction(req)
@@ -291,18 +291,18 @@ module.exports = cds.service.impl(async function () {
                 }).where({ ID: query[i].ID })
             }
             // else {
-            /* if (query[i].MaintenanceRevision == null && query[i].to_botStatus_ID == 1) {
-                 req.error(406, 'E-Mail cannot be sent, as Revision is not created for Maintenance Request ' + query[i].requestNo)
-             }
-             // else if (query[i].MaintenanceRevision == null) {
-               //  req.error(406, 'E-Mail cannot be sent, as Revision is not created for Maintenance Request ' + query[i].requestNo)
-             } */
+            //  if (query[i].MaintenanceRevision == null && query[i].to_botStatus_ID == 1) {
+            //      req.error(406, 'E-Mail cannot be sent, as Revision is not created for Maintenance Request ' + query[i].requestNo)
+            //  }
+            //  // else if (query[i].MaintenanceRevision == null) {
+            //    //  req.error(406, 'E-Mail cannot be sent, as Revision is not created for Maintenance Request ' + query[i].requestNo)
+            //  } 
             else if (query[i].to_botStatus_ID == 1) {
                 req.error(406, 'E-Mail already sent for Maintenance Request ' + query[i].requestNo)
             }
             // }
         }
-    });
+    });*/
 
     this.on('changeStatus', async (req) => {
         const id1 = req.params[0].ID

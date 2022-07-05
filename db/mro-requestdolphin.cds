@@ -62,6 +62,7 @@ entity RequestTypes {
     key rType : String;
 };
 
+//It is used in change status action button as a drop down
 entity RequestStatuses {
    // key ID          : Integer;
     key rStatus     : String default 'DRAFT';
@@ -69,6 +70,7 @@ entity RequestStatuses {
         to_rPhase   : Association to RequestPhases;
 };
 
+//It is used as Status drop down on list report page
 entity RequestStatuses1 {
     key rStatus     : String default 'DRAFT';
     key rStatusDesc : String default 'Draft';

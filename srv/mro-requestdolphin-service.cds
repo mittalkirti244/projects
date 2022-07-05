@@ -9,9 +9,9 @@ service mrorequestdolphinService {
     @odata.draft.enabled
     @cds.redirection.target
     entity MaintenanceRequests  as projection on maintReq.MaintenanceRequests actions {
-        action requestMail();
+        //action requestMail();
 
-        //Update the UI after action readyForWorkListRequested
+        //Update the UI after action is performed
         @(
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
