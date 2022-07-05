@@ -137,7 +137,7 @@ entity SchemaTypes {
 view AggregatedMaintenanceReqOnStatuses as
     select from MaintenanceRequests {
         @Analytics.Dimension : true
-        to_requestStatus,
+        to_requestStatus1,
         createdAtDate,
         MaintenancePlanningPlant,
         locationWC,
@@ -170,7 +170,7 @@ view AggregatedReqByCompleteAssetAndWC as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus,
+        to_requestStatus1,
         @Analytics.Dimension : true
         locationWC,
         businessPartner1,
@@ -190,7 +190,7 @@ view AggregatedReqByComponentAndWC as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus,
+        to_requestStatus1,
         @Analytics.Dimension : true
         locationWC,
         businessPartner1,
@@ -210,7 +210,7 @@ view AggregatedReqByAssemblyAndWC as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus,
+        to_requestStatus1,
         @Analytics.Dimension : true
         locationWC,
         businessPartner1,
@@ -230,7 +230,7 @@ view AggregatedReqByCompleteAssetAndBP as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus,
+        to_requestStatus1,
         businessPartner1,
         @Analytics.Dimension : true
         bpConcatenation,
@@ -250,7 +250,7 @@ view AggregatedReqByComponentAndBP as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus,
+        to_requestStatus1,
         businessPartner1,
         @Analytics.Dimension : true
         bpConcatenation,
@@ -270,7 +270,7 @@ view AggregatedReqByAssemblyAndBP as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus,
+        to_requestStatus1,
         businessPartner1,
         @Analytics.Dimension : true
         bpConcatenation,
