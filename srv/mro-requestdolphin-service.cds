@@ -23,18 +23,18 @@ service mrorequestdolphinService {
         action changeStatus(status : String @Common : {
             Label     : '{i18n>status}',
             ValueListWithFixedValues,
-            Text      : {
+            /*Text      : {
                 $value                 : to_requestType_rType,
                 ![@UI.TextArrangement] : #TextFirst
-            },
+            },*/
             ValueList : {
                 $Type          : 'Common.ValueListType',
                 CollectionPath : 'RequestStatuses',
                 Parameters     : [
-                    {
+                   /* {
                         $Type             : 'Common.ValueListParameterDisplayOnly',
                         ValueListProperty : 'ID',
-                    },
+                    },*/
                     {
                         $Type             : 'Common.ValueListParameterInOut',
                         LocalDataProperty : 'status',

@@ -63,7 +63,7 @@ entity RequestTypes {
 };
 
 entity RequestStatuses {
-    key ID          : Integer;
+   // key ID          : Integer;
     key rStatus     : String default 'DRAFT';
     key rStatusDesc : String default 'Draft';
         to_rPhase   : Association to RequestPhases;
