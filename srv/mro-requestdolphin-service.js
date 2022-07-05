@@ -71,7 +71,6 @@ module.exports = cds.service.impl(async function () {
         req.data.createdAtDate = returnDate(new Date())
         console.log(' req.data.createdAtDate ', req.data.createdAtDate)
 
-        console.log('req.data.........................',req.data)
     });
 
     this.before('CREATE', 'MaintenanceRequests', async (req) => {
@@ -426,12 +425,6 @@ module.exports = cds.service.impl(async function () {
                         to_requestPhase_rPhase: 'PREPARATION',
                         to_requestPhase_rPhaseDesc: 'Preparation'
                     }).where({ ID: id1 })
-                    // console.log('result', result)
-                    // query[0].MaintenanceRevision = result.RevisionNo
-                    // query[0].revisionType = result.RevisionType
-                    // query[0].revisionText = result.RevisionText
-                    // console.log(' result.FunctionLocation value is ', result.FunctionLocation)
-                    // console.log(' result.Equipment value is ', result.Equipment)
                     req.info(101, 'Revision ' + result.RevisionNo + ' created')
                     // query[0].to_requestStatus_rStatus = 'Revision Created'
                     return result
@@ -522,5 +515,4 @@ module.exports = cds.service.impl(async function () {
 
         return vdiffInArrivalAndDeliveryDate
     }*/
-
 })

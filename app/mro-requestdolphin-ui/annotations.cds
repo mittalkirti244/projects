@@ -134,10 +134,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value : businessPartnerName1,
             ![@UI.Hidden]
         },
-        {
-            Value : requestStatus1,
-            ![@UI.Hidden]
-        },
+        /* {
+             Value : requestStatus1,
+             ![@UI.Hidden]
+         },*/
         {
             Value : requestType1,
             ![@UI.Hidden]
@@ -210,9 +210,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value : to_requestStatus1_rStatus,
             ![@UI.Hidden]
         },
-
-       {
+        {
             Value : to_requestType_rType,
+            ![@UI.Hidden]
+        },
+        {
+            Value : to_requestPhase_rPhase,
             ![@UI.Hidden]
         }
     ],
@@ -249,7 +252,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         },
         {
             $Type  : 'UI.ReferenceFacet',
-            Target : '@UI.FieldGroup#Revision'
+            Target : '@UI.FieldGroup#Detail1'
         },
     /* {
          $Type  : 'UI.ReferenceFacet',
@@ -289,8 +292,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         }
     ]},
 
-    //Column 4 for header facet (Revision Number)
-    FieldGroup #Revision                        : {Data : [
+    //Column 4 for header facet
+    FieldGroup #Detail1                         : {Data : [
         {
             Value : createdAt,
             Label : '{i18n>createdAt}'
@@ -365,6 +368,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         }
     ],
 
+    //Tab 1 - General Details
     FieldGroup #generalGroup1                   : {Data : [
         {Value : requestDesc},
         {
@@ -377,25 +381,23 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         },
         {
             Value                     : to_requestStatus_rStatusDesc,
-            // ![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
+            //![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
             Criticality               : criticalityLevel,
             CriticalityRepresentation : #WithoutIcon
         },
         {
             Value                     : to_requestPhase_rPhaseDesc,
-            // ![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
+            //![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
             Criticality               : criticalityLevel,
             CriticalityRepresentation : #WithoutIcon
         },
-    /* {
+    /*{
          Value                     : requestStatus1,
          ![@UI.Hidden]             : uiHidden, //Inital value in CREATE-> visible,  In edit -> not visible
          Criticality               : criticalityLevel,
          CriticalityRepresentation : #WithoutIcon
      },*/
-    //{Value : to_requestPhase_rPhase}
     ]},
-
     FieldGroup #generalGroup2                   : {Data : [
         {Value : businessPartner},
         {Value : ccpersonName},
@@ -403,7 +405,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : ccphoneNumber},
         {Value : contract}
     ]},
-
     FieldGroup #generalGroup3                   : {Data : [
         {Value : expectedArrivalDate},
         {Value : expectedDeliveryDate},
@@ -686,7 +687,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     contract @(Common : {ValueList : {
         CollectionPath : 'SalesContractVH',
         Label          : '{i18n>contract}',
-        //  SearchSupported : true,
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterIn',
@@ -1026,7 +1026,7 @@ annotate mrorequestdolphinService.MaintenanceRequests {
     functionalLocationName @readonly;
     contractName           @readonly;
     requestType1           @readonly;
-    requestStatus1         @readonly;
+    //requestStatus1         @readonly;
     MaintenanceRevision    @readonly;
 }
 
@@ -1040,7 +1040,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         businessPartnerName1,
         criticalityLevel,
         emailFlag,
-        requestStatus1,
+        // requestStatus1,
         requestType1,
         uiHidden,
         uiHidden1,
@@ -1068,7 +1068,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         to_requestStatus_ID,
         to_requestStatus_rStatus,
         to_requestStatus_rStatusDesc,
-        to_requestStatus1_rStatus
+        to_requestStatus1_rStatus,
+        to_requestPhase_rPhase
     ]
 }};
 
@@ -1133,7 +1134,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
             {Value : remarks}
         ]
     }
-}, );
+});
 
 annotate mrorequestdolphinService.Documents {
     ID      @readonly;
