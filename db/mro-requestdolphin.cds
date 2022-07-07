@@ -48,6 +48,7 @@ entity MaintenanceRequests : managed {
         // requestStatus1           : String default 'Draft'                           @title                 : '{i18n>requestStatus1}'; //to assign the request status at the time of create and make it readonly field
         mrCount                  : Integer default 1; //Used in views to show count of the requests
         createdAtDate            : Date                                             @cds.on.insert         : $now  @title                              : '{i18n>createdAtDate}'; //Used as a filter criteria for Overview page(Date DataType works as a date picker)
+        age                      : Integer default 0                                @title                 : '{i18n>age}'; //For representing Aging field
         to_requestType           : Association to RequestTypes                      @title :                 '{i18n>requestType}'  @assert.integrity   : false; //as dropdown - request number will generate through request type
         to_requestStatus         : Association to RequestStatuses                   @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
         to_requestStatus1        : Association to RequestStatuses1                  @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
@@ -55,6 +56,7 @@ entity MaintenanceRequests : managed {
         to_document              : Composition of many Documents
                                        on to_document.to_maintenanceRequest = $self @title                 : '{i18n>document}'; //One to many (1 MR - multiple documents links) i.e. Attaching multiple url w.r.t. MR
         to_botStatus             : Association to BotStatuses                       @title :                 '{i18n>botStatus}'  @assert.integrity     : false; // Status will get update when mail is sent to customer
+        to_ranges                : Association to Ranges                            @title :                 '{i18n>ranges}'  @assert.integrity        : false; //Age Range (0-30,30-60,...)
 };
 
 entity RequestTypes {
@@ -64,7 +66,7 @@ entity RequestTypes {
 
 //It is used in change status action button as a drop down
 entity RequestStatuses {
-   // key ID          : Integer;
+        // key ID          : Integer;
     key rStatus     : String default 'DRAFT';
     key rStatusDesc : String default 'Draft';
         to_rPhase   : Association to RequestPhases;
@@ -110,6 +112,11 @@ entity AttachmentTypes {
 entity BotStatuses {
     key ID      : Integer; //Unique ID for Bot statuses
     key bStatus : String; //Bot status (Mail Sent, Mail Received, Request Validated, Work Items Created, Notifications Created)
+};
+
+entity Ranges {
+    key ID    : Integer;
+    key range : String;
 };
 
 entity Configurations : managed {

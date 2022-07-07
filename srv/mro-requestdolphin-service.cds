@@ -31,16 +31,15 @@ service mrorequestdolphinService {
                 $Type          : 'Common.ValueListType',
                 CollectionPath : 'RequestStatuses',
                 Parameters     : [
-                   /* {
-                        $Type             : 'Common.ValueListParameterDisplayOnly',
-                        ValueListProperty : 'ID',
-                    },*/
-                    {
-                        $Type             : 'Common.ValueListParameterInOut',
-                        LocalDataProperty : 'status',
-                        ValueListProperty : 'rStatusDesc'
-                    }
-                ]
+                                  /* {
+                                       $Type             : 'Common.ValueListParameterDisplayOnly',
+                                       ValueListProperty : 'ID',
+                                   },*/
+                                 {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'status',
+                    ValueListProperty : 'rStatusDesc'
+                }]
             }
         });
 
@@ -57,6 +56,8 @@ service mrorequestdolphinService {
         action revisionCreated();
     };
 
+    action calculateAging();
+    
     entity MaintenanceRequests1 as projection on maintReq.MaintenanceRequests {
         requestNoConcat @UI.HiddenFilter,
         requestDesc     @UI.HiddenFilter
@@ -93,6 +94,7 @@ service mrorequestdolphinService {
     entity Configurations       as projection on maintReq.Configurations;
     entity RequestIndustries    as projection on maintReq.RequestIndustries;
     entity SchemaTypes          as projection on maintReq.SchemaTypes;
+    entity Ranges               as projection on maintReq.Ranges;
     view AggregatedMaintenanceReqOnStatuses as select from maintReq.AggregatedMaintenanceReqOnStatuses;
     view AggregatedMaintenanceReqOnPhases as select from maintReq.AggregatedMaintenanceReqOnPhases;
     view AggregatedReqByCompleteAssetAndWC as select from maintReq.AggregatedReqByCompleteAssetAndWC;
