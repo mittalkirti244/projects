@@ -71,14 +71,18 @@
                 "kind": "odata-v2",
                 "model": "srv/external/MAINTREQ_SB",
                 "credentials": {
-                    "destination": "MaintReq"
+                    "url": "http://40.70.43.60:8000/sap/opu/odata/ISAMMRCO/MAINTREQ_SB/",
+                    "username": "MKUMAR",
+                    "password": "Password@01"
                 }
             },
             "NumberRangeService": {
                 "kind": "odata",
                 "model": "srv/external/NumberRangeService",
                 "credentials": {
-                    "destination": "NumberRange"
+                    "url": "https://imro-cf-provider-dev-hcl-mro-requestdolphin-srv.cfapps.eu10.hana.ondemand.com/mrorequestdolphin/",
+                    "--username": "kirti.mittal@hcl.com",
+                    "--password": "Kirti@123"
                 }
             }
         },

@@ -57,7 +57,7 @@ service mrorequestdolphinService {
     };
 
     action calculateAging();
-    
+
     entity MaintenanceRequests1 as projection on maintReq.MaintenanceRequests {
         requestNoConcat @UI.HiddenFilter,
         requestDesc     @UI.HiddenFilter
@@ -103,7 +103,10 @@ service mrorequestdolphinService {
     view AggregatedReqByCompleteAssetAndBP as select from maintReq.AggregatedReqByCompleteAssetAndBP;
     view AggregatedReqByComponentAndBP as select from maintReq.AggregatedReqByComponentAndBP;
     view AggregatedReqByAssemblyAndBP as select from maintReq.AggregatedReqByAssemblyAndBP;
-
+    view AggregatedReqByCompleteAssetAndRange as select from maintReq.AggregatedReqByCompleteAssetAndRange;
+    view AggregatedReqByAssemblyAndRange as select from maintReq.AggregatedReqByAssemblyAndRange;
+    view AggregatedReqByComponentAndRange as select from maintReq.AggregatedReqByComponentAndRange;
+   
 };
 
 extend service mrorequestdolphinService with {
