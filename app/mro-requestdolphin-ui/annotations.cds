@@ -9,7 +9,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         to_requestPhase_rPhaseDesc,
         businessPartner1,
         expectedDeliveryDate,
-        MaintenanceRevision
+        MaintenanceRevision,
+        to_ranges_range
     ],
     //Line Item in List Report Page
     LineItem                                    : [
@@ -895,6 +896,29 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     })
 };
 
+//Ranges Drop Down
+annotate mrorequestdolphinService.MaintenanceRequests with {
+    to_ranges @(Common : {
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'Ranges',
+            Label          : '{i18n>Ranges}',
+            Parameters     : [
+                // {
+                //     $Type             : 'Common.ValueListParameterOut',
+                //     LocalDataProperty : 'to_ranges_ID',
+                //     ValueListProperty : 'ID'
+                // },
+                {
+                    $Type             : 'Common.ValueListParameterOut',
+                    LocalDataProperty : 'to_ranges_range',
+                    ValueListProperty : 'range'
+                }
+            ]
+        }
+    })
+};
+
 //Request Status DropDown on List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestStatus1 @(Common : {
@@ -1069,7 +1093,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         to_requestStatus_rStatus,
         to_requestStatus_rStatusDesc,
         to_requestStatus1_rStatus,
-        to_requestPhase_rPhase
+        to_requestPhase_rPhase,
+        to_ranges_ID
     ]
 }};
 
@@ -1083,8 +1108,8 @@ annotate mrorequestdolphinService.Documents with @(UI : {
             Url   : url,
         },
         {
-            Value : createdAt,
-            Label : '{i18n>createdAt}'
+            Value : modifiedAt,
+            Label : '{i18n>modifiedAt}'
         },
         {Value : eMailRecievedDateAndTime},
         {Value : to_typeOfAttachment_ID},
@@ -1106,7 +1131,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
         Visualizations : [@UI.LineItem],
         SortOrder      : [{
             $Type      : 'Common.SortOrderType',
-            Property   : createdAt,
+            Property   : modifiedAt,
             Descending : true,
         }]
     },
@@ -1121,8 +1146,8 @@ annotate mrorequestdolphinService.Documents with @(UI : {
             {Value : documentName},
             {Value : url},
             {
-                Value : createdAt,
-                Label : '{i18n>createdAt}'
+                Value : modifiedAt,
+                Label : '{i18n>modifiedAt}'
             },
             {Value : eMailRecievedDateAndTime},
             {Value : to_typeOfAttachment_ID},

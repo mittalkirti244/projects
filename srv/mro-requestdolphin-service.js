@@ -16,7 +16,8 @@ module.exports = cds.service.impl(async function () {
         NumberRanges,
         SalesContractVH,
         EquipmentVH,
-        Revisions } = this.entities
+        Revisions,
+        Ranges } = this.entities
     const service1 = await cds.connect.to('NumberRangeService');
     const service2 = await cds.connect.to('alphamasterService');
     const service3 = await cds.connect.to('MAINTREQ_SB');
@@ -460,10 +461,70 @@ module.exports = cds.service.impl(async function () {
 
     })
 
-    /*function fetchStatus(status)
-    {
-        console.log('..............status..........',status)
-    }*/
+    this.on('calculateAging', async (req) => {
+        var query = await SELECT.from(MaintenanceRequests).columns('*')
+        var query1 = await SELECT.from(Ranges).columns('*')
+        console.log('query', query)
+        console.log('query1', query1)
+        for (let i = 0; i < query.length; i++) {
+
+            var rangeID,range,age;
+
+            var currentDate = new Date()
+            //var currentDate = new Date("2022-08-06T10:44:42.709Z");
+            var createdDate = new Date(query[i].createdAt);
+
+            console.log('createdDate', createdDate)
+            console.log('currentDate', currentDate)
+            console.log('age', query[i].age)
+
+            var Difference_In_Time = currentDate.getTime() - createdDate.getTime()
+            console.log('Difference_In_Time', Difference_In_Time)
+            //To find the difference between the days i.e age
+            var Difference_In_Days = Math.round(Difference_In_Time / (1000 * 3600 * 24)); //1000 * 3600 * 24 is no of seconds in a day
+            console.log('Difference_In_Days', Difference_In_Days)
+
+            age = Difference_In_Days;
+            
+            //To assign range for the record
+            if(age == 30 || age < 30){
+                rangeID = query1[0].ID;
+                range = query1[0].range;
+            }else if (age == 60 || age > 30 && age < 60 ){
+                rangeID = query1[1].ID;
+                range = query1[1].range;
+            }else if (age == 90 || age > 60 && age < 90 ){
+                rangeID = query1[2].ID;
+                range = query1[2].range;
+            }else if (age == 120 || age > 90 && age < 120 ){
+                rangeID = query1[3].ID;
+                range = query1[3].range;
+            }else if (age == 150 || age > 120 && age < 150 ){
+                rangeID = query1[4].ID;
+                range = query1[4].range;
+            }else if (age == 180 || age > 150 && age < 180 ){
+                rangeID = query1[5].ID;
+                range = query1[5].range;
+            }else if (age == 210 || age > 180 && age < 210 ){
+                rangeID = query1[6].ID;
+                range = query1[6].range;
+            }else if (age == 240 || age > 210 && age < 240 ){
+                rangeID = query1[7].ID;
+                range = query1[7].range;
+            }else if (age == 270 || age > 240 && age < 270 ){
+                rangeID = query1[8].ID;
+                range = query1[8].range;
+            }
+
+        await UPDATE(MaintenanceRequests).set({
+            age: Difference_In_Days,
+            to_ranges_ID : rangeID,
+            to_ranges_range : range
+        }).where({ ID: query[i].ID });
+        console.log('newAge', Difference_In_Days)
+        }
+    })
+
 
     //Function for converting date into (YYYY-MM-DD) format
     function returnDate(dateValue) {
