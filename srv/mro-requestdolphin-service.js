@@ -22,7 +22,7 @@ module.exports = cds.service.impl(async function () {
     const service3 = await cds.connect.to('MAINTREQ_SB');
 
     var newFormatedDate, tat, reqDeliveryDate, assignedDeliveryDate, vnumberRangeID;
-
+    var vReqStatus;
     var vplanningPlant, vrevisionText, vworkCenter, vworkCenterPlant, vrevisionStartDate, vrevisionEndDate, vfunctionalLocation, vequipment, reqwcPlant, reqwcDetail
     let cvalue = 1;
     // var vforeCastDays, vforeCastDate, vdiffInCurrentAndArrivalDate, vdiffInArrivalAndDeliveryDate, vdiffInCurrentAndDeliveryDate
@@ -113,6 +113,8 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.before(['CREATE', 'UPDATE'], 'MaintenanceRequests', async (req) => {
+
+       // vReqStatus = req.data.to_requestStatus_rStatus
 
         // To make business partner name as readonly field
         let query1 = await service2.read(BusinessPartnerVH).where({ BusinessPartner: req.data.businessPartner })
@@ -257,6 +259,8 @@ module.exports = cds.service.impl(async function () {
         req.data.to_requestStatus1_rStatus = req.data.to_requestStatus_rStatus
         req.data.to_requestStatus1_rStatusDesc = req.data.to_requestStatus_rStatusDesc
 
+
+
     });
 
     /*this.before('UPDATE', 'MaintenanceRequests', async (req) => {
@@ -305,12 +309,16 @@ module.exports = cds.service.impl(async function () {
     });*/
 
     this.on('changeStatus', async (req) => {
+        //fetchStatus(vReqStatus)
         const id1 = req.params[0].ID
         const tx1 = cds.transaction(req)
         var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: req.data.status })
         console.log('query Status...............', queryStatus)
         var queryPhase = await tx1.read(RequestPhases).where({ rPhase: queryStatus[0].to_rPhase_rPhase })
         console.log('query pahse', queryPhase)
+        var queryMR = await tx1.read(MaintenanceRequests)
+        console.log('queryMR',queryMR[0].to_requestStatus_rStatusDesc)
+        console.log('queryMR ID......',queryMR[0].to_requestStatus_ID)//null
 
         const affectedRows = await UPDATE(MaintenanceRequests).set({
             to_requestStatus_rStatus: queryStatus[0].rStatus,
@@ -451,6 +459,11 @@ module.exports = cds.service.impl(async function () {
         //}
 
     })
+
+    /*function fetchStatus(status)
+    {
+        console.log('..............status..........',status)
+    }*/
 
     //Function for converting date into (YYYY-MM-DD) format
     function returnDate(dateValue) {
