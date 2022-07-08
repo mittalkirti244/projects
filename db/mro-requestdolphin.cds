@@ -291,7 +291,7 @@ view AggregatedReqByAssemblyAndBP as
     where
         to_requestType.rType = 'Assembly';
 
-//Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
+//Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis Created, Request for Work List, Requested Work List
 @Aggregation.ApplySupported.PropertyRestrictions : true
 view AggregatedReqByCompleteAssetAndRange as
     select from MaintenanceRequests {
@@ -318,7 +318,7 @@ where
         or to_requestStatus1.rStatusDesc = 'Requested Work List'
     );
 
-//Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
+//Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis Created, Request for Work List, Requested Work List
 @Aggregation.ApplySupported.PropertyRestrictions : true
 view AggregatedReqByAssemblyAndRange as
     select from MaintenanceRequests {
@@ -346,7 +346,7 @@ where
     );
 
 
-//Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
+//Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis Created, Request for Work List, Requested Work List
 @Aggregation.ApplySupported.PropertyRestrictions : true
 view AggregatedReqByComponentAndRange as
     select from MaintenanceRequests {
@@ -371,4 +371,91 @@ where
         or to_requestStatus1.rStatusDesc = 'Created'
         or to_requestStatus1.rStatusDesc = 'Request for Work List'
         or to_requestStatus1.rStatusDesc = 'Requested Work List'
+    );
+
+//Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis 
+@Aggregation.ApplySupported.PropertyRestrictions : true
+view AggregatedReqByCompleteAssetAndRange1 as
+    select from MaintenanceRequests {
+        to_requestType,
+        @Analytics.Dimension : true //
+        to_requestStatus1,
+        //businessPartner1,
+        @Analytics.Dimension : true
+        //bpConcatenation,
+        to_ranges,
+        locationWC,
+        createdAtDate,
+        MaintenancePlanningPlant,
+        @Analytics.Measure   : true
+        @Aggregation.default : #SUM
+        mrCount
+}
+where
+    to_requestType.rType = 'Complete Asset'
+    and (
+           to_requestStatus1.rStatusDesc = 'Draft'
+        or to_requestStatus1.rStatusDesc = 'Requested Work List'
+        or to_requestStatus1.rStatusDesc = 'Ready for Approval'
+        or to_requestStatus1.rStatusDesc = 'Updated Task List'
+        or to_requestStatus1.rStatusDesc = 'Created Revision'
+        or to_requestStatus1.rStatusDesc = 'Created Notification'
+    );
+
+//Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis 
+@Aggregation.ApplySupported.PropertyRestrictions : true
+view AggregatedReqByAssemblyAndRange1 as
+    select from MaintenanceRequests {
+        to_requestType,
+        @Analytics.Dimension : true //
+        to_requestStatus1,
+        //businessPartner1,
+        @Analytics.Dimension : true
+        //bpConcatenation,
+        to_ranges,
+        locationWC,
+        createdAtDate,
+        MaintenancePlanningPlant,
+        @Analytics.Measure   : true
+        @Aggregation.default : #SUM
+        mrCount
+}
+where
+    to_requestType.rType = 'Assembly'
+    and (
+           to_requestStatus1.rStatusDesc = 'Draft'
+        or to_requestStatus1.rStatusDesc = 'Requested Work List'
+        or to_requestStatus1.rStatusDesc = 'Ready for Approval'
+        or to_requestStatus1.rStatusDesc = 'Updated Task List'
+        or to_requestStatus1.rStatusDesc = 'Created Revision'
+        or to_requestStatus1.rStatusDesc = 'Created Notification'
+    );
+
+//Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis 
+@Aggregation.ApplySupported.PropertyRestrictions : true
+view AggregatedReqByComponentAndRange1 as
+    select from MaintenanceRequests {
+        to_requestType,
+        @Analytics.Dimension : true //
+        to_requestStatus1,
+        //businessPartner1,
+        @Analytics.Dimension : true
+        //bpConcatenation,
+        to_ranges,
+        locationWC,
+        createdAtDate,
+        MaintenancePlanningPlant,
+        @Analytics.Measure   : true
+        @Aggregation.default : #SUM
+        mrCount
+}
+where
+    to_requestType.rType = 'Component'
+    and (
+           to_requestStatus1.rStatusDesc = 'Draft'
+        or to_requestStatus1.rStatusDesc = 'Requested Work List'
+        or to_requestStatus1.rStatusDesc = 'Ready for Approval'
+        or to_requestStatus1.rStatusDesc = 'Updated Task List'
+        or to_requestStatus1.rStatusDesc = 'Created Revision'
+        or to_requestStatus1.rStatusDesc = 'Created Notification'
     );

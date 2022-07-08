@@ -106,7 +106,9 @@ service mrorequestdolphinService {
     view AggregatedReqByCompleteAssetAndRange as select from maintReq.AggregatedReqByCompleteAssetAndRange;
     view AggregatedReqByAssemblyAndRange as select from maintReq.AggregatedReqByAssemblyAndRange;
     view AggregatedReqByComponentAndRange as select from maintReq.AggregatedReqByComponentAndRange;
-   
+    view AggregatedReqByCompleteAssetAndRange1 as select from maintReq.AggregatedReqByCompleteAssetAndRange1;
+    view AggregatedReqByAssemblyAndRange1 as select from maintReq.AggregatedReqByAssemblyAndRange1;
+    view AggregatedReqByComponentAndRange1 as select from maintReq.AggregatedReqByComponentAndRange1;
 };
 
 extend service mrorequestdolphinService with {
