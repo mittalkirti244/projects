@@ -115,7 +115,7 @@ module.exports = cds.service.impl(async function () {
 
     this.before(['CREATE', 'UPDATE'], 'MaintenanceRequests', async (req) => {
 
-       // vReqStatus = req.data.to_requestStatus_rStatus
+        // vReqStatus = req.data.to_requestStatus_rStatus
 
         // To make business partner name as readonly field
         let query1 = await service2.read(BusinessPartnerVH).where({ BusinessPartner: req.data.businessPartner })
@@ -318,7 +318,7 @@ module.exports = cds.service.impl(async function () {
         console.log('query Status...............', queryStatus)
         var queryPhase = await tx1.read(RequestPhases).where({ rPhase: queryStatus[0].to_rPhase_rPhase })
         console.log('query pahse', queryPhase)
-       
+
         const affectedRows = await UPDATE(MaintenanceRequests).set({
             to_requestStatus_rStatus: queryStatus[0].rStatus,
             to_requestStatus1_rStatus: queryStatus[0].rStatus,
@@ -329,12 +329,12 @@ module.exports = cds.service.impl(async function () {
         }).where({ ID: id1 })
     })
 
-   /* function fetchStatus()
-    {
-        var queryMR = await tx1.read(MaintenanceRequests)
-        console.log('queryMR',queryMR[0].to_requestStatus_rStatusDesc)
-        console.log('queryMR ID......',queryMR[0].to_requestStatus_ID)
-    }*/
+    /* function fetchStatus()
+     {
+         var queryMR = await tx1.read(MaintenanceRequests)
+         console.log('queryMR',queryMR[0].to_requestStatus_rStatusDesc)
+         console.log('queryMR ID......',queryMR[0].to_requestStatus_ID)
+     }*/
 
     this.on('revisionCreated', async (req) => {
         // for (let i = 0; i < req.params.length; i++) {
@@ -473,7 +473,7 @@ module.exports = cds.service.impl(async function () {
         console.log('query1', query1)
         for (let i = 0; i < query.length; i++) {
 
-            var rangeID,range,age;
+            var rangeID, range, age;
 
             var currentDate = new Date()
             //var currentDate = new Date("2022-08-06T10:44:42.709Z");
@@ -490,43 +490,46 @@ module.exports = cds.service.impl(async function () {
             console.log('Difference_In_Days', Difference_In_Days)
 
             age = Difference_In_Days;
-            
+
             //To assign range for the record
-            if(age == 30 || age < 30){
+            if (age == 30 || age < 30) {
                 rangeID = query1[0].ID;
                 range = query1[0].range;
-            }else if (age == 60 || age > 30 && age < 60 ){
+            } else if (age == 60 || age > 30 && age < 60) {
                 rangeID = query1[1].ID;
                 range = query1[1].range;
-            }else if (age == 90 || age > 60 && age < 90 ){
+            } else if (age == 90 || age > 60 && age < 90) {
                 rangeID = query1[2].ID;
                 range = query1[2].range;
-            }else if (age == 120 || age > 90 && age < 120 ){
+            } else if (age == 120 || age > 90 && age < 120) {
                 rangeID = query1[3].ID;
                 range = query1[3].range;
-            }else if (age == 150 || age > 120 && age < 150 ){
+            } else if (age == 150 || age > 120 && age < 150) {
                 rangeID = query1[4].ID;
                 range = query1[4].range;
-            }else if (age == 180 || age > 150 && age < 180 ){
+            } else if (age == 180 || age > 150 && age < 180) {
                 rangeID = query1[5].ID;
                 range = query1[5].range;
-            }else if (age == 210 || age > 180 && age < 210 ){
+            } else if (age == 210 || age > 180 && age < 210) {
                 rangeID = query1[6].ID;
                 range = query1[6].range;
-            }else if (age == 240 || age > 210 && age < 240 ){
+            } else if (age == 240 || age > 210 && age < 240) {
                 rangeID = query1[7].ID;
                 range = query1[7].range;
-            }else if (age == 270 || age > 240 && age < 270 ){
+            } else if (age == 270 || age > 240 && age < 270) {
                 rangeID = query1[8].ID;
                 range = query1[8].range;
+            } else if (age > 270) {
+                rangeID = query1[9].ID;
+                range = query1[9].range;
             }
 
-        await UPDATE(MaintenanceRequests).set({
-            age: Difference_In_Days,
-            to_ranges_ID : rangeID,
-            to_ranges_range : range
-        }).where({ ID: query[i].ID });
-        console.log('newAge', Difference_In_Days)
+            await UPDATE(MaintenanceRequests).set({
+                age: Difference_In_Days,
+                to_ranges_ID: rangeID,
+                to_ranges_range: range
+            }).where({ ID: query[i].ID });
+            console.log('newAge', Difference_In_Days)
         }
     })
 

@@ -56,7 +56,7 @@ entity MaintenanceRequests : managed {
         to_document              : Composition of many Documents
                                        on to_document.to_maintenanceRequest = $self @title                 : '{i18n>document}'; //One to many (1 MR - multiple documents links) i.e. Attaching multiple url w.r.t. MR
         to_botStatus             : Association to BotStatuses                       @title :                 '{i18n>botStatus}'  @assert.integrity     : false; // Status will get update when mail is sent to customer
-        to_ranges                : Association to Ranges                            @title :                 '{i18n>ranges}'  @assert.integrity        : false; //Age Range (0-30,30-60,...)
+        to_ranges                : Association to Ranges                            @title :                 '{i18n>range}'  @assert.integrity        : false; //Age Range (0-30,30-60,...)
 };
 
 entity RequestTypes {
@@ -115,8 +115,8 @@ entity BotStatuses {
 };
 
 entity Ranges {
-    key ID    : Integer;
-    key range : String;
+    key ID    : Integer default 1;
+    key range : String default '0-30';
 };
 
 entity Configurations : managed {
@@ -293,14 +293,12 @@ view AggregatedReqByAssemblyAndBP as
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis Created, Request for Work List, Requested Work List
 @Aggregation.ApplySupported.PropertyRestrictions : true
-view AggregatedReqByCompleteAssetAndRange as
+view ReqByCompleteAssetAndRangeUntilRequestedWorkList as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true //
         to_requestStatus1,
-        //businessPartner1,
         @Analytics.Dimension : true
-        //bpConcatenation,
         to_ranges,
         locationWC,
         createdAtDate,
@@ -320,7 +318,7 @@ where
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis Created, Request for Work List, Requested Work List
 @Aggregation.ApplySupported.PropertyRestrictions : true
-view AggregatedReqByAssemblyAndRange as
+view ReqByAssemblyAndRangeUntilRequestedWorkList as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true //
@@ -348,7 +346,7 @@ where
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis Created, Request for Work List, Requested Work List
 @Aggregation.ApplySupported.PropertyRestrictions : true
-view AggregatedReqByComponentAndRange as
+view ReqByComponentAndRangeUntilRequestedWorkList as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
@@ -373,7 +371,7 @@ where
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
-view AggregatedReqByCompleteAssetAndRange1 as
+view ReqByCompleteAssetAndRangeOverallStatus as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
@@ -400,7 +398,7 @@ where
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
-view AggregatedReqByAssemblyAndRange1 as
+view ReqByAssemblyAndRangeOverallStatus as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
@@ -427,7 +425,7 @@ where
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
-view AggregatedReqByComponentAndRange1 as
+view ReqByComponentAndRangeOverallStatus as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
@@ -454,7 +452,7 @@ where
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
-view AggregatedReqByCompleteAssetAndRange2 as
+view ReqByCompleteAssetAndRangeUntilNotifications as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
@@ -477,7 +475,7 @@ where
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
-view AggregatedReqByAssemblyAndRange2 as
+view ReqByAssemblyAndRangeUntilNotifications as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
@@ -500,7 +498,7 @@ where
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
-view AggregatedReqByComponentAndRange2 as
+view ReqByComponentAndRangeUntilNotifications as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true 
@@ -523,7 +521,7 @@ where
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
-view AggregatedReqByCompleteAssetAndRange3 as
+view ReqByCompleteAssetAndRangePendingRevision as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
@@ -554,7 +552,7 @@ where
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
-view AggregatedReqByAssemblyAndRange3 as
+view ReqByAssemblyAndRangePendingRevision as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
@@ -585,7 +583,7 @@ where
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
-view AggregatedReqByComponentAndRange3 as
+view ReqByComponentAndRangePendingRevision as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true

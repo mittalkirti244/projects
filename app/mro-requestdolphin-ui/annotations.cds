@@ -30,6 +30,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Label  : 'Create Revision'
         },
         {
+            $Type  : 'UI.DataFieldForAction',
+            Action : 'mrorequestdolphinService.calculateAging',
+            Label  : 'Generate Ageing'
+        },
+        {
             Value                 : requestNoConcat,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
@@ -217,6 +222,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         },
         {
             Value : to_requestPhase_rPhase,
+            ![@UI.Hidden]
+        },
+        {
+            Value : to_ranges_ID,
             ![@UI.Hidden]
         }
     ],
