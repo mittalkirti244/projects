@@ -310,6 +310,7 @@ module.exports = cds.service.impl(async function () {
     });*/
 
     this.on('changeStatus', async (req) => {
+        console.log('.........................................')
         //fetchStatus(vReqStatus)
         const id1 = req.params[0].ID
         const tx1 = cds.transaction(req)
@@ -317,10 +318,7 @@ module.exports = cds.service.impl(async function () {
         console.log('query Status...............', queryStatus)
         var queryPhase = await tx1.read(RequestPhases).where({ rPhase: queryStatus[0].to_rPhase_rPhase })
         console.log('query pahse', queryPhase)
-        var queryMR = await tx1.read(MaintenanceRequests)
-        console.log('queryMR',queryMR[0].to_requestStatus_rStatusDesc)
-        console.log('queryMR ID......',queryMR[0].to_requestStatus_ID)//null
-
+       
         const affectedRows = await UPDATE(MaintenanceRequests).set({
             to_requestStatus_rStatus: queryStatus[0].rStatus,
             to_requestStatus1_rStatus: queryStatus[0].rStatus,
@@ -330,6 +328,13 @@ module.exports = cds.service.impl(async function () {
             to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
         }).where({ ID: id1 })
     })
+
+   /* function fetchStatus()
+    {
+        var queryMR = await tx1.read(MaintenanceRequests)
+        console.log('queryMR',queryMR[0].to_requestStatus_rStatusDesc)
+        console.log('queryMR ID......',queryMR[0].to_requestStatus_ID)
+    }*/
 
     this.on('revisionCreated', async (req) => {
         // for (let i = 0; i < req.params.length; i++) {
