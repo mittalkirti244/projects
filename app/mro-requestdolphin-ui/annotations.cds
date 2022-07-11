@@ -911,7 +911,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'Ranges',
-            Label          : '{i18n>Ranges}',
+            Label          : '{i18n>Range}',
             Parameters     : [
                 // {
                 //     $Type             : 'Common.ValueListParameterOut',

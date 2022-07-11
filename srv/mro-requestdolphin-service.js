@@ -476,7 +476,7 @@ module.exports = cds.service.impl(async function () {
             var rangeID, range, age;
 
             var currentDate = new Date()
-            //var currentDate = new Date("2022-08-06T10:44:42.709Z");
+            //var currentDate = new Date("2023-07-11T10:44:42.709Z");
             var createdDate = new Date(query[i].createdAt);
 
             console.log('createdDate', createdDate)
@@ -530,6 +530,8 @@ module.exports = cds.service.impl(async function () {
                 to_ranges_range: range
             }).where({ ID: query[i].ID });
             console.log('newAge', Difference_In_Days)
+            console.log('range', range)
+
         }
     })
 
