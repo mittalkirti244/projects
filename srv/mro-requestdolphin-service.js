@@ -466,7 +466,7 @@ module.exports = cds.service.impl(async function () {
 
     })
 
-    this.on('calculateAging', async (req) => {
+    this.on('calculateAgingFunc', async (req) => {
         var query = await SELECT.from(MaintenanceRequests).columns('*')
         var query1 = await SELECT.from(Ranges).columns('*')
         console.log('query', query)
@@ -531,10 +531,13 @@ module.exports = cds.service.impl(async function () {
             }).where({ ID: query[i].ID });
             console.log('newAge', Difference_In_Days)
             console.log('range', range)
-
         }
+        return "Aging Calculated";
     })
 
+    this.on('calculateAging', async (req) => {
+        this.calculateAgingFunc();
+    })
 
     //Function for converting date into (YYYY-MM-DD) format
     function returnDate(dateValue) {

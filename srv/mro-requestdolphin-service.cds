@@ -57,7 +57,7 @@ service mrorequestdolphinService {
         action calculateAging();
     };
 
-    
+    function calculateAgingFunc() returns String;
 
     entity MaintenanceRequests1 as projection on maintReq.MaintenanceRequests {
         requestNoConcat @UI.HiddenFilter,
