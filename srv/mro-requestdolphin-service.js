@@ -535,9 +535,9 @@ module.exports = cds.service.impl(async function () {
         return "Aging Calculated";
     })
 
-    this.on('calculateAging', async (req) => {
-        this.calculateAgingFunc();
-    })
+    // this.on('calculateAging', async (req) => {
+    //     this.calculateAgingFunc();
+    // })
 
     //Function for converting date into (YYYY-MM-DD) format
     function returnDate(dateValue) {

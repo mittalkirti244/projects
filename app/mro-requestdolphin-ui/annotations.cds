@@ -29,11 +29,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Action : 'mrorequestdolphinService.revisionCreated',
             Label  : 'Create Revision'
         },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'mrorequestdolphinService.calculateAging',
-            Label  : 'Generate Ageing'
-        },
+        // {
+        //     $Type  : 'UI.DataFieldForAction',
+        //     Action : 'mrorequestdolphinService.calculateAging',
+        //     Label  : 'Generate Ageing'
+        // },
         {
             Value                 : requestNoConcat,
             ![@HTML5.CssDefaults] : {
@@ -911,7 +911,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'Ranges',
-            Label          : '{i18n>Range}',
+            //Label          : '{i18n>Range}',
             Parameters     : [
                 // {
                 //     $Type             : 'Common.ValueListParameterOut',
