@@ -300,6 +300,7 @@ view ReqByCompleteAssetAndRangeUntilRequestedWorkList as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -323,10 +324,9 @@ view ReqByAssemblyAndRangeUntilRequestedWorkList as
         to_requestType,
         @Analytics.Dimension : true //
         to_requestStatus1,
-        //businessPartner1,
         @Analytics.Dimension : true
-        //bpConcatenation,
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -353,6 +353,7 @@ view ReqByComponentAndRangeUntilRequestedWorkList as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -378,6 +379,7 @@ view ReqByCompleteAssetAndRangeOverallStatus as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -398,6 +400,7 @@ view ReqByAssemblyAndRangeOverallStatus as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -418,6 +421,7 @@ view ReqByComponentAndRangeOverallStatus as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -437,6 +441,7 @@ view ReqByCompleteAssetAndRangeUntilNotifications as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -460,6 +465,7 @@ view ReqByAssemblyAndRangeUntilNotifications as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -483,6 +489,7 @@ view ReqByComponentAndRangeUntilNotifications as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -506,6 +513,7 @@ view ReqByCompleteAssetAndRangePendingRevision as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -528,6 +536,7 @@ view ReqByAssemblyAndRangePendingRevision as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -550,6 +559,7 @@ view ReqByComponentAndRangePendingRevision as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
