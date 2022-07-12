@@ -18,5 +18,5 @@ Content-Type: application/json
 
 }
 ###CalculateAging
-POST http://localhost:4004/mrorequestdolphin/calculateAging
-Content-type: application/json
+GET http://localhost:4004/mrorequestdolphin/calculateAgingFunc()
+Content-Type: application/json

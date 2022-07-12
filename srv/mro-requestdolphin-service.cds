@@ -59,9 +59,10 @@ service mrorequestdolphinService {
             ]}
         )
         action revisionCreated();
+        action calculateAging();
     };
 
-    action calculateAging();
+    function calculateAgingFunc() returns String;
 
     entity MaintenanceRequests1 as projection on maintReq.MaintenanceRequests {
         requestNoConcat @UI.HiddenFilter,
@@ -108,18 +109,18 @@ service mrorequestdolphinService {
     view AggregatedReqByCompleteAssetAndBP as select from maintReq.AggregatedReqByCompleteAssetAndBP;
     view AggregatedReqByComponentAndBP as select from maintReq.AggregatedReqByComponentAndBP;
     view AggregatedReqByAssemblyAndBP as select from maintReq.AggregatedReqByAssemblyAndBP;
-    view AggregatedReqByCompleteAssetAndRange as select from maintReq.AggregatedReqByCompleteAssetAndRange;
-    view AggregatedReqByAssemblyAndRange as select from maintReq.AggregatedReqByAssemblyAndRange;
-    view AggregatedReqByComponentAndRange as select from maintReq.AggregatedReqByComponentAndRange;
-    view AggregatedReqByCompleteAssetAndRange1 as select from maintReq.AggregatedReqByCompleteAssetAndRange1;
-    view AggregatedReqByAssemblyAndRange1 as select from maintReq.AggregatedReqByAssemblyAndRange1;
-    view AggregatedReqByComponentAndRange1 as select from maintReq.AggregatedReqByComponentAndRange1;
-    view AggregatedReqByCompleteAssetAndRange2 as select from maintReq.AggregatedReqByCompleteAssetAndRange2;
-    view AggregatedReqByAssemblyAndRange2 as select from maintReq.AggregatedReqByAssemblyAndRange2;
-    view AggregatedReqByComponentAndRange2 as select from maintReq.AggregatedReqByComponentAndRange2;
-    view AggregatedReqByCompleteAssetAndRange3 as select from maintReq.AggregatedReqByCompleteAssetAndRange3;
-    view AggregatedReqByAssemblyAndRange3 as select from maintReq.AggregatedReqByAssemblyAndRange3;
-    view AggregatedReqByComponentAndRange3 as select from maintReq.AggregatedReqByComponentAndRange3;
+    view ReqByCompleteAssetAndRangeUntilRequestedWorkList as select from maintReq.ReqByCompleteAssetAndRangeUntilRequestedWorkList;
+    view ReqByAssemblyAndRangeUntilRequestedWorkList as select from maintReq.ReqByAssemblyAndRangeUntilRequestedWorkList;
+    view ReqByComponentAndRangeUntilRequestedWorkList as select from maintReq.ReqByComponentAndRangeUntilRequestedWorkList;
+    view ReqByCompleteAssetAndRangeOverallStatus as select from maintReq.ReqByCompleteAssetAndRangeOverallStatus;
+    view ReqByAssemblyAndRangeOverallStatus as select from maintReq.ReqByAssemblyAndRangeOverallStatus;
+    view ReqByComponentAndRangeOverallStatus as select from maintReq.ReqByComponentAndRangeOverallStatus;
+    view ReqByCompleteAssetAndRangeUntilNotifications as select from maintReq.ReqByCompleteAssetAndRangeUntilNotifications;
+    view ReqByAssemblyAndRangeUntilNotifications as select from maintReq.ReqByAssemblyAndRangeUntilNotifications;
+    view ReqByComponentAndRangeUntilNotifications as select from maintReq.ReqByComponentAndRangeUntilNotifications;
+    view ReqByCompleteAssetAndRangePendingRevision as select from maintReq.ReqByCompleteAssetAndRangePendingRevision;
+    view ReqByAssemblyAndRangePendingRevision as select from maintReq.ReqByAssemblyAndRangePendingRevision;
+    view ReqByComponentAndRangePendingRevision as select from maintReq.ReqByComponentAndRangePendingRevision;
 };
 
 extend service mrorequestdolphinService with {
