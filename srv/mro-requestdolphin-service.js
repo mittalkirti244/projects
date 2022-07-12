@@ -23,7 +23,8 @@ module.exports = cds.service.impl(async function () {
     const service3 = await cds.connect.to('MAINTREQ_SB');
 
     var newFormatedDate, tat, reqDeliveryDate, assignedDeliveryDate, vnumberRangeID;
-    var vReqStatus;
+    var queryStatus, queryPhase, query;
+    var id1;
     var vplanningPlant, vrevisionText, vworkCenter, vworkCenterPlant, vrevisionStartDate, vrevisionEndDate, vfunctionalLocation, vequipment, reqwcPlant, reqwcDetail
     let cvalue = 1;
     // var vforeCastDays, vforeCastDate, vdiffInCurrentAndArrivalDate, vdiffInArrivalAndDeliveryDate, vdiffInCurrentAndDeliveryDate
@@ -310,16 +311,87 @@ module.exports = cds.service.impl(async function () {
     });*/
 
     this.on('changeStatus', async (req) => {
-        console.log('.........................................')
-        //fetchStatus(vReqStatus)
-        const id1 = req.params[0].ID
+        id1 = req.params[0].ID
+        console.log('id1', id1)
         const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: req.data.status })
+        query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
+        console.log('query................', query)
+        queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: req.data.status })
         console.log('query Status...............', queryStatus)
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhase: queryStatus[0].to_rPhase_rPhase })
+        queryPhase = await tx1.read(RequestPhases).where({ rPhase: queryStatus[0].to_rPhase_rPhase })
         console.log('query pahse', queryPhase)
 
-        const affectedRows = await UPDATE(MaintenanceRequests).set({
+        if (query[0].to_requestStatus_rStatus == 'CREATED' && queryStatus[0].rStatus == 'REQFORWL')
+            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'CREATED' && queryStatus[0].rStatus != 'REQFORWL')
+            req.info(101, 'Request Status is at Created State and can move only to Request for Work List State for Maintenance Request '+  query[0].requestNoConcat)
+
+        else if (query[0].to_requestStatus_rStatus == 'REQFORWL' && queryStatus[0].rStatus == 'REQWL')
+            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'REQFORWL' && queryStatus[0].rStatus != 'REQWL')
+            req.info(101, 'Request Status is at Request for Work List State and can move only to Requested Work List State for Maintenance Request '+  query[0].requestNoConcat)
+
+        else if (query[0].to_requestStatus_rStatus == 'REQWL' && queryStatus[0].rStatus == 'RECEIVEDNEWWL')
+            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'REQWL' && queryStatus[0].rStatus != 'RECEIVEDNEWWL')
+            req.info(101, 'Request Status is at Requested Work List State and can only move to Received New Work List State for Maintenance Request '+  query[0].requestNoConcat)
+
+        else if (query[0].to_requestStatus_rStatus == 'RECEIVEDNEWWL' && queryStatus[0].rStatus == 'SCREENNEWWL')
+            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'RECEIVEDNEWWL' && queryStatus[0].rStatus != 'SCREENNEWWL')
+            req.info(101, 'Request Status is at Received New Work List State and can only move to Screen New Work List State for Maintenance Request '+  query[0].requestNoConcat)
+
+        else if (query[0].to_requestStatus_rStatus == 'SCREENNEWWL' && (queryStatus[0].rStatus == 'VALIDATEDWL' || queryStatus[0].rStatus == 'REQWL'))
+            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'SCREENNEWWL' && (queryStatus[0].rStatus != 'VALIDATEDWL' || queryStatus[0].rStatus != 'REQWL'))
+            req.info(101, 'Request Status is at Screen New Work List State and can only move to Validated Work List or Requested Work List state for Maintenance Request '+  query[0].requestNoConcat)
+
+        else if (query[0].to_requestStatus_rStatus == 'VALIDATEDWL' && queryStatus[0].rStatus == 'CREATEDWL')
+            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'VALIDATEDWL' && queryStatus[0].rStatus != 'CREATEDWL')
+            req.info(101, 'Request Status is at Validated Work List State and can only move to Created Work List State for Maintenance Request '+  query[0].requestNoConcat)
+
+        else if (query[0].to_requestStatus_rStatus == 'CREATEDWL' && queryStatus[0].rStatus == 'RECEIVEDALWL')
+            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'CREATEDWL' && queryStatus[0].rStatus != 'RECEIVEDALWL')
+            req.info(101, 'Request Status is at Created Work List State and can only move to Received All Work List state for Maintenance Request '+  query[0].requestNoConcat)
+
+        else if (query[0].to_requestStatus_rStatus == 'RECEIVEDALWL' && (queryStatus[0].rStatus == 'READYFORAPPROVAL' || queryStatus[0].rStatus == 'REQWL'))
+            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'RECEIVEDALWL' && (queryStatus[0].rStatus != 'READYFORAPPROVAL' || queryStatus[0].rStatus != 'REQWL'))
+            req.info(101, 'Request Status is at Received All Work List State and can only move to Ready for Approval or Requested Work List for Maintenance Request '+  query[0].requestNoConcat)
+
+        else if (query[0].to_requestStatus_rStatus == 'READYFORAPPROVAL' && queryStatus[0].rStatus == 'APPROVEDMR')
+            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'READYFORAPPROVAL' && queryStatus[0].rStatus != 'APPROVEDMR')
+            req.info(101, 'Request Status is at Ready for Approval State and can only move to Approved Maintenance Request for Maintenance Request '+  query[0].requestNoConcat)
+
+        else if (query[0].to_requestStatus_rStatus == 'APPROVEDMR' && queryStatus[0].rStatus == 'UPDATEDTL')
+            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'APPROVEDMR' && queryStatus[0].rStatus != 'UPDATEDTL')
+            req.info(101, 'Request Status is at Approved Maintenance Request State and can only move to Updated Task List state for Maintenance Request '+  query[0].requestNoConcat)
+
+        /* else if (query[0].to_requestStatus_rStatus == 'UPDATEDTL' && queryStatus[0].rStatus == 'UPDATEDTL')
+             updateStatus()*/
+        else if (query[0].to_requestStatus_rStatus == 'UPDATEDTL' && queryStatus[0].rStatus != 'UPDATEDTL')
+            req.info(101, 'Request Status is at Updated Task List  State and now you can create a revision for Maintenance Request '+  query[0].requestNoConcat)
+
+        else if (query[0].to_requestStatus_rStatus == 'CREATEDREVISION' && queryStatus[0].rStatus == 'CREATEDNOTIF')
+            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'CREATEDREVISION' && queryStatus[0].rStatus != 'CREATEDNOTIF')
+            req.info(101, 'Request Status is at Created Revision State and can only move to Created Notification state for Maintenance Request '+  query[0].requestNoConcat)
+
+        else if (query[0].to_requestStatus_rStatus == 'CREATEDNOTIF' && queryStatus[0].rStatus == 'COMPLETEDMR')
+            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'CREATEDNOTIF' && queryStatus[0].rStatus != 'COMPLETEDMR')
+            req.info(101, 'Request Status is at Created Notification State and can only move to Completed Maintenance Request state for Maintenance Request '+  query[0].requestNoConcat)
+
+        else if (query[0].to_requestStatus_rStatus == 'COMPLETEDMR' && queryStatus[0].rStatus != 'COMPLETEDMR')
+            req.info(101, 'Maintenace Request is already Completed for Maintenance Request '+  query[0].requestNoConcat)
+    })
+
+    async function updateStatus() {
+        await UPDATE(MaintenanceRequests).set({
             to_requestStatus_rStatus: queryStatus[0].rStatus,
             to_requestStatus1_rStatus: queryStatus[0].rStatus,
             to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
@@ -327,14 +399,7 @@ module.exports = cds.service.impl(async function () {
             to_requestPhase_rPhase: queryPhase[0].rPhase,
             to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
         }).where({ ID: id1 })
-    })
-
-    /* function fetchStatus()
-     {
-         var queryMR = await tx1.read(MaintenanceRequests)
-         console.log('queryMR',queryMR[0].to_requestStatus_rStatusDesc)
-         console.log('queryMR ID......',queryMR[0].to_requestStatus_ID)
-     }*/
+    }
 
     this.on('revisionCreated', async (req) => {
         // for (let i = 0; i < req.params.length; i++) {
@@ -347,123 +412,132 @@ module.exports = cds.service.impl(async function () {
         var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
         console.log('query...........', query)
 
-        //Fetching planning plant, request desc, work center and arrival and delivery date for performing POST request to MaintRevision S4 Service
-        //Mandatory fields for creating a revision
-        if (reqwcPlant == null) {
-            vplanningPlant = query[0].MaintenancePlanningPlant
-        }
-        else {
-            vplanningPlant = reqwcPlant
-        }
-        //Revision text will contain Request description + request Number
-        vrevisionText = query[0].requestNo + ' ' + query[0].requestDesc
-        vworkCenter = query[0].locationWC
+        if (query[0].to_requestStatus_rStatus == 'UPDATEDTL') {
 
-        //After selecting thw workcenter that is coming from patch
-        //supose user refresh the screen then plant will get removed -> if else condition is used to resolve this issue
-        if (reqwcPlant == null) {
-            vworkCenterPlant = query[0].MaintenancePlanningPlant
-        }
-        else {
-            vworkCenterPlant = reqwcPlant
-        }
-        /* /Date(1224043200000)/ */
-        var vexpectedArrivalDate = new Date(query[0].expectedArrivalDate)
-        var vformatexpectedArrivalDate = '/Date(' + vexpectedArrivalDate.getTime() + ')/'
-        //console.log('vformatexpectedArrivalDate', vformatexpectedArrivalDate)
-        vrevisionStartDate = query[0].expectedArrivalDate
-        var vexpectedDeliveryDate = new Date(query[0].expectedDeliveryDate)
-        var vformatedexpectedDeliveryDate = '/Date(' + vexpectedDeliveryDate.getTime() + ')/'
-        // console.log('vformatedexpectedDeliveryDate', vformatedexpectedDeliveryDate)
-        vrevisionEndDate = query[0].expectedDeliveryDate
-        vfunctionalLocation = query[0].functionalLocation
-        vequipment = query[0].equipment
+            //Fetching planning plant, request desc, work center and arrival and delivery date for performing POST request to MaintRevision S4 Service
+            //Mandatory fields for creating a revision
+            if (reqwcPlant == null) {
+                vplanningPlant = query[0].MaintenancePlanningPlant
+            }
+            else {
+                vplanningPlant = reqwcPlant
+            }
+            //Revision text will contain Request description + request Number
+            vrevisionText = query[0].requestNo + ' ' + query[0].requestDesc
+            vworkCenter = query[0].locationWC
 
-        //Revision will trigger when requestphase will change from intial to planning
-        // if (query[0].to_requestPhase_rPhase == 'Planning') {
-        //One request should always have 1 MR
-        if (query[0].MaintenanceRevision == null) {
-            try {
-                if (vplanningPlant != null && vrevisionText != null && vworkCenter != null && vworkCenterPlant != null && vrevisionStartDate != null && vrevisionEndDate != null) {
-                    const tx = service3.tx(req)
-                    var data = {
-                        "PlanningPlant": vplanningPlant,
-                        "RevisionType": 'A1',
-                        "RevisionText": vrevisionText,
-                        "WorkCenter": vworkCenter,
-                        "WorkCenterPlant": vworkCenterPlant,
-                        "RevisionStartDate": vformatexpectedArrivalDate,
-                        "RevisionStartTime": 'PT00H00M00S',
-                        "RevisionEndDate": vformatedexpectedDeliveryDate,
-                        "RevisionEndTime": 'PT00H00M00S'
-                    }
-                    if (vfunctionalLocation == null && vequipment == null) {
-                        var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-                    }
-                    else if (vequipment != null && vfunctionalLocation == null) {
-                        var data1 = Object.create(data)
-                        data.Equipment = vequipment
-                        var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-                    }
-                    else if (vfunctionalLocation != null && vequipment == null) {
-                        var data1 = Object.create(data)
-                        data.FunctionLocation = vfunctionalLocation
-                        var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-                    }
-                    //If user selects both floc and equipment
-                    else if (vfunctionalLocation != null && vequipment != null) {
-                        //If there is a parent-child relationship then try block runs
-                        //Function Location - A350-MSN-AA-31      
-                        //Equipment - 10000095
-                        try {
-                            var data1 = Object.create(data)
-                            data.FunctionLocation = vfunctionalLocation
-                            data.Equipment = vequipment
-                            var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-                        } catch (error) {
-                            //If floc and equip are not in parent-child relation then floc will pass to create a revision
-                            var data1 = Object.create(data)
-                            data.FunctionLocation = FunctionLocation
+            //After selecting thw workcenter that is coming from patch
+            //supose user refresh the screen then plant will get removed -> if else condition is used to resolve this issue
+            if (reqwcPlant == null) {
+                vworkCenterPlant = query[0].MaintenancePlanningPlant
+            }
+            else {
+                vworkCenterPlant = reqwcPlant
+            }
+            /* /Date(1224043200000)/ */
+            var vexpectedArrivalDate = new Date(query[0].expectedArrivalDate)
+            var vformatexpectedArrivalDate = '/Date(' + vexpectedArrivalDate.getTime() + ')/'
+            //console.log('vformatexpectedArrivalDate', vformatexpectedArrivalDate)
+            vrevisionStartDate = query[0].expectedArrivalDate
+            var vexpectedDeliveryDate = new Date(query[0].expectedDeliveryDate)
+            var vformatedexpectedDeliveryDate = '/Date(' + vexpectedDeliveryDate.getTime() + ')/'
+            // console.log('vformatedexpectedDeliveryDate', vformatedexpectedDeliveryDate)
+            vrevisionEndDate = query[0].expectedDeliveryDate
+            vfunctionalLocation = query[0].functionalLocation
+            vequipment = query[0].equipment
+
+            //Revision will trigger when requestphase will change from intial to planning
+            // if (query[0].to_requestPhase_rPhase == 'Planning') {
+            //One request should always have 1 MR
+            if (query[0].MaintenanceRevision == null) {
+                try {
+                    if (vplanningPlant != null && vrevisionText != null && vworkCenter != null && vworkCenterPlant != null && vrevisionStartDate != null && vrevisionEndDate != null) {
+                        const tx = service3.tx(req)
+                        var data = {
+                            "PlanningPlant": vplanningPlant,
+                            "RevisionType": 'A1',
+                            "RevisionText": vrevisionText,
+                            "WorkCenter": vworkCenter,
+                            "WorkCenterPlant": vworkCenterPlant,
+                            "RevisionStartDate": vformatexpectedArrivalDate,
+                            "RevisionStartTime": 'PT00H00M00S',
+                            "RevisionEndDate": vformatedexpectedDeliveryDate,
+                            "RevisionEndTime": 'PT00H00M00S'
+                        }
+                        if (vfunctionalLocation == null && vequipment == null) {
                             var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
                         }
+                        else if (vequipment != null && vfunctionalLocation == null) {
+                            var data1 = Object.create(data)
+                            data.Equipment = vequipment
+                            var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                        }
+                        else if (vfunctionalLocation != null && vequipment == null) {
+                            var data1 = Object.create(data)
+                            data.FunctionLocation = vfunctionalLocation
+                            var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                        }
+                        //If user selects both floc and equipment
+                        else if (vfunctionalLocation != null && vequipment != null) {
+                            //If there is a parent-child relationship then try block runs
+                            //Function Location - A350-MSN-AA-31      
+                            //Equipment - 10000095
+                            try {
+                                var data1 = Object.create(data)
+                                data.FunctionLocation = vfunctionalLocation
+                                data.Equipment = vequipment
+                                var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                            } catch (error) {
+                                //If floc and equip are not in parent-child relation then floc will pass to create a revision
+                                var data1 = Object.create(data)
+                                data.FunctionLocation = FunctionLocation
+                                var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                            }
+                        }
+                        console.log('Revision', result)
+                        const affectedRows = await UPDATE(MaintenanceRequests).set({
+                            MaintenanceRevision: result.RevisionNo,
+                            revisionType: result.RevisionType,
+                            revisionText: result.RevisionText,
+                            to_requestStatus_rStatus: 'CREATEDREVISION',
+                            to_requestStatus1_rStatus: 'CREATEDREVISION',
+                            to_requestStatus_rStatusDesc: 'Created Revision',
+                            to_requestStatus1_rStatusDesc: 'Created Revision',
+                            to_requestPhase_rPhase: 'PREPARATION',
+                            to_requestPhase_rPhaseDesc: 'Preparation'
+                        }).where({ ID: id1 })
+                        req.info(101, 'Revision ' + result.RevisionNo + ' created for Maintenance Request ' + query[0].requestNoConcat)
+                        // query[0].to_requestStatus_rStatus = 'Revision Created'
+                        return result
+                        /* const { result1 } = await this.transaction(req).run(await tx.send({ method: 'POST', path: 'MaintRevision', data }))
+                        // await tx.run(req.query);
+                         req.on('succeeded', () => {
+                             console.log('abc ------------------------')
+                         })
+                         console.log('result1....value..........', result1)*/
                     }
-                    console.log('Revision', result)
-                    const affectedRows = await UPDATE(MaintenanceRequests).set({
-                        MaintenanceRevision: result.RevisionNo,
-                        revisionType: result.RevisionType,
-                        revisionText: result.RevisionText,
-                        to_requestStatus_rStatus: 'CREATEDREVISION',
-                        to_requestStatus1_rStatus: 'CREATEDREVISION',
-                        to_requestStatus_rStatusDesc: 'Created Revision',
-                        to_requestStatus1_rStatusDesc: 'Created Revision',
-                        to_requestPhase_rPhase: 'PREPARATION',
-                        to_requestPhase_rPhaseDesc: 'Preparation'
-                    }).where({ ID: id1 })
-                    req.info(101, 'Revision ' + result.RevisionNo + ' created')
-                    // query[0].to_requestStatus_rStatus = 'Revision Created'
-                    return result
-                    /* const { result1 } = await this.transaction(req).run(await tx.send({ method: 'POST', path: 'MaintRevision', data }))
-                    // await tx.run(req.query);
-                     req.on('succeeded', () => {
-                         console.log('abc ------------------------')
-                     })
-                     console.log('result1....value..........', result1)*/
+                    /* else
+                         req.error(406, 'Work center is required to create a revision')*/
                 }
-                /* else
-                     req.error(406, 'Work center is required to create a revision')*/
+                catch (error) {
+                    var vstatusCode = error.statusCode
+                    var verrorMessage = error.innererror.response.body.error.message.value
+                    req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
+                }
             }
-            catch (error) {
-                var vstatusCode = error.statusCode
-                var verrorMessage = error.innererror.response.body.error.message.value
-                req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
-            }
+           /* else if (query[0].MaintenanceRevision != null && query[0].to_requestStatus_rStatus == 'CREATEDREVISION') {
+                req.data.to_requestStatus_rStatus = 'CREATEDREVISION'
+                req.info(101, 'Revision is already been created for this Maintenance Request')
+            }*/
         }
-        else if (query[0].MaintenanceRevision != null && query[0].to_requestStatus_rStatus == 'CREATEDREVISION') {
+        else if (query[0].to_requestStatus_rStatus == 'CREATEDNOTIF' || query[0].to_requestStatus_rStatus == 'COMPLETEDMR' || query[0].to_requestStatus_rStatus == 'CREATEDREVISION'){
             req.data.to_requestStatus_rStatus = 'CREATEDREVISION'
-            req.info(101, 'Revision is already been created for this Maintenance Request')
-        }
-        //}
+            req.info(101, 'Revision is already been created for this Maintenance Request ' + query[0].requestNoConcat)
 
+        } 
+        else if (query[0].to_requestStatus_rStatus != 'CREATEDNOTIF' || query[0].to_requestStatus_rStatus != 'COMPLETEDMR' || query[0].to_requestStatus_rStatus != 'UPDATEDTL')
+            req.info(101, 'Task List should be updated before creating Revision for this Maintenance Request ' + query[0].requestNoConcat)
+        //}
     })
 
     this.on('calculateAgingFunc', async (req) => {
@@ -554,52 +628,4 @@ module.exports = cds.service.impl(async function () {
         var result = String(vyear) + '-' + String(vmonth) + '-' + String(vdate)
         return result
     }
-
-    /*function calculateForeCastDate(deliveryDate) {
-        //Date after adding buffer days
-        var newDate = new Date(deliveryDate);
-        vforeCastDate = returnDate(newDate.setDate(newDate.getDate() + 10))
-        console.log('date After adding Forecast date', vforeCastDate)
-
-        return vforeCastDate
-    }
-
-    function calculateDiffInCurrentAndArrivalDate(arrivalDate) {
-        var vdifferenceInTime = new Date().getTime() - new Date(arrivalDate).getTime();
-
-        // To calculate the no. of days between two dates
-        var vdifferenceInDays = vdifferenceInTime / (1000 * 3600 * 24);
-
-        //To display the final no. of days
-        vdiffInCurrentAndArrivalDate = Math.trunc(vdifferenceInDays)
-        console.log('Difference in Current and Arrival Date ', vdiffInCurrentAndArrivalDate)
-
-        return vdiffInCurrentAndArrivalDate
-    }
-
-    function calculateDiffInCurrentAndDeliveryDate(deliveryDate) {
-        var vdifferenceInTime = new Date().getTime() - new Date(deliveryDate).getTime();
-
-        // To calculate the no. of days between two dates
-        var vdifferenceInDays = vdifferenceInTime / (1000 * 3600 * 24);
-
-        //To display the final no. of days
-        vdiffInCurrentAndDeliveryDate = Math.trunc(vdifferenceInDays)
-        console.log('Difference in Current and Delivery Date ', vdiffInCurrentAndDeliveryDate)
-
-        return vdiffInCurrentAndDeliveryDate
-    }
-
-    function calculateDiffInDeliveryAndArrivalDate(deliveryDate, arrivalDate) {
-        var vdifferenceInTime = new Date(deliveryDate).getTime() - new Date(arrivalDate).getTime();
-
-        // To calculate the no. of days between two dates
-        var vdifferenceInDays = vdifferenceInTime / (1000 * 3600 * 24);
-
-        //To display the final no. of days
-        vdiffInArrivalAndDeliveryDate = Math.trunc(vdifferenceInDays)
-        console.log('Difference in Delivery and Arrival Date', vdiffInArrivalAndDeliveryDate)
-
-        return vdiffInArrivalAndDeliveryDate
-    }*/
 })
