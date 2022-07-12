@@ -1,13 +1,13 @@
-ID;rStatus;rStatusDesc;to_rPhase_rPhase
-1;REQFORWL;Request for Work List;INITIATION
-2;REQWL;Requested Work List;INITIATION
-3;RECEIVEDNEWWL;Received New Work List;INITIATION
-4;SCREENNEWWL;Screen New Work List;SCREENING
-5;VALIDATEDWL;Validated Work List;SCREENING
-6;CREATEDWL;Created Work List;SCREENING
-7;RECEIVEDALWL;Received All Work List;SCREENING
-8;READYFORAPPROVAL;Ready for Approval;PREPARATION
-9;APPROVEDMR;Approved Maintenance Request;PREPARATION
-10;UPDATEDTL;Updated Task List;PREPARATION
-11;CREATEDNOTIF;Created Notification;PREPARATION 
-12;COMPLETEDMR;Completed Maintenance Request;PREPARATION
+ID;rStatus;rStatusDesc;to_rPhase_rPhase;to_rPhase_rPhaseDesc
+1;REQFORWL;Request for Work List;INITIATION;Initiation
+2;REQWL;Requested Work List;INITIATION;Initiation
+3;RECEIVEDNEWWL;Received New Work List;INITIATION;Initiation
+4;SCREENNEWWL;Screen New Work List;SCREENING;Screening
+5;VALIDATEDWL;Validated Work List;SCREENING;Screening
+6;CREATEDWL;Created Work List;SCREENING;Screening
+7;RECEIVEDALWL;Received All Work List;SCREENING;Screening
+8;READYFORAPPROVAL;Ready for Approval;PREPARATION;Preparation
+9;APPROVEDMR;Approved Maintenance Request;PREPARATION;Preparation
+10;UPDATEDTL;Updated Task List;PREPARATION;Preparation
+11;CREATEDNOTIF;Created Notification;PREPARATION;Preparation
+12;COMPLETEDMR;Completed Maintenance Request;PREPARATION;Preparation

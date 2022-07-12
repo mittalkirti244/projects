@@ -31,15 +31,20 @@ service mrorequestdolphinService {
                 $Type          : 'Common.ValueListType',
                 CollectionPath : 'RequestStatuses',
                 Parameters     : [
-                                  /* {
-                                       $Type             : 'Common.ValueListParameterDisplayOnly',
-                                       ValueListProperty : 'ID',
-                                   },*/
-                                 {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'status',
-                    ValueListProperty : 'rStatusDesc'
-                }]
+                    /* {
+                         $Type             : 'Common.ValueListParameterDisplayOnly',
+                         ValueListProperty : 'ID',
+                     },*/
+                    {
+                        $Type             : 'Common.ValueListParameterInOut',
+                        LocalDataProperty : 'status',
+                        ValueListProperty : 'rStatusDesc'
+                    },
+                    {
+                        $Type             : 'Common.ValueListParameterDisplayOnly',
+                        ValueListProperty : 'to_rPhase_rPhaseDesc'
+                    }
+                ]
             }
         });
 
