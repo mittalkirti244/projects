@@ -50,7 +50,7 @@ module.exports = cds.service.impl(async function () {
         req.data.expectedDeliveryDate = returnDate(new Date())
         req.data.startDate = returnDate(new Date())
         req.data.endDate = returnDate(new Date())
-        req.data.to_requestStatus_rStatus = 'Draft'
+        //req.data.to_requestStatus_rStatus = 'Draft'
 
         req.data.mrCount = cvalue
         console.log('req.data.mrCount', req.data.mrCount + 1)
@@ -58,15 +58,16 @@ module.exports = cds.service.impl(async function () {
     });
 
     this.before('*', 'MaintenanceRequests', async (req) => {
-        if (req.data.to_requestPhase_rPhase == 'Initial')
-            req.data.criticalityLevel = 2 //orange
-        else if (req.data.to_requestPhase_rPhase == 'Planning')
-            req.data.criticalityLevel = 3 //green
+        // if (req.data.to_requestPhase_rPhase == 'INITIATION')
+        //     req.data.criticalityLevel = 2 //orange
+        // else if (req.data.to_requestPhase_rPhase == 'Planning')
+        //     req.data.criticalityLevel = 3 //green
 
-        if (req.data.to_requestStatus_rStatus == 'Draft')
-            req.data.criticalityLevel = 2 //orange
-        else if (req.data.to_requestStatus_rStatus == 'Confirmed')
-            req.data.criticalityLevel = 3 //green 
+        // if (req.data.to_requestStatus_rStatus == 'CREATED')
+        //     req.data.criticalityLevel = 2 //orange
+        // else if (req.data.to_requestStatus_rStatus == 'Confirmed')
+        //     req.data.criticalityLevel = 3 //green 
+
 
         //Date field for Overview page    
         req.data.createdAtDate = returnDate(new Date())
@@ -104,7 +105,8 @@ module.exports = cds.service.impl(async function () {
 
         req.data.to_requestStatus_rStatusDesc = 'Created'
         req.data.to_requestStatus_rStatus = 'CREATED'
-
+        req.data.to_requestPhase_rPhase = 'INITIATION'
+        req.data.to_requestPhase_rPhaseDesc = 'Initiation'
         //Insert and update restrictions using hidden criteria
         //To set the request type disable after create
         //And request status to enable after create

@@ -67,20 +67,20 @@ entity RequestTypes {
 //It is used in change status action button as a drop down
 entity RequestStatuses {
     key ID          : Integer;
-    key rStatus     : String default 'DRAFT';
-    key rStatusDesc : String default 'Draft';
+    key rStatus     : String;
+    key rStatusDesc : String;
         to_rPhase   : Association to RequestPhases;
 };
 
 //It is used as Status drop down on list report page
 entity RequestStatuses1 {
-    key rStatus     : String default 'DRAFT';
-    key rStatusDesc : String default 'Draft';
+    key rStatus     : String;
+    key rStatusDesc : String;
 };
 
 entity RequestPhases {
-    key rPhase     : String default 'INITIATION';
-    key rPhaseDesc : String default 'Initiation';
+    key rPhase     : String;
+    key rPhaseDesc : String;
 };
 
 entity Documents : managed {
@@ -311,8 +311,7 @@ view ReqByCompleteAssetAndRangeUntilRequestedWorkList as
 where
     to_requestType.rType = 'Complete Asset'
     and (
-           to_requestStatus1.rStatusDesc = 'Draft'
-        or to_requestStatus1.rStatusDesc = 'Created'
+           to_requestStatus1.rStatusDesc = 'Created'
         or to_requestStatus1.rStatusDesc = 'Request for Work List'
         or to_requestStatus1.rStatusDesc = 'Requested Work List'
     );
@@ -337,8 +336,7 @@ view ReqByAssemblyAndRangeUntilRequestedWorkList as
 where
     to_requestType.rType = 'Assembly'
     and (
-           to_requestStatus1.rStatusDesc = 'Draft'
-        or to_requestStatus1.rStatusDesc = 'Created'
+           to_requestStatus1.rStatusDesc = 'Created'
         or to_requestStatus1.rStatusDesc = 'Request for Work List'
         or to_requestStatus1.rStatusDesc = 'Requested Work List'
     );
@@ -364,8 +362,7 @@ view ReqByComponentAndRangeUntilRequestedWorkList as
     where
         to_requestType.rType = 'Component'
         and (
-               to_requestStatus1.rStatusDesc = 'Draft'
-            or to_requestStatus1.rStatusDesc = 'Created'
+               to_requestStatus1.rStatusDesc = 'Created'
             or to_requestStatus1.rStatusDesc = 'Request for Work List'
             or to_requestStatus1.rStatusDesc = 'Requested Work List'
         );
