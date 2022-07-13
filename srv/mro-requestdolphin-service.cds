@@ -20,6 +20,7 @@ service mrorequestdolphinService {
                 '_it/to_requestPhase_rPhaseDesc'
             ]}
         )
+       // @sap.applicable.path :                        'closeEnabled'
         action changeStatus(status : String @Common : {
             Label     : '{i18n>status}',
             ValueListWithFixedValues,

@@ -49,6 +49,7 @@ entity MaintenanceRequests : managed {
         mrCount                  : Integer default 1; //Used in views to show count of the requests
         createdAtDate            : Date                                             @cds.on.insert         : $now  @title                              : '{i18n>createdAtDate}'; //Used as a filter criteria for Overview page(Date DataType works as a date picker)
         age                      : Integer default 0                                @title                 : '{i18n>age}'; //For representing Aging field
+        //virtual closeEnabled     : Boolean;
         to_requestType           : Association to RequestTypes                      @title :                 '{i18n>requestType}'  @assert.integrity   : false; //as dropdown - request number will generate through request type
         to_requestStatus         : Association to RequestStatuses                   @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
         to_requestStatus1        : Association to RequestStatuses1                  @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
@@ -56,7 +57,7 @@ entity MaintenanceRequests : managed {
         to_document              : Composition of many Documents
                                        on to_document.to_maintenanceRequest = $self @title                 : '{i18n>document}'; //One to many (1 MR - multiple documents links) i.e. Attaching multiple url w.r.t. MR
         to_botStatus             : Association to BotStatuses                       @title :                 '{i18n>botStatus}'  @assert.integrity     : false; // Status will get update when mail is sent to customer
-        to_ranges                : Association to Ranges                            @title :                 '{i18n>range}'  @assert.integrity        : false; //Age Range (0-30,30-60,...)
+        to_ranges                : Association to Ranges                            @title :                 '{i18n>range}'  @assert.integrity         : false; //Age Range (0-30,30-60,...)
 };
 
 entity RequestTypes {
@@ -359,15 +360,15 @@ view ReqByComponentAndRangeUntilRequestedWorkList as
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
-}
-where
-    to_requestType.rType = 'Component'
-    and (
-           to_requestStatus1.rStatusDesc = 'Draft'
-        or to_requestStatus1.rStatusDesc = 'Created'
-        or to_requestStatus1.rStatusDesc = 'Request for Work List'
-        or to_requestStatus1.rStatusDesc = 'Requested Work List'
-    );
+    }
+    where
+        to_requestType.rType = 'Component'
+        and (
+               to_requestStatus1.rStatusDesc = 'Draft'
+            or to_requestStatus1.rStatusDesc = 'Created'
+            or to_requestStatus1.rStatusDesc = 'Request for Work List'
+            or to_requestStatus1.rStatusDesc = 'Requested Work List'
+        );
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
@@ -384,17 +385,17 @@ view ReqByCompleteAssetAndRangeOverallStatus as
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
-}
-where
-    to_requestType.rType = 'Complete Asset'
-    and (
-           to_requestStatus1.rStatusDesc = 'Draft'
-        or to_requestStatus1.rStatusDesc = 'Requested Work List'
-        or to_requestStatus1.rStatusDesc = 'Ready for Approval'
-        or to_requestStatus1.rStatusDesc = 'Updated Task List'
-        or to_requestStatus1.rStatusDesc = 'Created Revision'
-        or to_requestStatus1.rStatusDesc = 'Created Notification'
-    );
+    }
+    where
+        to_requestType.rType = 'Complete Asset'
+        and (
+               to_requestStatus1.rStatusDesc = 'Draft'
+            or to_requestStatus1.rStatusDesc = 'Requested Work List'
+            or to_requestStatus1.rStatusDesc = 'Ready for Approval'
+            or to_requestStatus1.rStatusDesc = 'Updated Task List'
+            or to_requestStatus1.rStatusDesc = 'Created Revision'
+            or to_requestStatus1.rStatusDesc = 'Created Notification'
+        );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
@@ -411,17 +412,17 @@ view ReqByAssemblyAndRangeOverallStatus as
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
-}
-where
-    to_requestType.rType = 'Assembly'
-    and (
-           to_requestStatus1.rStatusDesc = 'Draft'
-        or to_requestStatus1.rStatusDesc = 'Requested Work List'
-        or to_requestStatus1.rStatusDesc = 'Ready for Approval'
-        or to_requestStatus1.rStatusDesc = 'Updated Task List'
-        or to_requestStatus1.rStatusDesc = 'Created Revision'
-        or to_requestStatus1.rStatusDesc = 'Created Notification'
-    );
+    }
+    where
+        to_requestType.rType = 'Assembly'
+        and (
+               to_requestStatus1.rStatusDesc = 'Draft'
+            or to_requestStatus1.rStatusDesc = 'Requested Work List'
+            or to_requestStatus1.rStatusDesc = 'Ready for Approval'
+            or to_requestStatus1.rStatusDesc = 'Updated Task List'
+            or to_requestStatus1.rStatusDesc = 'Created Revision'
+            or to_requestStatus1.rStatusDesc = 'Created Notification'
+        );
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
@@ -438,17 +439,17 @@ view ReqByComponentAndRangeOverallStatus as
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
-}
-where
-    to_requestType.rType = 'Component'
-    and (
-           to_requestStatus1.rStatusDesc = 'Draft'
-        or to_requestStatus1.rStatusDesc = 'Requested Work List'
-        or to_requestStatus1.rStatusDesc = 'Ready for Approval'
-        or to_requestStatus1.rStatusDesc = 'Updated Task List'
-        or to_requestStatus1.rStatusDesc = 'Created Revision'
-        or to_requestStatus1.rStatusDesc = 'Created Notification'
-    );
+    }
+    where
+        to_requestType.rType = 'Component'
+        and (
+               to_requestStatus1.rStatusDesc = 'Draft'
+            or to_requestStatus1.rStatusDesc = 'Requested Work List'
+            or to_requestStatus1.rStatusDesc = 'Ready for Approval'
+            or to_requestStatus1.rStatusDesc = 'Updated Task List'
+            or to_requestStatus1.rStatusDesc = 'Created Revision'
+            or to_requestStatus1.rStatusDesc = 'Created Notification'
+        );
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
@@ -465,13 +466,13 @@ view ReqByCompleteAssetAndRangeUntilNotifications as
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
-}
-where
-    to_requestType.rType = 'Complete Asset'
-    and (
-           to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
-        or to_requestStatus1.rStatusDesc = 'Created Notification'
-    );
+    }
+    where
+        to_requestType.rType = 'Complete Asset'
+        and (
+               to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
+            or to_requestStatus1.rStatusDesc = 'Created Notification'
+        );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
@@ -488,20 +489,20 @@ view ReqByAssemblyAndRangeUntilNotifications as
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
-}
-where
-    to_requestType.rType = 'Assembly'
-    and (
-           to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
-        or to_requestStatus1.rStatusDesc = 'Created Notification'
-    );
+    }
+    where
+        to_requestType.rType = 'Assembly'
+        and (
+               to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
+            or to_requestStatus1.rStatusDesc = 'Created Notification'
+        );
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
 view ReqByComponentAndRangeUntilNotifications as
     select from MaintenanceRequests {
         to_requestType,
-        @Analytics.Dimension : true 
+        @Analytics.Dimension : true
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
@@ -511,13 +512,13 @@ view ReqByComponentAndRangeUntilNotifications as
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
-}
-where
-    to_requestType.rType = 'Component'
-    and (
-           to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
-        or to_requestStatus1.rStatusDesc = 'Created Notification'
-    );
+    }
+    where
+        to_requestType.rType = 'Component'
+        and (
+               to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
+            or to_requestStatus1.rStatusDesc = 'Created Notification'
+        );
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
@@ -534,22 +535,22 @@ view ReqByCompleteAssetAndRangePendingRevision as
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
-}
-where
-    to_requestType.rType = 'Complete Asset'
-    and (
-           to_requestStatus1.rStatusDesc = 'Draft'
-        or to_requestStatus1.rStatusDesc = 'Created'
-        or to_requestStatus1.rStatusDesc = 'Request for Work List'
-        or to_requestStatus1.rStatusDesc = 'Requested Work List'
-        or to_requestStatus1.rStatusDesc = 'Received New Work List'
-        or to_requestStatus1.rStatusDesc = 'Screen New Work List'
-        or to_requestStatus1.rStatusDesc = 'Validated Work List'
-        or to_requestStatus1.rStatusDesc = 'Created Work List'
-        or to_requestStatus1.rStatusDesc = 'Received All Work List'
-        or to_requestStatus1.rStatusDesc = 'Ready for Approval'
-        or to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
-    );
+    }
+    where
+        to_requestType.rType = 'Complete Asset'
+        and (
+               to_requestStatus1.rStatusDesc = 'Draft'
+            or to_requestStatus1.rStatusDesc = 'Created'
+            or to_requestStatus1.rStatusDesc = 'Request for Work List'
+            or to_requestStatus1.rStatusDesc = 'Requested Work List'
+            or to_requestStatus1.rStatusDesc = 'Received New Work List'
+            or to_requestStatus1.rStatusDesc = 'Screen New Work List'
+            or to_requestStatus1.rStatusDesc = 'Validated Work List'
+            or to_requestStatus1.rStatusDesc = 'Created Work List'
+            or to_requestStatus1.rStatusDesc = 'Received All Work List'
+            or to_requestStatus1.rStatusDesc = 'Ready for Approval'
+            or to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
+        );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
@@ -566,22 +567,22 @@ view ReqByAssemblyAndRangePendingRevision as
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
-}
-where
-    to_requestType.rType = 'Assembly'
-    and (
-           to_requestStatus1.rStatusDesc = 'Draft'
-        or to_requestStatus1.rStatusDesc = 'Created'
-        or to_requestStatus1.rStatusDesc = 'Request for Work List'
-        or to_requestStatus1.rStatusDesc = 'Requested Work List'
-        or to_requestStatus1.rStatusDesc = 'Received New Work List'
-        or to_requestStatus1.rStatusDesc = 'Screen New Work List'
-        or to_requestStatus1.rStatusDesc = 'Validated Work List'
-        or to_requestStatus1.rStatusDesc = 'Created Work List'
-        or to_requestStatus1.rStatusDesc = 'Received All Work List'
-        or to_requestStatus1.rStatusDesc = 'Ready for Approval'
-        or to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
-    );
+    }
+    where
+        to_requestType.rType = 'Assembly'
+        and (
+               to_requestStatus1.rStatusDesc = 'Draft'
+            or to_requestStatus1.rStatusDesc = 'Created'
+            or to_requestStatus1.rStatusDesc = 'Request for Work List'
+            or to_requestStatus1.rStatusDesc = 'Requested Work List'
+            or to_requestStatus1.rStatusDesc = 'Received New Work List'
+            or to_requestStatus1.rStatusDesc = 'Screen New Work List'
+            or to_requestStatus1.rStatusDesc = 'Validated Work List'
+            or to_requestStatus1.rStatusDesc = 'Created Work List'
+            or to_requestStatus1.rStatusDesc = 'Received All Work List'
+            or to_requestStatus1.rStatusDesc = 'Ready for Approval'
+            or to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
+        );
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
@@ -598,20 +599,19 @@ view ReqByComponentAndRangePendingRevision as
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
-}
-where
-    to_requestType.rType = 'Component'
-    and (
-           to_requestStatus1.rStatusDesc = 'Draft'
-        or to_requestStatus1.rStatusDesc = 'Created'
-        or to_requestStatus1.rStatusDesc = 'Request for Work List'
-        or to_requestStatus1.rStatusDesc = 'Requested Work List'
-        or to_requestStatus1.rStatusDesc = 'Received New Work List'
-        or to_requestStatus1.rStatusDesc = 'Screen New Work List'
-        or to_requestStatus1.rStatusDesc = 'Validated Work List'
-        or to_requestStatus1.rStatusDesc = 'Created Work List'
-        or to_requestStatus1.rStatusDesc = 'Received All Work List'
-        or to_requestStatus1.rStatusDesc = 'Ready for Approval'
-        or to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
-    );
-
+    }
+    where
+        to_requestType.rType = 'Component'
+        and (
+               to_requestStatus1.rStatusDesc = 'Draft'
+            or to_requestStatus1.rStatusDesc = 'Created'
+            or to_requestStatus1.rStatusDesc = 'Request for Work List'
+            or to_requestStatus1.rStatusDesc = 'Requested Work List'
+            or to_requestStatus1.rStatusDesc = 'Received New Work List'
+            or to_requestStatus1.rStatusDesc = 'Screen New Work List'
+            or to_requestStatus1.rStatusDesc = 'Validated Work List'
+            or to_requestStatus1.rStatusDesc = 'Created Work List'
+            or to_requestStatus1.rStatusDesc = 'Received All Work List'
+            or to_requestStatus1.rStatusDesc = 'Ready for Approval'
+            or to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
+        );
