@@ -1,4 +1,4 @@
-rPhase;rPhaseDesc
-INITIATION;Initiation
-SCREENING;Screening
-PREPARATION;Preparation
+ID;rPhase;rPhaseDesc
+1;MRINIT;Initiation
+2;MRSCRN;Screening
+3;MRPREP;Preparation

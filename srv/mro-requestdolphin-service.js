@@ -51,25 +51,26 @@ module.exports = cds.service.impl(async function () {
         req.data.expectedDeliveryDate = returnDate(new Date())
         req.data.startDate = returnDate(new Date())
         req.data.endDate = returnDate(new Date())
-        req.data.to_requestStatus_rStatus = 'Draft'
+        //req.data.to_requestStatus_rStatus = 'Draft'
 
         req.data.mrCount = cvalue
         console.log('req.data.mrCount', req.data.mrCount + 1)
 
-       // req.data.closeEnabled = true;
+        // req.data.closeEnabled = true;
 
     });
 
     this.before('*', 'MaintenanceRequests', async (req) => {
-        if (req.data.to_requestPhase_rPhase == 'Initial')
-            req.data.criticalityLevel = 2 //orange
-        else if (req.data.to_requestPhase_rPhase == 'Planning')
-            req.data.criticalityLevel = 3 //green
+        // if (req.data.to_requestPhase_rPhase == 'INITIATION')
+        //     req.data.criticalityLevel = 2 //orange
+        // else if (req.data.to_requestPhase_rPhase == 'Planning')
+        //     req.data.criticalityLevel = 3 //green
 
-        if (req.data.to_requestStatus_rStatus == 'Draft')
-            req.data.criticalityLevel = 2 //orange
-        else if (req.data.to_requestStatus_rStatus == 'Confirmed')
-            req.data.criticalityLevel = 3 //green 
+        // if (req.data.to_requestStatus_rStatus == 'CREATED')
+        //     req.data.criticalityLevel = 2 //orange
+        // else if (req.data.to_requestStatus_rStatus == 'Confirmed')
+        //     req.data.criticalityLevel = 3 //green 
+
 
         //Date field for Overview page    
         req.data.createdAtDate = returnDate(new Date())
@@ -98,16 +99,10 @@ module.exports = cds.service.impl(async function () {
             req.error(406, req.data.to_requestType_rType + ' Type is not present in Number Range.')
         }
 
-        //to auto populate the request status and request phase at the time of create
-        /* if (req.data.to_requestStatus_rStatus == 'Confirmed' || req.data.to_requestStatus_rStatus == '') {
-             req.data.to_requestStatus_rStatus = 'Draft'
-             req.data.to_requestPhase_rPhase = 'Initial'
-             req.info(101, 'Request Status should always be Draft when you create a new Maintenance Request')
-         }*/
-
-        req.data.to_requestStatus_rStatusDesc = 'Created'
-        req.data.to_requestStatus_rStatus = 'CREATED'
-
+        req.data.to_requestStatus_rStatusDesc = 'New MR Created'
+        req.data.to_requestStatus_rStatus = 'MRCRTD'
+        req.data.to_requestPhase_rPhase = 'MRINIT'
+        req.data.to_requestPhase_rPhaseDesc = 'Initiation'
         //Insert and update restrictions using hidden criteria
         //To set the request type disable after create
         //And request status to enable after create
@@ -242,18 +237,6 @@ module.exports = cds.service.impl(async function () {
         req.data.businessPartner1 = req.data.businessPartner
         req.data.businessPartnerName1 = req.data.businessPartnerName
 
-        //Details for Bullet micro Chart
-        /* req.data.foreCastDate = calculateForeCastDate(req.data.expectedDeliveryDate)
-         req.data.diffInCurrentAndArrivalDate = calculateDiffInCurrentAndArrivalDate(req.data.expectedArrivalDate)
-         req.data.diffInCurrentAndDeliveryDate = calculateDiffInCurrentAndDeliveryDate(req.data.expectedDeliveryDate)
-         req.data.diffInDeliveryAndArrivalDate = calculateDiffInDeliveryAndArrivalDate(req.data.expectedDeliveryDate, req.data.expectedArrivalDate)
-         req.data.foreCastDaysValue = req.data.diffInDeliveryAndArrivalDate + 10
- 
-         console.log('req.data.foreCastDays', req.data.foreCastDays)
-         console.log('req.data.foreCastDate', req.data.foreCastDate)
-         console.log('req.data.diffInCurrentAndArrivalDate', req.data.diffInCurrentAndArrivalDate)
-         console.log('req.data.diffInDeliveryAndArrivalDate', req.data.diffInDeliveryAndArrivalDate)*/
-
         req.data.startDate = req.data.expectedArrivalDate
         req.data.endDate = req.data.expectedDeliveryDate
 
@@ -262,8 +245,6 @@ module.exports = cds.service.impl(async function () {
         //STatus and Phase value for list report page 
         req.data.to_requestStatus1_rStatus = req.data.to_requestStatus_rStatus
         req.data.to_requestStatus1_rStatusDesc = req.data.to_requestStatus_rStatusDesc
-
-
 
     });
 
@@ -321,8 +302,7 @@ module.exports = cds.service.impl(async function () {
         id1 = req.params[0].ID
         console.log('id1', id1)
         const tx1 = cds.transaction(req)
-        query = await tx1.read(MaintenanceRequests)
-        //.where({ ID: id1 })
+        query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
         console.log('query................', query[0])
         queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: req.data.status })
         console.log('query Status...............', queryStatus)
@@ -332,73 +312,115 @@ module.exports = cds.service.impl(async function () {
         /* if ((query[0].to_requestStatus_rStatus == 'DRAFT' || '') && queryStatus[0].rStatus != 'DRAFT')
              req.info(101, 'You cannot change the Request Status before creating a Request')*/
 
-        if (query[0].to_requestStatus_rStatus == 'CREATED' && queryStatus[0].rStatus == 'REQFORWL')
+        if (query[0].to_requestStatus_rStatus == 'MRCRTD' && queryStatus[0].rStatus == 'NWLREQ')
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'CREATED' && queryStatus[0].rStatus != 'REQFORWL')
-            req.info(101, 'Request Status is at Created State and can move only to Request for Work List State for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'MRCRTD' && queryStatus[0].rStatus != 'NWLREQ')
+            //req.info(101, 'Request Status is at New MR Created state and can move to Request for New Worklist State for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status Request for New Worklist')
 
-        else if (query[0].to_requestStatus_rStatus == 'REQFORWL' && queryStatus[0].rStatus == 'REQWL')
+        else if (query[0].to_requestStatus_rStatus == 'NWLREQ' && queryStatus[0].rStatus == 'WLRQTD')
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'REQFORWL' && queryStatus[0].rStatus != 'REQWL')
-            req.info(101, 'Request Status is at Request for Work List State and can move only to Requested Work List State for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'NWLREQ' && queryStatus[0].rStatus != 'WLRQTD' && queryStatus[0].rStatus != 'NWLREQ')
+            // req.info(101, 'Request Status is at Request for New Worklist State and can move to New Worklist Requested State for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Requested')
+        else if (query[0].to_requestStatus_rStatus == 'NWLREQ' && queryStatus[0].rStatus == 'NWLREQ')
+            req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        else if (query[0].to_requestStatus_rStatus == 'REQWL' && queryStatus[0].rStatus == 'RECEIVEDNEWWL')
+        else if (query[0].to_requestStatus_rStatus == 'WLRQTD' && queryStatus[0].rStatus == 'NWLREC')
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'REQWL' && queryStatus[0].rStatus != 'RECEIVEDNEWWL')
-            req.info(101, 'Request Status is at Requested Work List State and can only move to Received New Work List State for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'WLRQTD' && queryStatus[0].rStatus != 'NWLREC' && queryStatus[0].rStatus != 'WLRQTD')
+            //req.info(101, 'Request Status is at New Worklist Requested State and can move to New Worklist Received State for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Received')
+        else if (query[0].to_requestStatus_rStatus == 'WLRQTD' && queryStatus[0].rStatus == 'WLRQTD')
+            req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        else if (query[0].to_requestStatus_rStatus == 'RECEIVEDNEWWL' && queryStatus[0].rStatus == 'SCREENNEWWL')
+        else if (query[0].to_requestStatus_rStatus == 'NWLREC' && queryStatus[0].rStatus == 'NWLSCR')
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'RECEIVEDNEWWL' && queryStatus[0].rStatus != 'SCREENNEWWL')
-            req.info(101, 'Request Status is at Received New Work List State and can only move to Screen New Work List State for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'NWLREC' && queryStatus[0].rStatus != 'NWLSCR' && queryStatus[0].rStatus != 'NWLREC')
+            //req.info(101, 'Request Status is at New Worklist Received State and can move to New Worklist Screening State for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Screening')
+        else if (query[0].to_requestStatus_rStatus == 'NWLREC' && queryStatus[0].rStatus == 'NWLREC')
+            req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        else if (query[0].to_requestStatus_rStatus == 'SCREENNEWWL' && (queryStatus[0].rStatus == 'VALIDATEDWL' || queryStatus[0].rStatus == 'REQWL'))
+        else if (query[0].to_requestStatus_rStatus == 'NWLSCR' && (queryStatus[0].rStatus == 'NWLVAL' || queryStatus[0].rStatus == 'WLRQTD'))
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'SCREENNEWWL' && (queryStatus[0].rStatus != 'VALIDATEDWL' || queryStatus[0].rStatus != 'REQWL'))
-            req.info(101, 'Request Status is at Screen New Work List State and can only move to Validated Work List or Requested Work List state for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'NWLSCR' && (queryStatus[0].rStatus != 'NWLVAL' || queryStatus[0].rStatus != 'WLRQTD') && queryStatus[0].rStatus != 'NWLSCR')
+            //req.info(101, 'Request Status is at New Worklist Screening State and can move to New Worklist Validated state or New Worklist Requested state for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Validated or New Worklist Requested')
+        else if (query[0].to_requestStatus_rStatus == 'NWLSCR' && queryStatus[0].rStatus == 'NWLSCR')
+            req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        else if (query[0].to_requestStatus_rStatus == 'VALIDATEDWL' && queryStatus[0].rStatus == 'CREATEDWL')
+        else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus == 'WLCRTD')
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'VALIDATEDWL' && queryStatus[0].rStatus != 'CREATEDWL')
-            req.info(101, 'Request Status is at Validated Work List State and can only move to Created Work List State for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus != 'NWLVAL')
+            //req.info(101, 'Request Status is at New Worklist Validated State and can move to New Worklist Created State for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Created')
+        else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus == 'NWLVAL')
+            req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        else if (query[0].to_requestStatus_rStatus == 'CREATEDWL' && queryStatus[0].rStatus == 'RECEIVEDALWL')
+        else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && queryStatus[0].rStatus == 'AWLREC')
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'CREATEDWL' && queryStatus[0].rStatus != 'RECEIVEDALWL')
-            req.info(101, 'Request Status is at Created Work List State and can only move to Received All Work List state for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && queryStatus[0].rStatus != 'AWLREC' && queryStatus[0].rStatus != 'WLCRTD')
+            //req.info(101, 'Request Status is at New Worklist Created State and can move to All Worklists Received state for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status All Worklists Received')
+        else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && queryStatus[0].rStatus == 'WLCRTD')
+            req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        else if (query[0].to_requestStatus_rStatus == 'RECEIVEDALWL' && (queryStatus[0].rStatus == 'READYFORAPPROVAL' || queryStatus[0].rStatus == 'REQWL'))
+        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && (queryStatus[0].rStatus == 'APRRDY' || queryStatus[0].rStatus == 'WLRQTD'))
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'RECEIVEDALWL' && (queryStatus[0].rStatus != 'READYFORAPPROVAL' || queryStatus[0].rStatus != 'REQWL'))
-            req.info(101, 'Request Status is at Received All Work List State and can only move to Ready for Approval or Requested Work List for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && (queryStatus[0].rStatus != 'APRRDY' || queryStatus[0].rStatus != 'WLRQTD') && queryStatus[0].rStatus != 'AWLREC')
+            // req.info(101, 'Request Status is at All Worklists Received State and can move to MR Ready for Approval state or New Worklist Requested state for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status MR Ready for Approval state or New Worklist Requested')
+        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus == 'AWLREC')
+            req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        else if (query[0].to_requestStatus_rStatus == 'READYFORAPPROVAL' && queryStatus[0].rStatus == 'APPROVEDMR')
+        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus == 'MRAPRD')
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'READYFORAPPROVAL' && queryStatus[0].rStatus != 'APPROVEDMR')
-            req.info(101, 'Request Status is at Ready for Approval State and can only move to Approved Maintenance Request for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus != 'MRAPRD' && queryStatus[0].rStatus != 'APRRDY')
+            // req.info(101, 'Request Status is at MR Ready for Approval State and can move to MR Approved state for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status MR Approved')
+        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus == 'APRRDY')
+            req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        else if (query[0].to_requestStatus_rStatus == 'APPROVEDMR' && queryStatus[0].rStatus == 'UPDATEDTL')
+        else if (query[0].to_requestStatus_rStatus == 'MRAPRD' && queryStatus[0].rStatus == 'TLIDNT')
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'APPROVEDMR' && queryStatus[0].rStatus != 'UPDATEDTL')
-            req.info(101, 'Request Status is at Approved Maintenance Request State and can only move to Updated Task List state for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'MRAPRD' && queryStatus[0].rStatus != 'TLIDNT' && queryStatus[0].rStatus != 'MRAPRD')
+            //req.info(101, 'Request Status is at MR Approved State and can only move to Task List Identified state for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status Task List Identified')
+        else if (query[0].to_requestStatus_rStatus == 'MRAPRD' && queryStatus[0].rStatus == 'MRAPRD')
+            req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
         /* else if (query[0].to_requestStatus_rStatus == 'UPDATEDTL' && queryStatus[0].rStatus == 'UPDATEDTL')
              updateStatus()*/
-        else if (query[0].to_requestStatus_rStatus == 'UPDATEDTL' && queryStatus[0].rStatus != 'UPDATEDTL')
-            req.info(101, 'Request Status is at Updated Task List  State and now you can create a revision for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'TLIDNT' && queryStatus[0].rStatus != 'TLIDNT' && queryStatus[0].rStatus != 'TLIDNT')
+            //req.info(101, 'Request Status is at Task List Identified State and now you can create a revision for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and Revision is required to move in further state')
+        else if (query[0].to_requestStatus_rStatus == 'TLIDNT' && queryStatus[0].rStatus == 'TLIDNT')
+            req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        else if (query[0].to_requestStatus_rStatus == 'CREATEDREVISION' && queryStatus[0].rStatus == 'CREATEDNOTIF')
+        else if (query[0].to_requestStatus_rStatus == 'RVCRTD' && queryStatus[0].rStatus == 'NTCRTD')
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'CREATEDREVISION' && queryStatus[0].rStatus != 'CREATEDNOTIF')
-            req.info(101, 'Request Status is at Created Revision State and can only move to Created Notification state for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'RVCRTD' && queryStatus[0].rStatus != 'NTCRTD' && queryStatus[0].rStatus != 'RVCRTD')
+            // req.info(101, 'Request Status is at Revision Created State and can move to Notifications Created state for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status Notifications Created')
+        else if (query[0].to_requestStatus_rStatus == 'RVCRTD' && queryStatus[0].rStatus == 'RVCRTD')
+            req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        else if (query[0].to_requestStatus_rStatus == 'CREATEDNOTIF' && queryStatus[0].rStatus == 'COMPLETEDMR')
+        else if (query[0].to_requestStatus_rStatus == 'NTCRTD' && queryStatus[0].rStatus == 'MRCMPL')
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'CREATEDNOTIF' && queryStatus[0].rStatus != 'COMPLETEDMR')
-            req.info(101, 'Request Status is at Created Notification State and can only move to Completed Maintenance Request state for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'NTCRTD' && queryStatus[0].rStatus != 'MRCMPL' && queryStatus[0].rStatus != 'NTCRTD')
+            // req.info(101, 'Request Status is at Notifications Created State and can move to MR Doc Completed state for Maintenance Request ' + query[0].requestNoConcat)
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status MR Doc Completed')
+        else if (query[0].to_requestStatus_rStatus == 'NTCRTD' && queryStatus[0].rStatus == 'NTCRTD')
+            req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        else if (query[0].to_requestStatus_rStatus == 'COMPLETEDMR' && queryStatus[0].rStatus != 'COMPLETEDMR')
-            req.info(101, 'Maintenace Request is already Completed for Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'NTCRTD' && queryStatus[0].rStatus == 'MRCMPL')
+            req.info(101, 'MR ' + query[0].requestNoConcat + ' is Completed')
+        else if (query[0].to_requestStatus_rStatus == 'MRCMPL' && queryStatus[0].rStatus != 'MRCMPL')
+            //req.info(101, 'MR Doc is Completed for ' + query[0].requestNoConcat)
+            req.info(101, 'MR ' + query[0].requestNoConcat + ' is already Completed')
+        else if (query[0].to_requestStatus_rStatus == 'MRCMPL' && queryStatus[0].rStatus == 'MRCMPL')
+            req.info(101, 'MR ' + query[0].requestNoConcat + ' is already Completed')
     })
 
     async function updateStatus() {
@@ -416,14 +438,14 @@ module.exports = cds.service.impl(async function () {
         // for (let i = 0; i < req.params.length; i++) {
         const id1 = req.params[0].ID
         const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'Created Revision' })
+        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'Revision Created' })
         console.log('query', queryStatus)
         var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Preparation' })
         console.log('query', queryPhase)
         var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
         console.log('query...........', query)
 
-        if (query[0].to_requestStatus_rStatus == 'UPDATEDTL') {
+        if (query[0].to_requestStatus_rStatus == 'TLIDNT') {
 
             //Fetching planning plant, request desc, work center and arrival and delivery date for performing POST request to MaintRevision S4 Service
             //Mandatory fields for creating a revision
@@ -510,11 +532,11 @@ module.exports = cds.service.impl(async function () {
                             MaintenanceRevision: result.RevisionNo,
                             revisionType: result.RevisionType,
                             revisionText: result.RevisionText,
-                            to_requestStatus_rStatus: 'CREATEDREVISION',
-                            to_requestStatus1_rStatus: 'CREATEDREVISION',
-                            to_requestStatus_rStatusDesc: 'Created Revision',
-                            to_requestStatus1_rStatusDesc: 'Created Revision',
-                            to_requestPhase_rPhase: 'PREPARATION',
+                            to_requestStatus_rStatus: 'RVCRTD',
+                            to_requestStatus1_rStatus: 'RVCRTD',
+                            to_requestStatus_rStatusDesc: 'Revision Created',
+                            to_requestStatus1_rStatusDesc: 'Revision Created',
+                            to_requestPhase_rPhase: 'MRPREP',
                             to_requestPhase_rPhaseDesc: 'Preparation'
                         }).where({ ID: id1 })
                         req.info(101, 'Revision ' + result.RevisionNo + ' created for Maintenance Request ' + query[0].requestNoConcat)
@@ -541,13 +563,15 @@ module.exports = cds.service.impl(async function () {
                  req.info(101, 'Revision is already been created for this Maintenance Request')
              }*/
         }
-        else if (query[0].to_requestStatus_rStatus == 'CREATEDNOTIF' || query[0].to_requestStatus_rStatus == 'COMPLETEDMR' || query[0].to_requestStatus_rStatus == 'CREATEDREVISION') {
-            req.data.to_requestStatus_rStatus = 'CREATEDREVISION'
-            req.info(101, 'Revision is already been created for this Maintenance Request ' + query[0].requestNoConcat)
-
+        else if (query[0].to_requestStatus_rStatus == 'NTCRTD' ||  query[0].to_requestStatus_rStatus == 'RVCRTD') {
+            req.data.to_requestStatus_rStatus = 'RVCRTD'
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' Revision is already been created')
         }
-        else if (query[0].to_requestStatus_rStatus != 'CREATEDNOTIF' || query[0].to_requestStatus_rStatus != 'COMPLETEDMR' || query[0].to_requestStatus_rStatus != 'UPDATEDTL')
-            req.info(101, 'Task List should be updated before creating Revision for this Maintenance Request ' + query[0].requestNoConcat)
+        else if (query[0].to_requestStatus_rStatus == 'MRCMPL') {
+            req.info(101, 'MR ' + query[0].requestNoConcat + ' is already Completed')
+        }
+        else if (query[0].to_requestStatus_rStatus != 'NTCRTD' || query[0].to_requestStatus_rStatus != 'MRCMPL' || query[0].to_requestStatus_rStatus != 'TLIDNT')
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' Task List should be identified')
         //}
     })
 
@@ -559,7 +583,6 @@ module.exports = cds.service.impl(async function () {
         for (let i = 0; i < query.length; i++) {
 
             var rangeID, range, age;
-
             var currentDate = new Date()
             //var currentDate = new Date("2023-07-11T10:44:42.709Z");
             var createdDate = new Date(query[i].createdAt);
@@ -620,9 +643,9 @@ module.exports = cds.service.impl(async function () {
         return "Aging Calculated";
     })
 
-    this.on('calculateAging', async (req) => {
-        this.calculateAgingFunc();
-    })
+    // this.on('calculateAging', async (req) => {
+    //     this.calculateAgingFunc();
+    // })
 
     //Function for converting date into (YYYY-MM-DD) format
     function returnDate(dateValue) {

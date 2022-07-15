@@ -68,20 +68,22 @@ entity RequestTypes {
 //It is used in change status action button as a drop down
 entity RequestStatuses {
     key ID          : Integer;
-    key rStatus     : String default 'DRAFT';
-    key rStatusDesc : String default 'Draft';
+    key rStatus     : String;
+    key rStatusDesc : String;
         to_rPhase   : Association to RequestPhases;
 };
 
 //It is used as Status drop down on list report page
 entity RequestStatuses1 {
-    key rStatus     : String default 'DRAFT';
-    key rStatusDesc : String default 'Draft';
+    key ID          : Integer;
+    key rStatus     : String;
+    key rStatusDesc : String;
 };
 
 entity RequestPhases {
-    key rPhase     : String default 'INITIATION';
-    key rPhaseDesc : String default 'Initiation';
+    key ID         : Integer;
+    key rPhase     : String;
+    key rPhaseDesc : String;
 };
 
 entity Documents : managed {
@@ -301,6 +303,7 @@ view ReqByCompleteAssetAndRangeUntilRequestedWorkList as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -311,10 +314,9 @@ view ReqByCompleteAssetAndRangeUntilRequestedWorkList as
 where
     to_requestType.rType = 'Complete Asset'
     and (
-           to_requestStatus1.rStatusDesc = 'Draft'
-        or to_requestStatus1.rStatusDesc = 'Created'
-        or to_requestStatus1.rStatusDesc = 'Request for Work List'
-        or to_requestStatus1.rStatusDesc = 'Requested Work List'
+           to_requestStatus1.rStatusDesc = 'New MR Created'
+        or to_requestStatus1.rStatusDesc = 'Request for New Worklist'
+        or to_requestStatus1.rStatusDesc = 'New Worklist Requested'
     );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis Created, Request for Work List, Requested Work List
@@ -324,10 +326,9 @@ view ReqByAssemblyAndRangeUntilRequestedWorkList as
         to_requestType,
         @Analytics.Dimension : true //
         to_requestStatus1,
-        //businessPartner1,
         @Analytics.Dimension : true
-        //bpConcatenation,
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -338,10 +339,9 @@ view ReqByAssemblyAndRangeUntilRequestedWorkList as
 where
     to_requestType.rType = 'Assembly'
     and (
-           to_requestStatus1.rStatusDesc = 'Draft'
-        or to_requestStatus1.rStatusDesc = 'Created'
-        or to_requestStatus1.rStatusDesc = 'Request for Work List'
-        or to_requestStatus1.rStatusDesc = 'Requested Work List'
+           to_requestStatus1.rStatusDesc = 'New MR Created'
+        or to_requestStatus1.rStatusDesc = 'Request for New Worklist'
+        or to_requestStatus1.rStatusDesc = 'New Worklist Requested'
     );
 
 
@@ -354,6 +354,7 @@ view ReqByComponentAndRangeUntilRequestedWorkList as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -364,10 +365,9 @@ view ReqByComponentAndRangeUntilRequestedWorkList as
     where
         to_requestType.rType = 'Component'
         and (
-               to_requestStatus1.rStatusDesc = 'Draft'
-            or to_requestStatus1.rStatusDesc = 'Created'
-            or to_requestStatus1.rStatusDesc = 'Request for Work List'
-            or to_requestStatus1.rStatusDesc = 'Requested Work List'
+               to_requestStatus1.rStatusDesc = 'New MR Created'
+            or to_requestStatus1.rStatusDesc = 'Request for New Worklist'
+            or to_requestStatus1.rStatusDesc = 'New Worklist Requested'
         );
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
@@ -379,6 +379,7 @@ view ReqByCompleteAssetAndRangeOverallStatus as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -387,15 +388,8 @@ view ReqByCompleteAssetAndRangeOverallStatus as
         mrCount
     }
     where
-        to_requestType.rType = 'Complete Asset'
-        and (
-               to_requestStatus1.rStatusDesc = 'Draft'
-            or to_requestStatus1.rStatusDesc = 'Requested Work List'
-            or to_requestStatus1.rStatusDesc = 'Ready for Approval'
-            or to_requestStatus1.rStatusDesc = 'Updated Task List'
-            or to_requestStatus1.rStatusDesc = 'Created Revision'
-            or to_requestStatus1.rStatusDesc = 'Created Notification'
-        );
+        to_requestType.rType = 'Complete Asset';
+
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
@@ -406,6 +400,7 @@ view ReqByAssemblyAndRangeOverallStatus as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -414,15 +409,8 @@ view ReqByAssemblyAndRangeOverallStatus as
         mrCount
     }
     where
-        to_requestType.rType = 'Assembly'
-        and (
-               to_requestStatus1.rStatusDesc = 'Draft'
-            or to_requestStatus1.rStatusDesc = 'Requested Work List'
-            or to_requestStatus1.rStatusDesc = 'Ready for Approval'
-            or to_requestStatus1.rStatusDesc = 'Updated Task List'
-            or to_requestStatus1.rStatusDesc = 'Created Revision'
-            or to_requestStatus1.rStatusDesc = 'Created Notification'
-        );
+        to_requestType.rType = 'Assembly';
+
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
@@ -433,6 +421,7 @@ view ReqByComponentAndRangeOverallStatus as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -441,15 +430,7 @@ view ReqByComponentAndRangeOverallStatus as
         mrCount
     }
     where
-        to_requestType.rType = 'Component'
-        and (
-               to_requestStatus1.rStatusDesc = 'Draft'
-            or to_requestStatus1.rStatusDesc = 'Requested Work List'
-            or to_requestStatus1.rStatusDesc = 'Ready for Approval'
-            or to_requestStatus1.rStatusDesc = 'Updated Task List'
-            or to_requestStatus1.rStatusDesc = 'Created Revision'
-            or to_requestStatus1.rStatusDesc = 'Created Notification'
-        );
+        to_requestType.rType = 'Component';
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
 @Aggregation.ApplySupported.PropertyRestrictions : true
@@ -460,6 +441,7 @@ view ReqByCompleteAssetAndRangeUntilNotifications as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -470,8 +452,8 @@ view ReqByCompleteAssetAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Complete Asset'
         and (
-               to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
-            or to_requestStatus1.rStatusDesc = 'Created Notification'
+               to_requestStatus1.rStatusDesc = 'MR Approved'
+            or to_requestStatus1.rStatusDesc = 'Notifications Created'
         );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
@@ -483,6 +465,7 @@ view ReqByAssemblyAndRangeUntilNotifications as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -493,8 +476,8 @@ view ReqByAssemblyAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Assembly'
         and (
-               to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
-            or to_requestStatus1.rStatusDesc = 'Created Notification'
+               to_requestStatus1.rStatusDesc = 'MR Approved'
+            or to_requestStatus1.rStatusDesc = 'Notifications Created'
         );
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
@@ -506,6 +489,7 @@ view ReqByComponentAndRangeUntilNotifications as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -516,8 +500,8 @@ view ReqByComponentAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Component'
         and (
-               to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
-            or to_requestStatus1.rStatusDesc = 'Created Notification'
+               to_requestStatus1.rStatusDesc = 'MR Approved'
+            or to_requestStatus1.rStatusDesc = 'Notifications Created'
         );
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
@@ -529,6 +513,7 @@ view ReqByCompleteAssetAndRangePendingRevision as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -539,17 +524,7 @@ view ReqByCompleteAssetAndRangePendingRevision as
     where
         to_requestType.rType = 'Complete Asset'
         and (
-               to_requestStatus1.rStatusDesc = 'Draft'
-            or to_requestStatus1.rStatusDesc = 'Created'
-            or to_requestStatus1.rStatusDesc = 'Request for Work List'
-            or to_requestStatus1.rStatusDesc = 'Requested Work List'
-            or to_requestStatus1.rStatusDesc = 'Received New Work List'
-            or to_requestStatus1.rStatusDesc = 'Screen New Work List'
-            or to_requestStatus1.rStatusDesc = 'Validated Work List'
-            or to_requestStatus1.rStatusDesc = 'Created Work List'
-            or to_requestStatus1.rStatusDesc = 'Received All Work List'
-            or to_requestStatus1.rStatusDesc = 'Ready for Approval'
-            or to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
+            to_requestStatus1.rStatusDesc = 'Task List Identified'
         );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
@@ -561,6 +536,7 @@ view ReqByAssemblyAndRangePendingRevision as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -571,17 +547,7 @@ view ReqByAssemblyAndRangePendingRevision as
     where
         to_requestType.rType = 'Assembly'
         and (
-               to_requestStatus1.rStatusDesc = 'Draft'
-            or to_requestStatus1.rStatusDesc = 'Created'
-            or to_requestStatus1.rStatusDesc = 'Request for Work List'
-            or to_requestStatus1.rStatusDesc = 'Requested Work List'
-            or to_requestStatus1.rStatusDesc = 'Received New Work List'
-            or to_requestStatus1.rStatusDesc = 'Screen New Work List'
-            or to_requestStatus1.rStatusDesc = 'Validated Work List'
-            or to_requestStatus1.rStatusDesc = 'Created Work List'
-            or to_requestStatus1.rStatusDesc = 'Received All Work List'
-            or to_requestStatus1.rStatusDesc = 'Ready for Approval'
-            or to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
+            to_requestStatus1.rStatusDesc = 'Task List Identified'
         );
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
@@ -593,6 +559,7 @@ view ReqByComponentAndRangePendingRevision as
         to_requestStatus1,
         @Analytics.Dimension : true
         to_ranges,
+        businessPartner1,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -603,15 +570,5 @@ view ReqByComponentAndRangePendingRevision as
     where
         to_requestType.rType = 'Component'
         and (
-               to_requestStatus1.rStatusDesc = 'Draft'
-            or to_requestStatus1.rStatusDesc = 'Created'
-            or to_requestStatus1.rStatusDesc = 'Request for Work List'
-            or to_requestStatus1.rStatusDesc = 'Requested Work List'
-            or to_requestStatus1.rStatusDesc = 'Received New Work List'
-            or to_requestStatus1.rStatusDesc = 'Screen New Work List'
-            or to_requestStatus1.rStatusDesc = 'Validated Work List'
-            or to_requestStatus1.rStatusDesc = 'Created Work List'
-            or to_requestStatus1.rStatusDesc = 'Received All Work List'
-            or to_requestStatus1.rStatusDesc = 'Ready for Approval'
-            or to_requestStatus1.rStatusDesc = 'Approved Maintenance Request'
+            to_requestStatus1.rStatusDesc = 'Task List Identified'
         );

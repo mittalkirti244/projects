@@ -111,7 +111,7 @@
                             "controlConfiguration": {
                                 "@com.sap.vocabularies.UI.v1.LineItem": {
                                     "tableSettings": {
-                                        "selectAll": true
+                                        "selectAll": false
                                     }
                                 }
                             }
@@ -133,8 +133,6 @@
                                             "column": true,
                                             "sort": false
                                         },
-                                        "multiSelect": true,
-                                        "selectAll": false,
                                         "enablePaste": false,
                                         "enableExport": true,
                                         "enableSettings": false

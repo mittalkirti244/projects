@@ -29,11 +29,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Action : 'mrorequestdolphinService.revisionCreated',
             Label  : 'Create Revision'
         },
-        {
-            $Type  : 'UI.DataFieldForAction',
-            Action : 'mrorequestdolphinService.calculateAging',
-            Label  : 'Generate Ageing'
-        },
+        // {
+        //     $Type  : 'UI.DataFieldForAction',
+        //     Action : 'mrorequestdolphinService.calculateAging',
+        //     Label  : 'Generate Ageing'
+        // },
         {
             Value                 : requestNoConcat,
             ![@HTML5.CssDefaults] : {
@@ -49,22 +49,22 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             }
         },
         {
-            Value                     : to_requestStatus1_rStatusDesc,
-            ![@HTML5.CssDefaults]     : {
+            Value                 : to_requestStatus1_rStatusDesc,
+            ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
             },
-            Criticality               : criticalityLevel,
-            CriticalityRepresentation : #WithoutIcon
+        // Criticality               : criticalityLevel,
+        // CriticalityRepresentation : #WithoutIcon
         },
         {
-            Value                     : to_requestPhase_rPhaseDesc,
-            ![@HTML5.CssDefaults]     : {
+            Value                 : to_requestPhase_rPhaseDesc,
+            ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
             },
-            Criticality               : criticalityLevel,
-            CriticalityRepresentation : #WithoutIcon
+        // Criticality               : criticalityLevel,
+        // CriticalityRepresentation : #WithoutIcon
         },
         {
             Value                 : businessPartner1,
@@ -272,16 +272,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     //Coulmn1 for header facet
     FieldGroup #Basic1                          : {Data : [
         {Value : to_requestType_ID},
-        {
-            Value                     : to_requestStatus_rStatusDesc,
-            Criticality               : criticalityLevel,
-            CriticalityRepresentation : #WithoutIcon
-        },
-        {
-            Value                     : to_requestPhase_rPhaseDesc,
-            Criticality               : criticalityLevel,
-            CriticalityRepresentation : #WithoutIcon
-        }
+        {Value : to_requestStatus_rStatusDesc,
+                                               // Criticality               : criticalityLevel,
+                                               // CriticalityRepresentation : #WithoutIcon
+                 },
+        {Value : to_requestPhase_rPhaseDesc,
+                                             // Criticality               : criticalityLevel,
+                                             // CriticalityRepresentation : #WithoutIcon
+                 }
     ]},
     //Column 2 for header facet
     FieldGroup #Basic2                          : {Data : [
@@ -389,18 +387,16 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value         : requestType1,
             ![@UI.Hidden] : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
         },
-        {
-            Value                     : to_requestStatus_rStatusDesc,
-            //![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
-            Criticality               : criticalityLevel,
-            CriticalityRepresentation : #WithoutIcon
-        },
-        {
-            Value                     : to_requestPhase_rPhaseDesc,
-            //![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
-            Criticality               : criticalityLevel,
-            CriticalityRepresentation : #WithoutIcon
-        },
+        {Value : to_requestStatus_rStatusDesc,
+                                               //![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
+                                               // Criticality               : criticalityLevel,
+                                               // CriticalityRepresentation : #WithoutIcon
+                 },
+        {Value : to_requestPhase_rPhaseDesc,
+                                             //![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
+                                             // Criticality               : criticalityLevel,
+                                             // CriticalityRepresentation : #WithoutIcon
+                 },
     /*{
          Value                     : requestStatus1,
          ![@UI.Hidden]             : uiHidden, //Inital value in CREATE-> visible,  In edit -> not visible
@@ -911,19 +907,18 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'Ranges',
-            Label          : '{i18n>Range}',
+            //Label          : '{i18n>Range}',
             Parameters     : [
-                // {
-                //     $Type             : 'Common.ValueListParameterOut',
-                //     LocalDataProperty : 'to_ranges_ID',
-                //     ValueListProperty : 'ID'
-                // },
-                {
-                    $Type             : 'Common.ValueListParameterOut',
-                    LocalDataProperty : 'to_ranges_range',
-                    ValueListProperty : 'range'
-                }
-            ]
+                              // {
+                              //     $Type             : 'Common.ValueListParameterOut',
+                              //     LocalDataProperty : 'to_ranges_ID',
+                              //     ValueListProperty : 'ID'
+                              // },
+                             {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'to_ranges_range',
+                ValueListProperty : 'range'
+            }]
         }
     })
 };
@@ -1098,7 +1093,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         requestNo,
         requestType1,
         to_requestType_ID,
-        // to_requestStatus_ID,
+        to_requestStatus_ID,
         to_requestStatus_rStatus,
         to_requestStatus_rStatusDesc,
         to_requestStatus1_rStatus,

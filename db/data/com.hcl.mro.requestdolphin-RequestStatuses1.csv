@@ -1,16 +1,15 @@
-rStatus;rStatusDesc
-DRAFT;Draft
-CREATED;Created
-REQFORWL;Request for Work List
-REQWL;Requested Work List
-RECEIVEDNEWWL;Received New Work List
-SCREENNEWWL;Screen New Work List
-VALIDATEDWL;Validated Work List 
-CREATEDWL;Created Work List 
-RECEIVEDALWL;Received All Work List 
-READYFORAPPROVAL;Ready for Approval
-APPROVEDMR;Approved Maintenance Request
-UPDATEDTL;Updated Task List 
-CREATEDREVISION;Created Revision
-CREATEDNOTIF;Created Notification 
-COMPLETEDMR;Completed Maintenance Request
+ID;rStatus;rStatusDesc
+1;MRCRTD;New MR Created
+2;NWLREQ;Request for New Worklist
+3;WLRQTD;New Worklist Requested
+4;NWLREC;New Worklist Received
+5;NWLSCR;New Worklist Screening
+6;NWLVAL;New Worklist Validated
+7;WLCRTD;New Worklist Created
+8;AWLREC;All Worklists Received
+9;APRRDY;MR Ready for Approval
+10;MRAPRD;MR Approved
+11;TLIDNT;Task List Identified 
+12;RVCRTD;Revision Created 
+13;NTCRTD;Notifications Created
+14;MRCMPL;MR Doc Completed
