@@ -1,13 +1,13 @@
-ID;rStatus;rStatusDesc;to_rPhase_rPhase;to_rPhase_rPhaseDesc 
-1;NWLREQ;Request for New Worklist;MRINIT;Initiation
-2;WLRQTD;New Worklist Requested;MRINIT;Initiation
-3;NWLREC;New Worklist Received;MRINIT;Initiation
-4;NWLSCR;New Worklist Screening;MRSCRN;Screening
-5;NWLVAL;New Worklist Validated;MRSCRN;Screening
-6;WLCRTD;New Worklist Created;MRSCRN;Screening
-7;AWLREC;All Worklists Received;MRSCRN;Screening
-8;APRRDY;MR Ready for Approval;MRPREP;Preparation
-9;MRAPRD;MR Approved;MRPREP;Preparation
-10;TLIDNT;Task List Identified;MRPREP;Preparation
-11;NTCRTD;Notifications Created;MRPREP;Preparation
-12;MRCMPL;MR Doc Completed;MRPREP;Preparation
+ID;rStatus;rStatusDesc;to_rPhase_rPhase;to_rPhase_rPhaseDesc;to_rPhase_ID
+1;NWLREQ;Request for New Worklist;MRINIT;Initiation;1
+2;WLRQTD;New Worklist Requested;MRINIT;Initiation;1
+3;NWLREC;New Worklist Received;MRINIT;Initiation;1
+4;NWLSCR;New Worklist Screening;MRSCRN;Screening;2
+5;NWLVAL;New Worklist Validated;MRSCRN;Screening;2
+6;WLCRTD;New Worklist Created;MRSCRN;Screening;2
+7;AWLREC;All Worklists Received;MRSCRN;Screening;2
+8;APRRDY;MR Ready for Approval;MRPREP;Preparation;3
+9;MRAPRD;MR Approved;MRPREP;Preparation;3
+10;TLIDNT;Task List Identified;MRPREP;Preparation;3
+11;NTCRTD;Notifications Created;MRPREP;Preparation;3
+12;MRCMPL;MR Doc Completed;MRPREP;Preparation;3

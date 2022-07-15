@@ -200,10 +200,18 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value : requestDesc,
             ![@UI.Hidden]
         },
-        /* {
-             Value : to_requestStatus_ID,
-             ![@UI.Hidden]
-         },*/
+        {
+            Value : to_requestStatus_ID,
+            ![@UI.Hidden]
+        },
+         {
+            Value : to_requestStatus1_ID,
+            ![@UI.Hidden]
+        },
+         {
+            Value : to_requestPhase_ID,
+            ![@UI.Hidden]
+        },
         {
             Value : to_requestStatus_rStatus,
             ![@UI.Hidden]
@@ -1094,10 +1102,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         requestType1,
         to_requestType_ID,
         to_requestStatus_ID,
+        to_requestStatus1_ID,
         to_requestStatus_rStatus,
         to_requestStatus_rStatusDesc,
         to_requestStatus1_rStatus,
         to_requestPhase_rPhase,
+        to_requestPhase_ID,
         to_ranges_ID
     ]
 }};
