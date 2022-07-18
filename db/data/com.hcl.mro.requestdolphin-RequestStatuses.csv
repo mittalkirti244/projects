@@ -6,8 +6,8 @@ ID;rStatus;rStatusDesc;to_rPhase_rPhase;to_rPhase_rPhaseDesc;to_rPhase_ID
 5;NWLVAL;New Worklist Validated;MRSCRN;Screening;2
 6;WLCRTD;New Worklist Created;MRSCRN;Screening;2
 7;AWLREC;All Worklists Received;MRSCRN;Screening;2
-8;APRRDY;MR Ready for Approval;MRPREP;Preparation;3
-9;MRAPRD;MR Approved;MRPREP;Preparation;3
+8;APRRDY;Ready for Approval;MRPREP;Preparation;3
+9;MRAPRD;Approved;MRPREP;Preparation;3
 10;TLIDNT;Task List Identified;MRPREP;Preparation;3
 11;NTCRTD;Notifications Created;MRPREP;Preparation;3
-12;MRCMPL;MR Doc Completed;MRPREP;Preparation;3
+12;MRCMPL;Document Completed;MRPREP;Preparation;3

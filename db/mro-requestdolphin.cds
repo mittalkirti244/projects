@@ -314,7 +314,7 @@ view ReqByCompleteAssetAndRangeUntilRequestedWorkList as
 where
     to_requestType.rType = 'Complete Asset'
     and (
-           to_requestStatus1.rStatusDesc = 'New MR Created'
+           to_requestStatus1.rStatusDesc = 'Created'
         or to_requestStatus1.rStatusDesc = 'Request for New Worklist'
         or to_requestStatus1.rStatusDesc = 'New Worklist Requested'
     );
@@ -339,7 +339,7 @@ view ReqByAssemblyAndRangeUntilRequestedWorkList as
 where
     to_requestType.rType = 'Assembly'
     and (
-           to_requestStatus1.rStatusDesc = 'New MR Created'
+           to_requestStatus1.rStatusDesc = 'Created'
         or to_requestStatus1.rStatusDesc = 'Request for New Worklist'
         or to_requestStatus1.rStatusDesc = 'New Worklist Requested'
     );
@@ -365,7 +365,7 @@ view ReqByComponentAndRangeUntilRequestedWorkList as
     where
         to_requestType.rType = 'Component'
         and (
-               to_requestStatus1.rStatusDesc = 'New MR Created'
+               to_requestStatus1.rStatusDesc = 'Created'
             or to_requestStatus1.rStatusDesc = 'Request for New Worklist'
             or to_requestStatus1.rStatusDesc = 'New Worklist Requested'
         );
@@ -452,7 +452,7 @@ view ReqByCompleteAssetAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Complete Asset'
         and (
-               to_requestStatus1.rStatusDesc = 'MR Approved'
+               to_requestStatus1.rStatusDesc = 'Approved'
             or to_requestStatus1.rStatusDesc = 'Notifications Created'
         );
 
@@ -476,7 +476,7 @@ view ReqByAssemblyAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Assembly'
         and (
-               to_requestStatus1.rStatusDesc = 'MR Approved'
+               to_requestStatus1.rStatusDesc = 'Approved'
             or to_requestStatus1.rStatusDesc = 'Notifications Created'
         );
 
@@ -500,7 +500,7 @@ view ReqByComponentAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Component'
         and (
-               to_requestStatus1.rStatusDesc = 'MR Approved'
+               to_requestStatus1.rStatusDesc = 'Approved'
             or to_requestStatus1.rStatusDesc = 'Notifications Created'
         );
 

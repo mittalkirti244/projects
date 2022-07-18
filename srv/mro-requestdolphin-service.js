@@ -99,7 +99,7 @@ module.exports = cds.service.impl(async function () {
             req.error(406, req.data.to_requestType_rType + ' Type is not present in Number Range.')
         }
 
-        req.data.to_requestStatus_rStatusDesc = 'New MR Created'
+        req.data.to_requestStatus_rStatusDesc = 'Created'
         req.data.to_requestStatus_rStatus = 'MRCRTD'
         req.data.to_requestPhase_rPhase = 'MRINIT'
         req.data.to_requestPhase_rPhaseDesc = 'Initiation'
@@ -370,7 +370,7 @@ module.exports = cds.service.impl(async function () {
             updateStatus()
         else if (query[0].to_requestStatus_rStatus == 'AWLREC' && (queryStatus[0].rStatus != 'APRRDY' || queryStatus[0].rStatus != 'WLRQTD') && queryStatus[0].rStatus != 'AWLREC')
             // req.info(101, 'Request Status is at All Worklists Received State and can move to MR Ready for Approval state or New Worklist Requested state for Maintenance Request ' + query[0].requestNoConcat)
-            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status MR Ready for Approval state or New Worklist Requested')
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status Ready for Approval state or New Worklist Requested')
         else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus == 'AWLREC')
             req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
@@ -378,7 +378,7 @@ module.exports = cds.service.impl(async function () {
             updateStatus()
         else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus != 'MRAPRD' && queryStatus[0].rStatus != 'APRRDY')
             // req.info(101, 'Request Status is at MR Ready for Approval State and can move to MR Approved state for Maintenance Request ' + query[0].requestNoConcat)
-            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status MR Approved')
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status Approved')
         else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus == 'APRRDY')
             req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
@@ -410,7 +410,7 @@ module.exports = cds.service.impl(async function () {
             updateStatus()
         else if (query[0].to_requestStatus_rStatus == 'NTCRTD' && queryStatus[0].rStatus != 'MRCMPL' && queryStatus[0].rStatus != 'NTCRTD')
             // req.info(101, 'Request Status is at Notifications Created State and can move to MR Doc Completed state for Maintenance Request ' + query[0].requestNoConcat)
-            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status MR Doc Completed')
+            req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status Document Completed')
         else if (query[0].to_requestStatus_rStatus == 'NTCRTD' && queryStatus[0].rStatus == 'NTCRTD')
             req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
