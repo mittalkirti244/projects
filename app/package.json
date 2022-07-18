@@ -1,10 +1,10 @@
 {
     "name": "mro-requestdolphin-ui",
     "dependencies": {
-        "@sap/approuter": "^6.6.0"
+        "@sap/approuter": "^11.2.1"
     },
     "engines": {
-        "node": "^10"
+        "node": "^16.15.0"
     },
     "scripts": {
         "start": "node node_modules/@sap/approuter/approuter.js"

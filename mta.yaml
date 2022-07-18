@@ -59,7 +59,7 @@ modules:
     type: nodejs
     path: app
     parameters:
-      buildpack: https://github.com/cloudfoundry/nodejs-buildpack/releases/download/v1.7.25/nodejs-buildpack-cflinuxfs3-v1.7.25.zip
+      buildpack: https://github.com/cloudfoundry/nodejs-buildpack/releases/download/v1.7.72/nodejs-buildpack-cflinuxfs3-v1.7.72.zip
       disk-quota: 512M
       memory: 512M
     requires:
