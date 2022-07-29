@@ -95,7 +95,9 @@ service mrorequestdolphinService {
             revisionType
         }
         where
-            to_requestStatusDisp.rStatus = 'RVCRTD';
+               to_requestStatusDisp.rStatus = 'RVCRTD'
+            or to_requestStatusDisp.rStatus = 'NTCRTD'
+            or to_requestStatusDisp.rStatus = 'MRCMPL';
 
     entity RequestTypes         as projection on maintReq.RequestTypes;
     entity RequestStatuses      as projection on maintReq.RequestStatuses;
@@ -115,7 +117,7 @@ service mrorequestdolphinService {
 
     entity BotStatuses          as projection on maintReq.BotStatuses;
     //entity ProcessTypes         as projection on maintReq.ProcessTypes;
-    entity DocumentStatuses as projection on maintReq.DocumentStatuses;
+    entity DocumentStatuses     as projection on maintReq.DocumentStatuses;
     entity AttachmentTypes      as projection on maintReq.AttachmentTypes;
     entity Configurations       as projection on maintReq.Configurations;
     entity RequestIndustries    as projection on maintReq.RequestIndustries;
