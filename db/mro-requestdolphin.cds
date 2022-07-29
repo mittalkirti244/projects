@@ -11,9 +11,9 @@ entity MaintenanceRequests : managed {
         requestNoConcat          : String                                           @Common.SemanticObject : 'maintenancerequest'  @title              : '{i18n>requestNo}';
         requestDesc              : String                                           @title                 : '{i18n>requestDesc}'; // maintenance request Description
         businessPartner          : String                                           @title                 : '{i18n>businessPartner}'; //bp service from s4
-        businessPartner1         : String                                           @title                 : '{i18n>businessPartner}'; // bp to be display on only list report page to perform filteration
+        businessPartnerDisp      : String                                           @title                 : '{i18n>businessPartner}'; // bp to be display on only list report page to perform filteration
         businessPartnerName      : String                                           @title                 : '{i18n>businessPartnerName}'; //autopopulate after selecting business partner
-        businessPartnerName1     : String                                           @title                 : '{i18n>businessPartnerName}'; //bp name to be display on list report page so that user see bp name after selecting bp from selection
+        businessPartnerNameDisp  : String                                           @title                 : '{i18n>businessPartnerName}'; //bp name to be display on list report page so that user see bp name after selecting bp from selection
         bpConcatenation          : String; //Concatenated BP value 101(Boeing Ltd.) used in ovp card of Busines partner
         eqMaterial               : String                                           @title                 : '{i18n>eqMaterial}'; //Equipment Material
         eqSerialNumber           : String                                           @title                 : '{i18n>eqSerialNumber}'; //Equipment serial number
@@ -44,16 +44,15 @@ entity MaintenanceRequests : managed {
         emailFlag                : Boolean; //True indicates -> mail sent & false indicates -> mail not sent
         uiHidden                 : Boolean not null default false; //datafield to apply hidden criteria for request type and request status
         uiHidden1                : Boolean not null default true; //datafield to apply hidden criteria for request type and request status
-        requestType1             : Integer                                          @title                 : '{i18n>requestType1}'; //to assign the request type at the time of edit and readonly field
+        requestTypeDisp          : Integer                                          @title                 : '{i18n>requestTypeDisp}'; //to assign the request type at the time of edit and readonly field
         mrCount                  : Integer default 1                                @title                 : '{i18n>mrCount}'; //Used in views to show count of the requests
         createdAtDate            : Date                                             @cds.on.insert         : $now  @title                              : '{i18n>createdAtDate}'; //Used as a filter criteria for Overview page(Date DataType works as a date picker)
         age                      : Integer default 0                                @title                 : '{i18n>age}'; //For representing Aging field
-        // closeEnabled             : Boolean not null default false                   @title                 : '{i18n>closeEnabled}';
         changeStatusFlag         : Boolean not null default false                   @title                 : '{i18n>changeStatusFlag}';
         updateRevisionFlag       : Boolean not null default false                   @title                 : '{i18n>updateRevisionFlag}';
         to_requestType           : Association to RequestTypes                      @title :                 '{i18n>requestType}'  @assert.integrity   : false; //as dropdown - request number will generate through request type
         to_requestStatus         : Association to RequestStatuses                   @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
-        to_requestStatus1        : Association to RequestStatuses1                  @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
+        to_requestStatusDisp     : Association to RequestStatusesDisp               @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
         to_requestPhase          : Association to RequestPhases                     @title :                 '{i18n>requestPhase}'  @assert.integrity  : false; //at create = initial
         to_document              : Composition of many Documents
                                        on to_document.to_maintenanceRequest = $self @title                 : '{i18n>document}'; //One to many (1 MR - multiple documents links) i.e. Attaching multiple url w.r.t. MR
@@ -66,7 +65,7 @@ entity RequestTypes {
     key rType : String;
 };
 
-//It is used in change status action button as a drop down
+//It is used in change status action button as a drop down on Object Page
 entity RequestStatuses {
     key ID          : Integer;
     key rStatus     : String;
@@ -74,8 +73,8 @@ entity RequestStatuses {
         to_rPhase   : Association to RequestPhases;
 };
 
-//It is used as Status drop down on list report page
-entity RequestStatuses1 {
+//It is used as Status drop down on list report page for display purpose
+entity RequestStatusesDisp {
     key ID          : Integer;
     key rStatus     : String;
     key rStatusDesc : String;
@@ -88,30 +87,36 @@ entity RequestPhases {
 };
 
 entity Documents : managed {
-    key UUID                     : UUID                           @Core.Computed; //Unique ID as UUID
-        ID                       : Integer                        @title :            '{i18n>document_ID}'; //It got incremented by 1 w.r.t. MR
-        url                      : String                         @title :            '{i18n>document_url}'; //document url
-        documentName             : String                         @title :            '{i18n>documentName}'; //url decription
-        eMailRecievedDateAndTime : DateTime                       @title :            '{i18n>eMailRecievedDateAndTime}'; //E-Mail Recieved Date
-        fileFormatCheckRequired  : Boolean not null default false @title :            '{i18n>fileFormatCheckRequired}'; // File Format Check RequiredY/N.
-        formatCheck              : Boolean not null default false @title :            '{i18n>formatCheck}'; // Format Check Y/N.
-        eMailSent                : Boolean not null default false @title :            '{i18n>eMailSent}'; // Email Sent Y/N
-        workItemsCreated         : Boolean not null default false @title :            '{i18n>workItemsCreated}'; // WorkItems Created Y/N
-        remarks                  : String                         @title :            '{i18n>remarks}'; // Remarks
-        to_typeOfProcess         : Association to ProcessTypes    @assert.integrity : false  @title : '{i18n>to_typeOfProcess}'; //Processed By. Bot/ Manual
-        to_typeOfAttachment      : Association to AttachmentTypes @assert.integrity : false  @title : '{i18n>to_typeOfAttachment}'; //Attachment Type (file extension)
+    key UUID                     : UUID                            @Core.Computed; //Unique ID as UUID
+        ID                       : Integer                         @title :            '{i18n>document_ID}'; //It got incremented by 1 w.r.t. MR
+        url                      : String                          @title :            '{i18n>document_url}'; //document url
+        documentName             : String                          @title :            '{i18n>documentName}'; //url decription
+        eMailRecievedDateAndTime : DateTime                        @title :            '{i18n>eMailRecievedDateAndTime}'; //E-Mail Recieved Date
+        fileFormatCheckRequired  : Boolean not null default false  @title :            '{i18n>fileFormatCheckRequired}'; // File Format Check RequiredY/N.
+        formatCheck              : Boolean not null default false  @title :            '{i18n>formatCheck}'; // Format Check Y/N.
+        eMailSent                : Boolean not null default false  @title :            '{i18n>eMailSent}'; // Email Sent Y/N
+        workItemsCreated         : Boolean not null default false  @title :            '{i18n>workItemsCreated}'; // WorkItems Created Y/N
+        remarks                  : String                          @title :            '{i18n>remarks}'; // Remarks
+        // to_typeOfProcess         : Association to ProcessTypes    @assert.integrity : false  @title : '{i18n>to_typeOfProcess}'; //Processed By. Bot/ Manual
+        to_documentStatus        : Association to DocumentStatuses @assert.integrity : false  @title : '{i18n>to_documentStatus}'; //Document Statuses
+        to_typeOfAttachment      : Association to AttachmentTypes  @assert.integrity : false  @title : '{i18n>to_typeOfAttachment}'; //Attachment Type (file extension)
         to_maintenanceRequest    : Association to MaintenanceRequests; //one to one(1 document link - 1 MR)
 };
 
-entity ProcessTypes {
+/*entity ProcessTypes {
     key ID          : Integer;
     key processType : String;
+};*/
+
+entity DocumentStatuses {
+    key ID     : Integer;
+    key status : String;
 }
 
 entity AttachmentTypes {
     key ID             : Integer;
     key attachmentType : String;
-}
+};
 
 entity BotStatuses {
     key ID      : Integer; //Unique ID for Bot statuses
@@ -148,11 +153,11 @@ entity SchemaTypes {
 view AggregatedMaintenanceReqOnStatuses as
     select from MaintenanceRequests {
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         createdAtDate,
         MaintenancePlanningPlant,
         locationWC,
-        businessPartner1,
+        businessPartnerDisp,
         bpConcatenation,
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
@@ -168,7 +173,7 @@ view AggregatedMaintenanceReqOnPhases as
         createdAtDate,
         MaintenancePlanningPlant,
         locationWC,
-        businessPartner1,
+        businessPartnerDisp,
         bpConcatenation,
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
@@ -181,10 +186,10 @@ view AggregatedReqByCompleteAssetAndWC as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         locationWC,
-        businessPartner1,
+        businessPartnerDisp,
         bpConcatenation,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -201,10 +206,10 @@ view AggregatedReqByComponentAndWC as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         locationWC,
-        businessPartner1,
+        businessPartnerDisp,
         bpConcatenation,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -221,10 +226,10 @@ view AggregatedReqByAssemblyAndWC as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         locationWC,
-        businessPartner1,
+        businessPartnerDisp,
         bpConcatenation,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -241,8 +246,8 @@ view AggregatedReqByCompleteAssetAndBP as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
-        businessPartner1,
+        to_requestStatusDisp,
+        businessPartnerDisp,
         @Analytics.Dimension : true
         bpConcatenation,
         locationWC,
@@ -261,8 +266,8 @@ view AggregatedReqByComponentAndBP as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
-        businessPartner1,
+        to_requestStatusDisp,
+        businessPartnerDisp,
         @Analytics.Dimension : true
         bpConcatenation,
         locationWC,
@@ -281,8 +286,8 @@ view AggregatedReqByAssemblyAndBP as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
-        businessPartner1,
+        to_requestStatusDisp,
+        businessPartnerDisp,
         @Analytics.Dimension : true
         bpConcatenation,
         locationWC,
@@ -301,10 +306,10 @@ view ReqByCompleteAssetAndRangeUntilRequestedWorkList as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true //
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         to_ranges,
-        businessPartner1,
+        businessPartnerDisp,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -315,9 +320,9 @@ view ReqByCompleteAssetAndRangeUntilRequestedWorkList as
 where
     to_requestType.rType = 'Complete Asset'
     and (
-           to_requestStatus1.rStatusDesc = 'Created'
-        or to_requestStatus1.rStatusDesc = 'Request for New Worklist'
-        or to_requestStatus1.rStatusDesc = 'New Worklist Requested'
+           to_requestStatusDisp.rStatusDesc = 'Created'
+        or to_requestStatusDisp.rStatusDesc = 'Request for New Worklist'
+        or to_requestStatusDisp.rStatusDesc = 'New Worklist Requested'
     );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis Created, Request for Work List, Requested Work List
@@ -326,10 +331,10 @@ view ReqByAssemblyAndRangeUntilRequestedWorkList as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true //
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         to_ranges,
-        businessPartner1,
+        businessPartnerDisp,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -340,9 +345,9 @@ view ReqByAssemblyAndRangeUntilRequestedWorkList as
 where
     to_requestType.rType = 'Assembly'
     and (
-           to_requestStatus1.rStatusDesc = 'Created'
-        or to_requestStatus1.rStatusDesc = 'Request for New Worklist'
-        or to_requestStatus1.rStatusDesc = 'New Worklist Requested'
+           to_requestStatusDisp.rStatusDesc = 'Created'
+        or to_requestStatusDisp.rStatusDesc = 'Request for New Worklist'
+        or to_requestStatusDisp.rStatusDesc = 'New Worklist Requested'
     );
 
 
@@ -352,10 +357,10 @@ view ReqByComponentAndRangeUntilRequestedWorkList as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         to_ranges,
-        businessPartner1,
+        businessPartnerDisp,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -366,9 +371,9 @@ view ReqByComponentAndRangeUntilRequestedWorkList as
     where
         to_requestType.rType = 'Component'
         and (
-               to_requestStatus1.rStatusDesc = 'Created'
-            or to_requestStatus1.rStatusDesc = 'Request for New Worklist'
-            or to_requestStatus1.rStatusDesc = 'New Worklist Requested'
+               to_requestStatusDisp.rStatusDesc = 'Created'
+            or to_requestStatusDisp.rStatusDesc = 'Request for New Worklist'
+            or to_requestStatusDisp.rStatusDesc = 'New Worklist Requested'
         );
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
@@ -377,10 +382,10 @@ view ReqByCompleteAssetAndRangeOverallStatus as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         to_ranges,
-        businessPartner1,
+        businessPartnerDisp,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -398,10 +403,10 @@ view ReqByAssemblyAndRangeOverallStatus as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         to_ranges,
-        businessPartner1,
+        businessPartnerDisp,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -419,10 +424,10 @@ view ReqByComponentAndRangeOverallStatus as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         to_ranges,
-        businessPartner1,
+        businessPartnerDisp,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -439,10 +444,10 @@ view ReqByCompleteAssetAndRangeUntilNotifications as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         to_ranges,
-        businessPartner1,
+        businessPartnerDisp,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -453,8 +458,8 @@ view ReqByCompleteAssetAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Complete Asset'
         and (
-               to_requestStatus1.rStatusDesc = 'Approved'
-            or to_requestStatus1.rStatusDesc = 'Notifications Created'
+               to_requestStatusDisp.rStatusDesc = 'Approved'
+            or to_requestStatusDisp.rStatusDesc = 'Notifications Created'
         );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
@@ -463,10 +468,10 @@ view ReqByAssemblyAndRangeUntilNotifications as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         to_ranges,
-        businessPartner1,
+        businessPartnerDisp,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -477,8 +482,8 @@ view ReqByAssemblyAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Assembly'
         and (
-               to_requestStatus1.rStatusDesc = 'Approved'
-            or to_requestStatus1.rStatusDesc = 'Notifications Created'
+               to_requestStatusDisp.rStatusDesc = 'Approved'
+            or to_requestStatusDisp.rStatusDesc = 'Notifications Created'
         );
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
@@ -487,10 +492,10 @@ view ReqByComponentAndRangeUntilNotifications as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         to_ranges,
-        businessPartner1,
+        businessPartnerDisp,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -501,8 +506,8 @@ view ReqByComponentAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Component'
         and (
-               to_requestStatus1.rStatusDesc = 'Approved'
-            or to_requestStatus1.rStatusDesc = 'Notifications Created'
+               to_requestStatusDisp.rStatusDesc = 'Approved'
+            or to_requestStatusDisp.rStatusDesc = 'Notifications Created'
         );
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
@@ -511,10 +516,10 @@ view ReqByCompleteAssetAndRangePendingRevision as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         to_ranges,
-        businessPartner1,
+        businessPartnerDisp,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -525,7 +530,7 @@ view ReqByCompleteAssetAndRangePendingRevision as
     where
         to_requestType.rType = 'Complete Asset'
         and (
-            to_requestStatus1.rStatusDesc = 'Task List Identified'
+            to_requestStatusDisp.rStatusDesc = 'Task List Identified'
         );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
@@ -534,10 +539,10 @@ view ReqByAssemblyAndRangePendingRevision as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         to_ranges,
-        businessPartner1,
+        businessPartnerDisp,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -548,7 +553,7 @@ view ReqByAssemblyAndRangePendingRevision as
     where
         to_requestType.rType = 'Assembly'
         and (
-            to_requestStatus1.rStatusDesc = 'Task List Identified'
+            to_requestStatusDisp.rStatusDesc = 'Task List Identified'
         );
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
@@ -557,10 +562,10 @@ view ReqByComponentAndRangePendingRevision as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatus1,
+        to_requestStatusDisp,
         @Analytics.Dimension : true
         to_ranges,
-        businessPartner1,
+        businessPartnerDisp,
         locationWC,
         createdAtDate,
         MaintenancePlanningPlant,
@@ -571,5 +576,5 @@ view ReqByComponentAndRangePendingRevision as
     where
         to_requestType.rType = 'Component'
         and (
-            to_requestStatus1.rStatusDesc = 'Task List Identified'
+            to_requestStatusDisp.rStatusDesc = 'Task List Identified'
         );

@@ -16,9 +16,9 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
-                '_it/to_requestStatus1_rStatusDesc',
+                '_it/to_requestStatusDisp_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc',
-                '_it/to_requestStatus1_rStatus',
+                '_it/to_requestStatusDisp_rStatus',
                 '_it/to_requestStatus_rStatus',
                 '_it/to_requestPhase_rPhase',
                 '_it/changeStatusFlag',
@@ -67,10 +67,10 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
-                '_it/to_requestStatus1_rStatusDesc',
+                '_it/to_requestStatusDisp_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc',
                 '_it/MaintenanceRevision',
-                '_it/to_requestStatus1_rStatus',
+                '_it/to_requestStatusDisp_rStatus',
                 '_it/to_requestStatus_rStatus',
                 '_it/to_requestPhase_rPhase',
                 '_it/updateRevisionFlag'
@@ -95,11 +95,11 @@ service mrorequestdolphinService {
             revisionType
         }
         where
-            to_requestStatus1.rStatus = 'RVCRTD';
+            to_requestStatusDisp.rStatus = 'RVCRTD';
 
     entity RequestTypes         as projection on maintReq.RequestTypes;
     entity RequestStatuses      as projection on maintReq.RequestStatuses;
-    entity RequestStatuses1     as projection on maintReq.RequestStatuses1;
+    entity RequestStatusesDisp  as projection on maintReq.RequestStatusesDisp;
     entity RequestPhases        as projection on maintReq.RequestPhases;
 
     @Capabilities.SearchRestrictions : {
@@ -114,7 +114,8 @@ service mrorequestdolphinService {
     entity Documents            as projection on maintReq.Documents;
 
     entity BotStatuses          as projection on maintReq.BotStatuses;
-    entity ProcessTypes         as projection on maintReq.ProcessTypes;
+    //entity ProcessTypes         as projection on maintReq.ProcessTypes;
+    entity DocumentStatuses as projection on maintReq.DocumentStatuses;
     entity AttachmentTypes      as projection on maintReq.AttachmentTypes;
     entity Configurations       as projection on maintReq.Configurations;
     entity RequestIndustries    as projection on maintReq.RequestIndustries;

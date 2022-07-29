@@ -56,22 +56,9 @@ module.exports = cds.service.impl(async function () {
         req.data.mrCount = cvalue
         console.log('req.data.mrCount', req.data.mrCount + 1)
 
-        // req.data.closeEnabled = true;
-
     });
 
     this.before('*', 'MaintenanceRequests', async (req) => {
-        // if (req.data.to_requestPhase_rPhase == 'INITIATION')
-        //     req.data.criticalityLevel = 2 //orange
-        // else if (req.data.to_requestPhase_rPhase == 'Planning')
-        //     req.data.criticalityLevel = 3 //green
-
-        // if (req.data.to_requestStatus_rStatus == 'CREATED')
-        //     req.data.criticalityLevel = 2 //orange
-        // else if (req.data.to_requestStatus_rStatus == 'Confirmed')
-        //     req.data.criticalityLevel = 3 //green 
-
-
         //Date field for Overview page    
         req.data.createdAtDate = returnDate(new Date())
         console.log(' req.data.createdAtDate ', req.data.createdAtDate)
@@ -109,12 +96,11 @@ module.exports = cds.service.impl(async function () {
         //And request status to enable after create
         req.data.uiHidden = true
         req.data.uiHidden1 = false
-        req.data.requestType1 = req.data.to_requestType_ID
+        //To assign the Request type ID in requestTypeDisp -> It will enable at the time of edit with readonly field
+        req.data.requestTypeDisp = req.data.to_requestType_ID
     });
 
     this.before(['CREATE', 'UPDATE'], 'MaintenanceRequests', async (req) => {
-
-        // vReqStatus = req.data.to_requestStatus_rStatus
 
         // To make business partner name as readonly field
         let query1 = await service2.read(BusinessPartnerVH).where({ BusinessPartner: req.data.businessPartner })
@@ -235,8 +221,8 @@ module.exports = cds.service.impl(async function () {
         console.log('assignedDeliveryDate value : ', assignedDeliveryDate)
 
         //Assigning BP and BP Name to the fields of BP i.e. present on list page, so that it can filter accordingly
-        req.data.businessPartner1 = req.data.businessPartner
-        req.data.businessPartnerName1 = req.data.businessPartnerName
+        req.data.businessPartnerDisp = req.data.businessPartner
+        req.data.businessPartnerNameDisp = req.data.businessPartnerName
 
         req.data.startDate = req.data.expectedArrivalDate
         req.data.endDate = req.data.expectedDeliveryDate
@@ -244,8 +230,8 @@ module.exports = cds.service.impl(async function () {
         req.data.requestNoConcat = req.data.requestNo
 
         //STatus and Phase value for list report page 
-        req.data.to_requestStatus1_rStatus = req.data.to_requestStatus_rStatus
-        req.data.to_requestStatus1_rStatusDesc = req.data.to_requestStatus_rStatusDesc
+        req.data.to_requestStatusDisp_rStatus = req.data.to_requestStatus_rStatus
+        req.data.to_requestStatusDisp_rStatusDesc = req.data.to_requestStatus_rStatusDesc
 
     });
 
@@ -285,18 +271,6 @@ module.exports = cds.service.impl(async function () {
             // }
         }
     });*/
-
-    /*this.on('READ', 'MaintenanceRequests', (req) => {
-        console.log('req..........................', req)
-        // if (req.to_requestStatus_rStatusDesc != null)
-        //     req.closeEnabled = true
-        // const id2 = req.params[0].ID
-        // console.log('id2', id2)
-        // const tx1 = cds.transaction(req)
-        // query =  tx1.read(MaintenanceRequests).where({ ID: id1 })
-        // console.log('query................', query[0])
-
-    })*/
 
     this.on('changeStatus', async (req) => {
         id1 = req.params[0].ID
@@ -398,7 +372,7 @@ module.exports = cds.service.impl(async function () {
         else if (query[0].to_requestStatus_rStatus == 'NTCRTD' && queryStatus[0].rStatus == 'MRCMPL') {
             updateStatus()
             await UPDATE(MaintenanceRequests).set({
-                changeStatusFlag : false
+                changeStatusFlag: false
             }).where({ ID: id1 })
         }
         else if (query[0].to_requestStatus_rStatus == 'NTCRTD' && queryStatus[0].rStatus != 'MRCMPL' && queryStatus[0].rStatus != 'NTCRTD')
@@ -417,9 +391,9 @@ module.exports = cds.service.impl(async function () {
     async function updateStatus() {
         await UPDATE(MaintenanceRequests).set({
             to_requestStatus_rStatus: queryStatus[0].rStatus,
-            to_requestStatus1_rStatus: queryStatus[0].rStatus,
+            to_requestStatusDisp_rStatus: queryStatus[0].rStatus,
             to_requestStatus_rStatusDesc: queryStatus[0].rStatusDesc,
-            to_requestStatus1_rStatusDesc: queryStatus[0].rStatusDesc,
+            to_requestStatusDisp_rStatusDesc: queryStatus[0].rStatusDesc,
             to_requestPhase_rPhase: queryPhase[0].rPhase,
             to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
         }).where({ ID: id1 })
@@ -524,9 +498,9 @@ module.exports = cds.service.impl(async function () {
                             revisionType: result.RevisionType,
                             revisionText: result.RevisionText,
                             to_requestStatus_rStatus: 'RVCRTD',
-                            to_requestStatus1_rStatus: 'RVCRTD',
+                            to_requestStatusDisp_rStatus: 'RVCRTD',
                             to_requestStatus_rStatusDesc: 'Revision Created',
-                            to_requestStatus1_rStatusDesc: 'Revision Created',
+                            to_requestStatusDisp_rStatusDesc: 'Revision Created',
                             to_requestPhase_rPhase: 'MRPREP',
                             to_requestPhase_rPhaseDesc: 'Preparation',
                             updateRevisionFlag: false

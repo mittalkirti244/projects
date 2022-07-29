@@ -5,9 +5,9 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     SelectionFields                             : [
         requestNoConcat,
         to_requestType_rType,
-        to_requestStatus1_rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         to_requestPhase_rPhaseDesc,
-        businessPartner1,
+        businessPartnerDisp,
         expectedDeliveryDate,
         MaintenanceRevision,
         to_ranges_range
@@ -49,7 +49,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             }
         },
         {
-            Value                 : to_requestStatus1_rStatusDesc,
+            Value                 : to_requestStatusDisp_rStatusDesc,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -67,7 +67,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         // CriticalityRepresentation : #WithoutIcon
         },
         {
-            Value                 : businessPartner1,
+            Value                 : businessPartnerDisp,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -137,11 +137,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ![@UI.Hidden]
         },
         {
-            Value : businessPartnerName1,
+            Value : businessPartnerNameDisp,
             ![@UI.Hidden]
         },
         {
-            Value : requestType1,
+            Value : requestTypeDisp,
             ![@UI.Hidden]
         },
         {
@@ -162,6 +162,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         },
         {
             Value : to_botStatus_bStatus,
+            ![@UI.Hidden]
+        },
+        {
+            Value : to_botStatus_ID,
             ![@UI.Hidden]
         },
         {
@@ -201,7 +205,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ![@UI.Hidden]
         },
         {
-            Value : to_requestStatus1_ID,
+            Value : to_requestStatusDisp_ID,
             ![@UI.Hidden]
         },
         {
@@ -217,7 +221,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ![@UI.Hidden]
         },
         {
-            Value : to_requestStatus1_rStatus,
+            Value : to_requestStatusDisp_rStatus,
             ![@UI.Hidden]
         },
         {
@@ -230,6 +234,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         },
         {
             Value : to_ranges_ID,
+            ![@UI.Hidden]
+        },
+        {
+            Value : changeStatusFlag,
+            ![@UI.Hidden]
+        },
+        {
+            Value : updateRevisionFlag,
             ![@UI.Hidden]
         }
     ],
@@ -277,8 +289,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #Basic1                          : {Data : [
         {Value : to_requestType_ID},
         {Value : to_requestStatus_rStatusDesc,
-                                           // Criticality               : criticalityLevel,
-                                           // CriticalityRepresentation : #WithoutIcon
+                                               // Criticality               : criticalityLevel,
+                                               // CriticalityRepresentation : #WithoutIcon
                  },
         {Value : to_requestPhase_rPhaseDesc,
                                              // Criticality               : criticalityLevel,
@@ -388,7 +400,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ![@UI.Hidden] : uiHidden //Inital value in CREATE-> visible, In edit -> not visible
         },
         {
-            Value         : requestType1,
+            Value         : requestTypeDisp,
             ![@UI.Hidden] : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
         },
         {Value : to_requestStatus_rStatusDesc,
@@ -402,7 +414,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                                              // CriticalityRepresentation : #WithoutIcon
                  },
     /*{
-         Value                     : requestStatus1,
+         Value                     : requestStatusDisp,
          ![@UI.Hidden]             : uiHidden, //Inital value in CREATE-> visible,  In edit -> not visible
          Criticality               : criticalityLevel,
          CriticalityRepresentation : #WithoutIcon
@@ -486,7 +498,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 
 //Text arrangment for request type e.g., -> Complete Asset(1)
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    requestType1 @(Common : {Text : {
+    requestTypeDisp @(Common : {Text : {
         $value                 : to_requestType_rType,
         ![@UI.TextArrangement] : #TextFirst,
     }});
@@ -494,8 +506,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 
 //Text Arrangment for BP in List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    businessPartner1 @(Common : {Text : {
-        $value                 : businessPartnerName1,
+    businessPartnerDisp @(Common : {Text : {
+        $value                 : businessPartnerNameDisp,
         ![@UI.TextArrangement] : #TextFirst,
     }});
 };
@@ -541,8 +553,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 };
 
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    to_requestStatus1_rStatusDesc @(Common : {Text : {
-        $value                 : to_requestStatus1_rStatus,
+    to_requestStatusDisp_rStatusDesc @(Common : {Text : {
+        $value                 : to_requestStatusDisp_rStatus,
         ![@UI.TextArrangement] : #TextLast
     }});
 };
@@ -583,19 +595,19 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 
 //Business Partner1 value Help for list report page
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    businessPartner1 @(Common : {ValueList : {
+    businessPartnerDisp @(Common : {ValueList : {
         CollectionPath  : 'BusinessPartnerVH',
         SearchSupported : true,
         Label           : '{i18n>businessPartner}',
         Parameters      : [
             {
                 $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'businessPartner1',
+                LocalDataProperty : 'businessPartnerDisp',
                 ValueListProperty : 'BusinessPartner'
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'businessPartnerName1',
+                LocalDataProperty : 'businessPartnerNameDisp',
                 ValueListProperty : 'BusinessPartnerName'
             },
             /* {
@@ -944,14 +956,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 
 //Request Status DropDown on List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    to_requestStatus1 @(Common : {
+    to_requestStatusDisp @(Common : {
         ValueListWithFixedValues,
         ValueList : {
-            CollectionPath : 'RequestStatuses1',
+            CollectionPath : 'RequestStatusesDisp',
             Label          : '{i18n>requestStatus}',
             Parameters     : [{
                 $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'to_requestStatus1_rStatusDesc',
+                LocalDataProperty : 'to_requestStatusDisp_rStatusDesc',
                 ValueListProperty : 'rStatusDesc'
             }]
         }
@@ -1002,7 +1014,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 };
 
 //Drop down for Processed By
-annotate mrorequestdolphinService.Documents with {
+/*annotate mrorequestdolphinService.Documents with {
     to_typeOfProcess @(Common : {
         Text      : {
             $value                 : to_typeOfProcess_processType,
@@ -1023,6 +1035,30 @@ annotate mrorequestdolphinService.Documents with {
                     $Type             : 'Common.ValueListParameterInOut',
                     LocalDataProperty : 'to_typeOfProcess_processType',
                     ValueListProperty : 'processType'
+                }
+            ]
+        }
+    })
+};*/
+
+//Drop down for document status
+annotate mrorequestdolphinService.Documents with {
+    to_documentStatus @(Common : {
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'DocumentStatuses',
+            Label          : '{i18n>to_documentStatus}',
+            //  SearchSupported : true,
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterOut',
+                    LocalDataProperty : 'to_documentStatus_ID',
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterOut',
+                    LocalDataProperty : 'to_documentStatus_status',
+                    ValueListProperty : 'status'
                 }
             ]
         }
@@ -1072,8 +1108,8 @@ annotate mrorequestdolphinService.MaintenanceRequests {
     equipmentName          @readonly;
     functionalLocationName @readonly;
     contractName           @readonly;
-    requestType1           @readonly;
-    //requestStatus1         @readonly;
+    requestTypeDisp        @readonly;
+    //requestStatusDisp         @readonly;
     MaintenanceRevision    @readonly;
 }
 
@@ -1082,13 +1118,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
     $Type                   : 'Capabilities.FilterRestrictionsType',
     NonFilterableProperties : [
         to_botStatus_ID,
+        to_botStatus_bStatus,
         businessPartner,
         businessPartnerName,
-        businessPartnerName1,
+        businessPartnerNameDisp,
         criticalityLevel,
         emailFlag,
-        // requestStatus1,
-        requestType1,
+        // requestStatusDisp,
+        requestTypeDisp,
         uiHidden,
         uiHidden1,
         bpConcatenation,
@@ -1110,13 +1147,15 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         revisionText,
         revisionType,
         requestNo,
-        requestType1,
+        changeStatusFlag,
+        updateRevisionFlag,
+        requestTypeDisp,
         to_requestType_ID,
         to_requestStatus_ID,
-        to_requestStatus1_ID,
+        to_requestStatusDisp_ID,
         to_requestStatus_rStatus,
         to_requestStatus_rStatusDesc,
-        to_requestStatus1_rStatus,
+        to_requestStatusDisp_rStatus,
         to_requestPhase_rPhase,
         to_requestPhase_ID,
         to_ranges_ID
@@ -1138,7 +1177,8 @@ annotate mrorequestdolphinService.Documents with @(UI : {
         },
         {Value : eMailRecievedDateAndTime},
         {Value : to_typeOfAttachment_ID},
-        {Value : to_typeOfProcess_ID},
+        //{Value : to_typeOfProcess_ID},
+        {Value : to_documentStatus_status},
         {Value : fileFormatCheckRequired},
         {Value : formatCheck},
         {Value : eMailSent},
@@ -1176,7 +1216,8 @@ annotate mrorequestdolphinService.Documents with @(UI : {
             },
             {Value : eMailRecievedDateAndTime},
             {Value : to_typeOfAttachment_ID},
-            {Value : to_typeOfProcess_ID},
+            // {Value : to_typeOfProcess_ID},
+            {Value : to_documentStatus_status},
             {Value : fileFormatCheckRequired},
             {Value : formatCheck},
             {Value : eMailSent},
