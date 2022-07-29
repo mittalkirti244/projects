@@ -17,10 +17,15 @@ service mrorequestdolphinService {
             Common.SideEffects              : {TargetProperties : [
                 '_it/to_requestStatus_rStatusDesc',
                 '_it/to_requestStatus1_rStatusDesc',
-                '_it/to_requestPhase_rPhaseDesc'
+                '_it/to_requestPhase_rPhaseDesc',
+                '_it/to_requestStatus1_rStatus',
+                '_it/to_requestStatus_rStatus',
+                '_it/to_requestPhase_rPhase',
+                '_it/changeStatusFlag',
+                '_it/updateRevisionFlag'
             ]}
         )
-       // @sap.applicable.path :                        'closeEnabled'
+        @Core :                                       {OperationAvailable : _it.changeStatusFlag}
         action changeStatus(status : String @Common : {
             Label     : '{i18n>status}',
             ValueListWithFixedValues,
@@ -41,10 +46,18 @@ service mrorequestdolphinService {
                         LocalDataProperty : 'status',
                         ValueListProperty : 'rStatusDesc'
                     },
+                    /* {
+                         $Type             : 'Common.ValueListParameterDisplayOnly',
+                         ValueListProperty : 'rStatus'
+                     },*/
                     {
                         $Type             : 'Common.ValueListParameterDisplayOnly',
                         ValueListProperty : 'to_rPhase_rPhaseDesc'
-                    }
+                    },
+                /*{
+                    $Type             : 'Common.ValueListParameterDisplayOnly',
+                    ValueListProperty : 'to_rPhase_rPhase'
+                },*/
                 ]
             }
         });
@@ -56,11 +69,16 @@ service mrorequestdolphinService {
                 '_it/to_requestStatus_rStatusDesc',
                 '_it/to_requestStatus1_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc',
-                '_it/MaintenanceRevision'
+                '_it/MaintenanceRevision',
+                '_it/to_requestStatus1_rStatus',
+                '_it/to_requestStatus_rStatus',
+                '_it/to_requestPhase_rPhase',
+                '_it/updateRevisionFlag'
             ]}
         )
+        @Core :                                       {OperationAvailable : _it.updateRevisionFlag}
         action revisionCreated();
-        //action calculateAging();
+    //action calculateAging();
     };
 
     function calculateAgingFunc() returns String;
@@ -77,7 +95,7 @@ service mrorequestdolphinService {
             revisionType
         }
         where
-            to_requestStatus.rStatus = 'REVISIONCREATED';
+            to_requestStatus1.rStatus = 'RVCRTD';
 
     entity RequestTypes         as projection on maintReq.RequestTypes;
     entity RequestStatuses      as projection on maintReq.RequestStatuses;

@@ -140,10 +140,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value : businessPartnerName1,
             ![@UI.Hidden]
         },
-        /* {
-             Value : requestStatus1,
-             ![@UI.Hidden]
-         },*/
         {
             Value : requestType1,
             ![@UI.Hidden]
@@ -204,11 +200,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value : to_requestStatus_ID,
             ![@UI.Hidden]
         },
-         {
+        {
             Value : to_requestStatus1_ID,
             ![@UI.Hidden]
         },
-         {
+        {
             Value : to_requestPhase_ID,
             ![@UI.Hidden]
         },
@@ -281,8 +277,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #Basic1                          : {Data : [
         {Value : to_requestType_ID},
         {Value : to_requestStatus_rStatusDesc,
-                                               // Criticality               : criticalityLevel,
-                                               // CriticalityRepresentation : #WithoutIcon
+                                           // Criticality               : criticalityLevel,
+                                           // CriticalityRepresentation : #WithoutIcon
                  },
         {Value : to_requestPhase_rPhaseDesc,
                                              // Criticality               : criticalityLevel,
@@ -488,7 +484,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Text arrangment for request type e.g., -> 1(Complete Asset)
+//Text arrangment for request type e.g., -> Complete Asset(1)
 annotate mrorequestdolphinService.MaintenanceRequests with {
     requestType1 @(Common : {Text : {
         $value                 : to_requestType_rType,
@@ -541,6 +537,27 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     equipment @(Common : {Text : {
         $value                 : equipmentName,
         ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
+annotate mrorequestdolphinService.MaintenanceRequests with {
+    to_requestStatus1_rStatusDesc @(Common : {Text : {
+        $value                 : to_requestStatus1_rStatus,
+        ![@UI.TextArrangement] : #TextLast
+    }});
+};
+
+annotate mrorequestdolphinService.MaintenanceRequests with {
+    to_requestStatus_rStatusDesc @(Common : {Text : {
+        $value                 : to_requestStatus_rStatus,
+        ![@UI.TextArrangement] : #TextLast
+    }});
+};
+
+annotate mrorequestdolphinService.MaintenanceRequests with {
+    to_requestPhase_rPhaseDesc @(Common : {Text : {
+        $value                 : to_requestPhase_rPhase,
+        ![@UI.TextArrangement] : #TextLast
     }});
 };
 
@@ -916,13 +933,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         ValueList : {
             CollectionPath : 'Ranges',
             //Label          : '{i18n>Range}',
-            Parameters     : [
-                              // {
-                              //     $Type             : 'Common.ValueListParameterOut',
-                              //     LocalDataProperty : 'to_ranges_ID',
-                              //     ValueListProperty : 'ID'
-                              // },
-                             {
+            Parameters     : [{
                 $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'to_ranges_range',
                 ValueListProperty : 'range'

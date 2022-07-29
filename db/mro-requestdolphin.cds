@@ -45,11 +45,12 @@ entity MaintenanceRequests : managed {
         uiHidden                 : Boolean not null default false; //datafield to apply hidden criteria for request type and request status
         uiHidden1                : Boolean not null default true; //datafield to apply hidden criteria for request type and request status
         requestType1             : Integer                                          @title                 : '{i18n>requestType1}'; //to assign the request type at the time of edit and readonly field
-        // requestStatus1           : String default 'Draft'                           @title                 : '{i18n>requestStatus1}'; //to assign the request status at the time of create and make it readonly field
-        mrCount                  : Integer default 1; //Used in views to show count of the requests
+        mrCount                  : Integer default 1                                @title                 : '{i18n>mrCount}'; //Used in views to show count of the requests
         createdAtDate            : Date                                             @cds.on.insert         : $now  @title                              : '{i18n>createdAtDate}'; //Used as a filter criteria for Overview page(Date DataType works as a date picker)
         age                      : Integer default 0                                @title                 : '{i18n>age}'; //For representing Aging field
-        //virtual closeEnabled     : Boolean;
+        // closeEnabled             : Boolean not null default false                   @title                 : '{i18n>closeEnabled}';
+        changeStatusFlag         : Boolean not null default false                   @title                 : '{i18n>changeStatusFlag}';
+        updateRevisionFlag       : Boolean not null default false                   @title                 : '{i18n>updateRevisionFlag}';
         to_requestType           : Association to RequestTypes                      @title :                 '{i18n>requestType}'  @assert.integrity   : false; //as dropdown - request number will generate through request type
         to_requestStatus         : Association to RequestStatuses                   @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
         to_requestStatus1        : Association to RequestStatuses1                  @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
