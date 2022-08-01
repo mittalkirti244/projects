@@ -1,5 +1,5 @@
-ID;status
-1;Validation Not Required
-2;Validation done
-3;Invalid Document
-4;Document Processed
+ID;status;statusDesc
+1;VANREQ;Validation Not Required
+2;VADONE;Validation done
+3;INVADC;Invalid Document
+4;DCPROC;Document Processed

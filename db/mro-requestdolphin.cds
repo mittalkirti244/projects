@@ -109,8 +109,9 @@ entity Documents : managed {
 };*/
 
 entity DocumentStatuses {
-    key ID     : Integer;
-    key status : String;
+    key ID         : Integer;
+    key status     : String;
+    key statusDesc : String;
 }
 
 entity AttachmentTypes {

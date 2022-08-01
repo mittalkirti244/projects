@@ -1057,8 +1057,8 @@ annotate mrorequestdolphinService.Documents with {
                 },
                 {
                     $Type             : 'Common.ValueListParameterOut',
-                    LocalDataProperty : 'to_documentStatus_status',
-                    ValueListProperty : 'status'
+                    LocalDataProperty : 'to_documentStatus_statusDesc',
+                    ValueListProperty : 'statusDesc'
                 }
             ]
         }
@@ -1178,7 +1178,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
         {Value : eMailRecievedDateAndTime},
         {Value : to_typeOfAttachment_ID},
         //{Value : to_typeOfProcess_ID},
-        {Value : to_documentStatus_status},
+        {Value : to_documentStatus_statusDesc},
         {Value : fileFormatCheckRequired},
         {Value : formatCheck},
         {Value : eMailSent},
@@ -1217,7 +1217,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
             {Value : eMailRecievedDateAndTime},
             {Value : to_typeOfAttachment_ID},
             // {Value : to_typeOfProcess_ID},
-            {Value : to_documentStatus_status},
+            {Value : to_documentStatus_statusDesc},
             {Value : fileFormatCheckRequired},
             {Value : formatCheck},
             {Value : eMailSent},

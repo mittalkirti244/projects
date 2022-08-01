@@ -17,6 +17,8 @@ module.exports = cds.service.impl(async function () {
         SalesContractVH,
         EquipmentVH,
         Revisions,
+        Documents,
+        DocumentStatuses,
         Ranges } = this.entities
     const service1 = await cds.connect.to('NumberRangeService');
     const service2 = await cds.connect.to('alphamasterService');
@@ -99,6 +101,7 @@ module.exports = cds.service.impl(async function () {
         //To assign the Request type ID in requestTypeDisp -> It will enable at the time of edit with readonly field
         req.data.requestTypeDisp = req.data.to_requestType_ID
     });
+
 
     this.before(['CREATE', 'UPDATE'], 'MaintenanceRequests', async (req) => {
 
@@ -612,7 +615,28 @@ module.exports = cds.service.impl(async function () {
     // this.on('calculateAging', async (req) => {
     //     this.calculateAgingFunc();
     // })
+    this.on('changeDocumentStatus', async (req) => {
+        var ID = req.data.ID;
+        var status = req.data.status;
+        console.log('ID', ID);
+        console.log('Status', status);
 
+        var query1 = await SELECT.from(Documents).columns('*').where({ UUID: ID });
+        console.log('query', query1);
+
+        var query2 = await SELECT.from(DocumentStatuses).columns('*').where({ status: status });
+        console.log('query2', query2);
+
+        console.log('query2.statusDesc',query2[0].statusDesc);
+        var result = await UPDATE(Documents).set({
+            to_documentStatus_ID: query2[0].ID,
+            to_documentStatus_status: query2[0].status,
+            to_documentStatus_statusDesc: query2[0].statusDesc
+        }).where({ UUID: ID });
+
+        return result;
+
+    })
     //Function for converting date into (YYYY-MM-DD) format
     function returnDate(dateValue) {
         var newDate = new Date(dateValue)
