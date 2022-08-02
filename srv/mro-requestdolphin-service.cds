@@ -81,9 +81,6 @@ service mrorequestdolphinService {
     //action calculateAging();
     };
 
-    function calculateAgingFunc() returns String;
-    function changeDocumentStatus(status :String, ID : String) returns String;
-
     entity MaintenanceRequests1 as projection on maintReq.MaintenanceRequests {
         requestNoConcat @UI.HiddenFilter,
         requestDesc     @UI.HiddenFilter
@@ -116,10 +113,11 @@ service mrorequestdolphinService {
     }
     entity Documents            as projection on maintReq.Documents;
 
+    entity AttachmentTypes      as projection on maintReq.AttachmentTypes;
+    entity DocumentStatuses     as projection on maintReq.DocumentStatuses;
     entity BotStatuses          as projection on maintReq.BotStatuses;
     //entity ProcessTypes         as projection on maintReq.ProcessTypes;
-    entity DocumentStatuses     as projection on maintReq.DocumentStatuses;
-    entity AttachmentTypes      as projection on maintReq.AttachmentTypes;
+
     entity Configurations       as projection on maintReq.Configurations;
     entity RequestIndustries    as projection on maintReq.RequestIndustries;
     entity SchemaTypes          as projection on maintReq.SchemaTypes;
@@ -144,6 +142,10 @@ service mrorequestdolphinService {
     view ReqByCompleteAssetAndRangePendingRevision as select from maintReq.ReqByCompleteAssetAndRangePendingRevision;
     view ReqByAssemblyAndRangePendingRevision as select from maintReq.ReqByAssemblyAndRangePendingRevision;
     view ReqByComponentAndRangePendingRevision as select from maintReq.ReqByComponentAndRangePendingRevision;
+    //To Calculate and Update aging
+    function calculateAgingFunc()                               returns String;
+    //TO Change Document Status in Documents Tab
+    function changeDocumentStatus(status : String, ID : String) returns String;
 };
 
 extend service mrorequestdolphinService with {

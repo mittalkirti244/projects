@@ -389,7 +389,7 @@ module.exports = cds.service.impl(async function () {
             req.info(101, 'MR ' + query[0].requestNoConcat + ' is already Completed')
         else if (query[0].to_requestStatus_rStatus == 'MRCMPL' && queryStatus[0].rStatus == 'MRCMPL')
             req.info(101, 'MR ' + query[0].requestNoConcat + ' is already Completed')
-    })
+    });
 
     async function updateStatus() {
         await UPDATE(MaintenanceRequests).set({
@@ -400,7 +400,7 @@ module.exports = cds.service.impl(async function () {
             to_requestPhase_rPhase: queryPhase[0].rPhase,
             to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
         }).where({ ID: id1 })
-    }
+    };
 
     this.on('revisionCreated', async (req) => {
         // for (let i = 0; i < req.params.length; i++) {
@@ -542,7 +542,7 @@ module.exports = cds.service.impl(async function () {
         else if (query[0].to_requestStatus_rStatus != 'NTCRTD' || query[0].to_requestStatus_rStatus != 'MRCMPL' || query[0].to_requestStatus_rStatus != 'TLIDNT')
             req.info(101, 'For Request ' + query[0].requestNoConcat + ' Task List should be identified')
         //}
-    })
+    });
 
     this.on('calculateAgingFunc', async (req) => {
         var query = await SELECT.from(MaintenanceRequests).columns('*')
@@ -610,11 +610,8 @@ module.exports = cds.service.impl(async function () {
             console.log('range', range)
         }
         return "Aging Calculated";
-    })
+    });
 
-    // this.on('calculateAging', async (req) => {
-    //     this.calculateAgingFunc();
-    // })
     this.on('changeDocumentStatus', async (req) => {
         var ID = req.data.ID;
         var status = req.data.status;
@@ -624,19 +621,19 @@ module.exports = cds.service.impl(async function () {
         var query1 = await SELECT.from(Documents).columns('*').where({ UUID: ID });
         console.log('query', query1);
 
-        var query2 = await SELECT.from(DocumentStatuses).columns('*').where({ status: status });
+        var query2 = await SELECT.from(DocumentStatuses).columns('*').where({ docStatus: status });
         console.log('query2', query2);
 
         console.log('query2.statusDesc',query2[0].statusDesc);
         var result = await UPDATE(Documents).set({
             to_documentStatus_ID: query2[0].ID,
-            to_documentStatus_status: query2[0].status,
-            to_documentStatus_statusDesc: query2[0].statusDesc
+            to_documentStatus_docStatus: query2[0].docStatus,
+            to_documentStatus_docStatusDesc: query2[0].docStatusDesc
         }).where({ UUID: ID });
 
         return result;
 
-    })
+    });
     //Function for converting date into (YYYY-MM-DD) format
     function returnDate(dateValue) {
         var newDate = new Date(dateValue)
@@ -651,5 +648,5 @@ module.exports = cds.service.impl(async function () {
         var vyear = newDate.getFullYear()
         var result = String(vyear) + '-' + String(vmonth) + '-' + String(vdate)
         return result
-    }
+    };
 })

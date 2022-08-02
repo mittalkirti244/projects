@@ -1,4 +1,4 @@
-ID;status;statusDesc
+ID;docStatus;docStatusDesc
 1;VANREQ;Validation Not Required
 2;VADONE;Validation done
 3;INVADC;Invalid Document

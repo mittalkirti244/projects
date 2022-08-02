@@ -22,5 +22,5 @@ GET http://localhost:4004/mrorequestdolphin/calculateAgingFunc()
 Content-Type: application/json
 
 ###changeDocumentStatus
-GET  http://localhost:4004/mrorequestdolphin/changeDocumentStatus(status='DCPROC',ID='cc3d1481-fecc-49d9-9c3-92569dcdf13a')
+GET  http://localhost:4004/mrorequestdolphin/changeDocumentStatus(status='DCPROC',ID='06c79892-3ac4-41e0-b244-6d6188e8fadc')
 Content-Type: application/json

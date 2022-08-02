@@ -98,8 +98,8 @@ entity Documents : managed {
         workItemsCreated         : Boolean not null default false  @title :            '{i18n>workItemsCreated}'; // WorkItems Created Y/N
         remarks                  : String                          @title :            '{i18n>remarks}'; // Remarks
         // to_typeOfProcess         : Association to ProcessTypes    @assert.integrity : false  @title : '{i18n>to_typeOfProcess}'; //Processed By. Bot/ Manual
-        to_documentStatus        : Association to DocumentStatuses @assert.integrity : false  @title : '{i18n>to_documentStatus}'; //Document Statuses
-        to_typeOfAttachment      : Association to AttachmentTypes  @assert.integrity : false  @title : '{i18n>to_typeOfAttachment}'; //Attachment Type (file extension)
+        to_documentStatus        : Association to DocumentStatuses @assert.integrity : false  @title : '{i18n>to_documentStatus}'; //Association to DocumentStatuses Entity
+        to_typeOfAttachment      : Association to AttachmentTypes  @assert.integrity : false  @title : '{i18n>to_typeOfAttachment}'; //Association to AttachmentTypes (file extension)
         to_maintenanceRequest    : Association to MaintenanceRequests; //one to one(1 document link - 1 MR)
 };
 
@@ -110,8 +110,8 @@ entity Documents : managed {
 
 entity DocumentStatuses {
     key ID         : Integer;
-    key status     : String;
-    key statusDesc : String;
+    key docStatus     : String;
+    key docStatusDesc : String;
 }
 
 entity AttachmentTypes {
