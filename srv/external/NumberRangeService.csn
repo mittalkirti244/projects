@@ -1,22 +1,33 @@
 {
   "meta": {
-    "creator": "cds-dk 4.8.2"
+    "creator": "cds-dk 6.0.3"
   },
   "$version": "2.0",
   "definitions": {
+    "NumberRangeService.getLastRunningNumber": {
+      "kind": "function",
+      "params": {
+        "numberRangeID": {
+          "type": "cds.LargeString"
+        }
+      },
+      "returns": {
+        "type": "cds.LargeString"
+      }
+    },
     "NumberRangeService.NumberRanges": {
       "kind": "entity",
       "@cds.persistence.skip": true,
       "elements": {
         "createdAt": {
           "type": "cds.Timestamp",
-          "@odata.precision": 7,
-          "@odata.type": "Edm.DateTimeOffset"
+          "@odata.Precision": 7,
+          "@odata.Type": "Edm.DateTimeOffset"
         },
         "modifiedAt": {
           "type": "cds.Timestamp",
-          "@odata.precision": 7,
-          "@odata.type": "Edm.DateTimeOffset"
+          "@odata.Precision": 7,
+          "@odata.Type": "Edm.DateTimeOffset"
         },
         "ID": {
           "key": true,
@@ -122,8 +133,8 @@
         },
         "CreationDateTime": {
           "type": "cds.Timestamp",
-          "@odata.precision": 7,
-          "@odata.type": "Edm.DateTimeOffset"
+          "@odata.Precision": 7,
+          "@odata.Type": "Edm.DateTimeOffset"
         },
         "CreatedByUser": {
           "type": "cds.String",
@@ -134,8 +145,8 @@
         },
         "LastChangeDateTime": {
           "type": "cds.Timestamp",
-          "@odata.precision": 7,
-          "@odata.type": "Edm.DateTimeOffset"
+          "@odata.Precision": 7,
+          "@odata.Type": "Edm.DateTimeOffset"
         },
         "LastChangedByUser": {
           "type": "cds.String",
@@ -148,17 +159,6 @@
         "DraftIsProcessedByMe": {
           "type": "cds.Boolean"
         }
-      }
-    },
-    "NumberRangeService.getLastRunningNumber": {
-      "kind": "function",
-      "params": {
-        "numberRangeID": {
-          "type": "cds.LargeString"
-        }
-      },
-      "returns": {
-        "type": "cds.LargeString"
       }
     },
     "NumberRangeService": {

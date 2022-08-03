@@ -5,11 +5,9 @@ using {notifleo} from './external/notifleo';
 
 service mrorequestdolphinService {
 
-    entity NumberRanges         as projection on numberRange.NumberRanges;
-
     @odata.draft.enabled
     @cds.redirection.target
-    entity MaintenanceRequests  as projection on maintReq.MaintenanceRequests actions {
+    entity MaintenanceRequests     as projection on maintReq.MaintenanceRequests actions {
         //action requestMail();
         //Update the UI after action is performed
         @(
@@ -25,6 +23,8 @@ service mrorequestdolphinService {
                 '_it/updateRevisionFlag'
             ]}
         )
+        //@core.operation available is used for disable and enable of action button
+        //change Status will be disable at the time of create - set as false in db
         @Core :                                       {OperationAvailable : _it.changeStatusFlag}
         action changeStatus(status : String @Common : {
             Label     : '{i18n>status}',
@@ -37,27 +37,15 @@ service mrorequestdolphinService {
                 $Type          : 'Common.ValueListType',
                 CollectionPath : 'RequestStatuses',
                 Parameters     : [
-                    /* {
-                         $Type             : 'Common.ValueListParameterDisplayOnly',
-                         ValueListProperty : 'ID',
-                     },*/
                     {
                         $Type             : 'Common.ValueListParameterInOut',
                         LocalDataProperty : 'status',
                         ValueListProperty : 'rStatusDesc'
                     },
-                    /* {
-                         $Type             : 'Common.ValueListParameterDisplayOnly',
-                         ValueListProperty : 'rStatus'
-                     },*/
                     {
                         $Type             : 'Common.ValueListParameterDisplayOnly',
                         ValueListProperty : 'to_rPhase_rPhaseDesc'
-                    },
-                /*{
-                    $Type             : 'Common.ValueListParameterDisplayOnly',
-                    ValueListProperty : 'to_rPhase_rPhase'
-                },*/
+                    }
                 ]
             }
         });
@@ -76,17 +64,25 @@ service mrorequestdolphinService {
                 '_it/updateRevisionFlag'
             ]}
         )
+        //@core.operation available is used for disable and enable of action button
+        //Update Revision will be disable at the time of create - set as false in db
         @Core :                                       {OperationAvailable : _it.updateRevisionFlag}
         action revisionCreated();
-    //action calculateAging();
     };
 
-    entity MaintenanceRequests1 as projection on maintReq.MaintenanceRequests {
+    entity RequestTypes            as projection on maintReq.RequestTypes;
+    entity RequestStatuses         as projection on maintReq.RequestStatuses;
+    entity RequestStatusesDisp     as projection on maintReq.RequestStatusesDisp;
+    entity RequestPhases           as projection on maintReq.RequestPhases;
+
+    //Request Number value Help for List Page
+    entity MaintenanceRequestsDisp as projection on maintReq.MaintenanceRequests {
         requestNoConcat @UI.HiddenFilter,
         requestDesc     @UI.HiddenFilter
     };
 
-    entity RevisionVH           as
+    //Revision Number Entity used for value help in List report page
+    entity RevisionDisp            as
         select from maintReq.MaintenanceRequests {
             MaintenanceRevision,
             revisionText @UI.HiddenFilter,
@@ -97,10 +93,6 @@ service mrorequestdolphinService {
             or to_requestStatusDisp.rStatus = 'NTCRTD'
             or to_requestStatusDisp.rStatus = 'MRCMPL';
 
-    entity RequestTypes         as projection on maintReq.RequestTypes;
-    entity RequestStatuses      as projection on maintReq.RequestStatuses;
-    entity RequestStatusesDisp  as projection on maintReq.RequestStatusesDisp;
-    entity RequestPhases        as projection on maintReq.RequestPhases;
 
     @Capabilities.SearchRestrictions : {
         $Type      : 'Capabilities.SearchRestrictionsType',
@@ -111,17 +103,14 @@ service mrorequestdolphinService {
         $Type    : 'Capabilities.SortRestrictionsType',
         Sortable : false
     }
-    entity Documents            as projection on maintReq.Documents;
-
-    entity AttachmentTypes      as projection on maintReq.AttachmentTypes;
-    entity DocumentStatuses     as projection on maintReq.DocumentStatuses;
-    entity BotStatuses          as projection on maintReq.BotStatuses;
+    entity Documents               as projection on maintReq.Documents;
+    entity AttachmentTypes         as projection on maintReq.AttachmentTypes;
+    entity DocumentStatuses        as projection on maintReq.DocumentStatuses;
+    entity BotStatuses             as projection on maintReq.BotStatuses;
     //entity ProcessTypes         as projection on maintReq.ProcessTypes;
 
-    entity Configurations       as projection on maintReq.Configurations;
-    entity RequestIndustries    as projection on maintReq.RequestIndustries;
-    entity SchemaTypes          as projection on maintReq.SchemaTypes;
-    entity Ranges               as projection on maintReq.Ranges;
+    entity Ranges                  as projection on maintReq.Ranges;
+    //All views used for Overview page
     view AggregatedMaintenanceReqOnStatuses as select from maintReq.AggregatedMaintenanceReqOnStatuses;
     view AggregatedMaintenanceReqOnPhases as select from maintReq.AggregatedMaintenanceReqOnPhases;
     view AggregatedReqByCompleteAssetAndWC as select from maintReq.AggregatedReqByCompleteAssetAndWC;
@@ -142,14 +131,22 @@ service mrorequestdolphinService {
     view ReqByCompleteAssetAndRangePendingRevision as select from maintReq.ReqByCompleteAssetAndRangePendingRevision;
     view ReqByAssemblyAndRangePendingRevision as select from maintReq.ReqByAssemblyAndRangePendingRevision;
     view ReqByComponentAndRangePendingRevision as select from maintReq.ReqByComponentAndRangePendingRevision;
+    
     //To Calculate and Update aging
     function calculateAgingFunc()                               returns String;
-    //TO Change Document Status in Documents Tab
+    
+    //To Change Document Status in Documents Tab
     function changeDocumentStatus(status : String, ID : String) returns String;
+    //Entities for Admin SCreen
+    entity Configurations          as projection on maintReq.Configurations;
+    entity RequestIndustries       as projection on maintReq.RequestIndustries;
+    entity SchemaTypes             as projection on maintReq.SchemaTypes;
 };
 
+//Maintained all entites that is coming from external
 extend service mrorequestdolphinService with {
 
+    entity NumberRanges             as projection on numberRange.NumberRanges;
     entity MaintenanceRequestHeader as projection on notifleo.MaintenanceRequestHeader;
 
     @readonly
@@ -174,7 +171,6 @@ extend service mrorequestdolphinService with {
             WorkCenterCategoryCode @(Common.Label : '{i18n>WorkCenterCategoryCode}')
     };
 
-
     @readonly
     entity FunctionLocationVH       as projection on alpha.FunctionLocationVH {
         key functionalLocation       @(Common.Label : '{i18n>functionalLocation}'),
@@ -192,11 +188,9 @@ extend service mrorequestdolphinService with {
             SalesContractName @(Common.Label : '{i18n>SalesContractName}'),
             TurnAroundTime    @(Common.Label : '{i18n>TurnAroundTime}'),
             SoldToPartyBP     @(Common.Label : '{i18n>SoldToPartyBP}') @UI.HiddenFilter
-
     };
 
     @readonly
-    //@cds.query.limit: 1000
     entity EquipmentVH              as projection on alpha.EquipmentVH {
         key Equipment,
             EquipmentName      @(Common.Label : '{i18n>EquipmentName}'),
@@ -223,7 +217,14 @@ extend service mrorequestdolphinService with {
     };
 }
 
-//Request Type as Drop down
+//Filter restriction that is used for (Semantic date filter) on overview page
+annotate mrorequestdolphinService.MaintenanceRequests with @Common.FilterExpressionRestrictions : [{
+    Property           : createdAtDate,
+    AllowedExpressions : #SingleInterval
+}];
+
+//Admin Screen
+//Request Type as Drop down for Admin Screen
 annotate mrorequestdolphinService.Configurations with {
     to_requestType @(Common : {
         ValueListWithFixedValues,
@@ -246,7 +247,7 @@ annotate mrorequestdolphinService.Configurations with {
     })
 };
 
-//Industry as drop down
+//Industry as drop down for Admin Screen
 annotate mrorequestdolphinService.Configurations with {
     to_requestIndustry @(Common : {
         ValueListWithFixedValues,
@@ -262,7 +263,7 @@ annotate mrorequestdolphinService.Configurations with {
     });
 };
 
-//Schema Type as a drop down
+//Schema Type as a drop down for Admin Screen
 annotate mrorequestdolphinService.Configurations with {
     to_schemaType @(Common : {
         ValueListWithFixedValues,
@@ -278,7 +279,7 @@ annotate mrorequestdolphinService.Configurations with {
     });
 };
 
-// //label for Request Type, Search Schema, Industry
+//Label defination for Request Type, Search Schema, Industry for Admin Screen
 annotate mrorequestdolphinService.Configurations with {
     manufacturerName   @(Common.Label : '{i18n>manufacturerName}');
     manfuracterModel   @(Common.Label : '{i18n>manfuracterModel}');
@@ -290,9 +291,3 @@ annotate mrorequestdolphinService.Configurations with {
     to_schemaType      @(Common.Label : '{i18n>schemaType_sSchema}')
 
 }
-
-//Filter restriction that is used for Semantic date filter on overview page
-annotate mrorequestdolphinService.MaintenanceRequests with @Common.FilterExpressionRestrictions : [{
-    Property           : createdAtDate,
-    AllowedExpressions : #SingleInterval
-}];

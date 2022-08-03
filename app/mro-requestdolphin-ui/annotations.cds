@@ -29,11 +29,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Action : 'mrorequestdolphinService.revisionCreated',
             Label  : 'Create Revision'
         },
-        // {
-        //     $Type  : 'UI.DataFieldForAction',
-        //     Action : 'mrorequestdolphinService.calculateAging',
-        //     Label  : 'Generate Ageing'
-        // },
+        /*{
+            $Type  : 'UI.DataFieldForAction',
+            Action : 'mrorequestdolphinService.calculateAging',
+            Label  : 'Generate Ageing'
+        },*/
         {
             Value                 : requestNoConcat,
             ![@HTML5.CssDefaults] : {
@@ -53,18 +53,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
-            },
-        // Criticality               : criticalityLevel,
-        // CriticalityRepresentation : #WithoutIcon
+            }
         },
         {
             Value                 : to_requestPhase_rPhaseDesc,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
-            },
-        // Criticality               : criticalityLevel,
-        // CriticalityRepresentation : #WithoutIcon
+            }
         },
         {
             Value                 : businessPartnerDisp,
@@ -245,7 +241,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ![@UI.Hidden]
         }
     ],
-    //Sort the Request based on createdAt in list report page
+    //Sort all Requests based on createdAt in list report page
     PresentationVariant                         : {
         SortOrder      : [{
             $Type      : 'Common.SortOrderType',
@@ -265,37 +261,31 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     //Header Facets Information in Object Page
     HeaderFacets                                : [
         {
+            //Column 1 for header facet
             $Type  : 'UI.ReferenceFacet',
             Target : '@UI.FieldGroup#Basic1',
         },
         {
+            //Column 2 for header facet
             $Type  : 'UI.ReferenceFacet',
             Target : '@UI.FieldGroup#Basic2'
         },
         {
+            //Column 3 for header facet
             $Type  : 'UI.ReferenceFacet',
             Target : '@UI.FieldGroup#Detail'
         },
         {
+            //Column 4 for header facet
             $Type  : 'UI.ReferenceFacet',
             Target : '@UI.FieldGroup#Detail1'
-        },
-    /* {
-         $Type  : 'UI.ReferenceFacet',
-         Target : '@UI.Chart#Bulletchart',
-     }*/
+        }
     ],
-    //Coulmn1 for header facet
+    //Coulmn 1 for header facet
     FieldGroup #Basic1                          : {Data : [
         {Value : to_requestType_ID},
-        {Value : to_requestStatus_rStatusDesc,
-                                               // Criticality               : criticalityLevel,
-                                               // CriticalityRepresentation : #WithoutIcon
-                 },
-        {Value : to_requestPhase_rPhaseDesc,
-                                             // Criticality               : criticalityLevel,
-                                             // CriticalityRepresentation : #WithoutIcon
-                 }
+        {Value : to_requestStatus_rStatusDesc},
+        {Value : to_requestPhase_rPhaseDesc}
     ]},
     //Column 2 for header facet
     FieldGroup #Basic2                          : {Data : [
@@ -303,7 +293,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : MaintenancePlanningPlant},
         {Value : MaintenanceRevision}
     ]},
-
     //Column 3 for header facet
     FieldGroup #Detail                          : {Data : [
         {
@@ -315,7 +304,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Label : '{i18n>modifiedBy}'
         }
     ]},
-
     //Column 4 for header facet
     FieldGroup #Detail1                         : {Data : [
         {
@@ -338,19 +326,19 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ID     : 'generalInformation',
             Facets : [
                 {
-                    //Maintenance Request
+                    //Column 1 in General tab
                     $Type  : 'UI.ReferenceFacet',
                     Target : '@UI.FieldGroup#generalGroup1',
                     Label  : '{i18n>generalGroup1}'
                 },
                 {
-                    //Business partner
+                    //Column 2 in General tab
                     $Type  : 'UI.ReferenceFacet',
                     Target : '@UI.FieldGroup#generalGroup2',
                     Label  : '{i18n>generalGroup2}'
                 },
                 {
-                    // User information
+                    //Cloumn 3 in general tab
                     $Type  : 'UI.ReferenceFacet',
                     Target : '@UI.FieldGroup#generalGroup3',
                     Label  : '{i18n>generalGroup3}'
@@ -364,19 +352,19 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ID     : 'assetInformation',
             Facets : [
                 {
-                    //Location
+                    //Cloumn 1 of asset Information
                     $Type  : 'UI.ReferenceFacet',
                     Target : '@UI.FieldGroup#locationGroup',
                     Label  : '{i18n>locationGroup}'
                 },
                 {
-                    //Reference Objects
+                    //Cloumn 2 of asset Information
                     $Type  : 'UI.ReferenceFacet',
                     Target : '@UI.FieldGroup#referenceObjectsGroup',
                     Label  : '{i18n>referenceObjectsGroup}'
                 },
                 {
-                    //Additional Reference Objects
+                    //Cloumn 3 of asset Information
                     $Type  : 'UI.ReferenceFacet',
                     Target : '@UI.FieldGroup#additionalReferenceObjectsGroup',
                     Label  : '{i18n>additionalReferenceObjectsGroup}'
@@ -393,6 +381,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     ],
 
     //Tab 1 - General Details
+    //Column 1 in General tab
     FieldGroup #generalGroup1                   : {Data : [
         {Value : requestDesc},
         {
@@ -412,14 +401,9 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                                              //![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
                                              // Criticality               : criticalityLevel,
                                              // CriticalityRepresentation : #WithoutIcon
-                 },
-    /*{
-         Value                     : requestStatusDisp,
-         ![@UI.Hidden]             : uiHidden, //Inital value in CREATE-> visible,  In edit -> not visible
-         Criticality               : criticalityLevel,
-         CriticalityRepresentation : #WithoutIcon
-     },*/
+                 }
     ]},
+    //Column 2 in General tab
     FieldGroup #generalGroup2                   : {Data : [
         {Value : businessPartner},
         {Value : ccpersonName},
@@ -427,15 +411,19 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : ccphoneNumber},
         {Value : contract}
     ]},
+    //Column 3 in general tab
     FieldGroup #generalGroup3                   : {Data : [
         {Value : expectedArrivalDate},
         {Value : expectedDeliveryDate},
-    //{Value : to_botStatus_ID}
     ]},
+
+    //Tab 2 - Asset Information
+    //Column 1 of asset information
     FieldGroup #locationGroup                   : {Data : [
         {Value : locationWC},
         {Value : MaintenancePlanningPlant}
     ]},
+    //Cloumn 2 of asset Information
     FieldGroup #referenceObjectsGroup           : {Data : [
         {Value : mName},
         {Value : mModel},
@@ -443,6 +431,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : mSerialNumber},
         {Value : functionalLocation}
     ]},
+    //Cloumn 3 of asset Information
     FieldGroup #additionalReferenceObjectsGroup : {Data : [
         {Value : eqMaterial},
         {Value : eqSerialNumber},
@@ -450,6 +439,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     ]}
 });
 
+//Actions Defination
 annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {Identification : [
     {
         $Type  : 'UI.DataFieldForAction',
@@ -463,32 +453,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {Identificatio
     }
 ]});
 
-
-//Bullet Micro Chart for dates
-/*annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {Chart #Bulletchart : {
-    $Type             : 'UI.ChartDefinitionType',
-    ChartType         : #Bullet,
-    Title             : 'Bullet Micro chart',
-    //Description : 'REPLACE_WITH_CHART_DESCRIPTION',
-    Measures          : [expectedArrivalDate],
-    MeasureAttributes : [{
-        Measure   : expectedArrivalDate,
-        Role      : #Axis1,
-        DataPoint : '@UI.DataPoint#BulletchartDatapoint'
-    }]
-}});
-
-annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {DataPoint #BulletchartDatapoint : {
-    $Type         : 'UI.DataPointType',
-    Value         : diffInCurrentAndArrivalDate,
-    TargetValue   : diffInDeliveryAndArrivalDate,
-    ForecastValue : foreCastDaysValue, //diffInDeliveryAndArrivalDate+10
-    Criticality   : #Positive
-// MinimumValue  : 0
-}});*/
-
 //Text Arrangment
-//Request nummber and request Description  will be concatenated -> text(1001)
+//Request nummber and request Description
 annotate mrorequestdolphinService.MaintenanceRequests with {
     requestNoConcat @(Common : {Text : {
         $value                 : requestDesc,
@@ -496,7 +462,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Text arrangment for request type e.g., -> Complete Asset(1)
+//Text arrangment for request type
 annotate mrorequestdolphinService.MaintenanceRequests with {
     requestTypeDisp @(Common : {Text : {
         $value                 : to_requestType_rType,
@@ -512,7 +478,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Text Arrangment for BP in Object Page Ocenaic Airlines(101)
+//Text Arrangment for BP in Object Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     businessPartner @(Common : {Text : {
         $value                 : businessPartnerName,
@@ -520,7 +486,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Text Arrangment for contract and contract  name will be concatenated
+//Text Arrangment for contract and contract  name
 annotate mrorequestdolphinService.MaintenanceRequests with {
     contract @(Common : {Text : {
         $value                 : contractName,
@@ -528,7 +494,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-// Text Arrangment for Work center and work center Text will be concatenated
+// Text Arrangment for Work center and work center Text
 annotate mrorequestdolphinService.MaintenanceRequests with {
     locationWC @(Common : {Text : {
         $value                 : locationWCDetail,
@@ -536,7 +502,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-// Text Arrangment for Functional Location and Functional Location Name will be concatenated
+// Text Arrangment for Functional Location and Functional Location Name
 annotate mrorequestdolphinService.MaintenanceRequests with {
     functionalLocation @(Common : {Text : {
         $value                 : functionalLocationName,
@@ -552,13 +518,15 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-annotate mrorequestdolphinService.MaintenanceRequests with {
+//Text arrangement for Status field on List page
+/*annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestStatusDisp_rStatusDesc @(Common : {Text : {
         $value                 : to_requestStatusDisp_rStatus,
         ![@UI.TextArrangement] : #TextLast
     }});
 };
 
+//Text arrangement for Status field on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestStatus_rStatusDesc @(Common : {Text : {
         $value                 : to_requestStatus_rStatus,
@@ -566,17 +534,18 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
+//Text arrangemnt for Phase
 annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestPhase_rPhaseDesc @(Common : {Text : {
         $value                 : to_requestPhase_rPhase,
         ![@UI.TextArrangement] : #TextLast
     }});
-};
+};*/
 
 //Request Number value Help for List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     requestNoConcat @(Common : {ValueList : {
-        CollectionPath  : 'MaintenanceRequests1',
+        CollectionPath  : 'MaintenanceRequestsDisp',
         SearchSupported : true,
         Label           : '{i18n>requestNo}',
         Parameters      : [
@@ -593,7 +562,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Business Partner1 value Help for list report page
+//Business Partner value Help for list report page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     businessPartnerDisp @(Common : {ValueList : {
         CollectionPath  : 'BusinessPartnerVH',
@@ -701,10 +670,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Revision Number value Help
+//Revision Number value Help on list page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     MaintenanceRevision @(Common : {ValueList : {
-        CollectionPath  : 'RevisionVH',
+        CollectionPath  : 'RevisionDisp',
         SearchSupported : true,
         Label           : '{i18n>MaintenanceRevision}',
         Parameters      : [
@@ -725,7 +694,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 }
 
-//Contract Value Help
+//Contract Value Help on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     contract @(Common : {ValueList : {
         CollectionPath : 'SalesContractVH',
@@ -758,7 +727,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Work Center Value help
+//Work Center Value help on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     locationWC @(Common : {ValueList : {
         CollectionPath  : 'WorkCenterVH',
@@ -788,7 +757,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Functional Location Value help
+//Functional Location Value help on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     functionalLocation @(Common : {ValueList : {
         CollectionPath  : 'FunctionLocationVH',
@@ -854,7 +823,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Equipment Value help
+//Equipment Value help on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     equipment @(Common : {ValueList : {
         CollectionPath  : 'EquipmentVH',
@@ -938,22 +907,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     })
 };
 
-//Ranges Drop Down
-annotate mrorequestdolphinService.MaintenanceRequests with {
-    to_ranges @(Common : {
-        ValueListWithFixedValues,
-        ValueList : {
-            CollectionPath : 'Ranges',
-            //Label          : '{i18n>Range}',
-            Parameters     : [{
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'to_ranges_range',
-                ValueListProperty : 'range'
-            }]
-        }
-    })
-};
-
 //Request Status DropDown on List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestStatusDisp @(Common : {
@@ -970,7 +923,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     });
 };
 
-//Phase Dropdown
+//Request Phase Dropdown
 annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestPhase @(Common : {
         ValueListWithFixedValues,
@@ -986,112 +939,23 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     });
 };
 
-//Bot Status DropDown
+//Ranges Drop Down
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    to_botStatus @(Common : {
-        Text      : {
-            $value                 : to_botStatus_bStatus,
-            ![@UI.TextArrangement] : #TextFirst
-        },
+    to_ranges @(Common : {
         ValueListWithFixedValues,
         ValueList : {
-            CollectionPath : 'BotStatuses',
-            Label          : '{i18n>botStatus}',
-            Parameters     : [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'to_botStatus_ID',
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterOut',
-                    LocalDataProperty : 'to_botStatus_bStatus',
-                    ValueListProperty : 'bStatus'
-                }
-            ]
+            CollectionPath : 'Ranges',
+            //Label          : '{i18n>Range}',
+            Parameters     : [{
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'to_ranges_range',
+                ValueListProperty : 'range'
+            }]
         }
     })
 };
 
-//Drop down for Processed By
-/*annotate mrorequestdolphinService.Documents with {
-    to_typeOfProcess @(Common : {
-        Text      : {
-            $value                 : to_typeOfProcess_processType,
-            ![@UI.TextArrangement] : #TextLast
-        },
-        ValueListWithFixedValues,
-        ValueList : {
-            CollectionPath : 'ProcessTypes',
-            Label          : '{i18n>to_typeOfProcess}',
-            //  SearchSupported : true,
-            Parameters     : [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'to_typeOfProcess_ID',
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'to_typeOfProcess_processType',
-                    ValueListProperty : 'processType'
-                }
-            ]
-        }
-    })
-};*/
-
-//Drop down for document status
-annotate mrorequestdolphinService.Documents with {
-    to_documentStatus @(Common : {
-        ValueListWithFixedValues,
-        ValueList : {
-            CollectionPath : 'DocumentStatuses',
-            Label          : '{i18n>to_documentStatus}',
-            //  SearchSupported : true,
-            Parameters     : [
-                {
-                    $Type             : 'Common.ValueListParameterOut',
-                    LocalDataProperty : 'to_documentStatus_ID',
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterOut',
-                    LocalDataProperty : 'to_documentStatus_docStatusDesc',
-                    ValueListProperty : 'docStatusDesc'
-                }
-            ]
-        }
-    })
-};
-
-//Drop down for Attachment Type
-annotate mrorequestdolphinService.Documents with {
-    to_typeOfAttachment @(Common : {
-        Text      : {
-            $value                 : to_typeOfAttachment_attachmentType,
-            ![@UI.TextArrangement] : #TextLast
-        },
-        ValueListWithFixedValues,
-        ValueList : {
-            CollectionPath : 'AttachmentTypes',
-            Label          : '{i18n>to_typeOfAttachment}',
-            Parameters     : [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'to_typeOfAttachment_ID',
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'to_typeOfAttachment_attachmentType',
-                    ValueListProperty : 'attachmentType'
-                }
-            ]
-        }
-    })
-};
-
+//Readonly and mandatory fields
 annotate mrorequestdolphinService.MaintenanceRequests {
     businessPartner        @mandatory;
     requestDesc            @mandatory;
@@ -1162,7 +1026,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
     ]
 }};
 
-
+//Details of Document tab
 annotate mrorequestdolphinService.Documents with @(UI : {
     LineItem                  : [
         {Value : documentName},
@@ -1177,7 +1041,6 @@ annotate mrorequestdolphinService.Documents with @(UI : {
         },
         {Value : eMailRecievedDateAndTime},
         {Value : to_typeOfAttachment_ID},
-        //{Value : to_typeOfProcess_ID},
         {Value : to_documentStatus_docStatusDesc},
         {Value : fileFormatCheckRequired},
         {Value : formatCheck},
@@ -1191,6 +1054,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
         TypeName       : '{i18n>documentLocation}',
         TypeNamePlural : '{i18n>documentLocations}'
     },
+    //Sort the list of documents by modified by
     PresentationVariant       : {
         $Type          : 'UI.PresentationVariantType',
         Visualizations : [@UI.LineItem],
@@ -1200,6 +1064,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
             Descending : true,
         }]
     },
+    //Facets of Document on second object page
     Facets                    : [{
         $Type  : 'UI.ReferenceFacet',
         ID     : 'documentEntry',
@@ -1216,7 +1081,6 @@ annotate mrorequestdolphinService.Documents with @(UI : {
             },
             {Value : eMailRecievedDateAndTime},
             {Value : to_typeOfAttachment_ID},
-            // {Value : to_typeOfProcess_ID},
             {Value : to_documentStatus_docStatusDesc},
             {Value : fileFormatCheckRequired},
             {Value : formatCheck},
@@ -1233,3 +1097,109 @@ annotate mrorequestdolphinService.Documents {
     url     @mandatory;
     remarks @UI.MultiLineText;
 };
+
+//Drop down for Document status
+annotate mrorequestdolphinService.Documents with {
+    to_documentStatus @(Common : {
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'DocumentStatuses',
+            Label          : '{i18n>to_documentStatus}',
+            //  SearchSupported : true,
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterOut',
+                    LocalDataProperty : 'to_documentStatus_ID',
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterOut',
+                    LocalDataProperty : 'to_documentStatus_docStatusDesc',
+                    ValueListProperty : 'docStatusDesc'
+                }
+            ]
+        }
+    })
+};
+
+//Drop down for Attachment Type
+annotate mrorequestdolphinService.Documents with {
+    to_typeOfAttachment @(Common : {
+        Text      : {
+            $value                 : to_typeOfAttachment_attachmentType,
+            ![@UI.TextArrangement] : #TextLast
+        },
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'AttachmentTypes',
+            Label          : '{i18n>to_typeOfAttachment}',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_typeOfAttachment_ID',
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_typeOfAttachment_attachmentType',
+                    ValueListProperty : 'attachmentType'
+                }
+            ]
+        }
+    })
+};
+
+//Bot Status DropDown
+/*annotate mrorequestdolphinService.MaintenanceRequests with {
+    to_botStatus @(Common : {
+        Text      : {
+            $value                 : to_botStatus_bStatus,
+            ![@UI.TextArrangement] : #TextFirst
+        },
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'BotStatuses',
+            Label          : '{i18n>botStatus}',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_botStatus_ID',
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterOut',
+                    LocalDataProperty : 'to_botStatus_bStatus',
+                    ValueListProperty : 'bStatus'
+                }
+            ]
+        }
+    })
+};*/
+
+//Drop down for Processed By
+/*annotate mrorequestdolphinService.Documents with {
+    to_typeOfProcess @(Common : {
+        Text      : {
+            $value                 : to_typeOfProcess_processType,
+            ![@UI.TextArrangement] : #TextLast
+        },
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'ProcessTypes',
+            Label          : '{i18n>to_typeOfProcess}',
+            //  SearchSupported : true,
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_typeOfProcess_ID',
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'to_typeOfProcess_processType',
+                    ValueListProperty : 'processType'
+                }
+            ]
+        }
+    })
+};*/

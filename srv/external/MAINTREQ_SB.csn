@@ -1,6 +1,6 @@
 {
   "meta": {
-    "creator": "cds-dk 4.8.2"
+    "creator": "cds-dk 6.0.3"
   },
   "$version": "2.0",
   "definitions": {
@@ -643,7 +643,7 @@
         },
         "to_NotificationHeaderItem": {
           "@cds.ambiguous": "missing on condition?",
-          "type": "cds.Association",
+          "type": "cds.Composition",
           "target": "MAINTREQ_SB.MaintNotificationItems",
           "cardinality": {
             "max": "*"
@@ -761,8 +761,8 @@
         },
         "LastChangeDateTime": {
           "type": "cds.DateTime",
-          "@odata.type": "Edm.DateTimeOffset",
-          "@odata.precision": 0,
+          "@odata.Type": "Edm.DateTimeOffset",
+          "@odata.Precision": 0,
           "@sap.label": "Short Time Stamp",
           "@sap.quickinfo": "UTC Time Stamp in Short Form (YYYYMMDDhhmmss)"
         },

@@ -48,8 +48,8 @@ entity MaintenanceRequests : managed {
         mrCount                  : Integer default 1                                @title                 : '{i18n>mrCount}'; //Used in views to show count of the requests
         createdAtDate            : Date                                             @cds.on.insert         : $now  @title                              : '{i18n>createdAtDate}'; //Used as a filter criteria for Overview page(Date DataType works as a date picker)
         age                      : Integer default 0                                @title                 : '{i18n>age}'; //For representing Aging field
-        changeStatusFlag         : Boolean not null default false                   @title                 : '{i18n>changeStatusFlag}';
-        updateRevisionFlag       : Boolean not null default false                   @title                 : '{i18n>updateRevisionFlag}';
+        changeStatusFlag         : Boolean not null default false                   @title                 : '{i18n>changeStatusFlag}';//For Change Status Action - Disable action at the time of create
+        updateRevisionFlag       : Boolean not null default false                   @title                 : '{i18n>updateRevisionFlag}';//For Update Revision Action - Disable action at the  time of create
         to_requestType           : Association to RequestTypes                      @title :                 '{i18n>requestType}'  @assert.integrity   : false; //as dropdown - request number will generate through request type
         to_requestStatus         : Association to RequestStatuses                   @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
         to_requestStatusDisp     : Association to RequestStatusesDisp               @title :                 '{i18n>requestStatus}'  @assert.integrity : false; //at create = draft
@@ -129,6 +129,7 @@ entity Ranges {
     key range : String default '0-30';
 };
 
+//Configurations entity for Admin screen
 entity Configurations : managed {
     key ID                 : UUID                             @Core.Computed; //Unique ID
         manufacturerName   : Boolean; //Manufacturer Name
@@ -141,10 +142,12 @@ entity Configurations : managed {
         to_schemaType      : Association to SchemaTypes       @assert.integrity : false;
 }
 
+//RequestIndustries for Admin Screen
 entity RequestIndustries {
     key rIndustry : String //Industry
 }
 
+//Schema Types for Admin Screen
 entity SchemaTypes {
     key sSchema : String //Search Schema
 }
