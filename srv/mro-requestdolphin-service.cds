@@ -57,6 +57,7 @@ service mrorequestdolphinService {
                 '_it/to_requestStatus_rStatusDesc',
                 '_it/to_requestStatusDisp_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc',
+                '_it/ManageRevision',
                 '_it/MaintenanceRevision',
                 '_it/to_requestStatusDisp_rStatus',
                 '_it/to_requestStatus_rStatus',
@@ -91,8 +92,8 @@ service mrorequestdolphinService {
         where
                to_requestStatusDisp.rStatus = 'RVCRTD'
             or to_requestStatusDisp.rStatus = 'NTCRTD'
-            or to_requestStatusDisp.rStatus = 'MRCMPL';
-
+            or to_requestStatusDisp.rStatus = 'MRCMPL'
+            or ManageRevision != '';
 
     @Capabilities.SearchRestrictions : {
         $Type      : 'Capabilities.SearchRestrictionsType',
@@ -104,6 +105,7 @@ service mrorequestdolphinService {
         Sortable : false
     }
     entity Documents               as projection on maintReq.Documents;
+
     entity AttachmentTypes         as projection on maintReq.AttachmentTypes;
     entity DocumentStatuses        as projection on maintReq.DocumentStatuses;
     entity BotStatuses             as projection on maintReq.BotStatuses;
@@ -131,10 +133,8 @@ service mrorequestdolphinService {
     view ReqByCompleteAssetAndRangePendingRevision as select from maintReq.ReqByCompleteAssetAndRangePendingRevision;
     view ReqByAssemblyAndRangePendingRevision as select from maintReq.ReqByAssemblyAndRangePendingRevision;
     view ReqByComponentAndRangePendingRevision as select from maintReq.ReqByComponentAndRangePendingRevision;
-    
     //To Calculate and Update aging
     function calculateAgingFunc()                               returns String;
-    
     //To Change Document Status in Documents Tab
     function changeDocumentStatus(status : String, ID : String) returns String;
     //Entities for Admin SCreen
@@ -201,19 +201,19 @@ extend service mrorequestdolphinService with {
             Plant              @UI.HiddenFilter
     };
 
-    entity Revisions                as projection on alpha.Revisions {
-        key PlanningPlant,
-        key RevisionNo,
-            Equipment,
-            FunctionLocation,
-            RevisionEndDate,
-            RevisionEndTime,
-            RevisionStartDate,
-            RevisionStartTime,
-            RevisionText,
-            RevisionType,
-            WorkCenter,
-            WorkCenterPlant
+    entity RevisionVH               as projection on alpha.Revisions {
+        key PlanningPlant     @UI.HiddenFilter,
+        key RevisionNo        @(Common.Label : '{i18n>RevisionNo}'),
+            Equipment         @UI.HiddenFilter,
+            FunctionLocation  @UI.HiddenFilter,
+            RevisionEndDate   @UI.HiddenFilter,
+            RevisionEndTime   @UI.HiddenFilter,
+            RevisionStartDate @UI.HiddenFilter,
+            RevisionStartTime @UI.HiddenFilter,
+            RevisionText      @UI.HiddenFilter @(Common.Label : '{i18n>RevisionText}'),
+            RevisionType      @(Common.Label : '{i18n>RevisionType}'),
+            WorkCenter        @UI.HiddenFilter,
+            WorkCenterPlant   @UI.HiddenFilter
     };
 }
 

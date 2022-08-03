@@ -16,7 +16,7 @@ module.exports = cds.service.impl(async function () {
         NumberRanges,
         SalesContractVH,
         EquipmentVH,
-        Revisions,
+        RevisionVH,
         Documents,
         DocumentStatuses,
         Ranges,
@@ -39,7 +39,7 @@ module.exports = cds.service.impl(async function () {
     });
 
     //Read the BusinessPartnerVH, WorkCenterVH, FunctionLocationVH, SalesContractVH, EquipmentVH, Revisions entity from S4(MaintReq).
-    this.on('READ', [BusinessPartnerVH, WorkCenterVH, FunctionLocationVH, SalesContractVH, EquipmentVH, Revisions], req => {
+    this.on('READ', [BusinessPartnerVH, WorkCenterVH, FunctionLocationVH, SalesContractVH, EquipmentVH, RevisionVH], req => {
         return service2.tx(req).run(req.query);
     });
 
@@ -129,6 +129,15 @@ module.exports = cds.service.impl(async function () {
         let q2 = await service2.read(EquipmentVH).where({ Equipment: req.data.equipment })
         if (req.data.equipment != null)
             req.data.equipmentName = q2[0].EquipmentName
+
+        //To store the value of RevisionType &  RevisionText in database
+        let q3 = await service2.read(RevisionVH).where({ RevisionNo: req.data.ManageRevision })
+        if (req.data.ManageRevision != null)
+        {
+            req.data.MaintenanceRevision = req.data.ManageRevision
+            req.data.revisionType = q3[0].RevisionType
+            req.data.revisionText = q3[0].RevisionText
+        }
 
         //Validation for all dates value
         var arrivalDate = req.data.expectedArrivalDate
@@ -386,122 +395,137 @@ module.exports = cds.service.impl(async function () {
         console.log('query', queryPhase)
         var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
         console.log('query...........', query)
+        if (query[0].ManageRevision != null) {
+            await UPDATE(MaintenanceRequests).set({
+                to_requestStatus_rStatus: 'RVCRTD',
+                to_requestStatusDisp_rStatus: 'RVCRTD',
+                to_requestStatus_rStatusDesc: 'Revision Created',
+                to_requestStatusDisp_rStatusDesc: 'Revision Created',
+                to_requestPhase_rPhase: 'MRPREP',
+                to_requestPhase_rPhaseDesc: 'Preparation',
+                updateRevisionFlag: false
+            }).where({ ID: id1 })
+        }
+        else {
+            if (query[0].to_requestStatus_rStatus == 'TLIDNT') {
 
-        if (query[0].to_requestStatus_rStatus == 'TLIDNT') {
+                //Fetching planning plant, request desc, work center and arrival and delivery date for performing POST request to MaintRevision S4 Service
+                //Mandatory fields for creating a revision
+                if (reqwcPlant == null) {
+                    vplanningPlant = query[0].MaintenancePlanningPlant
+                }
+                else {
+                    vplanningPlant = reqwcPlant
+                }
+                //Revision text will contain Request description + request Number
+                vrevisionText = query[0].requestNo + ' ' + query[0].requestDesc
+                vworkCenter = query[0].locationWC
 
-            //Fetching planning plant, request desc, work center and arrival and delivery date for performing POST request to MaintRevision S4 Service
-            //Mandatory fields for creating a revision
-            if (reqwcPlant == null) {
-                vplanningPlant = query[0].MaintenancePlanningPlant
-            }
-            else {
-                vplanningPlant = reqwcPlant
-            }
-            //Revision text will contain Request description + request Number
-            vrevisionText = query[0].requestNo + ' ' + query[0].requestDesc
-            vworkCenter = query[0].locationWC
+                //After selecting thw workcenter that is coming from patch
+                //supose user refresh the screen then plant will get removed -> if else condition is used to resolve this issue
+                if (reqwcPlant == null) {
+                    vworkCenterPlant = query[0].MaintenancePlanningPlant
+                }
+                else {
+                    vworkCenterPlant = reqwcPlant
+                }
+                /* /Date(1224043200000)/ */
+                var vexpectedArrivalDate = new Date(query[0].expectedArrivalDate)
+                var vformatexpectedArrivalDate = '/Date(' + vexpectedArrivalDate.getTime() + ')/'
+                //console.log('vformatexpectedArrivalDate', vformatexpectedArrivalDate)
+                vrevisionStartDate = query[0].expectedArrivalDate
+                var vexpectedDeliveryDate = new Date(query[0].expectedDeliveryDate)
+                var vformatedexpectedDeliveryDate = '/Date(' + vexpectedDeliveryDate.getTime() + ')/'
+                // console.log('vformatedexpectedDeliveryDate', vformatedexpectedDeliveryDate)
+                vrevisionEndDate = query[0].expectedDeliveryDate
+                vfunctionalLocation = query[0].functionalLocation
+                vequipment = query[0].equipment
 
-            //After selecting thw workcenter that is coming from patch
-            //supose user refresh the screen then plant will get removed -> if else condition is used to resolve this issue
-            if (reqwcPlant == null) {
-                vworkCenterPlant = query[0].MaintenancePlanningPlant
-            }
-            else {
-                vworkCenterPlant = reqwcPlant
-            }
-            /* /Date(1224043200000)/ */
-            var vexpectedArrivalDate = new Date(query[0].expectedArrivalDate)
-            var vformatexpectedArrivalDate = '/Date(' + vexpectedArrivalDate.getTime() + ')/'
-            //console.log('vformatexpectedArrivalDate', vformatexpectedArrivalDate)
-            vrevisionStartDate = query[0].expectedArrivalDate
-            var vexpectedDeliveryDate = new Date(query[0].expectedDeliveryDate)
-            var vformatedexpectedDeliveryDate = '/Date(' + vexpectedDeliveryDate.getTime() + ')/'
-            // console.log('vformatedexpectedDeliveryDate', vformatedexpectedDeliveryDate)
-            vrevisionEndDate = query[0].expectedDeliveryDate
-            vfunctionalLocation = query[0].functionalLocation
-            vequipment = query[0].equipment
-
-            //Revision will trigger when requestphase will change from intial to planning
-            //One request should always have 1 MR
-            if (query[0].MaintenanceRevision == null) {
-                try {
-                    if (vplanningPlant != null && vrevisionText != null && vworkCenter != null && vworkCenterPlant != null && vrevisionStartDate != null && vrevisionEndDate != null) {
-                        const tx = service3.tx(req)
-                        var data = {
-                            "PlanningPlant": vplanningPlant,
-                            "RevisionType": 'A1',
-                            "RevisionText": vrevisionText,
-                            "WorkCenter": vworkCenter,
-                            "WorkCenterPlant": vworkCenterPlant,
-                            "RevisionStartDate": vformatexpectedArrivalDate,
-                            "RevisionStartTime": 'PT00H00M00S',
-                            "RevisionEndDate": vformatedexpectedDeliveryDate,
-                            "RevisionEndTime": 'PT00H00M00S'
-                        }
-                        if (vfunctionalLocation == null && vequipment == null) {
-                            var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-                        }
-                        else if (vequipment != null && vfunctionalLocation == null) {
-                            var data1 = Object.create(data)
-                            data.Equipment = vequipment
-                            var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-                        }
-                        else if (vfunctionalLocation != null && vequipment == null) {
-                            var data1 = Object.create(data)
-                            data.FunctionLocation = vfunctionalLocation
-                            var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-                        }
-                        //If user selects both floc and equipment
-                        else if (vfunctionalLocation != null && vequipment != null) {
-                            //If there is a parent-child relationship then try block runs
-                            //Function Location - A350-MSN-AA-31      
-                            //Equipment - 10000095
-                            try {
-                                var data1 = Object.create(data)
-                                data.FunctionLocation = vfunctionalLocation
-                                data.Equipment = vequipment
-                                var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
-                            } catch (error) {
-                                //If floc and equip are not in parent-child relation then floc will pass to create a revision
-                                var data1 = Object.create(data)
-                                data.FunctionLocation = FunctionLocation
+                //Revision will trigger when requestphase will change from intial to planning
+                //One request should always have 1 MR
+                if (query[0].MaintenanceRevision == null) {
+                    try {
+                        if (vplanningPlant != null && vrevisionText != null && vworkCenter != null && vworkCenterPlant != null && vrevisionStartDate != null && vrevisionEndDate != null) {
+                            const tx = service3.tx(req)
+                            var data = {
+                                "PlanningPlant": vplanningPlant,
+                                "RevisionType": 'A1',
+                                "RevisionText": vrevisionText,
+                                "WorkCenter": vworkCenter,
+                                "WorkCenterPlant": vworkCenterPlant,
+                                "RevisionStartDate": vformatexpectedArrivalDate,
+                                "RevisionStartTime": 'PT00H00M00S',
+                                "RevisionEndDate": vformatedexpectedDeliveryDate,
+                                "RevisionEndTime": 'PT00H00M00S'
+                            }
+                            if (vfunctionalLocation == null && vequipment == null) {
                                 var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
                             }
+                            else if (vequipment != null && vfunctionalLocation == null) {
+                                var data1 = Object.create(data)
+                                data.Equipment = vequipment
+                                var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                            }
+                            else if (vfunctionalLocation != null && vequipment == null) {
+                                var data1 = Object.create(data)
+                                data.FunctionLocation = vfunctionalLocation
+                                var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                            }
+                            //If user selects both floc and equipment
+                            else if (vfunctionalLocation != null && vequipment != null) {
+                                //If there is a parent-child relationship then try block runs
+                                //Function Location - A350-MSN-AA-31      
+                                //Equipment - 10000095
+                                try {
+                                    var data1 = Object.create(data)
+                                    data.FunctionLocation = vfunctionalLocation
+                                    data.Equipment = vequipment
+                                    var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                                } catch (error) {
+                                    //If floc and equip are not in parent-child relation then floc will pass to create a revision
+                                    var data1 = Object.create(data)
+                                    data.FunctionLocation = FunctionLocation
+                                    var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                                }
+                            }
+                            console.log('Revision', result)
+                            await UPDATE(MaintenanceRequests).set({
+                                ManageRevision: result.RevisionNo,
+                                MaintenanceRevision: result.RevisionNo,
+                                revisionType: result.RevisionType,
+                                revisionText: result.RevisionText,
+                                to_requestStatus_rStatus: 'RVCRTD',
+                                to_requestStatusDisp_rStatus: 'RVCRTD',
+                                to_requestStatus_rStatusDesc: 'Revision Created',
+                                to_requestStatusDisp_rStatusDesc: 'Revision Created',
+                                to_requestPhase_rPhase: 'MRPREP',
+                                to_requestPhase_rPhaseDesc: 'Preparation',
+                                updateRevisionFlag: false
+                            }).where({ ID: id1 })
+                            req.info(101, 'Revision ' + result.RevisionNo + ' created for Maintenance Request ' + query[0].requestNoConcat)
+                            return result
                         }
-                        console.log('Revision', result)
-                        await UPDATE(MaintenanceRequests).set({
-                            MaintenanceRevision: result.RevisionNo,
-                            revisionType: result.RevisionType,
-                            revisionText: result.RevisionText,
-                            to_requestStatus_rStatus: 'RVCRTD',
-                            to_requestStatusDisp_rStatus: 'RVCRTD',
-                            to_requestStatus_rStatusDesc: 'Revision Created',
-                            to_requestStatusDisp_rStatusDesc: 'Revision Created',
-                            to_requestPhase_rPhase: 'MRPREP',
-                            to_requestPhase_rPhaseDesc: 'Preparation',
-                            updateRevisionFlag: false
-                        }).where({ ID: id1 })
-                        req.info(101, 'Revision ' + result.RevisionNo + ' created for Maintenance Request ' + query[0].requestNoConcat)
-                        return result
+                    }
+                    catch (error) {
+                        var vstatusCode = error.statusCode
+                        var verrorMessage = error.innererror.response.body.error.message.value
+                        req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
                     }
                 }
-                catch (error) {
-                    var vstatusCode = error.statusCode
-                    var verrorMessage = error.innererror.response.body.error.message.value
-                    req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
-                }
             }
+            /* else if (query[0].to_requestStatus_rStatus == 'NTCRTD' || query[0].to_requestStatus_rStatus == 'RVCRTD') {
+                 req.data.to_requestStatus_rStatus = 'RVCRTD'
+                 req.info(101, 'For Request ' + query[0].requestNoConcat + ' Revision is already been created')
+             }
+             else if (query[0].to_requestStatus_rStatus == 'MRCMPL') {
+                 req.info(101, 'MR ' + query[0].requestNoConcat + ' is already Completed')
+             }
+             else if (query[0].to_requestStatus_rStatus != 'NTCRTD' || query[0].to_requestStatus_rStatus != 'MRCMPL' || query[0].to_requestStatus_rStatus != 'TLIDNT')
+                 req.info(101, 'For Request ' + query[0].requestNoConcat + ' Task List should be identified')*/
+            //}
         }
-        /* else if (query[0].to_requestStatus_rStatus == 'NTCRTD' || query[0].to_requestStatus_rStatus == 'RVCRTD') {
-             req.data.to_requestStatus_rStatus = 'RVCRTD'
-             req.info(101, 'For Request ' + query[0].requestNoConcat + ' Revision is already been created')
-         }
-         else if (query[0].to_requestStatus_rStatus == 'MRCMPL') {
-             req.info(101, 'MR ' + query[0].requestNoConcat + ' is already Completed')
-         }
-         else if (query[0].to_requestStatus_rStatus != 'NTCRTD' || query[0].to_requestStatus_rStatus != 'MRCMPL' || query[0].to_requestStatus_rStatus != 'TLIDNT')
-             req.info(101, 'For Request ' + query[0].requestNoConcat + ' Task List should be identified')*/
-        //}
+
+
     });
 
     //Handler for Calculate Ageing

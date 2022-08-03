@@ -22,12 +22,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {
             $Type  : 'UI.DataFieldForAction',
             Action : 'mrorequestdolphinService.changeStatus',
-            Label  : 'Change Status'
+            Label  : '{i18n>changeStatus}'
         },
         {
             $Type  : 'UI.DataFieldForAction',
             Action : 'mrorequestdolphinService.revisionCreated',
-            Label  : 'Create Revision'
+            Label  : '{i18n>revisionCreated}'
         },
         /*{
             $Type  : 'UI.DataFieldForAction',
@@ -291,7 +291,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #Basic2                          : {Data : [
         {Value : locationWC},
         {Value : MaintenancePlanningPlant},
-        {Value : MaintenanceRevision}
+        {Value : ManageRevision}
     ]},
     //Column 3 for header facet
     FieldGroup #Detail                          : {Data : [
@@ -435,7 +435,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #additionalReferenceObjectsGroup : {Data : [
         {Value : eqMaterial},
         {Value : eqSerialNumber},
-        {Value : equipment}
+        {Value : equipment},
+        {Value : ManageRevision}
     ]}
 });
 
@@ -690,6 +691,30 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'revisionType'
             }
+        ]
+    }});
+}
+
+annotate mrorequestdolphinService.MaintenanceRequests with {
+    ManageRevision @(Common : {ValueList : {
+        CollectionPath  : 'RevisionVH',
+        SearchSupported : true,
+        Label           : '{i18n>MaintenanceRevision}',
+        Parameters      : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'ManageRevision',
+                ValueListProperty : 'RevisionNo'
+            },
+             {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'RevisionText'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'RevisionType'
+            }
+            
         ]
     }});
 }
