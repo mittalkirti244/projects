@@ -1,0 +1,1240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="4.0" xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx">
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Capabilities.V1.xml">
+    <edmx:Include Alias="Capabilities" Namespace="Org.OData.Capabilities.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+    <edmx:Include Alias="Common" Namespace="com.sap.vocabularies.Common.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
+    <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/HTML5.xml">
+    <edmx:Include Alias="HTML5" Namespace="com.sap.vocabularies.HTML5.v1"/>
+  </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+    <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
+  </edmx:Reference>
+  <edmx:DataServices>
+    <Schema Namespace="notifleoService" xmlns="http://docs.oasis-open.org/odata/ns/edm">
+      <EntityContainer Name="EntityContainer">
+        <EntitySet Name="MaintenanceRequestHeader" EntityType="notifleoService.MaintenanceRequestHeader">
+          <NavigationPropertyBinding Path="to_typeOfLoad" Target="TypeOfLoads"/>
+          <NavigationPropertyBinding Path="SiblingEntity" Target="MaintenanceRequestHeader"/>
+        </EntitySet>
+        <EntitySet Name="MaintNotifications" EntityType="notifleoService.MaintNotifications">
+          <NavigationPropertyBinding Path="to_NotificationHeaderItem" Target="MaintNotificationItems"/>
+        </EntitySet>
+        <EntitySet Name="ReferenceTaskListVH" EntityType="notifleoService.ReferenceTaskListVH"/>
+        <EntitySet Name="TypeOfLoads" EntityType="notifleoService.TypeOfLoads"/>
+        <EntitySet Name="NotificationVH" EntityType="notifleoService.NotificationVH"/>
+        <EntitySet Name="MaintenanceRequestsVH" EntityType="notifleoService.MaintenanceRequestsVH"/>
+        <EntitySet Name="MaintNotificationItems" EntityType="notifleoService.MaintNotificationItems">
+          <NavigationPropertyBinding Path="to_NotificationHeader" Target="MaintNotifications"/>
+        </EntitySet>
+      </EntityContainer>
+      <EntityType Name="MaintenanceRequestHeader">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
+        </Key>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="createdBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="requestNo" Type="Edm.String"/>
+        <Property Name="requestNoDisp" Type="Edm.String"/>
+        <Property Name="requestNoConcat" Type="Edm.String"/>
+        <Property Name="uiHidden" Type="Edm.Boolean" DefaultValue="false"/>
+        <Property Name="uiHidden1" Type="Edm.Boolean" DefaultValue="true"/>
+        <Property Name="sequenceNo" Type="Edm.String"/>
+        <Property Name="requestDesc" Type="Edm.String"/>
+        <Property Name="mrequestType" Type="Edm.String"/>
+        <Property Name="mrequestStatus" Type="Edm.String"/>
+        <Property Name="businessPartner" Type="Edm.String"/>
+        <Property Name="businessPartnerName" Type="Edm.String"/>
+        <Property Name="functionalLocation" Type="Edm.String"/>
+        <Property Name="functionalLocationName" Type="Edm.String"/>
+        <Property Name="equipment" Type="Edm.String"/>
+        <Property Name="equipmentName" Type="Edm.String"/>
+        <Property Name="revisionNo" Type="Edm.String"/>
+        <Property Name="planningPlant" Type="Edm.String"/>
+        <Property Name="workCenter" Type="Edm.String"/>
+        <Property Name="workCenterDetail" Type="Edm.String"/>
+        <Property Name="contractNo" Type="Edm.String"/>
+        <Property Name="contractName" Type="Edm.String"/>
+        <Property Name="fileName" Type="Edm.String"/>
+        <Property Name="noOfEmail" Type="Edm.String"/>
+        <Property Name="noOfAttachment" Type="Edm.String"/>
+        <Property Name="workOrderNo" Type="Edm.String"/>
+        <Property Name="customerRef" Type="Edm.String"/>
+        <Property Name="taskDescription" Type="Edm.String"/>
+        <Property Name="estimatedDueDate" Type="Edm.Date"/>
+        <Property Name="quantity" Type="Edm.Int32"/>
+        <Property Name="unitOfMeasure" Type="Edm.String"/>
+        <Property Name="notificationNo" Type="Edm.String"/>
+        <Property Name="notificationNoDisp" Type="Edm.String"/>
+        <Property Name="notificationFlag" Type="Edm.Boolean" DefaultValue="false"/>
+        <Property Name="additionalRemark" Type="Edm.String"/>
+        <Property Name="billOfWorkDocRef" Type="Edm.String"/>
+        <Property Name="quotationDoc" Type="Edm.String"/>
+        <Property Name="genericRef" Type="Edm.String"/>
+        <Property Name="taskListGroup" Type="Edm.String"/>
+        <Property Name="taskListGroupCounter" Type="Edm.String"/>
+        <Property Name="taskListType" Type="Edm.String"/>
+        <Property Name="taskListDescription" Type="Edm.String"/>
+        <NavigationProperty Name="to_typeOfLoad" Type="notifleoService.TypeOfLoads">
+          <ReferentialConstraint Property="to_typeOfLoad_ID" ReferencedProperty="ID"/>
+          <ReferentialConstraint Property="to_typeOfLoad_loadType" ReferencedProperty="loadType"/>
+        </NavigationProperty>
+        <Property Name="to_typeOfLoad_ID" Type="Edm.Int32"/>
+        <Property Name="to_typeOfLoad_loadType" Type="Edm.String"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
+        <NavigationProperty Name="DraftAdministrativeData" Type="notifleoService.DraftAdministrativeData" ContainsTarget="true"/>
+        <NavigationProperty Name="SiblingEntity" Type="notifleoService.MaintenanceRequestHeader"/>
+      </EntityType>
+      <EntityType Name="MaintNotifications">
+        <Key>
+          <PropertyRef Name="MaintenanceNotification"/>
+        </Key>
+        <Property Name="MaintenanceNotification" Type="Edm.String" MaxLength="12" Nullable="false"/>
+        <Property Name="NotificationText" Type="Edm.String" MaxLength="40"/>
+        <Property Name="NotificationType" Type="Edm.String" MaxLength="2"/>
+        <Property Name="MaintPriority" Type="Edm.String" MaxLength="1"/>
+        <Property Name="MaintenanceActivityType" Type="Edm.String" MaxLength="3"/>
+        <Property Name="MaintNotificationCatalog" Type="Edm.String" MaxLength="1"/>
+        <Property Name="MaintNotificationCodeGroup" Type="Edm.String" MaxLength="8"/>
+        <Property Name="MaintNotificationCode" Type="Edm.String" MaxLength="4"/>
+        <Property Name="ReportedByUser" Type="Edm.String" MaxLength="12"/>
+        <Property Name="RequiredStartDate" Type="Edm.Date"/>
+        <Property Name="RequiredStartTime" Type="Edm.TimeOfDay"/>
+        <Property Name="RequiredEndDate" Type="Edm.Date"/>
+        <Property Name="RequiredEndTime" Type="Edm.TimeOfDay"/>
+        <Property Name="NotificationCreationDate" Type="Edm.Date"/>
+        <Property Name="NotificationCreationTime" Type="Edm.TimeOfDay"/>
+        <Property Name="MalfunctionStartDate" Type="Edm.Date"/>
+        <Property Name="MalfunctionStartTime" Type="Edm.TimeOfDay"/>
+        <Property Name="MalfunctionEndDate" Type="Edm.Date"/>
+        <Property Name="MalfunctionEndTime" Type="Edm.TimeOfDay"/>
+        <Property Name="MaintenanceRevision" Type="Edm.String" MaxLength="8"/>
+        <Property Name="MaintenanceRevisionWPS" Type="Edm.String" MaxLength="8"/>
+        <Property Name="MaintenancePlannerGroup" Type="Edm.String" MaxLength="3"/>
+        <Property Name="MaintenancePlanningPlant" Type="Edm.String" MaxLength="4"/>
+        <Property Name="WorkCenter" Type="Edm.String" MaxLength="8"/>
+        <Property Name="WorkCenterInternalID" Type="Edm.String" MaxLength="8"/>
+        <Property Name="MaintenanceWorkCenterPlant" Type="Edm.String" MaxLength="4"/>
+        <Property Name="SerialNumber" Type="Edm.String" MaxLength="18"/>
+        <Property Name="Material" Type="Edm.String" MaxLength="40"/>
+        <Property Name="Equipment" Type="Edm.String" MaxLength="18"/>
+        <Property Name="Assembly" Type="Edm.String" MaxLength="40"/>
+        <Property Name="FunctionalLocation" Type="Edm.String" MaxLength="30"/>
+        <Property Name="MaintenancePlant" Type="Edm.String" MaxLength="4"/>
+        <Property Name="MaintenanceObjectLocation" Type="Edm.String" MaxLength="10"/>
+        <Property Name="PlantSection" Type="Edm.String" MaxLength="3"/>
+        <Property Name="LocationWorkCenter" Type="Edm.String" MaxLength="8"/>
+        <Property Name="CompanyCode" Type="Edm.String" MaxLength="4"/>
+        <Property Name="BusinessArea" Type="Edm.String" MaxLength="4"/>
+        <Property Name="CostCenter" Type="Edm.String" MaxLength="10"/>
+        <Property Name="WBSElement" Type="Edm.String" MaxLength="100"/>
+        <Property Name="ControllingArea" Type="Edm.String" MaxLength="4"/>
+        <Property Name="TaskListType" Type="Edm.String" MaxLength="1"/>
+        <Property Name="TaskListGroup" Type="Edm.String" MaxLength="8"/>
+        <Property Name="TaskListGroupCounter" Type="Edm.String" MaxLength="2"/>
+        <Property Name="SalesOrganization" Type="Edm.String" MaxLength="4"/>
+        <Property Name="DistributionChannel" Type="Edm.String" MaxLength="2"/>
+        <Property Name="Division" Type="Edm.String" MaxLength="2"/>
+        <Property Name="SalesOffice" Type="Edm.String" MaxLength="4"/>
+        <Property Name="SalesGroup" Type="Edm.String" MaxLength="3"/>
+        <Property Name="NotificationHasLongText" Type="Edm.String" MaxLength="1"/>
+        <Property Name="NotificationLongText" Type="Edm.String" MaxLength="1024"/>
+        <Property Name="NotificationLongTextCreate" Type="Edm.String" MaxLength="1024"/>
+        <NavigationProperty Name="to_NotificationHeaderItem" Type="Collection(notifleoService.MaintNotificationItems)">
+          <OnDelete Action="Cascade"/>
+        </NavigationProperty>
+      </EntityType>
+      <EntityType Name="ReferenceTaskListVH">
+        <Property Name="TaskListType" Type="Edm.String" MaxLength="1"/>
+        <Property Name="TaskListGroup" Type="Edm.String" MaxLength="8"/>
+        <Property Name="TaskListGroupCounter" Type="Edm.String" MaxLength="2"/>
+        <Property Name="TaskListDesc" Type="Edm.String" MaxLength="40"/>
+        <Property Name="ExternalCustomerReference" Type="Edm.String" MaxLength="40"/>
+        <Property Name="ExternalReference" Type="Edm.String" MaxLength="40"/>
+        <Property Name="Plant" Type="Edm.String" MaxLength="4"/>
+      </EntityType>
+      <EntityType Name="TypeOfLoads">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="loadType"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="loadType" Type="Edm.String" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="NotificationVH">
+        <Property Name="notificationNoDisp" Type="Edm.String"/>
+      </EntityType>
+      <EntityType Name="MaintenanceRequestsVH">
+        <Property Name="ID" Type="Edm.Guid"/>
+        <Property Name="requestNo" Type="Edm.String"/>
+        <Property Name="requestDesc" Type="Edm.String"/>
+        <Property Name="to_requestType_rType" Type="Edm.String"/>
+        <Property Name="to_requestStatusDisp_rStatusDesc" Type="Edm.String"/>
+        <Property Name="to_requestStatusDisp_rStatus" Type="Edm.String"/>
+        <Property Name="locationWC" Type="Edm.String"/>
+        <Property Name="locationWCDetail" Type="Edm.String"/>
+        <Property Name="MaintenancePlanningPlant" Type="Edm.String"/>
+        <Property Name="contract" Type="Edm.String"/>
+        <Property Name="contractName" Type="Edm.String"/>
+        <Property Name="functionalLocation" Type="Edm.String"/>
+        <Property Name="functionalLocationName" Type="Edm.String"/>
+        <Property Name="equipment" Type="Edm.String"/>
+        <Property Name="equipmentName" Type="Edm.String"/>
+        <Property Name="MaintenanceRevision" Type="Edm.String"/>
+        <Property Name="businessPartner" Type="Edm.String"/>
+        <Property Name="businessPartnerName" Type="Edm.String"/>
+      </EntityType>
+      <EntityType Name="MaintNotificationItems">
+        <Key>
+          <PropertyRef Name="MaintenanceNotification"/>
+          <PropertyRef Name="MaintenanceNotificationItem"/>
+        </Key>
+        <Property Name="MaintenanceNotification" Type="Edm.String" MaxLength="12" Nullable="false"/>
+        <Property Name="MaintenanceNotificationItem" Type="Edm.String" MaxLength="4" Nullable="false"/>
+        <Property Name="MaintNotifItemText" Type="Edm.String" MaxLength="40"/>
+        <Property Name="MaintNotifObjPrtCodeGroup" Type="Edm.String" MaxLength="8"/>
+        <Property Name="MaintNotifObjPrtCode" Type="Edm.String" MaxLength="4"/>
+        <Property Name="MaintNotificationDamageCode" Type="Edm.String" MaxLength="4"/>
+        <Property Name="MaintNotifDamageCodeGroup" Type="Edm.String" MaxLength="8"/>
+        <Property Name="DefectClass" Type="Edm.String" MaxLength="2"/>
+        <Property Name="Assembly" Type="Edm.String" MaxLength="40"/>
+        <Property Name="NumberOfDefects" Type="Edm.Int32"/>
+        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset"/>
+        <Property Name="IsDeleted" Type="Edm.String" MaxLength="1"/>
+        <NavigationProperty Name="to_NotificationHeader" Type="notifleoService.MaintNotifications"/>
+      </EntityType>
+      <EntityType Name="DraftAdministrativeData">
+        <Key>
+          <PropertyRef Name="DraftUUID"/>
+        </Key>
+        <Property Name="DraftUUID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="CreationDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="CreatedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsCreatedByMe" Type="Edm.Boolean"/>
+        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="LastChangedByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="InProcessByUser" Type="Edm.String" MaxLength="256"/>
+        <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
+      </EntityType>
+      <Action Name="createNotification" IsBound="true">
+        <Parameter Name="in" Type="notifleoService.MaintenanceRequestHeader"/>
+      </Action>
+      <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="notifleoService.MaintenanceRequestHeader"/>
+        <Parameter Name="SideEffectsQualifier" Type="Edm.String"/>
+        <ReturnType Type="notifleoService.MaintenanceRequestHeader"/>
+      </Action>
+      <Action Name="draftActivate" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="notifleoService.MaintenanceRequestHeader"/>
+        <ReturnType Type="notifleoService.MaintenanceRequestHeader"/>
+      </Action>
+      <Action Name="draftEdit" IsBound="true" EntitySetPath="in">
+        <Parameter Name="in" Type="notifleoService.MaintenanceRequestHeader"/>
+        <Parameter Name="PreserveChanges" Type="Edm.Boolean"/>
+        <ReturnType Type="notifleoService.MaintenanceRequestHeader"/>
+      </Action>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader">
+        <Annotation Term="UI.SelectionFields">
+          <Collection>
+            <PropertyPath>requestNoConcat</PropertyPath>
+            <PropertyPath>notificationNoDisp</PropertyPath>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.LineItem">
+          <Collection>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="notifleoService.createNotification"/>
+              <PropertyValue Property="Label" String="Generate Notification"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="workOrderNo"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="requestNoConcat"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="mrequestType"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="taskDescription"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="15rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="taskListType"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="taskListGroup"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="15rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="taskListGroupCounter"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="15rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="notificationNo"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="businessPartner"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="businessPartnerName"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="to_typeOfLoad_ID"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="noOfAttachment"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="noOfEmail"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="workCenterDetail"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="requestNo"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="requestNoDisp"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="uiHidden"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="uiHidden1"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="billOfWorkDocRef"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="notificationFlag"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="quantity"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="unitOfMeasure"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="quotationDoc"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.PresentationVariant">
+          <Record Type="UI.PresentationVariantType">
+            <PropertyValue Property="SortOrder">
+              <Collection>
+                <Record Type="Common.SortOrderType">
+                  <PropertyValue Property="Property" PropertyPath="createdAt"/>
+                  <PropertyValue Property="Descending" Bool="true"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+            <PropertyValue Property="Visualizations">
+              <Collection>
+                <AnnotationPath>@UI.LineItem</AnnotationPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.HeaderInfo">
+          <Record Type="UI.HeaderInfoType">
+            <PropertyValue Property="TypeName" String="Work Item Request Detail"/>
+            <PropertyValue Property="TypeNamePlural" String="Work Items"/>
+            <PropertyValue Property="Title">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="requestNo"/>
+              </Record>
+            </PropertyValue>
+            <PropertyValue Property="Description">
+              <Record Type="UI.DataField">
+                <PropertyValue Property="Value" Path="requestDesc"/>
+              </Record>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.HeaderFacets">
+          <Collection>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="basicDetail1"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#basicDetail1"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="basicDetail2"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#basicDetail2"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="basicDetail3"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#basicDetail3"/>
+            </Record>
+            <Record Type="UI.ReferenceFacet">
+              <PropertyValue Property="ID" String="basicDetail4"/>
+              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#basicDetail4"/>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.Facets">
+          <Collection>
+            <Record Type="UI.CollectionFacet">
+              <PropertyValue Property="ID" String="generalInformation"/>
+              <PropertyValue Property="Label" String="Request for Maintenance Informaion"/>
+              <PropertyValue Property="Facets">
+                <Collection>
+                  <Record Type="UI.ReferenceFacet">
+                    <PropertyValue Property="ID" String="generalInfo1"/>
+                    <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#generalInfo1"/>
+                  </Record>
+                  <Record Type="UI.ReferenceFacet">
+                    <PropertyValue Property="ID" String="generalInfo2"/>
+                    <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#generalInfo2"/>
+                  </Record>
+                  <Record Type="UI.ReferenceFacet">
+                    <PropertyValue Property="ID" String="generalInfo3"/>
+                    <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#generalInfo3"/>
+                  </Record>
+                </Collection>
+              </PropertyValue>
+            </Record>
+            <Record Type="UI.CollectionFacet">
+              <PropertyValue Property="ID" String="customerGroup"/>
+              <PropertyValue Property="Label" String="Work Items Information"/>
+              <PropertyValue Property="Facets">
+                <Collection>
+                  <Record Type="UI.ReferenceFacet">
+                    <PropertyValue Property="ID" String="customerGroup1"/>
+                    <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#customerGroup1"/>
+                  </Record>
+                  <Record Type="UI.ReferenceFacet">
+                    <PropertyValue Property="ID" String="customerGroup2"/>
+                    <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#customerGroup2"/>
+                  </Record>
+                  <Record Type="UI.ReferenceFacet">
+                    <PropertyValue Property="ID" String="customerGroup3"/>
+                    <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#customerGroup3"/>
+                  </Record>
+                </Collection>
+              </PropertyValue>
+            </Record>
+          </Collection>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="basicDetail1">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="workCenter"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="planningPlant"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="basicDetail2">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="functionalLocation"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="equipment"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="basicDetail3">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="contractNo"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="revisionNo"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="basicDetail4">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="notificationNo"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="generalInfo1">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="requestNo"/>
+                  <Annotation Term="UI.Hidden" Path="uiHidden"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="requestNoDisp"/>
+                  <Annotation Term="UI.Hidden" Path="uiHidden1"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="mrequestStatus"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="generalInfo2">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="mrequestType"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="generalInfo3">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="requestDesc"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="customerGroup1">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="workOrderNo"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="sequenceNo"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="taskDescription"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="customerGroup2">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="customerRef"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="genericRef"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="taskListType"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="taskListGroup"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="taskListGroupCounter"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="taskListDescription"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.FieldGroup" Qualifier="customerGroup3">
+          <Record Type="UI.FieldGroupType">
+            <PropertyValue Property="Data">
+              <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="estimatedDueDate"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="additionalRemark"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="fileName"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="to_typeOfLoad_ID"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="UI.Identification">
+          <Collection>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="notifleoService.createNotification"/>
+              <PropertyValue Property="Label" String="Generate Notification"/>
+            </Record>
+          </Collection>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="notifleoService.EntityContainer/MaintenanceRequestHeader">
+        <Annotation Term="UI.PresentationVariant">
+          <Record Type="UI.PresentationVariantType">
+            <PropertyValue Property="SortOrder">
+              <Collection>
+                <Record Type="Common.SortOrderType">
+                  <PropertyValue Property="Property" PropertyPath="createdAt"/>
+                  <PropertyValue Property="Descending" Bool="true"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+            <PropertyValue Property="Visualizations">
+              <Collection>
+                <AnnotationPath>@UI.LineItem</AnnotationPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.FilterRestrictions">
+          <Record Type="Capabilities.FilterRestrictionsType">
+            <PropertyValue Property="NonFilterableProperties">
+              <Collection>
+                <PropertyPath>ID</PropertyPath>
+                <PropertyPath>functionalLocation</PropertyPath>
+                <PropertyPath>functionalLocationName</PropertyPath>
+                <PropertyPath>equipment</PropertyPath>
+                <PropertyPath>contractName</PropertyPath>
+                <PropertyPath>to_typeOfLoad_ID</PropertyPath>
+                <PropertyPath>requestNo</PropertyPath>
+                <PropertyPath>requestNoDisp</PropertyPath>
+                <PropertyPath>uiHidden</PropertyPath>
+                <PropertyPath>uiHidden1</PropertyPath>
+                <PropertyPath>workCenterDetail</PropertyPath>
+                <PropertyPath>billOfWorkDocRef</PropertyPath>
+                <PropertyPath>businessPartner</PropertyPath>
+                <PropertyPath>businessPartnerName</PropertyPath>
+                <PropertyPath>requestDesc</PropertyPath>
+                <PropertyPath>noOfAttachment</PropertyPath>
+                <PropertyPath>noOfEmail</PropertyPath>
+                <PropertyPath>quantity</PropertyPath>
+                <PropertyPath>unitOfMeasure</PropertyPath>
+                <PropertyPath>notificationFlag</PropertyPath>
+                <PropertyPath>quotationDoc</PropertyPath>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Common.DraftRoot">
+          <Record Type="Common.DraftRootType">
+            <PropertyValue Property="ActivationAction" String="notifleoService.draftActivate"/>
+            <PropertyValue Property="EditAction" String="notifleoService.draftEdit"/>
+            <PropertyValue Property="PreparationAction" String="notifleoService.draftPrepare"/>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/createdAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="CreatedAt"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/createdBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="Core.Immutable" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="UserID.Description"/>
+        <Annotation Term="Common.Label" String="CreatedBy"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/modifiedAt">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="ChangedAt"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/modifiedBy">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Core.Description" String="UserID.Description"/>
+        <Annotation Term="Common.Label" String="ChangedBy"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/ID">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="ID"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/requestNo">
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="MaintenanceRequestsVH"/>
+            <PropertyValue Property="Label" String="Request ID"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="requestNo"/>
+                  <PropertyValue Property="ValueListProperty" String="requestNo"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="requestDesc"/>
+                  <PropertyValue Property="ValueListProperty" String="requestDesc"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="mrequestType"/>
+                  <PropertyValue Property="ValueListProperty" String="to_requestType_rType"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="mrequestStatus"/>
+                  <PropertyValue Property="ValueListProperty" String="to_requestStatusDisp_rStatusDesc"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="workCenter"/>
+                  <PropertyValue Property="ValueListProperty" String="locationWC"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="workCenterDetail"/>
+                  <PropertyValue Property="ValueListProperty" String="locationWCDetail"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="planningPlant"/>
+                  <PropertyValue Property="ValueListProperty" String="MaintenancePlanningPlant"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="contractNo"/>
+                  <PropertyValue Property="ValueListProperty" String="contract"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="contractName"/>
+                  <PropertyValue Property="ValueListProperty" String="contractName"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="functionalLocation"/>
+                  <PropertyValue Property="ValueListProperty" String="functionalLocation"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="functionalLocationName"/>
+                  <PropertyValue Property="ValueListProperty" String="functionalLocationName"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="equipment"/>
+                  <PropertyValue Property="ValueListProperty" String="equipment"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="equipmentName"/>
+                  <PropertyValue Property="ValueListProperty" String="equipmentName"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="revisionNo"/>
+                  <PropertyValue Property="ValueListProperty" String="MaintenanceRevision"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+        <Annotation Term="Common.Label" String="Request ID"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/requestNoDisp">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Request ID"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/requestNoConcat">
+        <Annotation Term="Common.Text" Path="requestDesc">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+        </Annotation>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="MaintenanceRequestsVH"/>
+            <PropertyValue Property="Label" String="Request ID"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="requestNoConcat"/>
+                  <PropertyValue Property="ValueListProperty" String="requestNo"/>
+                </Record>
+                <Record Type="Common.ValueListParameterFilterOnly">
+                  <PropertyValue Property="ValueListProperty" String="requestDesc"/>
+                </Record>
+                <Record Type="Common.ValueListParameterFilterOnly">
+                  <PropertyValue Property="ValueListProperty" String="to_requestType_rType"/>
+                </Record>
+                <Record Type="Common.ValueListParameterFilterOnly">
+                  <PropertyValue Property="ValueListProperty" String="locationWC"/>
+                </Record>
+                <Record Type="Common.ValueListParameterFilterOnly">
+                  <PropertyValue Property="ValueListProperty" String="locationWCDetail"/>
+                </Record>
+                <Record Type="Common.ValueListParameterFilterOnly">
+                  <PropertyValue Property="ValueListProperty" String="MaintenancePlanningPlant"/>
+                </Record>
+                <Record Type="Common.ValueListParameterFilterOnly">
+                  <PropertyValue Property="ValueListProperty" String="contract"/>
+                </Record>
+                <Record Type="Common.ValueListParameterFilterOnly">
+                  <PropertyValue Property="ValueListProperty" String="contractName"/>
+                </Record>
+                <Record Type="Common.ValueListParameterFilterOnly">
+                  <PropertyValue Property="ValueListProperty" String="functionalLocation"/>
+                </Record>
+                <Record Type="Common.ValueListParameterFilterOnly">
+                  <PropertyValue Property="ValueListProperty" String="functionalLocationName"/>
+                </Record>
+                <Record Type="Common.ValueListParameterFilterOnly">
+                  <PropertyValue Property="ValueListProperty" String="equipment"/>
+                </Record>
+                <Record Type="Common.ValueListParameterFilterOnly">
+                  <PropertyValue Property="ValueListProperty" String="equipmentName"/>
+                </Record>
+                <Record Type="Common.ValueListParameterFilterOnly">
+                  <PropertyValue Property="ValueListProperty" String="MaintenanceRevision"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Common.Label" String="Request ID"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/sequenceNo">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+        <Annotation Term="Common.Label" String="Sequence Number"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/requestDesc">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Request Description"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/mrequestType">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Request Type"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/mrequestStatus">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Status"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/businessPartner">
+        <Annotation Term="Common.Label" String="Business Partner"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/businessPartnerName">
+        <Annotation Term="Common.Label" String="Business Partner Name"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/functionalLocation">
+        <Annotation Term="Common.Text" Path="functionalLocationName">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+        </Annotation>
+        <Annotation Term="Common.Label" String="Functional Location"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/functionalLocationName">
+        <Annotation Term="Common.Label" String="Functional Location Name"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/equipment">
+        <Annotation Term="Common.Text" Path="equipmentName">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+        </Annotation>
+        <Annotation Term="Common.Label" String="Equipment"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/equipmentName">
+        <Annotation Term="Common.Label" String="Equipment Name"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/revisionNo">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Revision"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/planningPlant">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Work Location Plant"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/workCenter">
+        <Annotation Term="Common.Text" Path="workCenterDetail">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+        </Annotation>
+        <Annotation Term="Common.Label" String="Work Location"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/workCenterDetail">
+        <Annotation Term="Common.Label" String="Work Location"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/contractNo">
+        <Annotation Term="Common.Text" Path="contractName">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+        </Annotation>
+        <Annotation Term="Common.Label" String="Contract"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/contractName">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Contract Name"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/fileName">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+        <Annotation Term="Common.Label" String="File Name"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/noOfEmail">
+        <Annotation Term="Common.Label" String="Number Of Emails"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/noOfAttachment">
+        <Annotation Term="Common.Label" String="Number Of Attachments"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/workOrderNo">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+        <Annotation Term="Common.Label" String="Work Order Number"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/customerRef">
+        <Annotation Term="Common.Label" String="Customer Reference"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/taskDescription">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+        <Annotation Term="Common.Label" String="Task Description"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/estimatedDueDate">
+        <Annotation Term="Common.Label" String="Estimated Due Date"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/quantity">
+        <Annotation Term="Common.Label" String="Quantity"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/unitOfMeasure">
+        <Annotation Term="Common.Label" String="Unit Of Measurement"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/notificationNo">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Notification Number"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/notificationNoDisp">
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="NotificationVH"/>
+            <PropertyValue Property="Label" String="Notification Number"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="notificationNoDisp"/>
+                  <PropertyValue Property="ValueListProperty" String="notificationNoDisp"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Common.Label" String="Notification Number"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/notificationFlag">
+        <Annotation Term="Common.Label" String="Notification Exists"/>
+        <Annotation Term="Core.Computed" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/additionalRemark">
+        <Annotation Term="UI.MultiLineText" Bool="true"/>
+        <Annotation Term="Common.Label" String="Additional Remarks"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/billOfWorkDocRef">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Bill Of Work Document Reference"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/quotationDoc">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Quotation Document"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/genericRef">
+        <Annotation Term="Common.Label" String="Generic Reference (OEM/CAMP/Industry)"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/taskListGroup">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Task List Group"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/taskListGroupCounter">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Task List Group Counter"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/taskListType">
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="ReferenceTaskListVH"/>
+            <PropertyValue Property="Label" String="Task List Type"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterIn">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="genericRef"/>
+                  <PropertyValue Property="ValueListProperty" String="ExternalReference"/>
+                </Record>
+                <Record Type="Common.ValueListParameterIn">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="customerRef"/>
+                  <PropertyValue Property="ValueListProperty" String="ExternalCustomerReference"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="taskListType"/>
+                  <PropertyValue Property="ValueListProperty" String="TaskListType"/>
+                </Record>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="taskListGroup"/>
+                  <PropertyValue Property="ValueListProperty" String="TaskListGroup"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="taskListGroupCounter"/>
+                  <PropertyValue Property="ValueListProperty" String="TaskListGroupCounter"/>
+                </Record>
+                <Record Type="Common.ValueListParameterOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="taskListDescription"/>
+                  <PropertyValue Property="ValueListProperty" String="TaskListDesc"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="ExternalCustomerReference"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="ExternalReference"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="Plant"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Common.Label" String="Task List Type"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/taskListDescription">
+        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.Label" String="Task List Description"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/to_typeOfLoad">
+        <Annotation Term="Common.Label" String="Data Upload Process"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/to_typeOfLoad_ID">
+        <Annotation Term="Common.Text" Path="to_typeOfLoad_loadType">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+        </Annotation>
+        <Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="TypeOfLoads"/>
+            <PropertyValue Property="Label" String="Unit Of Measurement"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="to_typeOfLoad_ID"/>
+                  <PropertyValue Property="ValueListProperty" String="ID"/>
+                </Record>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="to_typeOfLoad_loadType"/>
+                  <PropertyValue Property="ValueListProperty" String="loadType"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+        <Annotation Term="Common.Label" String="Data Upload Process"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/to_typeOfLoad_loadType">
+        <Annotation Term="Common.Text" Path="to_typeOfLoad_loadType">
+          <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
+        </Annotation>
+        <Annotation Term="Common.ValueListWithFixedValues" Bool="true"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="TypeOfLoads"/>
+            <PropertyValue Property="Label" String="Unit Of Measurement"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="to_typeOfLoad_ID"/>
+                  <PropertyValue Property="ValueListProperty" String="ID"/>
+                </Record>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="to_typeOfLoad_loadType"/>
+                  <PropertyValue Property="ValueListProperty" String="loadType"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
+        <Annotation Term="Common.Label" String="Data Upload Process"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/IsActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/HasActiveEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/HasDraftEntity">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/DraftAdministrativeData">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.ReferenceTaskListVH/TaskListType">
+        <Annotation Term="Common.Label" String="Task List Type"/>
+      </Annotations>
+      <Annotations Target="notifleoService.ReferenceTaskListVH/TaskListGroup">
+        <Annotation Term="Common.Label" String="Task List Group"/>
+      </Annotations>
+      <Annotations Target="notifleoService.ReferenceTaskListVH/TaskListGroupCounter">
+        <Annotation Term="Common.Label" String="Task List Group Counter"/>
+      </Annotations>
+      <Annotations Target="notifleoService.ReferenceTaskListVH/TaskListDesc">
+        <Annotation Term="Common.Label" String="Task List Description"/>
+      </Annotations>
+      <Annotations Target="notifleoService.ReferenceTaskListVH/ExternalCustomerReference">
+        <Annotation Term="Common.Label" String="Customer Reference"/>
+      </Annotations>
+      <Annotations Target="notifleoService.ReferenceTaskListVH/ExternalReference">
+        <Annotation Term="Common.Label" String="Generic Reference"/>
+      </Annotations>
+      <Annotations Target="notifleoService.ReferenceTaskListVH/Plant">
+        <Annotation Term="Common.Label" String="Plant"/>
+      </Annotations>
+      <Annotations Target="notifleoService.NotificationVH/notificationNoDisp">
+        <Annotation Term="Common.Label" String="Notification Number"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/ID">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/requestNo">
+        <Annotation Term="Common.Label" String="Request ID"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/requestDesc">
+        <Annotation Term="Common.Label" String="Request Description"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/to_requestType_rType">
+        <Annotation Term="Common.Label" String="Request Type"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/to_requestStatusDisp_rStatusDesc">
+        <Annotation Term="Common.Label" String="Status"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/to_requestStatusDisp_rStatus">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/locationWC">
+        <Annotation Term="Common.Label" String="Work Location"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/locationWCDetail">
+        <Annotation Term="Common.Label" String="Work Location Detail"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/MaintenancePlanningPlant">
+        <Annotation Term="Common.Label" String="Work Location Plant"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/contract">
+        <Annotation Term="Common.Label" String="Contract"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/contractName">
+        <Annotation Term="Common.Label" String="Contract Name"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/functionalLocation">
+        <Annotation Term="Common.Label" String="Functional Location"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/functionalLocationName">
+        <Annotation Term="Common.Label" String="Functional Location Name"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/equipment">
+        <Annotation Term="Common.Label" String="Equipment"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/equipmentName">
+        <Annotation Term="Common.Label" String="Equipment Name"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/MaintenanceRevision">
+        <Annotation Term="Common.Label" String="Revision"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/businessPartner">
+        <Annotation Term="Common.Label" String="Business Partner"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestsVH/businessPartnerName">
+        <Annotation Term="Common.Label" String="Business Partner Name"/>
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.DraftAdministrativeData">
+        <Annotation Term="Common.Label" String="Draft_DraftAdministrativeData"/>
+      </Annotations>
+      <Annotations Target="notifleoService.DraftAdministrativeData/DraftUUID">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="Draft_DraftUUID"/>
+      </Annotations>
+      <Annotations Target="notifleoService.DraftAdministrativeData/CreationDateTime">
+        <Annotation Term="Common.Label" String="Draft_CreationDateTime"/>
+      </Annotations>
+      <Annotations Target="notifleoService.DraftAdministrativeData/CreatedByUser">
+        <Annotation Term="Common.Label" String="Draft_CreatedByUser"/>
+      </Annotations>
+      <Annotations Target="notifleoService.DraftAdministrativeData/DraftIsCreatedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="Draft_DraftIsCreatedByMe"/>
+      </Annotations>
+      <Annotations Target="notifleoService.DraftAdministrativeData/LastChangeDateTime">
+        <Annotation Term="Common.Label" String="Draft_LastChangeDateTime"/>
+      </Annotations>
+      <Annotations Target="notifleoService.DraftAdministrativeData/LastChangedByUser">
+        <Annotation Term="Common.Label" String="Draft_LastChangedByUser"/>
+      </Annotations>
+      <Annotations Target="notifleoService.DraftAdministrativeData/InProcessByUser">
+        <Annotation Term="Common.Label" String="Draft_InProcessByUser"/>
+      </Annotations>
+      <Annotations Target="notifleoService.DraftAdministrativeData/DraftIsProcessedByMe">
+        <Annotation Term="UI.Hidden" Bool="true"/>
+        <Annotation Term="Common.Label" String="Draft_DraftIsProcessedByMe"/>
+      </Annotations>
+    </Schema>
+  </edmx:DataServices>
+</edmx:Edmx>

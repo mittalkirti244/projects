@@ -1,6 +1,7 @@
 using {com.hcl.mro.requestdolphin as maintReq} from '../db/mro-requestdolphin';
 using {NumberRangeService as numberRange} from './external/NumberRangeService';
 using {alphamasterService as alpha} from './mro-alphamaster-service';
+using {notifleo} from './external/notifleo';
 
 service mrorequestdolphinService {
 
@@ -10,7 +11,6 @@ service mrorequestdolphinService {
     @cds.redirection.target
     entity MaintenanceRequests  as projection on maintReq.MaintenanceRequests actions {
         //action requestMail();
-
         //Update the UI after action is performed
         @(
             cds.odata.bindingparameter.name : '_it',
@@ -150,8 +150,10 @@ service mrorequestdolphinService {
 
 extend service mrorequestdolphinService with {
 
+    entity MaintenanceRequestHeader as projection on notifleo.MaintenanceRequestHeader;
+
     @readonly
-    entity BusinessPartnerVH  as projection on alpha.BusinessPartnerVH {
+    entity BusinessPartnerVH        as projection on alpha.BusinessPartnerVH {
         key BusinessPartner      @(Common.Label : '{i18n>BusinessPartner}'),
             BusinessPartnerName  @(Common.Label : '{i18n>BusinessPartnerName}') @UI.HiddenFilter,
             FirstName            @(Common.Label : '{i18n>FirstName}') @UI.HiddenFilter,
@@ -165,7 +167,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity WorkCenterVH       as projection on alpha.WorkCenterVH {
+    entity WorkCenterVH             as projection on alpha.WorkCenterVH {
         key Plant                  @(Common.Label : '{i18n>Plant}'),
         key WorkCenter             @(Common.Label : '{i18n>WorkCenter}'),
             WorkCenterText         @(Common.Label : '{i18n>WorkCenterText}'),
@@ -174,7 +176,7 @@ extend service mrorequestdolphinService with {
 
 
     @readonly
-    entity FunctionLocationVH as projection on alpha.FunctionLocationVH {
+    entity FunctionLocationVH       as projection on alpha.FunctionLocationVH {
         key functionalLocation       @(Common.Label : '{i18n>functionalLocation}'),
             FunctionalLocationName   @(Common.Label : '{i18n>FunctionalLocationName}'),
             ManufacturerName         @(Common.Label : '{i18n>ManufacturerName}'),
@@ -185,7 +187,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity SalesContractVH    as projection on alpha.SalesContractVH {
+    entity SalesContractVH          as projection on alpha.SalesContractVH {
         key SalesContract     @(Common.Label : '{i18n>SalesContract}'),
             SalesContractName @(Common.Label : '{i18n>SalesContractName}'),
             TurnAroundTime    @(Common.Label : '{i18n>TurnAroundTime}'),
@@ -195,7 +197,7 @@ extend service mrorequestdolphinService with {
 
     @readonly
     //@cds.query.limit: 1000
-    entity EquipmentVH        as projection on alpha.EquipmentVH {
+    entity EquipmentVH              as projection on alpha.EquipmentVH {
         key Equipment,
             EquipmentName      @(Common.Label : '{i18n>EquipmentName}'),
             FunctionalLocation @(Common.Label : '{i18n>functionalLocation}'),
@@ -205,7 +207,7 @@ extend service mrorequestdolphinService with {
             Plant              @UI.HiddenFilter
     };
 
-    entity Revisions          as projection on alpha.Revisions {
+    entity Revisions                as projection on alpha.Revisions {
         key PlanningPlant,
         key RevisionNo,
             Equipment,

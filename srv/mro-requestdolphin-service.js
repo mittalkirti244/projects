@@ -19,10 +19,12 @@ module.exports = cds.service.impl(async function () {
         Revisions,
         Documents,
         DocumentStatuses,
-        Ranges } = this.entities
+        Ranges,
+        MaintenanceRequestHeader } = this.entities
     const service1 = await cds.connect.to('NumberRangeService');
     const service2 = await cds.connect.to('alphamasterService');
     const service3 = await cds.connect.to('MAINTREQ_SB');
+    const service4 = await cds.connect.to('notifleo');
 
     var newFormatedDate, tat, reqDeliveryDate, assignedDeliveryDate, vnumberRangeID;
     var queryStatus, queryPhase, query;
@@ -43,6 +45,10 @@ module.exports = cds.service.impl(async function () {
              var verrorMessage = error.innererror.response.body.error.message.value
              req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
          }*/
+    });
+
+    this.on('READ', MaintenanceRequestHeader, req => {
+        return service4.tx(req).run(req.query);
     });
 
     //Custom handler for new create(To load details at the time of first CREATE Button i.e., present on list page)
@@ -319,8 +325,15 @@ module.exports = cds.service.impl(async function () {
         else if (query[0].to_requestStatus_rStatus == 'NWLSCR' && queryStatus[0].rStatus == 'NWLSCR')
             req.info(101, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus == 'WLCRTD')
-            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus == 'WLCRTD') {
+            var queryWorkItem = await service4.read('MaintenanceRequestHeader').where({ requestNo: query[0].requestNo })
+            console.log('queryWorkItem',queryWorkItem)
+            if (queryWorkItem.length >= 1) {
+                updateStatus()
+            }
+            else
+                req.info(101, 'For Request ' + query[0].requestNoConcat + ' WorkItem is not created yet')
+        }
         else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus != 'NWLVAL')
             req.info(101, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Created')
         else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus == 'NWLVAL')
@@ -624,7 +637,7 @@ module.exports = cds.service.impl(async function () {
         var query2 = await SELECT.from(DocumentStatuses).columns('*').where({ docStatus: status });
         console.log('query2', query2);
 
-        console.log('query2.statusDesc',query2[0].statusDesc);
+        console.log('query2.statusDesc', query2[0].statusDesc);
         var result = await UPDATE(Documents).set({
             to_documentStatus_ID: query2[0].ID,
             to_documentStatus_docStatus: query2[0].docStatus,
