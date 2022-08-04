@@ -32,6 +32,9 @@
           "key": true,
           "type": "cds.UUID"
         },
+        "workItem": {
+          "type": "cds.Integer"
+        },
         "requestNo": {
           "type": "cds.LargeString"
         },
@@ -154,6 +157,9 @@
         },
         "taskListDescription": {
           "type": "cds.LargeString"
+        },
+        "taskListFlag": {
+          "type": "cds.Boolean"
         },
         "to_typeOfLoad": {
           "type": "cds.Association",

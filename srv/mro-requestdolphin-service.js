@@ -132,8 +132,7 @@ module.exports = cds.service.impl(async function () {
 
         //To store the value of RevisionType &  RevisionText in database
         let q3 = await service2.read(RevisionVH).where({ RevisionNo: req.data.revision })
-        if (req.data.revision != null)
-        {
+        if (req.data.revision != null) {
             req.data.MaintenanceRevision = req.data.revision
             req.data.revisionType = q3[0].RevisionType
             req.data.revisionText = q3[0].RevisionText
@@ -255,6 +254,8 @@ module.exports = cds.service.impl(async function () {
         console.log('query Status...............', queryStatus)
         queryPhase = await tx1.read(RequestPhases).where({ rPhase: queryStatus[0].to_rPhase_rPhase })
         console.log('query phase.............', queryPhase)
+        var queryWorkItem = await service4.read('MaintenanceRequestHeader').where({ requestNo: query[0].requestNo })
+        console.log('queryWorkItem ', queryWorkItem)
 
         //MR Status = Created & Selected Status = Request for New Worklist
         if (query[0].to_requestStatus_rStatus == 'MRCRTD' && queryStatus[0].rStatus == 'NWLREQ')
@@ -296,8 +297,7 @@ module.exports = cds.service.impl(async function () {
 
         //MR Status = New Worklist Validated  & Selected Status = New Worklist Created
         else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus == 'WLCRTD') {
-            var queryWorkItem = await service4.read('MaintenanceRequestHeader').where({ requestNo: query[0].requestNo })
-            console.log('queryWorkItem ', queryWorkItem)
+
             //check one condition (If atleast one workitem is created for particular MR the it allo to change the status to New Worklist Created)
             //(.length doesnot work in HANA)
             if (queryWorkItem[0] != null) {
@@ -338,11 +338,22 @@ module.exports = cds.service.impl(async function () {
 
         //MR Status = Approved & Selected Status = Task List Identified
         else if (query[0].to_requestStatus_rStatus == 'MRAPRD' && queryStatus[0].rStatus == 'TLIDNT') {
-            updateStatus()
-            //update the status to task list identified and enable the Revision Create button
-            await UPDATE(MaintenanceRequests).set({
-                updateRevisionFlag: true
-            }).where({ ID: id1 })
+            var array = new Array()
+            for (var i = 0; i < queryWorkItem.length; i++) {
+                console.log('queryWorkItem[i].taskListFlag', queryWorkItem[i].taskListFlag)
+                array[i] = queryWorkItem[i].taskListFlag
+                //If any of the workitem doesnot have tasklist it will give a error msg
+                if (array.includes(false)) {
+                    req.error(406, 'For Request ' + query[0].requestNoConcat + ' Task List is not identified for WorkItem ' + queryWorkItem[i].workItem)
+                }
+                else {
+                    updateStatus()
+                    //update the status to task list identified and enable the Revision Create button
+                    await UPDATE(MaintenanceRequests).set({
+                        updateRevisionFlag: true
+                    }).where({ ID: id1 })
+                }
+            }
         }
         else if (query[0].to_requestStatus_rStatus == 'MRAPRD' && queryStatus[0].rStatus != 'TLIDNT' && queryStatus[0].rStatus != 'MRAPRD')
             req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status Task List Identified')
@@ -533,8 +544,6 @@ module.exports = cds.service.impl(async function () {
     this.on('calculateAgingFunc', async (req) => {
         var query = await SELECT.from(MaintenanceRequests).columns('*')
         var query1 = await SELECT.from(Ranges).columns('*')
-        console.log('query', query)
-        console.log('query1', query1)
         for (let i = 0; i < query.length; i++) {
 
             var rangeID, range, age;
@@ -619,7 +628,6 @@ module.exports = cds.service.impl(async function () {
         }).where({ UUID: ID });
 
         return result;
-
     });
 
     //Function for converting date into (YYYY-MM-DD) format

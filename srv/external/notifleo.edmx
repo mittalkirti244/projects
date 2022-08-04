@@ -43,6 +43,7 @@
         <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
         <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
         <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="workItem" Type="Edm.Int32"/>
         <Property Name="requestNo" Type="Edm.String"/>
         <Property Name="requestNoDisp" Type="Edm.String"/>
         <Property Name="requestNoConcat" Type="Edm.String"/>
@@ -84,6 +85,7 @@
         <Property Name="taskListGroupCounter" Type="Edm.String"/>
         <Property Name="taskListType" Type="Edm.String"/>
         <Property Name="taskListDescription" Type="Edm.String"/>
+        <Property Name="taskListFlag" Type="Edm.Boolean" DefaultValue="false"/>
         <NavigationProperty Name="to_typeOfLoad" Type="notifleoService.TypeOfLoads">
           <ReferentialConstraint Property="to_typeOfLoad_ID" ReferencedProperty="ID"/>
           <ReferentialConstraint Property="to_typeOfLoad_loadType" ReferencedProperty="loadType"/>
@@ -228,7 +230,7 @@
         <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
       </EntityType>
       <Action Name="createNotification" IsBound="true">
-        <Parameter Name="in" Type="notifleoService.MaintenanceRequestHeader"/>
+        <Parameter Name="_it" Type="notifleoService.MaintenanceRequestHeader"/>
       </Action>
       <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
         <Parameter Name="in" Type="notifleoService.MaintenanceRequestHeader"/>
@@ -258,7 +260,23 @@
               <PropertyValue Property="Label" String="Generate Notification"/>
             </Record>
             <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="workItem"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="workOrderNo"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="taskDescription"/>
               <Annotation Term="HTML5.CssDefaults">
                 <Record Type="HTML5.CssDefaultsType">
                   <PropertyValue Property="width" String="10rem"/>
@@ -282,10 +300,10 @@
               </Annotation>
             </Record>
             <Record Type="UI.DataField">
-              <PropertyValue Property="Value" Path="taskDescription"/>
+              <PropertyValue Property="Value" Path="notificationNo"/>
               <Annotation Term="HTML5.CssDefaults">
                 <Record Type="HTML5.CssDefaultsType">
-                  <PropertyValue Property="width" String="15rem"/>
+                  <PropertyValue Property="width" String="10rem"/>
                 </Record>
               </Annotation>
             </Record>
@@ -301,20 +319,12 @@
               <PropertyValue Property="Value" Path="taskListGroup"/>
               <Annotation Term="HTML5.CssDefaults">
                 <Record Type="HTML5.CssDefaultsType">
-                  <PropertyValue Property="width" String="15rem"/>
+                  <PropertyValue Property="width" String="10rem"/>
                 </Record>
               </Annotation>
             </Record>
             <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="taskListGroupCounter"/>
-              <Annotation Term="HTML5.CssDefaults">
-                <Record Type="HTML5.CssDefaultsType">
-                  <PropertyValue Property="width" String="15rem"/>
-                </Record>
-              </Annotation>
-            </Record>
-            <Record Type="UI.DataField">
-              <PropertyValue Property="Value" Path="notificationNo"/>
               <Annotation Term="HTML5.CssDefaults">
                 <Record Type="HTML5.CssDefaultsType">
                   <PropertyValue Property="width" String="10rem"/>
@@ -381,6 +391,54 @@
               <PropertyValue Property="Value" Path="quotationDoc"/>
               <Annotation Term="UI.Hidden" Bool="true"/>
             </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="contractNo"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="contractName"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="equipment"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="equipmentName"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="functionalLocation"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="functionalLocationName"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="requestDesc"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="mrequestStatus"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="workCenter"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="planningPlant"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="revisionNo"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="taskListFlag"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
           </Collection>
         </Annotation>
         <Annotation Term="UI.PresentationVariant">
@@ -402,16 +460,16 @@
         </Annotation>
         <Annotation Term="UI.HeaderInfo">
           <Record Type="UI.HeaderInfoType">
-            <PropertyValue Property="TypeName" String="Work Item Request Detail"/>
+            <PropertyValue Property="TypeName" String="Work Item Details"/>
             <PropertyValue Property="TypeNamePlural" String="Work Items"/>
             <PropertyValue Property="Title">
               <Record Type="UI.DataField">
-                <PropertyValue Property="Value" Path="requestNo"/>
+                <PropertyValue Property="Value" Path="workItem"/>
               </Record>
             </PropertyValue>
             <PropertyValue Property="Description">
               <Record Type="UI.DataField">
-                <PropertyValue Property="Value" Path="requestDesc"/>
+                <PropertyValue Property="Value" Path="taskDescription"/>
               </Record>
             </PropertyValue>
           </Record>
@@ -430,37 +488,12 @@
               <PropertyValue Property="ID" String="basicDetail3"/>
               <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#basicDetail3"/>
             </Record>
-            <Record Type="UI.ReferenceFacet">
-              <PropertyValue Property="ID" String="basicDetail4"/>
-              <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#basicDetail4"/>
-            </Record>
           </Collection>
         </Annotation>
         <Annotation Term="UI.Facets">
           <Collection>
             <Record Type="UI.CollectionFacet">
-              <PropertyValue Property="ID" String="generalInformation"/>
-              <PropertyValue Property="Label" String="Request for Maintenance Informaion"/>
-              <PropertyValue Property="Facets">
-                <Collection>
-                  <Record Type="UI.ReferenceFacet">
-                    <PropertyValue Property="ID" String="generalInfo1"/>
-                    <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#generalInfo1"/>
-                  </Record>
-                  <Record Type="UI.ReferenceFacet">
-                    <PropertyValue Property="ID" String="generalInfo2"/>
-                    <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#generalInfo2"/>
-                  </Record>
-                  <Record Type="UI.ReferenceFacet">
-                    <PropertyValue Property="ID" String="generalInfo3"/>
-                    <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#generalInfo3"/>
-                  </Record>
-                </Collection>
-              </PropertyValue>
-            </Record>
-            <Record Type="UI.CollectionFacet">
               <PropertyValue Property="ID" String="customerGroup"/>
-              <PropertyValue Property="Label" String="Work Items Information"/>
               <PropertyValue Property="Facets">
                 <Collection>
                   <Record Type="UI.ReferenceFacet">
@@ -485,10 +518,13 @@
             <PropertyValue Property="Data">
               <Collection>
                 <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="workCenter"/>
+                  <PropertyValue Property="Value" Path="requestDesc"/>
                 </Record>
                 <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="planningPlant"/>
+                  <PropertyValue Property="Value" Path="mrequestStatus"/>
+                </Record>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="workCenter"/>
                 </Record>
               </Collection>
             </PropertyValue>
@@ -498,6 +534,9 @@
           <Record Type="UI.FieldGroupType">
             <PropertyValue Property="Data">
               <Collection>
+                <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="planningPlant"/>
+                </Record>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="functionalLocation"/>
                 </Record>
@@ -518,14 +557,6 @@
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="revisionNo"/>
                 </Record>
-              </Collection>
-            </PropertyValue>
-          </Record>
-        </Annotation>
-        <Annotation Term="UI.FieldGroup" Qualifier="basicDetail4">
-          <Record Type="UI.FieldGroupType">
-            <PropertyValue Property="Data">
-              <Collection>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="notificationNo"/>
                 </Record>
@@ -533,7 +564,7 @@
             </PropertyValue>
           </Record>
         </Annotation>
-        <Annotation Term="UI.FieldGroup" Qualifier="generalInfo1">
+        <Annotation Term="UI.FieldGroup" Qualifier="customerGroup1">
           <Record Type="UI.FieldGroupType">
             <PropertyValue Property="Data">
               <Collection>
@@ -546,38 +577,8 @@
                   <Annotation Term="UI.Hidden" Path="uiHidden1"/>
                 </Record>
                 <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="mrequestStatus"/>
-                </Record>
-              </Collection>
-            </PropertyValue>
-          </Record>
-        </Annotation>
-        <Annotation Term="UI.FieldGroup" Qualifier="generalInfo2">
-          <Record Type="UI.FieldGroupType">
-            <PropertyValue Property="Data">
-              <Collection>
-                <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="mrequestType"/>
                 </Record>
-              </Collection>
-            </PropertyValue>
-          </Record>
-        </Annotation>
-        <Annotation Term="UI.FieldGroup" Qualifier="generalInfo3">
-          <Record Type="UI.FieldGroupType">
-            <PropertyValue Property="Data">
-              <Collection>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="requestDesc"/>
-                </Record>
-              </Collection>
-            </PropertyValue>
-          </Record>
-        </Annotation>
-        <Annotation Term="UI.FieldGroup" Qualifier="customerGroup1">
-          <Record Type="UI.FieldGroupType">
-            <PropertyValue Property="Data">
-              <Collection>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="workOrderNo"/>
                 </Record>
@@ -689,6 +690,14 @@
                 <PropertyPath>unitOfMeasure</PropertyPath>
                 <PropertyPath>notificationFlag</PropertyPath>
                 <PropertyPath>quotationDoc</PropertyPath>
+                <PropertyPath>contractName</PropertyPath>
+                <PropertyPath>contractNo</PropertyPath>
+                <PropertyPath>equipmentName</PropertyPath>
+                <PropertyPath>revisionNo</PropertyPath>
+                <PropertyPath>mrequestStatus</PropertyPath>
+                <PropertyPath>workCenter</PropertyPath>
+                <PropertyPath>planningPlant</PropertyPath>
+                <PropertyPath>taskListFlag</PropertyPath>
               </Collection>
             </PropertyValue>
           </Record>
@@ -728,6 +737,9 @@
       <Annotations Target="notifleoService.MaintenanceRequestHeader/ID">
         <Annotation Term="Core.Computed" Bool="true"/>
         <Annotation Term="Common.Label" String="ID"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/workItem">
+        <Annotation Term="Common.Label" String="Work Item"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/requestNo">
         <Annotation Term="Common.ValueList">
@@ -864,7 +876,6 @@
         <Annotation Term="Common.Label" String="Sequence Number"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/requestDesc">
-        <Annotation Term="Core.Computed" Bool="true"/>
         <Annotation Term="Common.Label" String="Request Description"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/mrequestType">
@@ -872,7 +883,6 @@
         <Annotation Term="Common.Label" String="Request Type"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/mrequestStatus">
-        <Annotation Term="Core.Computed" Bool="true"/>
         <Annotation Term="Common.Label" String="Status"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/businessPartner">
@@ -886,7 +896,6 @@
           <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
         </Annotation>
         <Annotation Term="Common.Label" String="Functional Location"/>
-        <Annotation Term="Core.Computed" Bool="true"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/functionalLocationName">
         <Annotation Term="Common.Label" String="Functional Location Name"/>
@@ -896,17 +905,14 @@
           <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
         </Annotation>
         <Annotation Term="Common.Label" String="Equipment"/>
-        <Annotation Term="Core.Computed" Bool="true"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/equipmentName">
         <Annotation Term="Common.Label" String="Equipment Name"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/revisionNo">
-        <Annotation Term="Core.Computed" Bool="true"/>
         <Annotation Term="Common.Label" String="Revision"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/planningPlant">
-        <Annotation Term="Core.Computed" Bool="true"/>
         <Annotation Term="Common.Label" String="Work Location Plant"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/workCenter">
@@ -914,7 +920,6 @@
           <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
         </Annotation>
         <Annotation Term="Common.Label" String="Work Location"/>
-        <Annotation Term="Core.Computed" Bool="true"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/workCenterDetail">
         <Annotation Term="Common.Label" String="Work Location"/>
@@ -924,10 +929,8 @@
           <Annotation Term="UI.TextArrangement" EnumMember="UI.TextArrangementType/TextFirst"/>
         </Annotation>
         <Annotation Term="Common.Label" String="Contract"/>
-        <Annotation Term="Core.Computed" Bool="true"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/contractName">
-        <Annotation Term="Core.Computed" Bool="true"/>
         <Annotation Term="Common.Label" String="Contract Name"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/fileName">
@@ -949,9 +952,10 @@
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/taskDescription">
         <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
-        <Annotation Term="Common.Label" String="Task Description"/>
+        <Annotation Term="Common.Label" String="Description"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/estimatedDueDate">
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
         <Annotation Term="Common.Label" String="Estimated Due Date"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/quantity">
@@ -962,13 +966,13 @@
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/notificationNo">
         <Annotation Term="Core.Computed" Bool="true"/>
-        <Annotation Term="Common.Label" String="Notification Number"/>
+        <Annotation Term="Common.Label" String="Notification"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/notificationNoDisp">
         <Annotation Term="Common.ValueList">
           <Record Type="Common.ValueListType">
             <PropertyValue Property="CollectionPath" String="NotificationVH"/>
-            <PropertyValue Property="Label" String="Notification Number"/>
+            <PropertyValue Property="Label" String="Notification"/>
             <PropertyValue Property="Parameters">
               <Collection>
                 <Record Type="Common.ValueListParameterInOut">
@@ -979,7 +983,7 @@
             </PropertyValue>
           </Record>
         </Annotation>
-        <Annotation Term="Common.Label" String="Notification Number"/>
+        <Annotation Term="Common.Label" String="Notification"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/notificationFlag">
         <Annotation Term="Common.Label" String="Notification Exists"/>
@@ -1058,6 +1062,9 @@
         <Annotation Term="Core.Computed" Bool="true"/>
         <Annotation Term="Common.Label" String="Task List Description"/>
       </Annotations>
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/taskListFlag">
+        <Annotation Term="Common.Label" String="Task List Flag"/>
+      </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/to_typeOfLoad">
         <Annotation Term="Common.Label" String="Data Upload Process"/>
       </Annotations>
@@ -1076,7 +1083,7 @@
                   <PropertyValue Property="LocalDataProperty" PropertyPath="to_typeOfLoad_ID"/>
                   <PropertyValue Property="ValueListProperty" String="ID"/>
                 </Record>
-                <Record Type="Common.ValueListParameterInOut">
+                <Record Type="Common.ValueListParameterOut">
                   <PropertyValue Property="LocalDataProperty" PropertyPath="to_typeOfLoad_loadType"/>
                   <PropertyValue Property="ValueListProperty" String="loadType"/>
                 </Record>
@@ -1102,7 +1109,7 @@
                   <PropertyValue Property="LocalDataProperty" PropertyPath="to_typeOfLoad_ID"/>
                   <PropertyValue Property="ValueListProperty" String="ID"/>
                 </Record>
-                <Record Type="Common.ValueListParameterInOut">
+                <Record Type="Common.ValueListParameterOut">
                   <PropertyValue Property="LocalDataProperty" PropertyPath="to_typeOfLoad_loadType"/>
                   <PropertyValue Property="ValueListProperty" String="loadType"/>
                 </Record>
@@ -1124,6 +1131,17 @@
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/DraftAdministrativeData">
         <Annotation Term="UI.Hidden" Bool="true"/>
+      </Annotations>
+      <Annotations Target="notifleoService.createNotification(notifleoService.MaintenanceRequestHeader)">
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetProperties">
+              <Collection>
+                <String>_it/notificationNo</String>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
       </Annotations>
       <Annotations Target="notifleoService.ReferenceTaskListVH/TaskListType">
         <Annotation Term="Common.Label" String="Task List Type"/>
@@ -1147,7 +1165,7 @@
         <Annotation Term="Common.Label" String="Plant"/>
       </Annotations>
       <Annotations Target="notifleoService.NotificationVH/notificationNoDisp">
-        <Annotation Term="Common.Label" String="Notification Number"/>
+        <Annotation Term="Common.Label" String="Notification"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestsVH/ID">
         <Annotation Term="UI.HiddenFilter" Bool="true"/>
