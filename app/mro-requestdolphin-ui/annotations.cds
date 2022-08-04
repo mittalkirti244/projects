@@ -290,8 +290,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     //Column 2 for header facet
     FieldGroup #Basic2                          : {Data : [
         {Value : locationWC},
-        {Value : MaintenancePlanningPlant},
-        {Value : ManageRevision}
+        {Value : MaintenancePlanningPlant}
     ]},
     //Column 3 for header facet
     FieldGroup #Detail                          : {Data : [
@@ -424,7 +423,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         Data  : [
             {Value : locationWC},
             {Value : MaintenancePlanningPlant},
-            {Value         : ManageRevision}
+            {Value : revision}
         ]
     },
     //Cloumn 2 of asset Information
@@ -700,14 +699,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 }
 
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    ManageRevision @(Common : {ValueList : {
+    revision @(Common : {ValueList : {
         CollectionPath  : 'RevisionVH',
         SearchSupported : true,
         Label           : '{i18n>MaintenanceRevision}',
         Parameters      : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'ManageRevision',
+                LocalDataProperty : 'revision',
                 ValueListProperty : 'RevisionNo'
             },
             {
@@ -717,6 +716,24 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'RevisionType'
+            },
+            {
+                $Type             : 'Common.ValueListParameterIn',
+                LocalDataProperty : 'locationWC',
+                ValueListProperty : 'WorkCenter'
+            },
+            {
+                $Type             : 'Common.ValueListParameterIn',
+                LocalDataProperty : 'MaintenancePlanningPlant',
+                ValueListProperty : 'WorkCenterPlant'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'WorkCenter'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'WorkCenterPlant'
             }
 
         ]

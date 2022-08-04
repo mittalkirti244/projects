@@ -57,7 +57,7 @@ service mrorequestdolphinService {
                 '_it/to_requestStatus_rStatusDesc',
                 '_it/to_requestStatusDisp_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc',
-                '_it/ManageRevision',
+                '_it/revision',
                 '_it/MaintenanceRevision',
                 '_it/to_requestStatusDisp_rStatus',
                 '_it/to_requestStatus_rStatus',
@@ -93,7 +93,7 @@ service mrorequestdolphinService {
                to_requestStatusDisp.rStatus = 'RVCRTD'
             or to_requestStatusDisp.rStatus = 'NTCRTD'
             or to_requestStatusDisp.rStatus = 'MRCMPL'
-            or ManageRevision != '';
+            or revision != '';
 
     @Capabilities.SearchRestrictions : {
         $Type      : 'Capabilities.SearchRestrictionsType',
@@ -212,8 +212,8 @@ extend service mrorequestdolphinService with {
             RevisionStartTime @UI.HiddenFilter,
             RevisionText      @UI.HiddenFilter @(Common.Label : '{i18n>RevisionText}'),
             RevisionType      @(Common.Label : '{i18n>RevisionType}'),
-            WorkCenter        @UI.HiddenFilter,
-            WorkCenterPlant   @UI.HiddenFilter
+            WorkCenter        @(Common.Label : '{i18n>WorkCenter}'),
+            WorkCenterPlant   @(Common.Label : '{i18n>WorkCenterPlant}') 
     };
 }
 

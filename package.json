@@ -86,7 +86,7 @@
         "model": "srv/external/notifleo",
         "credentials": {
           "--destination": "Notifleo",
-          "url": "http://localhost:42471/notifleo"
+          "url": "http://localhost:33229/notifleo"
         }
       }
     },
