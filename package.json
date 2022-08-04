@@ -1,99 +1,100 @@
 {
-    "name": "hcl-mro-requestdolphin",
-    "version": "2.0.0",
-    "description": "MRO RequestDolphin (Rel20220803)",
-    "repository": "<Add your repository here>",
-    "license": "UNLICENSED",
-    "private": true,
-    "dependencies": {
-        "@sap-cloud-sdk/core": "^1.54.0",
-        "@sap/cds": "^5.9.0",
-        "@sap/cds-odata-v2-adapter-proxy": "^1.8.5",
-        "@sap/cds-runtime": "^3.3.0",
-        "date-and-time": "^2.3.1",
-        "email-validator": "^2.0.4",
-        "express": "^4",
-        "hdb": "^0.18.3",
-        "passport": "^0.5.2",
-        "validate-phone-number-node-js": "0.0.1"
+  "name": "hcl-mro-requestdolphin",
+  "version": "2.0.0",
+  "description": "MRO RequestDolphin (Rel20220803)",
+  "repository": "<Add your repository here>",
+  "license": "UNLICENSED",
+  "private": true,
+  "dependencies": {
+    "@sap-cloud-sdk/core": "^1.54.0",
+    "@sap/cds": "^5.9.0",
+    "@sap/cds-odata-v2-adapter-proxy": "^1.8.5",
+    "@sap/cds-runtime": "^3.3.0",
+    "date-and-time": "^2.3.1",
+    "email-validator": "^2.0.4",
+    "express": "^4",
+    "hdb": "^0.18.3",
+    "passport": "^0.5.2",
+    "validate-phone-number-node-js": "0.0.1"
+  },
+  "devDependencies": {
+    "@sap/hdi-deploy": "^4.2.3",
+    "@sap/ux-specification": "^1.96.16",
+    "sqlite3": "^5.0.11"
+  },
+  "scripts": {
+    "start": "cds run",
+    "watch-mro-requestdolphin-ui": "cds watch --open mro-requestdolphin-ui/webapp/index.html#fe-lrop-v4"
+  },
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "env": {
+      "es2020": true,
+      "node": true,
+      "jest": true,
+      "mocha": true
     },
-    "devDependencies": {
-        "@sap/hdi-deploy": "^4.2.3",
-        "@sap/ux-specification": "^1.96.16",
-        "sqlite3": "^5.0.11"
+    "globals": {
+      "SELECT": true,
+      "INSERT": true,
+      "UPDATE": true,
+      "DELETE": true,
+      "CREATE": true,
+      "DROP": true,
+      "CDL": true,
+      "CQL": true,
+      "CXL": true,
+      "cds": true
     },
-    "scripts": {
-        "start": "cds run",
-        "watch-mro-requestdolphin-ui": "cds watch --open mro-requestdolphin-ui/webapp/index.html#fe-lrop-v4"
+    "rules": {
+      "no-console": "off",
+      "require-atomic-updates": "off"
+    }
+  },
+  "cds": {
+    "i18n": {
+      "folders": [
+        "app/mro-requestdolphin-ui/webapp/i18n"
+      ]
     },
-    "eslintConfig": {
-        "extends": "eslint:recommended",
-        "env": {
-            "es2020": true,
-            "node": true,
-            "jest": true,
-            "mocha": true
-        },
-        "globals": {
-            "SELECT": true,
-            "INSERT": true,
-            "UPDATE": true,
-            "DELETE": true,
-            "CREATE": true,
-            "DROP": true,
-            "CDL": true,
-            "CQL": true,
-            "CXL": true,
-            "cds": true
-        },
-        "rules": {
-            "no-console": "off",
-            "require-atomic-updates": "off"
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "database": "db/mr.db"
         }
-    },
-    "cds": {
-        "i18n": {
-            "folders": [
-                "app/mro-requestdolphin-ui/webapp/i18n"
-            ]
-        },
-        "requires": {
-            "db": {
-                "kind": "sqlite",
-                "[production]": {
-                    "kind": "hana"
-                },
-                "credentials": {
-                    "database": "db/mr.db"
-                }
-            },
-            "MAINTREQ_SB": {
-                "kind": "odata-v2",
-                "model": "srv/external/MAINTREQ_SB",
-                "credentials": {
-                    "destination": "MaintReq"
-                }
-            },
-            "NumberRangeService": {
-                "kind": "odata",
-                "model": "srv/external/NumberRangeService",
-                "credentials": {
-                    "destination": "NumberRange"
-                }
-            },
-            "notifleo": {
-                "kind": "odata",
-                "model": "srv/external/notifleo",
-                "credentials": {
-                    "destination": "Notifleo"
-                }
-            }
-        },
-        "hana": {
-            "deploy-format": "hdbtable"
+      },
+      "MAINTREQ_SB": {
+        "kind": "odata-v2",
+        "model": "srv/external/MAINTREQ_SB",
+        "credentials": {
+            "url":"http://20.122.41.136:8003/sap/opu/odata/ISAMMRCO/MAINTREQ_SB/",
+            "username": "MKUMAR",
+            "password": "Password@01"
         }
+      },
+      "NumberRangeService": {
+        "kind": "odata",
+        "model": "srv/external/NumberRangeService",
+        "credentials": {
+          "--destination": "NumberRange",
+          "url": "http://localhost:40741/NumberRangeService"
+        }
+      },
+      "notifleo": {
+        "kind": "odata",
+        "model": "srv/external/notifleo",
+        "credentials": {
+          "--destination": "Notifleo",
+          "url": "http://localhost:42471/notifleo"
+        }
+      }
     },
-    "sapux": [
-        "app/mro-requestdolphin-ui"
-    ]
+    "hana": {
+      "deploy-format": "hdbtable"
+    }
+  },
+  "sapux": [
+    "app/mro-requestdolphin-ui"
+  ]
 }

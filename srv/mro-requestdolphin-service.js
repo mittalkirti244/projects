@@ -512,6 +512,7 @@ module.exports = cds.service.impl(async function () {
                         req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
                     }
                 }
+
             }
             /* else if (query[0].to_requestStatus_rStatus == 'NTCRTD' || query[0].to_requestStatus_rStatus == 'RVCRTD') {
                  req.data.to_requestStatus_rStatus = 'RVCRTD'

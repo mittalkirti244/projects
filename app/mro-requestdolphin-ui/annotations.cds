@@ -419,10 +419,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
 
     //Tab 2 - Asset Information
     //Column 1 of asset information
-    FieldGroup #locationGroup                   : {Data : [
-        {Value : locationWC},
-        {Value : MaintenancePlanningPlant}
-    ]},
+    FieldGroup #locationGroup                   : {
+        $Type : 'UI.FieldGroupType',
+        Data  : [
+            {Value : locationWC},
+            {Value : MaintenancePlanningPlant},
+            {Value         : ManageRevision}
+        ]
+    },
     //Cloumn 2 of asset Information
     FieldGroup #referenceObjectsGroup           : {Data : [
         {Value : mName},
@@ -435,8 +439,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #additionalReferenceObjectsGroup : {Data : [
         {Value : eqMaterial},
         {Value : eqSerialNumber},
-        {Value : equipment},
-        {Value : ManageRevision}
+        {Value : equipment}
+
     ]}
 });
 
@@ -706,7 +710,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 LocalDataProperty : 'ManageRevision',
                 ValueListProperty : 'RevisionNo'
             },
-             {
+            {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'RevisionText'
             },
@@ -714,7 +718,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'RevisionType'
             }
-            
+
         ]
     }});
 }
