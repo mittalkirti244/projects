@@ -89,7 +89,7 @@ entity RequestPhases {
 
 entity Documents : managed {
     key UUID                     : UUID                            @Core.Computed; //Unique ID as UUID
-        ID                       : Integer                         @title :            '{i18n>document_ID}'; //It got incremented by 1 w.r.t. MR
+        ID                       : String                          @title :            '{i18n>document_ID}'; //It got incremented by 1 w.r.t. MR
         url                      : String                          @title :            '{i18n>document_url}'; //document url
         documentName             : String                          @title :            '{i18n>documentName}'; //url decription
         eMailRecievedDateAndTime : DateTime                        @title :            '{i18n>eMailRecievedDateAndTime}'; //E-Mail Recieved Date

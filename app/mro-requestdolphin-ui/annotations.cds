@@ -49,20 +49,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             }
         },
         {
-            Value                 : to_requestStatusDisp_rStatusDesc,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },
-        {
-            Value                 : to_requestPhase_rPhaseDesc,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },
-        {
             Value                 : businessPartnerDisp,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
@@ -70,14 +56,28 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             }
         },
         {
-            Value                 : expectedDeliveryDate,
+            Value                 : ccpersonName,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
             }
         },
         {
-            Value                 : MaintenanceRevision,
+            Value                 : ccemail,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : ccphoneNumber,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : to_requestStatusDisp_rStatusDesc,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -91,6 +91,34 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             }
         },
         {
+            Value                 : MaintenancePlanningPlant,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : expectedArrivalDate,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : MaintenanceRevision,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : to_requestPhase_rPhaseDesc,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        /*{
             Value                 : functionalLocation,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
@@ -110,10 +138,18 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
             }
-        },
+        },*/
         {
             Value                 : modifiedBy,
             Label                 : '{i18n>modifiedBy}',
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : modifiedAt,
+            Label                 : '{i18n>modifiedAt}',
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -282,16 +318,15 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         }
     ],
     //Coulmn 1 for header facet
-    FieldGroup #Basic1                          : {Data : [
-        {Value : to_requestType_ID},
-        {Value : to_requestStatus_rStatusDesc},
-        {Value : to_requestPhase_rPhaseDesc}
-    ]},
+    FieldGroup #Basic1                          : {Data : [{Value : to_requestType_ID},
+                                                                                        /*{Value : to_requestStatus_rStatusDesc},
+                                                                                        {Value : to_requestPhase_rPhaseDesc}*/
+                                                                    ]},
     //Column 2 for header facet
     FieldGroup #Basic2                          : {Data : [
-        {Value : locationWC},
-        {Value : MaintenancePlanningPlant}
-    ]},
+                                                           /*  {Value : locationWC},
+                                                             {Value : MaintenancePlanningPlant}*/
+                                                          ]},
     //Column 3 for header facet
     FieldGroup #Detail                          : {Data : [
         {
@@ -383,14 +418,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     //Column 1 in General tab
     FieldGroup #generalGroup1                   : {Data : [
         {Value : requestDesc},
-        {
-            Value         : to_requestType_ID,
-            ![@UI.Hidden] : uiHidden //Inital value in CREATE-> visible, In edit -> not visible
-        },
-        {
-            Value         : requestTypeDisp,
-            ![@UI.Hidden] : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
-        },
         {Value : to_requestStatus_rStatusDesc,
                                                //![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
                                                // Criticality               : criticalityLevel,
@@ -400,7 +427,15 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                                              //![@UI.Hidden]             : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
                                              // Criticality               : criticalityLevel,
                                              // CriticalityRepresentation : #WithoutIcon
-                 }
+                 },
+        {
+            Value : modifiedBy,
+            Label : '{i18n>modifiedBy}'
+        },
+        {
+            Value : modifiedAt,
+            Label : '{i18n>modifiedAt}'
+        }
     ]},
     //Column 2 in General tab
     FieldGroup #generalGroup2                   : {Data : [
@@ -412,6 +447,16 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     ]},
     //Column 3 in general tab
     FieldGroup #generalGroup3                   : {Data : [
+        {
+            Value         : to_requestType_ID,
+            ![@UI.Hidden] : uiHidden //Inital value in CREATE-> visible, In edit -> not visible
+        },
+        {
+            Value         : requestTypeDisp,
+            ![@UI.Hidden] : uiHidden1, //Inital value in CREATE-> not visible, In edit -> visible
+        },
+        {Value : locationWC},
+        {Value : MaintenancePlanningPlant},
         {Value : expectedArrivalDate},
         {Value : expectedDeliveryDate},
     ]},
@@ -421,26 +466,21 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #locationGroup                   : {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {Value : locationWC},
-            {Value : MaintenancePlanningPlant},
-            {Value : revision}
+            {Value : mName},
+            {Value : mModel},
+            {Value : mPartNumber},
+            {Value : mSerialNumber},
         ]
     },
     //Cloumn 2 of asset Information
     FieldGroup #referenceObjectsGroup           : {Data : [
-        {Value : mName},
-        {Value : mModel},
-        {Value : mPartNumber},
-        {Value : mSerialNumber},
-        {Value : functionalLocation}
-    ]},
-    //Cloumn 3 of asset Information
-    FieldGroup #additionalReferenceObjectsGroup : {Data : [
         {Value : eqMaterial},
         {Value : eqSerialNumber},
+        {Value : functionalLocation},
         {Value : equipment}
-
-    ]}
+    ]},
+    //Cloumn 3 of asset Information
+    FieldGroup #additionalReferenceObjectsGroup : {Data : [{Value : revision}]}
 });
 
 //Actions Defination
@@ -1075,24 +1115,72 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
 //Details of Document tab
 annotate mrorequestdolphinService.Documents with @(UI : {
     LineItem                  : [
-        {Value : documentName},
         {
-            $Type : 'UI.DataFieldWithUrl',
-            Value : url,
-            Url   : url,
+            Value                 : ID,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
         },
         {
-            Value : modifiedAt,
-            Label : '{i18n>modifiedAt}'
+            Value                 : documentName,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
         },
-        {Value : eMailRecievedDateAndTime},
-        {Value : to_typeOfAttachment_ID},
-        {Value : to_documentStatus_docStatusDesc},
-        {Value : fileFormatCheckRequired},
-        {Value : formatCheck},
-        {Value : eMailSent},
-        {Value : workItemsCreated},
-        {Value : remarks}
+        {
+            $Type                 : 'UI.DataFieldWithUrl',
+            Value                 : url,
+            Url                   : url,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+
+        //{Value : eMailRecievedDateAndTime},
+        {
+            Value                 : to_typeOfAttachment_ID,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : to_documentStatus_docStatusDesc,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        // {Value : fileFormatCheckRequired},
+        //{Value : formatCheck},
+        //{Value : eMailSent},
+        //{Value : workItemsCreated},
+        {
+            Value                 : remarks,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : modifiedBy,
+            Label                 : '{i18n>modifiedBy}',
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
+        {
+            Value                 : modifiedAt,
+            Label                 : '{i18n>modifiedAt}',
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            }
+        },
     ],
     //It is used for setting the count for documents
     HeaderInfo                : {
@@ -1121,17 +1209,17 @@ annotate mrorequestdolphinService.Documents with @(UI : {
         Data  : [
             {Value : documentName},
             {Value : url},
-            {
+            /*{
                 Value : modifiedAt,
                 Label : '{i18n>modifiedAt}'
-            },
-            {Value : eMailRecievedDateAndTime},
+            },*/
+            //{Value : eMailRecievedDateAndTime},
             {Value : to_typeOfAttachment_ID},
             {Value : to_documentStatus_docStatusDesc},
-            {Value : fileFormatCheckRequired},
-            {Value : formatCheck},
-            {Value : eMailSent},
-            {Value : workItemsCreated},
+            //{Value : fileFormatCheckRequired},
+            //{Value : formatCheck},
+            //{Value : eMailSent},
+            //{Value : workItemsCreated},
             {Value : remarks}
         ]
     }

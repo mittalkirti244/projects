@@ -1,5 +1,6 @@
 ID;docStatus;docStatusDesc
-1;VANREQ;Validation Not Required
-2;VADONE;Validation done
-3;INVADC;Invalid Document
-4;DCPROC;Document Processed
+1;NEWDOC;New Document
+2;VANREQ;Validation Not Required
+3;VADONE;Validation done
+4;INVADC;Invalid Document
+5;DCPROC;Document Processed
