@@ -77,7 +77,7 @@ module.exports = cds.service.impl(async function () {
                 vnumberRangeID = query1[i].numberRangeID
             }
         }
-        
+
         //If Request Type is not present in Number Range, it will give Info msg
         //(If selected request type is not there in Number Range, the vnumberRangeID will store undefined)
         console.log('vnumberRangeID...................', vnumberRangeID)
@@ -308,16 +308,20 @@ module.exports = cds.service.impl(async function () {
                 req.error(406, 'For Request ' + query[0].requestNoConcat + ' WorkItem is not created.')
             }
         }
-        else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus != 'NWLVAL')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Created')
+        //MR Status = New Worklist Validated  & Selected Status = New Worklist Requested and New Worklist Received
+        else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && (queryStatus[0].rStatus == 'WLRQTD' || queryStatus[0].rStatus == 'NWLREC')) {
+            updateStatus()
+        }
+        else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus != 'NWLVAL' && queryStatus[0].rStatus != 'WLRQTD' && queryStatus[0].rStatus != 'NWLREC')
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Created, New Worklist Requested and New Worklist Received')
         else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus == 'NWLVAL')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        //MR Status = New Worklist Created & Selected Status = All Worklists Received
-        else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && queryStatus[0].rStatus == 'AWLREC')
+        //MR Status = New Worklist Created & Selected Status = New Worklist Requested , New Worklists Received, All Worklists Received
+        else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && (queryStatus[0].rStatus == 'WLRQTD' || queryStatus[0].rStatus == 'NWLREC' || queryStatus[0].rStatus == 'AWLREC'))
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && queryStatus[0].rStatus != 'AWLREC' && queryStatus[0].rStatus != 'WLCRTD')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status All Worklists Received')
+        else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus == 'WLRQTD' && queryStatus[0].rStatus == 'NWLREC' && queryStatus[0].rStatus == 'AWLREC')
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Requested, New Worklists Received and All Worklists Received')
         else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && queryStatus[0].rStatus == 'WLCRTD')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
