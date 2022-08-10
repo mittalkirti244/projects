@@ -1138,10 +1138,8 @@ annotate mrorequestdolphinService.Documents with @(UI : {
                 width : '10rem',
             }
         },
-
-        //{Value : eMailRecievedDateAndTime},
         {
-            Value                 : to_typeOfAttachment_ID,
+            Value                 : to_typeOfAttachment_attachmentType,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -1154,10 +1152,6 @@ annotate mrorequestdolphinService.Documents with @(UI : {
                 width : '10rem',
             }
         },
-        // {Value : fileFormatCheckRequired},
-        //{Value : formatCheck},
-        //{Value : eMailSent},
-        //{Value : workItemsCreated},
         {
             Value                 : remarks,
             ![@HTML5.CssDefaults] : {
@@ -1181,6 +1175,46 @@ annotate mrorequestdolphinService.Documents with @(UI : {
                 width : '10rem',
             }
         },
+        {
+            Value : eMailRecievedDateAndTime,
+            ![@UI.Hidden]
+        },
+        {
+            Value : fileFormatCheckRequired,
+            ![@UI.Hidden]
+        },
+        {
+            Value : formatCheck,
+            ![@UI.Hidden]
+        },
+        {
+            Value : eMailSent,
+            ![@UI.Hidden]
+        },
+        {
+            Value : workItemsCreated,
+            ![@UI.Hidden]
+        },
+        {
+            Value : to_typeOfAttachment_ID,
+            ![@UI.Hidden]
+        },
+        {
+            Value : to_documentStatus_ID,
+            ![@UI.Hidden]
+        },
+        {
+            Value : to_documentStatus_docStatus,
+            ![@UI.Hidden]
+        },
+        {
+            Value : to_maintenanceRequest_ID,
+            ![@UI.Hidden]
+        },
+        {
+            Value : UUID,
+            ![@UI.Hidden]
+        }
     ],
     //It is used for setting the count for documents
     HeaderInfo                : {
@@ -1207,6 +1241,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
     FieldGroup #documentEntry : {
         $Type : 'UI.FieldGroupType',
         Data  : [
+            {Value : ID},
             {Value : documentName},
             {Value : url},
             /*{
@@ -1214,7 +1249,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
                 Label : '{i18n>modifiedAt}'
             },*/
             //{Value : eMailRecievedDateAndTime},
-            {Value : to_typeOfAttachment_ID},
+            {Value : to_typeOfAttachment_attachmentType},
             {Value : to_documentStatus_docStatusDesc},
             //{Value : fileFormatCheckRequired},
             //{Value : formatCheck},
@@ -1226,9 +1261,9 @@ annotate mrorequestdolphinService.Documents with @(UI : {
 });
 
 annotate mrorequestdolphinService.Documents {
-    ID      @readonly;
+    // ID      @readonly;
     UUID    @readonly;
-    url     @mandatory;
+    //url     @mandatory;
     remarks @UI.MultiLineText;
 };
 
@@ -1241,17 +1276,16 @@ annotate mrorequestdolphinService.Documents with {
             Label          : '{i18n>to_documentStatus}',
             //  SearchSupported : true,
             Parameters     : [
-                {
-                    $Type             : 'Common.ValueListParameterOut',
-                    LocalDataProperty : 'to_documentStatus_ID',
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterOut',
-                    LocalDataProperty : 'to_documentStatus_docStatusDesc',
-                    ValueListProperty : 'docStatusDesc'
-                }
-            ]
+                              /* {
+                                   $Type             : 'Common.ValueListParameterOut',
+                                   LocalDataProperty : 'to_documentStatus_ID',
+                                   ValueListProperty : 'ID'
+                               },*/
+                             {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'to_documentStatus_docStatusDesc',
+                ValueListProperty : 'docStatusDesc'
+            }]
         }
     })
 };
@@ -1259,26 +1293,25 @@ annotate mrorequestdolphinService.Documents with {
 //Drop down for Attachment Type
 annotate mrorequestdolphinService.Documents with {
     to_typeOfAttachment @(Common : {
-        Text      : {
-            $value                 : to_typeOfAttachment_attachmentType,
-            ![@UI.TextArrangement] : #TextLast
-        },
+        /* Text      : {
+             $value                 : to_typeOfAttachment_attachmentType,
+             ![@UI.TextArrangement] : #TextLast
+         },*/
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'AttachmentTypes',
             Label          : '{i18n>to_typeOfAttachment}',
             Parameters     : [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'to_typeOfAttachment_ID',
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'to_typeOfAttachment_attachmentType',
-                    ValueListProperty : 'attachmentType'
-                }
-            ]
+                              /* {
+                                   $Type             : 'Common.ValueListParameterInOut',
+                                   LocalDataProperty : 'to_typeOfAttachment_ID',
+                                   ValueListProperty : 'ID'
+                               },*/
+                             {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'to_typeOfAttachment_attachmentType',
+                ValueListProperty : 'attachmentType'
+            }]
         }
     })
 };

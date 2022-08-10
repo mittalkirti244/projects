@@ -90,10 +90,10 @@ service mrorequestdolphinService {
             revisionType
         }
         where
-               to_requestStatusDisp.rStatus = 'RVCRTD'
-            or to_requestStatusDisp.rStatus = 'NTCRTD'
-            or to_requestStatusDisp.rStatus = 'MRCMPL'
-            or revision != '';
+               to_requestStatusDisp.rStatus =  'RVCRTD'
+            or to_requestStatusDisp.rStatus =  'NTCRTD'
+            or to_requestStatusDisp.rStatus =  'MRCMPL'
+            or revision                     != '';
 
     @Capabilities.SearchRestrictions : {
         $Type      : 'Capabilities.SearchRestrictionsType',
@@ -168,7 +168,8 @@ extend service mrorequestdolphinService with {
         key Plant                  @(Common.Label : '{i18n>Plant}'),
         key WorkCenter             @(Common.Label : '{i18n>WorkCenter}'),
             WorkCenterText         @(Common.Label : '{i18n>WorkCenterText}'),
-            WorkCenterCategoryCode @(Common.Label : '{i18n>WorkCenterCategoryCode}')
+            WorkCenterCategoryCode @(Common.Label : '{i18n>WorkCenterCategoryCode}'),
+            PlantName              @(Common.Label : '{i18n>PlantName}')
     };
 
     @readonly
@@ -213,7 +214,7 @@ extend service mrorequestdolphinService with {
             RevisionText      @UI.HiddenFilter @(Common.Label : '{i18n>RevisionText}'),
             RevisionType      @(Common.Label : '{i18n>RevisionType}'),
             WorkCenter        @(Common.Label : '{i18n>WorkCenter}'),
-            WorkCenterPlant   @(Common.Label : '{i18n>WorkCenterPlant}') 
+            WorkCenterPlant   @(Common.Label : '{i18n>WorkCenterPlant}')
     };
 }
 

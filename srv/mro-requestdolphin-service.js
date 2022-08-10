@@ -66,8 +66,8 @@ module.exports = cds.service.impl(async function () {
     this.before('CREATE', 'MaintenanceRequests', async (req) => {
 
         //Fetching the concatenated number from Number range and storing it to request Number of MR
-        var query = await SELECT.from(RequestTypes).columns('*').where({ ID: req.data.to_requestType_ID })
-        var rTpyeValue = query[0].rType
+        var query = await SELECT.from(RequestTypes).columns('*').where({ ID: req.data.to_requestType_ID })//ID =1
+        var rTpyeValue = query[0].rType //Complete Asset
         req.data.to_requestType_rType = rTpyeValue
         var query1 = await service1.read(NumberRanges)
         for (let i = 0; i < query1.length; i++) {
@@ -77,6 +77,7 @@ module.exports = cds.service.impl(async function () {
                 vnumberRangeID = query1[i].numberRangeID
             }
         }
+        
         //If Request Type is not present in Number Range, it will give Info msg
         //(If selected request type is not there in Number Range, the vnumberRangeID will store undefined)
         console.log('vnumberRangeID...................', vnumberRangeID)

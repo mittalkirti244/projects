@@ -21,7 +21,8 @@ service alphamasterService {
         key Plant,
         key WorkCenter,
             WorkCenterCategoryCode,
-            WorkCenterText
+            WorkCenterText,
+            PlantName
     };
 
     @readonly

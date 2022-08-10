@@ -1,6 +1,6 @@
 {
   "meta": {
-    "creator": "cds-dk 6.0.3"
+    "creator": "cds-dk 6.0.4"
   },
   "$version": "2.0",
   "definitions": {
@@ -17,6 +17,93 @@
         "IsInvalid": {
           "type": "cds.Boolean",
           "@sap.label": "TRUE"
+        }
+      }
+    },
+    "MAINTREQ_SB.ExtCustomerReferenceVH": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.searchable": "true",
+      "@sap.content.version": "1",
+      "@sap.label": "External Customer Reference Value Help",
+      "elements": {
+        "DocumentInfoRecordDocType": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Document Type",
+          "@sap.value.list": "standard"
+        },
+        "DocumentInfoRecordDocNumber": {
+          "key": true,
+          "type": "cds.String",
+          "length": 25,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Document Number",
+          "@sap.value.list": "standard"
+        },
+        "DocumentInfoRecordDocPart": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Document Part",
+          "@sap.value.list": "standard"
+        },
+        "DocumentInfoRecordDocVersion": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Document Version",
+          "@sap.value.list": "standard"
+        },
+        "DocumentCounter": {
+          "key": true,
+          "type": "cds.String",
+          "length": 10,
+          "@sap.display.format": "NonNegative",
+          "@sap.label": "Counter"
+        },
+        "MaterialNumber": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Material",
+          "@sap.value.list": "standard"
+        },
+        "CustomerNumber": {
+          "type": "cds.String",
+          "length": 10,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Customer",
+          "@sap.quickinfo": "Customer Number",
+          "@sap.value.list": "standard"
+        },
+        "ContractNumber": {
+          "type": "cds.String",
+          "length": 10,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Sales Contract",
+          "@sap.quickinfo": "Sales and Distribution Document Number",
+          "@sap.value.list": "standard"
+        },
+        "ContractItemNumber": {
+          "type": "cds.String",
+          "length": 6,
+          "@sap.display.format": "NonNegative",
+          "@sap.label": "Sales Contract Item",
+          "@sap.quickinfo": "Item number of the SD document",
+          "@sap.value.list": "standard"
+        },
+        "ExternalCustomerReference": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.label": "External Customer Reference"
         }
       }
     },
@@ -81,7 +168,8 @@
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Planning Plant"
+          "@sap.label": "Planning Plant",
+          "@sap.quickinfo": "Maintenance Planning Plant"
         },
         "RevisionNo": {
           "key": true,
@@ -89,6 +177,7 @@
           "length": 8,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Revision",
+          "@sap.quickinfo": "Revision for Plant Maintenance and Customer Service",
           "@sap.creatable": "false",
           "@sap.updatable": "false"
         },
@@ -101,43 +190,51 @@
         "RevisionText": {
           "type": "cds.String",
           "length": 40,
-          "@sap.label": "Rev. description"
+          "@sap.label": "Rev. description",
+          "@sap.quickinfo": "Revision description"
         },
         "WorkCenter": {
           "type": "cds.String",
           "length": 8,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Main Work Center"
+          "@sap.label": "Main Work Center",
+          "@sap.quickinfo": "Main work center for maintenance tasks"
         },
         "WorkCenterPlant": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Plant for WorkCenter"
+          "@sap.label": "Plant for WorkCenter",
+          "@sap.quickinfo": "Plant associated with main work center"
         },
         "RevisionStartDate": {
           "type": "cds.Date",
           "@sap.display.format": "Date",
-          "@sap.label": "Revision Start Date"
+          "@sap.label": "Revision Start Date",
+          "@sap.quickinfo": "Date of revision start"
         },
         "RevisionStartTime": {
           "type": "cds.Time",
-          "@sap.label": "Revision Start Time"
+          "@sap.label": "Revision Start Time",
+          "@sap.quickinfo": "Time of revision start"
         },
         "RevisionEndDate": {
           "type": "cds.Date",
           "@sap.display.format": "Date",
-          "@sap.label": "Revision End Date"
+          "@sap.label": "Revision End Date",
+          "@sap.quickinfo": "Date of revision end"
         },
         "RevisionEndTime": {
           "type": "cds.Time",
-          "@sap.label": "Revision End Time"
+          "@sap.label": "Revision End Time",
+          "@sap.quickinfo": "Time of revision end"
         },
         "Equipment": {
           "type": "cds.String",
           "length": 18,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Equipment"
+          "@sap.label": "Equipment",
+          "@sap.quickinfo": "Equipment Number"
         },
         "FunctionLocation": {
           "type": "cds.String",
@@ -276,6 +373,54 @@
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Task List Description"
+        },
+        "CustomerNumber": {
+          "type": "cds.String",
+          "length": 10,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Customer",
+          "@sap.quickinfo": "Customer Number",
+          "@sap.value.list": "standard"
+        },
+        "ContractNumber": {
+          "type": "cds.String",
+          "length": 10,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Sales Contract",
+          "@sap.quickinfo": "Sales and Distribution Document Number",
+          "@sap.value.list": "standard"
+        },
+        "ContractItemNumber": {
+          "type": "cds.String",
+          "length": 6,
+          "@sap.display.format": "NonNegative",
+          "@sap.label": "Sales Contract Item",
+          "@sap.quickinfo": "Item number of the SD document",
+          "@sap.value.list": "standard"
+        },
+        "ExternalCustomerReference": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.label": "External Customer Reference"
+        },
+        "MaintenancePlanningPlant": {
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Planning Plant",
+          "@sap.quickinfo": "Maintenance Planning Plant"
+        },
+        "Plant": {
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Plant"
+        },
+        "WorkCenter": {
+          "type": "cds.String",
+          "length": 8,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Work Center"
         }
       }
     },
@@ -401,7 +546,7 @@
           "type": "cds.String",
           "length": 8,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Coding",
+          "@sap.label": "Code Group",
           "@sap.quickinfo": "Code Group - Coding",
           "@sap.value.list": "standard"
         },
@@ -621,6 +766,55 @@
           "@sap.display.format": "UpperCase",
           "@sap.label": "Controlling Area",
           "@sap.value.list": "standard"
+        },
+        "TaskListType": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Task List Type"
+        },
+        "TaskListGroup": {
+          "type": "cds.String",
+          "length": 8,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Group",
+          "@sap.quickinfo": "Key for Task List Group"
+        },
+        "TaskListGroupCounter": {
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Group Counter"
+        },
+        "SalesOrganization": {
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Sales Organization"
+        },
+        "DistributionChannel": {
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Distribution Channel"
+        },
+        "Division": {
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Division"
+        },
+        "SalesOffice": {
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Sales office"
+        },
+        "SalesGroup": {
+          "type": "cds.String",
+          "length": 3,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Sales group"
         },
         "NotificationHasLongText": {
           "type": "cds.String",
@@ -1072,14 +1266,14 @@
           "length": 20,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Search Term 1",
-          "@sap.quickinfo": "Search term 1 for business partner"
+          "@sap.quickinfo": "Search Term 1 for Business Partner"
         },
         "SearchTerm2": {
           "type": "cds.String",
           "length": 20,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Search Term 2",
-          "@sap.quickinfo": "Search term 2 for business partner"
+          "@sap.quickinfo": "Search Term 2 for Business Partner"
         },
         "ContactPersonName": {
           "type": "cds.String",
@@ -1439,6 +1633,179 @@
           "length": 20,
           "@sap.label": "Work Center Category Name",
           "@sap.quickinfo": "Name of the Work Center Category"
+        },
+        "PlantName": {
+          "type": "cds.String",
+          "length": 30,
+          "@sap.label": "Plant Name"
+        }
+      }
+    },
+    "MAINTREQ_SB.C_Salescontractitemfs": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.searchable": "true",
+      "@sap.content.version": "1",
+      "@sap.label": "Sales Contract Item",
+      "@sap.value.list": "true",
+      "elements": {
+        "SalesContract": {
+          "key": true,
+          "type": "cds.String",
+          "length": 10,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Sales Contract",
+          "@sap.value.list": "standard"
+        },
+        "SalesContractItem": {
+          "key": true,
+          "type": "cds.String",
+          "length": 6,
+          "@sap.display.format": "NonNegative",
+          "@sap.text": "SalesContractItemText",
+          "@sap.label": "Item",
+          "@sap.quickinfo": "Sales Contract Item"
+        },
+        "SalesContractItemText": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.label": "Item Description",
+          "@sap.quickinfo": "Short text for sales order item"
+        },
+        "ShipToParty": {
+          "type": "cds.String",
+          "length": 10,
+          "@sap.display.format": "UpperCase",
+          "@sap.text": "FullName",
+          "@sap.label": "Ship-To Party",
+          "@sap.quickinfo": "Ship-to party"
+        },
+        "FullName": {
+          "type": "cds.String",
+          "length": 80,
+          "@sap.label": "Full Name",
+          "@sap.quickinfo": "Full name of a party (Bus. Partner, Org. Unit, Doc. address)"
+        },
+        "SDProcessStatus": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Overall Status",
+          "@sap.quickinfo": "Overall Processing Status (Item)"
+        },
+        "SDDocReferenceStatus": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Reference Status",
+          "@sap.quickinfo": "Reference Status (Item)"
+        },
+        "SDDocumentRejectionStatus": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Rejection Status",
+          "@sap.quickinfo": "Rejection Status (Item)"
+        },
+        "SalesDocumentRjcnReason": {
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Reason for Rejection",
+          "@sap.quickinfo": "Reason for Rejection of Sales Documents"
+        },
+        "ContractItemDownPaymentStatus": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Down Payment Status"
+        },
+        "SalesDocumentItemProcgCode": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Processing Code",
+          "@sap.quickinfo": "Item Processing Code"
+        },
+        "TargetQuantity": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3,
+          "@sap.unit": "TargetQuantityUnit",
+          "@sap.label": "Target Quantity",
+          "@sap.quickinfo": "Target Quantity in Sales Units"
+        },
+        "TargetQuantityUnit": {
+          "type": "cds.String",
+          "length": 3,
+          "@sap.label": "Target Quantity UoM",
+          "@sap.semantics": "unit-of-measure"
+        },
+        "TransactionCurrency": {
+          "type": "cds.String",
+          "length": 5,
+          "@sap.label": "Document Currency",
+          "@sap.quickinfo": "SD document currency",
+          "@sap.semantics": "currency-code"
+        },
+        "OutlineAgreementTargetAmount": {
+          "type": "cds.Decimal",
+          "precision": 14,
+          "scale": 3,
+          "@sap.unit": "TransactionCurrency",
+          "@sap.label": "Target Value",
+          "@sap.quickinfo": "Target Value for Outline Agreement in Document Currency"
+        },
+        "SalesContractItemCategory": {
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Item category",
+          "@sap.quickinfo": "Sales document item category"
+        },
+        "NetAmount": {
+          "type": "cds.Decimal",
+          "precision": 16,
+          "scale": 3,
+          "@sap.unit": "TransactionCurrency",
+          "@sap.label": "Net Value",
+          "@sap.quickinfo": "Net Value of the Order Item in Document Currency"
+        },
+        "Material": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.display.format": "UpperCase",
+          "@sap.text": "MaterialName",
+          "@sap.label": "Product",
+          "@sap.quickinfo": "Product Number"
+        },
+        "MaterialName": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.label": "Material description"
+        },
+        "MaterialByCustomer": {
+          "type": "cds.String",
+          "length": 35,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Customer Material",
+          "@sap.quickinfo": "Material Number Used by Customer"
+        },
+        "MaterialGroup": {
+          "type": "cds.String",
+          "length": 9,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Product Group"
+        },
+        "HigherLevelItem": {
+          "type": "cds.String",
+          "length": 6,
+          "@sap.display.format": "NonNegative",
+          "@sap.label": "Higher-Level Item",
+          "@sap.quickinfo": "Higher-Level item in bill of material structures"
         }
       }
     },
@@ -1686,7 +2053,7 @@
           "type": "cds.String",
           "length": 2,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Document version"
+          "@sap.label": "Document Version"
         }
       }
     },
@@ -1732,6 +2099,7 @@
       "@sap.creatable": "false",
       "@sap.updatable": "false",
       "@sap.deletable": "false",
+      "@sap.searchable": "true",
       "@sap.content.version": "1",
       "@sap.label": "Document Info Record Document Part VH",
       "@sap.value.list": "true",
@@ -1757,7 +2125,7 @@
           "type": "cds.String",
           "length": 2,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Document version",
+          "@sap.label": "Document Version",
           "@sap.value.list": "standard"
         },
         "DocumentInfoRecordDocPart": {
@@ -1765,7 +2133,7 @@
           "type": "cds.String",
           "length": 3,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Document part"
+          "@sap.label": "Document Part"
         },
         "DocumentInfoRecordDocType_Text": {
           "type": "cds.String",
@@ -1817,6 +2185,7 @@
       "@sap.creatable": "false",
       "@sap.updatable": "false",
       "@sap.deletable": "false",
+      "@sap.searchable": "true",
       "@sap.content.version": "1",
       "@sap.label": "Equipment",
       "@sap.value.list": "true",
@@ -1833,7 +2202,7 @@
         "Equipment_Text": {
           "type": "cds.String",
           "length": 40,
-          "@sap.label": "Object Description",
+          "@sap.label": "Description",
           "@sap.quickinfo": "Description of technical object",
           "@sap.creatable": "false",
           "@sap.updatable": "false"
@@ -2028,6 +2397,7 @@
       "@sap.creatable": "false",
       "@sap.updatable": "false",
       "@sap.deletable": "false",
+      "@sap.searchable": "true",
       "@sap.content.version": "1",
       "@sap.label": "Maintenance Planner Group",
       "@sap.value.list": "true",
@@ -2112,7 +2482,7 @@
         "MaterialTypeName": {
           "type": "cds.String",
           "length": 25,
-          "@sap.label": "Material Type Descr.",
+          "@sap.label": "Material Type Desc.",
           "@sap.quickinfo": "Description of Material Type"
         }
       }
@@ -2123,6 +2493,7 @@
       "@sap.creatable": "false",
       "@sap.updatable": "false",
       "@sap.deletable": "false",
+      "@sap.searchable": "true",
       "@sap.content.version": "1",
       "@sap.label": "Plant Section",
       "@sap.value.list": "true",
@@ -2278,8 +2649,8 @@
         "IsBatchManagementRequired": {
           "type": "cds.Boolean",
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Batch management",
-          "@sap.quickinfo": "Batch management requirement indicator"
+          "@sap.label": "Batch Management",
+          "@sap.quickinfo": "Batch Management Requirement Indicator"
         },
         "ProductManufacturerNumber": {
           "type": "cds.String",
