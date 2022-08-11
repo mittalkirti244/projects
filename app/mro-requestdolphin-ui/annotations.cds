@@ -562,6 +562,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
+//Text arrangement for plant and plant name
+annotate mrorequestdolphinService.MaintenanceRequests with {
+    MaintenancePlanningPlant @(Common : {Text : {
+        $value                 : plantName,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
 //Text arrangement for Status field on List page
 /*annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestStatusDisp_rStatusDesc @(Common : {Text : {
@@ -585,6 +593,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         ![@UI.TextArrangement] : #TextLast
     }});
 };*/
+
+
 
 //Request Number value Help for List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -838,6 +848,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'MaintenancePlanningPlant',
                 ValueListProperty : 'Plant'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'plantName',
+                ValueListProperty : 'PlantName'
             }
         ]
     }});

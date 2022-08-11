@@ -22,15 +22,14 @@
           <NavigationPropertyBinding Path="to_typeOfLoad" Target="TypeOfLoads"/>
           <NavigationPropertyBinding Path="SiblingEntity" Target="MaintenanceRequestHeader"/>
         </EntitySet>
-        <EntitySet Name="MaintNotifications" EntityType="notifleoService.MaintNotifications">
-          <NavigationPropertyBinding Path="to_NotificationHeaderItem" Target="MaintNotificationItems"/>
-        </EntitySet>
-        <EntitySet Name="ReferenceTaskListVH" EntityType="notifleoService.ReferenceTaskListVH"/>
         <EntitySet Name="TypeOfLoads" EntityType="notifleoService.TypeOfLoads"/>
+        <EntitySet Name="WorkItemTypes" EntityType="notifleoService.WorkItemTypes"/>
+        <EntitySet Name="MaintNotifications" EntityType="notifleoService.MaintNotifications"/>
+        <EntitySet Name="ReferenceTaskListVH" EntityType="notifleoService.ReferenceTaskListVH"/>
         <EntitySet Name="NotificationVH" EntityType="notifleoService.NotificationVH"/>
         <EntitySet Name="MaintenanceRequestsVH" EntityType="notifleoService.MaintenanceRequestsVH"/>
-        <EntitySet Name="MaintNotificationItems" EntityType="notifleoService.MaintNotificationItems">
-          <NavigationPropertyBinding Path="to_NotificationHeader" Target="MaintNotifications"/>
+        <EntitySet Name="NumberRanges" EntityType="notifleoService.NumberRanges">
+          <NavigationPropertyBinding Path="SiblingEntity" Target="NumberRanges"/>
         </EntitySet>
       </EntityContainer>
       <EntityType Name="MaintenanceRequestHeader">
@@ -43,7 +42,7 @@
         <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
         <Property Name="modifiedBy" Type="Edm.String" MaxLength="255"/>
         <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
-        <Property Name="workItem" Type="Edm.Int32"/>
+        <Property Name="workItemID" Type="Edm.Int32"/>
         <Property Name="requestNo" Type="Edm.String"/>
         <Property Name="requestNoDisp" Type="Edm.String"/>
         <Property Name="requestNoConcat" Type="Edm.String"/>
@@ -77,6 +76,8 @@
         <Property Name="notificationNo" Type="Edm.String"/>
         <Property Name="notificationNoDisp" Type="Edm.String"/>
         <Property Name="notificationFlag" Type="Edm.Boolean" DefaultValue="false"/>
+        <Property Name="notificationGenerateFlag" Type="Edm.Boolean" DefaultValue="false"/>
+        <Property Name="notificationUpdateFlag" Type="Edm.Boolean" DefaultValue="false"/>
         <Property Name="additionalRemark" Type="Edm.String"/>
         <Property Name="billOfWorkDocRef" Type="Edm.String"/>
         <Property Name="quotationDoc" Type="Edm.String"/>
@@ -98,6 +99,20 @@
         <NavigationProperty Name="DraftAdministrativeData" Type="notifleoService.DraftAdministrativeData" ContainsTarget="true"/>
         <NavigationProperty Name="SiblingEntity" Type="notifleoService.MaintenanceRequestHeader"/>
       </EntityType>
+      <EntityType Name="TypeOfLoads">
+        <Key>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="loadType"/>
+        </Key>
+        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
+        <Property Name="loadType" Type="Edm.String" Nullable="false"/>
+      </EntityType>
+      <EntityType Name="WorkItemTypes">
+        <Key>
+          <PropertyRef Name="workItemType"/>
+        </Key>
+        <Property Name="workItemType" Type="Edm.String" Nullable="false"/>
+      </EntityType>
       <EntityType Name="MaintNotifications">
         <Key>
           <PropertyRef Name="MaintenanceNotification"/>
@@ -105,57 +120,6 @@
         <Property Name="MaintenanceNotification" Type="Edm.String" MaxLength="12" Nullable="false"/>
         <Property Name="NotificationText" Type="Edm.String" MaxLength="40"/>
         <Property Name="NotificationType" Type="Edm.String" MaxLength="2"/>
-        <Property Name="MaintPriority" Type="Edm.String" MaxLength="1"/>
-        <Property Name="MaintenanceActivityType" Type="Edm.String" MaxLength="3"/>
-        <Property Name="MaintNotificationCatalog" Type="Edm.String" MaxLength="1"/>
-        <Property Name="MaintNotificationCodeGroup" Type="Edm.String" MaxLength="8"/>
-        <Property Name="MaintNotificationCode" Type="Edm.String" MaxLength="4"/>
-        <Property Name="ReportedByUser" Type="Edm.String" MaxLength="12"/>
-        <Property Name="RequiredStartDate" Type="Edm.Date"/>
-        <Property Name="RequiredStartTime" Type="Edm.TimeOfDay"/>
-        <Property Name="RequiredEndDate" Type="Edm.Date"/>
-        <Property Name="RequiredEndTime" Type="Edm.TimeOfDay"/>
-        <Property Name="NotificationCreationDate" Type="Edm.Date"/>
-        <Property Name="NotificationCreationTime" Type="Edm.TimeOfDay"/>
-        <Property Name="MalfunctionStartDate" Type="Edm.Date"/>
-        <Property Name="MalfunctionStartTime" Type="Edm.TimeOfDay"/>
-        <Property Name="MalfunctionEndDate" Type="Edm.Date"/>
-        <Property Name="MalfunctionEndTime" Type="Edm.TimeOfDay"/>
-        <Property Name="MaintenanceRevision" Type="Edm.String" MaxLength="8"/>
-        <Property Name="MaintenanceRevisionWPS" Type="Edm.String" MaxLength="8"/>
-        <Property Name="MaintenancePlannerGroup" Type="Edm.String" MaxLength="3"/>
-        <Property Name="MaintenancePlanningPlant" Type="Edm.String" MaxLength="4"/>
-        <Property Name="WorkCenter" Type="Edm.String" MaxLength="8"/>
-        <Property Name="WorkCenterInternalID" Type="Edm.String" MaxLength="8"/>
-        <Property Name="MaintenanceWorkCenterPlant" Type="Edm.String" MaxLength="4"/>
-        <Property Name="SerialNumber" Type="Edm.String" MaxLength="18"/>
-        <Property Name="Material" Type="Edm.String" MaxLength="40"/>
-        <Property Name="Equipment" Type="Edm.String" MaxLength="18"/>
-        <Property Name="Assembly" Type="Edm.String" MaxLength="40"/>
-        <Property Name="FunctionalLocation" Type="Edm.String" MaxLength="30"/>
-        <Property Name="MaintenancePlant" Type="Edm.String" MaxLength="4"/>
-        <Property Name="MaintenanceObjectLocation" Type="Edm.String" MaxLength="10"/>
-        <Property Name="PlantSection" Type="Edm.String" MaxLength="3"/>
-        <Property Name="LocationWorkCenter" Type="Edm.String" MaxLength="8"/>
-        <Property Name="CompanyCode" Type="Edm.String" MaxLength="4"/>
-        <Property Name="BusinessArea" Type="Edm.String" MaxLength="4"/>
-        <Property Name="CostCenter" Type="Edm.String" MaxLength="10"/>
-        <Property Name="WBSElement" Type="Edm.String" MaxLength="100"/>
-        <Property Name="ControllingArea" Type="Edm.String" MaxLength="4"/>
-        <Property Name="TaskListType" Type="Edm.String" MaxLength="1"/>
-        <Property Name="TaskListGroup" Type="Edm.String" MaxLength="8"/>
-        <Property Name="TaskListGroupCounter" Type="Edm.String" MaxLength="2"/>
-        <Property Name="SalesOrganization" Type="Edm.String" MaxLength="4"/>
-        <Property Name="DistributionChannel" Type="Edm.String" MaxLength="2"/>
-        <Property Name="Division" Type="Edm.String" MaxLength="2"/>
-        <Property Name="SalesOffice" Type="Edm.String" MaxLength="4"/>
-        <Property Name="SalesGroup" Type="Edm.String" MaxLength="3"/>
-        <Property Name="NotificationHasLongText" Type="Edm.String" MaxLength="1"/>
-        <Property Name="NotificationLongText" Type="Edm.String" MaxLength="1024"/>
-        <Property Name="NotificationLongTextCreate" Type="Edm.String" MaxLength="1024"/>
-        <NavigationProperty Name="to_NotificationHeaderItem" Type="Collection(notifleoService.MaintNotificationItems)">
-          <OnDelete Action="Cascade"/>
-        </NavigationProperty>
       </EntityType>
       <EntityType Name="ReferenceTaskListVH">
         <Property Name="TaskListType" Type="Edm.String" MaxLength="1"/>
@@ -165,14 +129,6 @@
         <Property Name="ExternalCustomerReference" Type="Edm.String" MaxLength="40"/>
         <Property Name="ExternalReference" Type="Edm.String" MaxLength="40"/>
         <Property Name="Plant" Type="Edm.String" MaxLength="4"/>
-      </EntityType>
-      <EntityType Name="TypeOfLoads">
-        <Key>
-          <PropertyRef Name="ID"/>
-          <PropertyRef Name="loadType"/>
-        </Key>
-        <Property Name="ID" Type="Edm.Int32" Nullable="false"/>
-        <Property Name="loadType" Type="Edm.String" Nullable="false"/>
       </EntityType>
       <EntityType Name="NotificationVH">
         <Property Name="notificationNoDisp" Type="Edm.String"/>
@@ -197,24 +153,28 @@
         <Property Name="businessPartner" Type="Edm.String"/>
         <Property Name="businessPartnerName" Type="Edm.String"/>
       </EntityType>
-      <EntityType Name="MaintNotificationItems">
+      <EntityType Name="NumberRanges">
         <Key>
-          <PropertyRef Name="MaintenanceNotification"/>
-          <PropertyRef Name="MaintenanceNotificationItem"/>
+          <PropertyRef Name="ID"/>
+          <PropertyRef Name="IsActiveEntity"/>
         </Key>
-        <Property Name="MaintenanceNotification" Type="Edm.String" MaxLength="12" Nullable="false"/>
-        <Property Name="MaintenanceNotificationItem" Type="Edm.String" MaxLength="4" Nullable="false"/>
-        <Property Name="MaintNotifItemText" Type="Edm.String" MaxLength="40"/>
-        <Property Name="MaintNotifObjPrtCodeGroup" Type="Edm.String" MaxLength="8"/>
-        <Property Name="MaintNotifObjPrtCode" Type="Edm.String" MaxLength="4"/>
-        <Property Name="MaintNotificationDamageCode" Type="Edm.String" MaxLength="4"/>
-        <Property Name="MaintNotifDamageCodeGroup" Type="Edm.String" MaxLength="8"/>
-        <Property Name="DefectClass" Type="Edm.String" MaxLength="2"/>
-        <Property Name="Assembly" Type="Edm.String" MaxLength="40"/>
-        <Property Name="NumberOfDefects" Type="Edm.Int32"/>
-        <Property Name="LastChangeDateTime" Type="Edm.DateTimeOffset"/>
-        <Property Name="IsDeleted" Type="Edm.String" MaxLength="1"/>
-        <NavigationProperty Name="to_NotificationHeader" Type="notifleoService.MaintNotifications"/>
+        <Property Name="createdAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="modifiedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+        <Property Name="ID" Type="Edm.Guid" Nullable="false"/>
+        <Property Name="numberRangeID" Type="Edm.String"/>
+        <Property Name="description" Type="Edm.String"/>
+        <Property Name="prefix" Type="Edm.String"/>
+        <Property Name="runningNumber" Type="Edm.Int32"/>
+        <Property Name="postfix" Type="Edm.String"/>
+        <Property Name="status" Type="Edm.String"/>
+        <Property Name="numberStart" Type="Edm.Int32"/>
+        <Property Name="numberEnd" Type="Edm.Int32"/>
+        <Property Name="autoRepeat" Type="Edm.String"/>
+        <Property Name="concatinatedLastRunningNo" Type="Edm.String"/>
+        <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false"/>
+        <Property Name="HasActiveEntity" Type="Edm.Boolean"/>
+        <Property Name="HasDraftEntity" Type="Edm.Boolean"/>
+        <NavigationProperty Name="SiblingEntity" Type="notifleoService.NumberRanges"/>
       </EntityType>
       <EntityType Name="DraftAdministrativeData">
         <Key>
@@ -230,6 +190,13 @@
         <Property Name="DraftIsProcessedByMe" Type="Edm.Boolean"/>
       </EntityType>
       <Action Name="createNotification" IsBound="true">
+        <Parameter Name="_it" Type="notifleoService.MaintenanceRequestHeader"/>
+      </Action>
+      <Action Name="updateNotification" IsBound="true">
+        <Parameter Name="_it" Type="notifleoService.MaintenanceRequestHeader"/>
+        <Parameter Name="notificationNo" Type="Edm.String"/>
+      </Action>
+      <Action Name="assignTaskList" IsBound="true">
         <Parameter Name="_it" Type="notifleoService.MaintenanceRequestHeader"/>
       </Action>
       <Action Name="draftPrepare" IsBound="true" EntitySetPath="in">
@@ -256,11 +223,19 @@
         <Annotation Term="UI.LineItem">
           <Collection>
             <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="notifleoService.assignTaskList"/>
+              <PropertyValue Property="Label" String="Assign Task List"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
               <PropertyValue Property="Action" String="notifleoService.createNotification"/>
               <PropertyValue Property="Label" String="Generate Notification"/>
             </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="notifleoService.updateNotification"/>
+              <PropertyValue Property="Label" String="Update Notification"/>
+            </Record>
             <Record Type="UI.DataField">
-              <PropertyValue Property="Value" Path="workItem"/>
+              <PropertyValue Property="Value" Path="workItemID"/>
               <Annotation Term="HTML5.CssDefaults">
                 <Record Type="HTML5.CssDefaultsType">
                   <PropertyValue Property="width" String="10rem"/>
@@ -341,6 +316,10 @@
             </Record>
             <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="to_typeOfLoad_ID"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="to_typeOfLoad_loadType"/>
               <Annotation Term="UI.Hidden" Bool="true"/>
             </Record>
             <Record Type="UI.DataField">
@@ -439,6 +418,18 @@
               <PropertyValue Property="Value" Path="taskListFlag"/>
               <Annotation Term="UI.Hidden" Bool="true"/>
             </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="fileName"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="notificationUpdateFlag"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="notificationGenerateFlag"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
+            </Record>
           </Collection>
         </Annotation>
         <Annotation Term="UI.PresentationVariant">
@@ -464,7 +455,7 @@
             <PropertyValue Property="TypeNamePlural" String="Work Items"/>
             <PropertyValue Property="Title">
               <Record Type="UI.DataField">
-                <PropertyValue Property="Value" Path="workItem"/>
+                <PropertyValue Property="Value" Path="workItemID"/>
               </Record>
             </PropertyValue>
             <PropertyValue Property="Description">
@@ -520,12 +511,6 @@
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="requestDesc"/>
                 </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="mrequestStatus"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="workCenter"/>
-                </Record>
               </Collection>
             </PropertyValue>
           </Record>
@@ -535,13 +520,12 @@
             <PropertyValue Property="Data">
               <Collection>
                 <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="planningPlant"/>
+                  <PropertyValue Property="Value" Path="createdBy"/>
+                  <PropertyValue Property="Label" String="Created By"/>
                 </Record>
                 <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="functionalLocation"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="equipment"/>
+                  <PropertyValue Property="Value" Path="modifiedBy"/>
+                  <PropertyValue Property="Label" String="Last Modified By"/>
                 </Record>
               </Collection>
             </PropertyValue>
@@ -552,13 +536,12 @@
             <PropertyValue Property="Data">
               <Collection>
                 <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="contractNo"/>
+                  <PropertyValue Property="Value" Path="createdAt"/>
+                  <PropertyValue Property="Label" String="Created Date &amp; Time"/>
                 </Record>
                 <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="revisionNo"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="notificationNo"/>
+                  <PropertyValue Property="Value" Path="modifiedAt"/>
+                  <PropertyValue Property="Label" String="Last Modified Date &amp; Time"/>
                 </Record>
               </Collection>
             </PropertyValue>
@@ -629,10 +612,7 @@
                   <PropertyValue Property="Value" Path="additionalRemark"/>
                 </Record>
                 <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="fileName"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="to_typeOfLoad_ID"/>
+                  <PropertyValue Property="Value" Path="notificationNo"/>
                 </Record>
               </Collection>
             </PropertyValue>
@@ -641,8 +621,16 @@
         <Annotation Term="UI.Identification">
           <Collection>
             <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="notifleoService.assignTaskList"/>
+              <PropertyValue Property="Label" String="Assign Task List"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
               <PropertyValue Property="Action" String="notifleoService.createNotification"/>
               <PropertyValue Property="Label" String="Generate Notification"/>
+            </Record>
+            <Record Type="UI.DataFieldForAction">
+              <PropertyValue Property="Action" String="notifleoService.updateNotification"/>
+              <PropertyValue Property="Label" String="Update Notification"/>
             </Record>
           </Collection>
         </Annotation>
@@ -675,6 +663,7 @@
                 <PropertyPath>equipment</PropertyPath>
                 <PropertyPath>contractName</PropertyPath>
                 <PropertyPath>to_typeOfLoad_ID</PropertyPath>
+                <PropertyPath>to_typeOfLoad_loadType</PropertyPath>
                 <PropertyPath>requestNo</PropertyPath>
                 <PropertyPath>requestNoDisp</PropertyPath>
                 <PropertyPath>uiHidden</PropertyPath>
@@ -698,6 +687,9 @@
                 <PropertyPath>workCenter</PropertyPath>
                 <PropertyPath>planningPlant</PropertyPath>
                 <PropertyPath>taskListFlag</PropertyPath>
+                <PropertyPath>fileName</PropertyPath>
+                <PropertyPath>notificationGenerateFlag</PropertyPath>
+                <PropertyPath>notificationUpdateFlag</PropertyPath>
               </Collection>
             </PropertyValue>
           </Record>
@@ -738,7 +730,7 @@
         <Annotation Term="Core.Computed" Bool="true"/>
         <Annotation Term="Common.Label" String="ID"/>
       </Annotations>
-      <Annotations Target="notifleoService.MaintenanceRequestHeader/workItem">
+      <Annotations Target="notifleoService.MaintenanceRequestHeader/workItemID">
         <Annotation Term="Common.Label" String="Work Item"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/requestNo">
@@ -872,7 +864,6 @@
         <Annotation Term="Common.Label" String="Request ID"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/sequenceNo">
-        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
         <Annotation Term="Common.Label" String="Sequence Number"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/requestDesc">
@@ -934,7 +925,6 @@
         <Annotation Term="Common.Label" String="Contract Name"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/fileName">
-        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
         <Annotation Term="Common.Label" String="File Name"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/noOfEmail">
@@ -944,18 +934,15 @@
         <Annotation Term="Common.Label" String="Number Of Attachments"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/workOrderNo">
-        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
         <Annotation Term="Common.Label" String="Work Order Number"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/customerRef">
         <Annotation Term="Common.Label" String="Customer Reference"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/taskDescription">
-        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
         <Annotation Term="Common.Label" String="Description"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/estimatedDueDate">
-        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
         <Annotation Term="Common.Label" String="Estimated Due Date"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/quantity">
@@ -965,7 +952,26 @@
         <Annotation Term="Common.Label" String="Unit Of Measurement"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/notificationNo">
-        <Annotation Term="Core.Computed" Bool="true"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="MaintNotifications"/>
+            <PropertyValue Property="Label" String="Notification"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="notificationNo"/>
+                  <PropertyValue Property="ValueListProperty" String="MaintenanceNotification"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="NotificationText"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="NotificationType"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
         <Annotation Term="Common.Label" String="Notification"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/notificationNoDisp">
@@ -1091,7 +1097,6 @@
             </PropertyValue>
           </Record>
         </Annotation>
-        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
         <Annotation Term="Common.Label" String="Data Upload Process"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/to_typeOfLoad_loadType">
@@ -1117,7 +1122,6 @@
             </PropertyValue>
           </Record>
         </Annotation>
-        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
         <Annotation Term="Common.Label" String="Data Upload Process"/>
       </Annotations>
       <Annotations Target="notifleoService.MaintenanceRequestHeader/IsActiveEntity">
@@ -1138,10 +1142,71 @@
             <PropertyValue Property="TargetProperties">
               <Collection>
                 <String>_it/notificationNo</String>
+                <String>_it/notificationGenerateFlag</String>
               </Collection>
             </PropertyValue>
           </Record>
         </Annotation>
+        <Annotation Term="Core.OperationAvailable" Path="_it/notificationGenerateFlag"/>
+      </Annotations>
+      <Annotations Target="notifleoService.updateNotification(notifleoService.MaintenanceRequestHeader)">
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetProperties">
+              <Collection>
+                <String>_it/notificationNo</String>
+                <String>_it/notificationUpdateFlag</String>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+        <Annotation Term="Core.OperationAvailable" Path="_it/notificationUpdateFlag"/>
+      </Annotations>
+      <Annotations Target="notifleoService.updateNotification(notifleoService.MaintenanceRequestHeader)/notificationNo">
+        <Annotation Term="Common.Label" String="Notification"/>
+        <Annotation Term="Common.ValueList">
+          <Record Type="Common.ValueListType">
+            <PropertyValue Property="CollectionPath" String="MaintNotifications"/>
+            <PropertyValue Property="Parameters">
+              <Collection>
+                <Record Type="Common.ValueListParameterInOut">
+                  <PropertyValue Property="LocalDataProperty" PropertyPath="notificationNo"/>
+                  <PropertyValue Property="ValueListProperty" String="MaintenanceNotification"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="NotificationText"/>
+                </Record>
+                <Record Type="Common.ValueListParameterDisplayOnly">
+                  <PropertyValue Property="ValueListProperty" String="NotificationType"/>
+                </Record>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="notifleoService.assignTaskList(notifleoService.MaintenanceRequestHeader)">
+        <Annotation Term="Common.SideEffects">
+          <Record Type="Common.SideEffectsType">
+            <PropertyValue Property="TargetProperties">
+              <Collection>
+                <String>_it/taskListType</String>
+                <String>_it/taskListGroup</String>
+                <String>_it/taskListGroupCounter</String>
+                <String>_it/taskListDescription</String>
+              </Collection>
+            </PropertyValue>
+          </Record>
+        </Annotation>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintNotifications/MaintenanceNotification">
+        <Annotation Term="Common.Label" String="Notification Number"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintNotifications/NotificationText">
+        <Annotation Term="UI.HiddenFilter" Bool="true"/>
+        <Annotation Term="Common.Label" String="Notification Text"/>
+      </Annotations>
+      <Annotations Target="notifleoService.MaintNotifications/NotificationType">
+        <Annotation Term="Common.Label" String="Notification Type"/>
       </Annotations>
       <Annotations Target="notifleoService.ReferenceTaskListVH/TaskListType">
         <Annotation Term="Common.Label" String="Task List Type"/>

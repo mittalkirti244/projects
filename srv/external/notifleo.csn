@@ -1,6 +1,6 @@
 {
   "meta": {
-    "creator": "cds-dk 6.0.3"
+    "creator": "cds-dk 6.0.4"
   },
   "$version": "2.0",
   "definitions": {
@@ -32,7 +32,7 @@
           "key": true,
           "type": "cds.UUID"
         },
-        "workItem": {
+        "workItemID": {
           "type": "cds.Integer"
         },
         "requestNo": {
@@ -134,6 +134,12 @@
         "notificationFlag": {
           "type": "cds.Boolean"
         },
+        "notificationGenerateFlag": {
+          "type": "cds.Boolean"
+        },
+        "notificationUpdateFlag": {
+          "type": "cds.Boolean"
+        },
         "additionalRemark": {
           "type": "cds.LargeString"
         },
@@ -222,6 +228,17 @@
         "createNotification": {
           "kind": "action"
         },
+        "updateNotification": {
+          "kind": "action",
+          "params": {
+            "notificationNo": {
+              "type": "cds.LargeString"
+            }
+          }
+        },
+        "assignTaskList": {
+          "kind": "action"
+        },
         "draftPrepare": {
           "kind": "action",
           "params": {
@@ -252,6 +269,30 @@
         }
       }
     },
+    "notifleo.TypeOfLoads": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "elements": {
+        "ID": {
+          "key": true,
+          "type": "cds.Integer"
+        },
+        "loadType": {
+          "key": true,
+          "type": "cds.LargeString"
+        }
+      }
+    },
+    "notifleo.WorkItemTypes": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "elements": {
+        "workItemType": {
+          "key": true,
+          "type": "cds.LargeString"
+        }
+      }
+    },
     "notifleo.MaintNotifications": {
       "kind": "entity",
       "@cds.persistence.skip": true,
@@ -268,196 +309,6 @@
         "NotificationType": {
           "type": "cds.String",
           "length": 2
-        },
-        "MaintPriority": {
-          "type": "cds.String",
-          "length": 1
-        },
-        "MaintenanceActivityType": {
-          "type": "cds.String",
-          "length": 3
-        },
-        "MaintNotificationCatalog": {
-          "type": "cds.String",
-          "length": 1
-        },
-        "MaintNotificationCodeGroup": {
-          "type": "cds.String",
-          "length": 8
-        },
-        "MaintNotificationCode": {
-          "type": "cds.String",
-          "length": 4
-        },
-        "ReportedByUser": {
-          "type": "cds.String",
-          "length": 12
-        },
-        "RequiredStartDate": {
-          "type": "cds.Date"
-        },
-        "RequiredStartTime": {
-          "type": "cds.Time"
-        },
-        "RequiredEndDate": {
-          "type": "cds.Date"
-        },
-        "RequiredEndTime": {
-          "type": "cds.Time"
-        },
-        "NotificationCreationDate": {
-          "type": "cds.Date"
-        },
-        "NotificationCreationTime": {
-          "type": "cds.Time"
-        },
-        "MalfunctionStartDate": {
-          "type": "cds.Date"
-        },
-        "MalfunctionStartTime": {
-          "type": "cds.Time"
-        },
-        "MalfunctionEndDate": {
-          "type": "cds.Date"
-        },
-        "MalfunctionEndTime": {
-          "type": "cds.Time"
-        },
-        "MaintenanceRevision": {
-          "type": "cds.String",
-          "length": 8
-        },
-        "MaintenanceRevisionWPS": {
-          "type": "cds.String",
-          "length": 8
-        },
-        "MaintenancePlannerGroup": {
-          "type": "cds.String",
-          "length": 3
-        },
-        "MaintenancePlanningPlant": {
-          "type": "cds.String",
-          "length": 4
-        },
-        "WorkCenter": {
-          "type": "cds.String",
-          "length": 8
-        },
-        "WorkCenterInternalID": {
-          "type": "cds.String",
-          "length": 8
-        },
-        "MaintenanceWorkCenterPlant": {
-          "type": "cds.String",
-          "length": 4
-        },
-        "SerialNumber": {
-          "type": "cds.String",
-          "length": 18
-        },
-        "Material": {
-          "type": "cds.String",
-          "length": 40
-        },
-        "Equipment": {
-          "type": "cds.String",
-          "length": 18
-        },
-        "Assembly": {
-          "type": "cds.String",
-          "length": 40
-        },
-        "FunctionalLocation": {
-          "type": "cds.String",
-          "length": 30
-        },
-        "MaintenancePlant": {
-          "type": "cds.String",
-          "length": 4
-        },
-        "MaintenanceObjectLocation": {
-          "type": "cds.String",
-          "length": 10
-        },
-        "PlantSection": {
-          "type": "cds.String",
-          "length": 3
-        },
-        "LocationWorkCenter": {
-          "type": "cds.String",
-          "length": 8
-        },
-        "CompanyCode": {
-          "type": "cds.String",
-          "length": 4
-        },
-        "BusinessArea": {
-          "type": "cds.String",
-          "length": 4
-        },
-        "CostCenter": {
-          "type": "cds.String",
-          "length": 10
-        },
-        "WBSElement": {
-          "type": "cds.String",
-          "length": 100
-        },
-        "ControllingArea": {
-          "type": "cds.String",
-          "length": 4
-        },
-        "TaskListType": {
-          "type": "cds.String",
-          "length": 1
-        },
-        "TaskListGroup": {
-          "type": "cds.String",
-          "length": 8
-        },
-        "TaskListGroupCounter": {
-          "type": "cds.String",
-          "length": 2
-        },
-        "SalesOrganization": {
-          "type": "cds.String",
-          "length": 4
-        },
-        "DistributionChannel": {
-          "type": "cds.String",
-          "length": 2
-        },
-        "Division": {
-          "type": "cds.String",
-          "length": 2
-        },
-        "SalesOffice": {
-          "type": "cds.String",
-          "length": 4
-        },
-        "SalesGroup": {
-          "type": "cds.String",
-          "length": 3
-        },
-        "NotificationHasLongText": {
-          "type": "cds.String",
-          "length": 1
-        },
-        "NotificationLongText": {
-          "type": "cds.String",
-          "length": 1024
-        },
-        "NotificationLongTextCreate": {
-          "type": "cds.String",
-          "length": 1024
-        },
-        "to_NotificationHeaderItem": {
-          "type": "cds.Composition",
-          "@cds.ambiguous": "missing on condition?",
-          "target": "notifleo.MaintNotificationItems",
-          "cardinality": {
-            "max": "*"
-          }
         }
       }
     },
@@ -492,20 +343,6 @@
         "Plant": {
           "type": "cds.String",
           "length": 4
-        }
-      }
-    },
-    "notifleo.TypeOfLoads": {
-      "kind": "entity",
-      "@cds.persistence.skip": true,
-      "elements": {
-        "ID": {
-          "key": true,
-          "type": "cds.Integer"
-        },
-        "loadType": {
-          "key": true,
-          "type": "cds.LargeString"
         }
       }
     },
@@ -578,64 +415,68 @@
         }
       }
     },
-    "notifleo.MaintNotificationItems": {
+    "notifleo.NumberRanges": {
       "kind": "entity",
       "@cds.persistence.skip": true,
       "elements": {
-        "MaintenanceNotification": {
-          "key": true,
-          "type": "cds.String",
-          "length": 12
-        },
-        "MaintenanceNotificationItem": {
-          "key": true,
-          "type": "cds.String",
-          "length": 4
-        },
-        "MaintNotifItemText": {
-          "type": "cds.String",
-          "length": 40
-        },
-        "MaintNotifObjPrtCodeGroup": {
-          "type": "cds.String",
-          "length": 8
-        },
-        "MaintNotifObjPrtCode": {
-          "type": "cds.String",
-          "length": 4
-        },
-        "MaintNotificationDamageCode": {
-          "type": "cds.String",
-          "length": 4
-        },
-        "MaintNotifDamageCodeGroup": {
-          "type": "cds.String",
-          "length": 8
-        },
-        "DefectClass": {
-          "type": "cds.String",
-          "length": 2
-        },
-        "Assembly": {
-          "type": "cds.String",
-          "length": 40
-        },
-        "NumberOfDefects": {
-          "type": "cds.Integer"
-        },
-        "LastChangeDateTime": {
-          "type": "cds.DateTime",
-          "@odata.Precision": 0,
+        "createdAt": {
+          "type": "cds.Timestamp",
+          "@odata.Precision": 7,
           "@odata.Type": "Edm.DateTimeOffset"
         },
-        "IsDeleted": {
-          "type": "cds.String",
-          "length": 1
+        "modifiedAt": {
+          "type": "cds.Timestamp",
+          "@odata.Precision": 7,
+          "@odata.Type": "Edm.DateTimeOffset"
         },
-        "to_NotificationHeader": {
+        "ID": {
+          "key": true,
+          "type": "cds.UUID"
+        },
+        "numberRangeID": {
+          "type": "cds.LargeString"
+        },
+        "description": {
+          "type": "cds.LargeString"
+        },
+        "prefix": {
+          "type": "cds.LargeString"
+        },
+        "runningNumber": {
+          "type": "cds.Integer"
+        },
+        "postfix": {
+          "type": "cds.LargeString"
+        },
+        "status": {
+          "type": "cds.LargeString"
+        },
+        "numberStart": {
+          "type": "cds.Integer"
+        },
+        "numberEnd": {
+          "type": "cds.Integer"
+        },
+        "autoRepeat": {
+          "type": "cds.LargeString"
+        },
+        "concatinatedLastRunningNo": {
+          "type": "cds.LargeString"
+        },
+        "IsActiveEntity": {
+          "key": true,
+          "type": "cds.Boolean"
+        },
+        "HasActiveEntity": {
+          "type": "cds.Boolean"
+        },
+        "HasDraftEntity": {
+          "type": "cds.Boolean"
+        },
+        "SiblingEntity": {
           "type": "cds.Association",
           "@cds.ambiguous": "missing on condition?",
-          "target": "notifleo.MaintNotifications",
+          "target": "notifleo.NumberRanges",
           "cardinality": {
             "max": 1
           },

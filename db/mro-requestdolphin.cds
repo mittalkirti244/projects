@@ -22,6 +22,7 @@ entity MaintenanceRequests : managed {
         locationWC               : String                                           @title                 : '{i18n>locationWC}'; //workcenter
         locationWCDetail         : String                                           @title                 : '{i18n>locationWCDetail}'; //work center Detail(Work Center Name)
         MaintenancePlanningPlant : String                                           @title                 : '{i18n>MaintenancePlanningPlant}'; //workcenter plant = planning plant
+        plantName                : String                                           @title                 : '{i18n>plantName}';
         contract                 : String                                           @title                 : '{i18n>contract}'; // Contracts assosiated with BP (contract no, desc and Turn around time)
         contractName             : String                                           @title                 : '{i18n>contractName}'; //contract name will auto populate after selcting right contract
         expectedArrivalDate      : Date                                             @title                 : '{i18n>expectedArrivalDate}'; //System current date

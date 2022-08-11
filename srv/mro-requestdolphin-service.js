@@ -118,6 +118,7 @@ module.exports = cds.service.impl(async function () {
         let query2 = await service2.read(WorkCenterVH).where({ WorkCenter: req.data.locationWC })
         if (req.data.locationWC != null) {
             req.data.locationWCDetail = query2[0].WorkCenterText
+            req.data.plantName = query2[0].PlantName
             // req.data.MaintenancePlanningPlant = query2[0].Plant
         }
 
@@ -313,23 +314,23 @@ module.exports = cds.service.impl(async function () {
             updateStatus()
         }
         else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus != 'NWLVAL' && queryStatus[0].rStatus != 'WLRQTD' && queryStatus[0].rStatus != 'NWLREC')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Created, New Worklist Requested and New Worklist Received')
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Created, New Worklist Requested or New Worklist Received')
         else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus == 'NWLVAL')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
         //MR Status = New Worklist Created & Selected Status = New Worklist Requested , New Worklists Received, All Worklists Received
         else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && (queryStatus[0].rStatus == 'WLRQTD' || queryStatus[0].rStatus == 'NWLREC' || queryStatus[0].rStatus == 'AWLREC'))
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus == 'WLRQTD' && queryStatus[0].rStatus == 'NWLREC' && queryStatus[0].rStatus == 'AWLREC')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Requested, New Worklists Received and All Worklists Received')
+        else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus != 'WLRQTD' && queryStatus[0].rStatus != 'NWLREC' && queryStatus[0].rStatus != 'AWLREC')
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status New Worklist Requested, New Worklists Received or All Worklists Received')
         else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && queryStatus[0].rStatus == 'WLCRTD')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        //MR Status = All Worklists Received & Selected Status = Ready for Approval state or New Worklist Received
-        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && (queryStatus[0].rStatus == 'APRRDY' || queryStatus[0].rStatus == 'NWLREC'))
+        //MR Status = All Worklists Received & Selected Status = Ready for Approval state 
+        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus == 'APRRDY')
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && (queryStatus[0].rStatus != 'APRRDY' || queryStatus[0].rStatus != 'NWLREC') && queryStatus[0].rStatus != 'AWLREC')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status Ready for Approval state or New Worklist Received')
+        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus != 'APRRDY' && queryStatus[0].rStatus != 'AWLREC')
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status Ready for Approval')
         else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus == 'AWLREC')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
@@ -349,7 +350,7 @@ module.exports = cds.service.impl(async function () {
                 array[i] = queryWorkItem[i].taskListFlag
                 //If any of the workitem doesnot have tasklist it will give a error msg
                 if (array.includes(false)) {
-                    req.error(406, 'For Request ' + query[0].requestNoConcat + ' Task List is not identified for WorkItem ' + queryWorkItem[i].workItem)
+                    req.error(406, 'For Request ' + query[0].requestNoConcat + ' Task List is not identified for WorkItem ' + queryWorkItem[i].workItemID)
                 }
                 else {
                     updateStatus()
@@ -470,9 +471,9 @@ module.exports = cds.service.impl(async function () {
                                 "WorkCenter": vworkCenter,
                                 "WorkCenterPlant": vworkCenterPlant,
                                 "RevisionStartDate": vformatexpectedArrivalDate,
-                                "RevisionStartTime": 'PT00H00M00S',
+                                //"RevisionStartTime": 'PT00H00M00S',
                                 "RevisionEndDate": vformatedexpectedDeliveryDate,
-                                "RevisionEndTime": 'PT00H00M00S'
+                               // "RevisionEndTime": 'PT00H00M00S'
                             }
                             if (vfunctionalLocation == null && vequipment == null) {
                                 var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
@@ -518,7 +519,7 @@ module.exports = cds.service.impl(async function () {
                                 to_requestPhase_rPhaseDesc: 'Preparation',
                                 updateRevisionFlag: false
                             }).where({ ID: id1 })
-                            req.info(101, 'Revision ' + result.RevisionNo + ' created for Maintenance Request ' + query[0].requestNoConcat)
+                            req.notify(201, 'For Request ' + query[0].requestNoConcat + ' Revision ' + result.RevisionNo + ' has been created.')
                             return result
                         }
                     }
