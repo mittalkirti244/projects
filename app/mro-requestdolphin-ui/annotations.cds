@@ -42,7 +42,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             }
         },
         {
-            Value                 : to_requestType_ID,
+            Value                 : to_requestType_rType,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -256,10 +256,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value : to_requestStatusDisp_rStatus,
             ![@UI.Hidden]
         },
-        {
+        /*{
             Value : to_requestType_rType,
             ![@UI.Hidden]
-        },
+        },*/
         {
             Value : to_requestPhase_rPhase,
             ![@UI.Hidden]
@@ -318,9 +318,9 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         }
     ],
     //Coulmn 1 for header facet
-    FieldGroup #Basic1                          : {Data : [{Value : to_requestType_ID},
-                                                                                        /*{Value : to_requestStatus_rStatusDesc},
-                                                                                        {Value : to_requestPhase_rPhaseDesc}*/
+    FieldGroup #Basic1                          : {Data : [{Value : to_requestType_rType},
+                                                                                           /*{Value : to_requestStatus_rStatusDesc},
+                                                                                           {Value : to_requestPhase_rPhaseDesc}*/
                                                                     ]},
     //Column 2 for header facet
     FieldGroup #Basic2                          : {Data : [
@@ -448,7 +448,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     //Column 3 in general tab
     FieldGroup #generalGroup3                   : {Data : [
         {
-            Value         : to_requestType_ID,
+            Value         : to_requestType_rType,
             ![@UI.Hidden] : uiHidden //Inital value in CREATE-> visible, In edit -> not visible
         },
         {
@@ -507,12 +507,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 };
 
 //Text arrangment for request type
-annotate mrorequestdolphinService.MaintenanceRequests with {
+/*annotate mrorequestdolphinService.MaintenanceRequests with {
     requestTypeDisp @(Common : {Text : {
         $value                 : to_requestType_rType,
         ![@UI.TextArrangement] : #TextFirst,
     }});
-};
+};*/
 
 //Text Arrangment for BP in List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -593,7 +593,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         ![@UI.TextArrangement] : #TextLast
     }});
 };*/
-
 
 
 //Request Number value Help for List Page
@@ -984,26 +983,25 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 //Request Type DropDown
 annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestType @(Common : {
-        Text      : {
-            $value                 : to_requestType_rType,
-            ![@UI.TextArrangement] : #TextFirst
-        },
+        /* Text      : {
+             $value                 : to_requestType_rType,
+             ![@UI.TextArrangement] : #TextFirst
+         },*/
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'RequestTypes',
             Label          : '{i18n>requestType}',
             Parameters     : [
-                {
-                    $Type             : 'Common.ValueListParameterOut',
-                    LocalDataProperty : 'to_requestType_ID',
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterOut',
-                    LocalDataProperty : 'to_requestType_rType',
-                    ValueListProperty : 'rType'
-                }
-            ]
+                              /*{
+                                  $Type             : 'Common.ValueListParameterOut',
+                                  LocalDataProperty : 'to_requestType_ID',
+                                  ValueListProperty : 'ID'
+                              },*/
+                             {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'to_requestType_rType',
+                ValueListProperty : 'rType'
+            }]
         }
     })
 };

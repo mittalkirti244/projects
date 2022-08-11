@@ -46,7 +46,7 @@ entity MaintenanceRequests : managed {
         emailFlag                : Boolean; //True indicates -> mail sent & false indicates -> mail not sent
         uiHidden                 : Boolean not null default false; //datafield to apply hidden criteria for request type and request status
         uiHidden1                : Boolean not null default true; //datafield to apply hidden criteria for request type and request status
-        requestTypeDisp          : Integer                                          @title                 : '{i18n>requestTypeDisp}'; //to assign the request type at the time of edit and readonly field
+        requestTypeDisp          : String                                          @title                 : '{i18n>requestTypeDisp}'; //to assign the request type at the time of edit and readonly field
         mrCount                  : Integer default 1                                @title                 : '{i18n>mrCount}'; //Used in views to show count of the requests
         createdAtDate            : Date                                             @cds.on.insert         : $now  @title                              : '{i18n>createdAtDate}'; //Used as a filter criteria for Overview page(Date DataType works as a date picker)
         age                      : Integer default 0                                @title                 : '{i18n>age}'; //For representing Aging field
@@ -63,7 +63,7 @@ entity MaintenanceRequests : managed {
 };
 
 entity RequestTypes {
-    key ID    : Integer;
+   // key ID    : Integer;
     key rType : String;
 };
 

@@ -66,9 +66,10 @@ module.exports = cds.service.impl(async function () {
     this.before('CREATE', 'MaintenanceRequests', async (req) => {
 
         //Fetching the concatenated number from Number range and storing it to request Number of MR
-        var query = await SELECT.from(RequestTypes).columns('*').where({ ID: req.data.to_requestType_ID })//ID =1
-        var rTpyeValue = query[0].rType //Complete Asset
-        req.data.to_requestType_rType = rTpyeValue
+        var query = await SELECT.from(RequestTypes).columns('*').where({ rType: req.data.to_requestType_rType })
+        //var rTpyeValue = query[0].rType //Complete Asset
+        console.log('query',query)
+       // req.data.to_requestType_ID = query[0].ID
         var query1 = await service1.read(NumberRanges)
         for (let i = 0; i < query1.length; i++) {
             if (req.data.to_requestType_rType == query1[i].numberRangeID) {
@@ -99,7 +100,7 @@ module.exports = cds.service.impl(async function () {
         req.data.uiHidden = true
         req.data.uiHidden1 = false
         //To assign the Request type ID in requestTypeDisp -> It will enable at the time of edit with readonly field
-        req.data.requestTypeDisp = req.data.to_requestType_ID
+        req.data.requestTypeDisp = req.data.to_requestType_rType
     });
 
     //This handler is used for creating and updating the request(Create and Update Handler)
