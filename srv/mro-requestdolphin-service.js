@@ -441,7 +441,7 @@ module.exports = cds.service.impl(async function () {
                     vplanningPlant = reqwcPlant
                 }
                 //Revision text will contain Request description + request Number
-                vrevisionText = query[0].requestNo + ' ' + query[0].requestDesc
+                vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + query[0].eqMaterial + ' ' + query[0].eqSerialNumber
                 vworkCenter = query[0].locationWC
 
                 //After selecting thw workcenter that is coming from patch

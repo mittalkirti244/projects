@@ -318,10 +318,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         }
     ],
     //Coulmn 1 for header facet
-    FieldGroup #Basic1                          : {Data : [{Value : to_requestType_rType},
-                                                                                           /*{Value : to_requestStatus_rStatusDesc},
-                                                                                           {Value : to_requestPhase_rPhaseDesc}*/
-                                                                    ]},
+    FieldGroup #Basic1                          : {Data : [
+        {Value : to_requestType_rType},
+        {Value : to_requestStatus_rStatusDesc},
+        {Value : to_requestPhase_rPhaseDesc}
+    ]},
     //Column 2 for header facet
     FieldGroup #Basic2                          : {Data : [
                                                            /*  {Value : locationWC},
@@ -470,12 +471,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             {Value : mModel},
             {Value : mPartNumber},
             {Value : mSerialNumber},
+            {Value : eqMaterial},
+            {Value : eqSerialNumber}
         ]
     },
     //Cloumn 2 of asset Information
     FieldGroup #referenceObjectsGroup           : {Data : [
-        {Value : eqMaterial},
-        {Value : eqSerialNumber},
         {Value : functionalLocation},
         {Value : equipment}
     ]},
@@ -1274,7 +1275,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
 });
 
 annotate mrorequestdolphinService.Documents {
-    // ID      @readonly;
+    ID      @mandatory;
     UUID    @readonly;
     //url     @mandatory;
     remarks @UI.MultiLineText;
