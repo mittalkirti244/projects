@@ -336,7 +336,7 @@ module.exports = cds.service.impl(async function () {
         else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus == 'APRRDY')
             updateStatus()
         else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus != 'APRRDY' && queryStatus[0].rStatus != 'AWLREC')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status '+ queryStatusDisp[8].rStatusDesc)
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[8].rStatusDesc)
         else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus == 'AWLREC')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
@@ -344,7 +344,7 @@ module.exports = cds.service.impl(async function () {
         else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus == 'MRAPRD')
             updateStatus()
         else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus != 'MRAPRD' && queryStatus[0].rStatus != 'APRRDY')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status '+ queryStatusDisp[9].rStatusDesc)
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[9].rStatusDesc)
         else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus == 'APRRDY')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
@@ -368,7 +368,7 @@ module.exports = cds.service.impl(async function () {
             }
         }
         else if (query[0].to_requestStatus_rStatus == 'MRAPRD' && queryStatus[0].rStatus != 'TLIDNT' && queryStatus[0].rStatus != 'MRAPRD')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status '+ queryStatusDisp[10].rStatusDesc)
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[10].rStatusDesc)
         else if (query[0].to_requestStatus_rStatus == 'MRAPRD' && queryStatus[0].rStatus == 'MRAPRD')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
@@ -379,10 +379,22 @@ module.exports = cds.service.impl(async function () {
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
         //MR Status = Revision Created & selected status = Notifications Created
-        else if (query[0].to_requestStatus_rStatus == 'RVCRTD' && queryStatus[0].rStatus == 'NTCRTD')
-            updateStatus()
+        else if (query[0].to_requestStatus_rStatus == 'RVCRTD' && queryStatus[0].rStatus == 'NTCRTD') {
+            var array1 = new Array()
+            for (var i = 0; i < queryWorkItem.length; i++) {
+                console.log('queryWorkItem[i].notificationFlag', queryWorkItem[i].notificationFlag)
+                array1[i] = queryWorkItem[i].notificationFlag
+                //If any of the workitem doesnot have notification it will give a error msg
+                if (array1.includes(false)) {
+                    req.error(406, 'For Request ' + query[0].requestNoConcat + ' Notification is not generated for WorkItem ' + queryWorkItem[i].workItemID)
+                }
+                else {
+                    updateStatus()
+                }
+            }
+        }
         else if (query[0].to_requestStatus_rStatus == 'RVCRTD' && queryStatus[0].rStatus != 'NTCRTD' && queryStatus[0].rStatus != 'RVCRTD')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status '+ queryStatusDisp[12].rStatusDesc)
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[12].rStatusDesc)
         else if (query[0].to_requestStatus_rStatus == 'RVCRTD' && queryStatus[0].rStatus == 'RVCRTD')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
@@ -395,7 +407,7 @@ module.exports = cds.service.impl(async function () {
             }).where({ ID: id1 })
         }
         else if (query[0].to_requestStatus_rStatus == 'NTCRTD' && queryStatus[0].rStatus != 'MRCMPL' && queryStatus[0].rStatus != 'NTCRTD')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status '+ queryStatusDisp[13].rStatusDesc)
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[13].rStatusDesc)
         else if (query[0].to_requestStatus_rStatus == 'NTCRTD' && queryStatus[0].rStatus == 'NTCRTD')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
