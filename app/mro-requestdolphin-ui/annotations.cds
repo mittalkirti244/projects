@@ -118,43 +118,22 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                 width : '10rem',
             }
         },
-        /*{
-            Value                 : functionalLocation,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },
-        {
-            Value                 : equipment,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },
-        {
-            Value                 : contract,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },*/
-       /* {
-            Value                 : modifiedBy,
-            Label                 : '{i18n>modifiedBy}',
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },
-        {
-            Value                 : modifiedAt,
-           Label                 : '{i18n>modifiedAt}',
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },*/
+        /* {
+             Value                 : modifiedBy,
+             Label                 : '{i18n>modifiedBy}',
+             ![@HTML5.CssDefaults] : {
+                 $Type : 'HTML5.CssDefaultsType',
+                 width : '10rem',
+             }
+         },
+         {
+             Value                 : modifiedAt,
+            Label                 : '{i18n>modifiedAt}',
+             ![@HTML5.CssDefaults] : {
+                 $Type : 'HTML5.CssDefaultsType',
+                 width : '10rem',
+             }
+         },*/
         //fields to be hidden in settings tab on list report page
         {
             Value : businessPartner,
@@ -176,10 +155,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value : requestTypeDisp,
             ![@UI.Hidden]
         },
-        {
+       /* {
             Value : uiHidden,
             ![@UI.Hidden]
-        },
+        },*/
         {
             Value : uiHidden1,
             ![@UI.Hidden]

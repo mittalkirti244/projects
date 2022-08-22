@@ -82,10 +82,15 @@
         },
         "numberEnd": {
           "type": "cds.Integer",
-          "@Common.Label": "Ending Number"
+          "@Common.Label": "Ending Number",
+          "@Common.FieldControl": {
+            "#": {
+              "#": "Mandatory"
+            }
+          }
         },
         "autoRepeat": {
-          "type": "cds.LargeString",
+          "type": "cds.Boolean",
           "@Common.Label": "Auto Repeat"
         },
         "concatinatedLastRunningNo": {
@@ -160,31 +165,88 @@
           "$Type": "UI.DataField",
           "Value": {
             "=": "numberRangeID"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
           }
         },
         {
           "$Type": "UI.DataField",
           "Value": {
             "=": "description"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
           }
         },
         {
           "$Type": "UI.DataField",
           "Value": {
             "=": "prefix"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
           }
         },
         {
           "$Type": "UI.DataField",
           "Value": {
             "=": "postfix"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "numberStart"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "numberEnd"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "autoRepeat"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
           }
         },
         {
           "$Type": "UI.DataField",
           "Value": {
             "=": "concatinatedLastRunningNo"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
           }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "status"
+          },
+          "@UI.Hidden": true
         }
       ],
       "@UI.HeaderInfo": {
@@ -219,20 +281,14 @@
             "Value": {
               "=": "createdAt"
             },
-            "Label": "Created At"
+            "Label": "Created Date & Time"
           },
           {
             "$Type": "UI.DataField",
             "Value": {
               "=": "modifiedAt"
             },
-            "Label": "Modified At"
-          },
-          {
-            "$Type": "UI.DataField",
-            "Value": {
-              "=": "status"
-            }
+            "Label": "Last Modified Date & Time"
           },
           {
             "$Type": "UI.DataField",
@@ -245,7 +301,6 @@
       "@UI.Facets": [
         {
           "$Type": "UI.CollectionFacet",
-          "Label": "Number Range",
           "ID": "NumberRangeFacet",
           "Facets": [
             {
@@ -269,6 +324,12 @@
             "$Type": "UI.DataField",
             "Value": {
               "=": "description"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "autoRepeat"
             }
           },
           {
@@ -300,6 +361,12 @@
       "@Capabilities.InsertRestrictions": {
         "$Type": "Capabilities.InsertRestrictionsType",
         "Insertable": true
+      },
+      "@Capabilities.FilterRestrictions": {
+        "$Type": "Capabilities.FilterRestrictionsType",
+        "NonFilterableProperties": [
+          "status"
+        ]
       },
       "@Capabilities.DeleteRestrictions": {
         "$Type": "Capabilities.DeleteRestrictionsType",

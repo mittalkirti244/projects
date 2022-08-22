@@ -214,7 +214,7 @@ extend service mrorequestdolphinService with {
             RevisionText      @UI.HiddenFilter @(Common.Label : '{i18n>RevisionText}'),
             RevisionType      @(Common.Label : '{i18n>RevisionType}'),
             WorkCenter        @(Common.Label : '{i18n>WorkCenter}'),
-            WorkCenterPlant   @(Common.Label : '{i18n>WorkCenterPlant}')
+            WorkCenterPlant   @(Common.Label : '{i18n>Plant}')
     };
 }
 
