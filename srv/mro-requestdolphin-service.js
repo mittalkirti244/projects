@@ -268,7 +268,6 @@ module.exports = cds.service.impl(async function () {
         console.log('queryStatusDisp', queryStatusDisp)
         console.log('queryStatusDisp....', queryStatusDisp[1].rStatusDesc)
 
-
         //MR Status = Created & Selected Status = Request for New Worklist
         if (query[0].to_requestStatus_rStatus == 'MRCRTD' && queryStatus[0].rStatus == 'NWLREQ')
             updateStatus()
@@ -337,18 +336,18 @@ module.exports = cds.service.impl(async function () {
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
         //MR Status = All Worklists Received & Selected Status = Ready for Approval state 
-        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus == 'APRRDY')
+        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && (queryStatus[0].rStatus == 'APRRDY' || queryStatus[0].rStatus == 'NWLREQ' || queryStatus[0].rStatus == 'WLRQTD' || queryStatus[0].rStatus == 'NWLREC' || queryStatus[0].rStatus == 'NWLSCR' || queryStatus[0].rStatus == 'NWLVAL' || queryStatus[0].rStatus == 'WLCRTD'))
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus != 'APRRDY' && queryStatus[0].rStatus != 'AWLREC')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[8].rStatusDesc)
+        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus != 'APRRDY' && queryStatus[0].rStatus != 'AWLREC' && queryStatus[0].rStatus != 'NWLREQ' && queryStatus[0].rStatus != 'WLRQTD' && queryStatus[0].rStatus != 'NWLREC' && queryStatus[0].rStatus != 'NWLSCR' && queryStatus[0].rStatus != 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD')
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[8].rStatusDesc + ' and to all its previsous statuses.')
         else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus == 'AWLREC')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
         //MR Status = Ready for Approval & Selected Status = Approved
-        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus == 'MRAPRD')
+        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && (queryStatus[0].rStatus == 'MRAPRD' || queryStatus[0].rStatus == 'NWLREQ' || queryStatus[0].rStatus == 'WLRQTD' || queryStatus[0].rStatus == 'NWLREC' || queryStatus[0].rStatus == 'NWLSCR' || queryStatus[0].rStatus == 'NWLVAL' || queryStatus[0].rStatus == 'WLCRTD' || queryStatus[0].rStatus == 'AWLREC'))
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus != 'MRAPRD' && queryStatus[0].rStatus != 'APRRDY')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[9].rStatusDesc)
+        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus != 'MRAPRD' && queryStatus[0].rStatus != 'APRRDY' && queryStatus[0].rStatus != 'NWLREQ' && queryStatus[0].rStatus != 'WLRQTD' && queryStatus[0].rStatus != 'NWLREC' && queryStatus[0].rStatus != 'NWLSCR' && queryStatus[0].rStatus != 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus != 'AWLREC')
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[9].rStatusDesc + ' and to all its previsous statuses.')
         else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus == 'APRRDY')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
