@@ -68,24 +68,36 @@ module.exports = cds.service.impl(async function () {
 
         //Fetching the concatenated number from Number range and storing it to request Number of MR
         var query = await SELECT.from(RequestTypes).columns('*').where({ rType: req.data.to_requestType_rType })
-        //var rTpyeValue = query[0].rType //Complete Asset
+        var rTpyeValue = query[0].rType //Complete Asset
         console.log('query', query)
         // req.data.to_requestType_ID = query[0].ID
-        var query1 = await service1.read(NumberRanges)
-        for (let i = 0; i < query1.length; i++) {
-            if (req.data.to_requestType_rType == query1[i].numberRangeID) {
-                const nrID = await service1.getLastRunningNumber(query1[i].numberRangeID)
-                req.data.requestNo = nrID
-                vnumberRangeID = query1[i].numberRangeID
+        var query1 = await service1.read(NumberRanges).columns('*').where({ numberRangeID: query[0].rType })
+        //.columns('*').where({ numberRangeID: req.data.to_requestType_rType })
+        console.log('query1', query1)
+        //   for (let i = 0; i < query1.length; i++) {
+        if (query1[0] != null) {
+            if (req.data.to_requestType_rType == query1[0].numberRangeID) {
+                try {
+                    const nrID = await service1.getLastRunningNumber(query1[0].numberRangeID)
+                    req.data.requestNo = nrID
+                    vnumberRangeID = query1[0].numberRangeID
+                } catch (error) {
+                    var vstatusCode = error.statusCode
+                    var verrorMessage = error.innererror.response.body.error.message
+                    req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
+                }
             }
         }
-
-        //If Request Type is not present in Number Range, it will give Info msg
-        //(If selected request type is not there in Number Range, the vnumberRangeID will store undefined)
-        console.log('vnumberRangeID...................', vnumberRangeID)
-        if (vnumberRangeID == undefined) {
+        else {
+            console.log('............................')
+            //If Request Type is not present in Number Range, it will give Info msg
+            //(If selected request type is not there in Number Range, the vnumberRangeID will store undefined)
+           // console.log('vnumberRangeID...................', vnumberRangeID)
+            // if (vnumberRangeID == undefined) {
             req.error(406, req.data.to_requestType_rType + ' Type is not present in Number Range.')
+            // }
         }
+        //  }
 
         //Field to be field at the time of creating a new record
         req.data.to_requestStatus_rStatusDesc = 'Created'
