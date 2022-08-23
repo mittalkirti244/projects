@@ -87,7 +87,7 @@
                 "kind": "odata",
                 "model": "srv/external/notifleo",
                 "credentials": {
-                    "url": "http://localhost:42325/notifleo"
+                    "url": "http://localhost:37813/notifleo"
                 }
             }
         },

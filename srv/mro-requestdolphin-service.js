@@ -457,23 +457,18 @@ module.exports = cds.service.impl(async function () {
                 }
 
                 //Revision text will contain Request Number + Type + Material + Serial Number
-                //If null value will be there is serial number or material then It will pass blank over there 
+                //If null value will be there is serial number or material then will not pass those fields in revision Description
                 if (query[0].eqMaterial == null && query[0].eqSerialNumber == null) {
-                    veqMaterial = '',
-                        veqSerialNumber = ''
+                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType
                 } else if (query[0].eqMaterial == null && query[0].eqSerialNumber != null) {
-                    veqMaterial = '',
-                        veqSerialNumber = query[0].eqSerialNumber
+                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + veqSerialNumber
                 }
                 else if (query[0].eqMaterial != null && query[0].eqSerialNumber == null) {
-                    veqMaterial = query[0].eqMaterial,
-                        veqSerialNumber = ''
+                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + veqMaterial
                 }
                 else {
-                    veqMaterial = query[0].eqMaterial,
-                        veqSerialNumber = query[0].eqSerialNumber
+                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + veqMaterial + ' ' + veqSerialNumber
                 }
-                vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + veqMaterial + ' ' + veqSerialNumber
 
                 vworkCenter = query[0].locationWC
 
