@@ -335,7 +335,7 @@ module.exports = cds.service.impl(async function () {
         else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && queryStatus[0].rStatus == 'WLCRTD')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        //MR Status = All Worklists Received & Selected Status = Ready for Approval state 
+        //MR Status = All Worklists Received & Selected Status = Ready for Approval and previous all statuses
         else if (query[0].to_requestStatus_rStatus == 'AWLREC' && (queryStatus[0].rStatus == 'APRRDY' || queryStatus[0].rStatus == 'NWLREQ' || queryStatus[0].rStatus == 'WLRQTD' || queryStatus[0].rStatus == 'NWLREC' || queryStatus[0].rStatus == 'NWLSCR' || queryStatus[0].rStatus == 'NWLVAL' || queryStatus[0].rStatus == 'WLCRTD'))
             updateStatus()
         else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus != 'APRRDY' && queryStatus[0].rStatus != 'AWLREC' && queryStatus[0].rStatus != 'NWLREQ' && queryStatus[0].rStatus != 'WLRQTD' && queryStatus[0].rStatus != 'NWLREC' && queryStatus[0].rStatus != 'NWLSCR' && queryStatus[0].rStatus != 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD')
@@ -343,7 +343,7 @@ module.exports = cds.service.impl(async function () {
         else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus == 'AWLREC')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        //MR Status = Ready for Approval & Selected Status = Approved
+        //MR Status = Ready for Approval & Selected Status = Approved and Previous all statuses
         else if (query[0].to_requestStatus_rStatus == 'APRRDY' && (queryStatus[0].rStatus == 'MRAPRD' || queryStatus[0].rStatus == 'NWLREQ' || queryStatus[0].rStatus == 'WLRQTD' || queryStatus[0].rStatus == 'NWLREC' || queryStatus[0].rStatus == 'NWLSCR' || queryStatus[0].rStatus == 'NWLVAL' || queryStatus[0].rStatus == 'WLCRTD' || queryStatus[0].rStatus == 'AWLREC'))
             updateStatus()
         else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus != 'MRAPRD' && queryStatus[0].rStatus != 'APRRDY' && queryStatus[0].rStatus != 'NWLREQ' && queryStatus[0].rStatus != 'WLRQTD' && queryStatus[0].rStatus != 'NWLREC' && queryStatus[0].rStatus != 'NWLSCR' && queryStatus[0].rStatus != 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus != 'AWLREC')
@@ -455,8 +455,26 @@ module.exports = cds.service.impl(async function () {
                 else {
                     vplanningPlant = reqwcPlant
                 }
-                //Revision text will contain Request description + request Number
-                vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + query[0].eqMaterial + ' ' + query[0].eqSerialNumber
+
+                //Revision text will contain Request Number + Type + Material + Serial Number
+                //If null value will be there is serial number or material then It will pass blank over there 
+                if (query[0].eqMaterial == null && query[0].eqSerialNumber == null) {
+                    veqMaterial = '',
+                        veqSerialNumber = ''
+                } else if (query[0].eqMaterial == null && query[0].eqSerialNumber != null) {
+                    veqMaterial = '',
+                        veqSerialNumber = query[0].eqSerialNumber
+                }
+                else if (query[0].eqMaterial != null && query[0].eqSerialNumber == null) {
+                    veqMaterial = query[0].eqMaterial,
+                        veqSerialNumber = ''
+                }
+                else {
+                    veqMaterial = query[0].eqMaterial,
+                        veqSerialNumber = query[0].eqSerialNumber
+                }
+                vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + veqMaterial + ' ' + veqSerialNumber
+
                 vworkCenter = query[0].locationWC
 
                 //After selecting thw workcenter that is coming from patch

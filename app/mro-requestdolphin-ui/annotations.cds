@@ -155,10 +155,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value : requestTypeDisp,
             ![@UI.Hidden]
         },
-       /* {
+        {
             Value : uiHidden,
             ![@UI.Hidden]
-        },*/
+        },
         {
             Value : uiHidden1,
             ![@UI.Hidden]
