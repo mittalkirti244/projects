@@ -571,6 +571,22 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
+//Text arrangement for Revision and Revision text on object page
+annotate mrorequestdolphinService.MaintenanceRequests with {
+    revision @(Common : {Text : {
+        $value                 : revisionText,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
+//Text arrangement for Maintenance Revision and Revision text on object page
+annotate mrorequestdolphinService.MaintenanceRequests with {
+    MaintenanceRevision @(Common : {Text : {
+        $value                 : revisionText,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
 //Text arrangement for Status field on List page
 /*annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestStatusDisp_rStatusDesc @(Common : {Text : {
