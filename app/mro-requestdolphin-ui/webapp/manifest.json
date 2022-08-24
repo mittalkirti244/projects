@@ -84,11 +84,6 @@
                     "pattern": "MaintenanceRequests({key}):?query:",
                     "name": "MaintenanceRequestsObjectPage",
                     "target": "MaintenanceRequestsObjectPage"
-                },
-                {
-                    "pattern": "MaintenanceRequests({key})/to_document({key2}):?query:",
-                    "name": "DocumentsObjectPage",
-                    "target": "DocumentsObjectPage"
                 }
             ],
             "targets": {
@@ -138,28 +133,16 @@
                                         "enableExport": true,
                                         "enableSettings": false
                                     }
-                                }
-                            },
-                            "navigation": {
-                                "to_document": {
-                                    "detail": {
-                                        "route": "DocumentsObjectPage"
+                                },
+                                "to_document/@com.sap.vocabularies.UI.v1.PresentationVariant<@com.sap.vocabularies.UI.v1.LineItem>": {
+                                    "tableSettings": {
+                                        "creationMode": {
+                                            "name": "Inline"
+                                        }
                                     }
                                 }
-                            }
-                        }
-                    }
-                },
-                "DocumentsObjectPage": {
-                    "type": "Component",
-                    "id": "DocumentsObjectPage",
-                    "name": "sap.fe.templates.ObjectPage",
-                    "options": {
-                        "settings": {
-                            "entitySet": "Documents",
-                            "navigation": {},
-                            "sectionLayout": "Page",
-                            "editableHeaderContent": false
+                            },
+                            "navigation": {}
                         }
                     }
                 }
