@@ -36,7 +36,7 @@ entity MaintenanceRequests : managed {
         functionalLocation       : String                                           @title                 : '{i18n>functionalLocation}'; //VH for fucntional location s4 service with filter criteria(mname,mmodel and mserialNumber)
         functionalLocationName   : String                                           @title                 : '{i18n>functionalLocationName}'; //readonly field for functional location
         MaintenanceRevision      : String                                           @Common.SemanticObject : 'MaintenanceRevisionOverview'  @title     : '{i18n>MaintenanceRevision}'; // create by trigerring when request status is confirmed
-        revision                 : String                                           @title                 : '{i18n>MaintenanceRevision}'; //Maintenance Revision No
+        revision                 : String                                           @title                 : '{i18n>MaintenanceRevision}'; //Maintenance Revision No on object page
         revisionType             : String                                           @title                 : '{i18n>revisionType}'; // It will hold the value as A1
         revisionText             : String                                           @title                 : '{i18n>revisionText}'; // concatenation of request Number and request Ddescription
         ccpersonName             : String                                           @title                 : '{i18n>ccpersonName}'  @UI.Placeholder    : 'Name'; //free text field comes from BP
@@ -46,7 +46,7 @@ entity MaintenanceRequests : managed {
         emailFlag                : Boolean; //True indicates -> mail sent & false indicates -> mail not sent
         uiHidden                 : Boolean not null default false; //datafield to apply hidden criteria for request type and request status
         uiHidden1                : Boolean not null default true; //datafield to apply hidden criteria for request type and request status
-        requestTypeDisp          : String                                          @title                 : '{i18n>requestTypeDisp}'; //to assign the request type at the time of edit and readonly field
+        requestTypeDisp          : String                                           @title                 : '{i18n>requestTypeDisp}'; //to assign the request type at the time of edit and readonly field
         mrCount                  : Integer default 1                                @title                 : '{i18n>mrCount}'; //Used in views to show count of the requests
         createdAtDate            : Date                                             @cds.on.insert         : $now  @title                              : '{i18n>createdAtDate}'; //Used as a filter criteria for Overview page(Date DataType works as a date picker)
         age                      : Integer default 0                                @title                 : '{i18n>age}'; //For representing Aging field
@@ -63,7 +63,7 @@ entity MaintenanceRequests : managed {
 };
 
 entity RequestTypes {
-   // key ID    : Integer;
+        // key ID    : Integer;
     key rType : String;
 };
 

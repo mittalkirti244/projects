@@ -68,22 +68,26 @@ module.exports = cds.service.impl(async function () {
 
         //Fetching the concatenated number from Number range and storing it to request Number of MR
         var query = await SELECT.from(RequestTypes).columns('*').where({ rType: req.data.to_requestType_rType })
-        //var rTpyeValue = query[0].rType //Complete Asset
         console.log('query', query)
-        // req.data.to_requestType_ID = query[0].ID
-        var query1 = await service1.read(NumberRanges)
-        for (let i = 0; i < query1.length; i++) {
-            if (req.data.to_requestType_rType == query1[i].numberRangeID) {
-                const nrID = await service1.getLastRunningNumber(query1[i].numberRangeID)
-                req.data.requestNo = nrID
-                vnumberRangeID = query1[i].numberRangeID
+        var query1 = await service1.read(NumberRanges).columns('*').where({ numberRangeID: query[0].rType })
+        console.log('query1', query1)
+        if (query1[0] != null) {
+            if (req.data.to_requestType_rType == query1[0].numberRangeID) {
+                try {
+                    const nrID = await service1.getLastRunningNumber(query1[0].numberRangeID)
+                    req.data.requestNo = nrID
+                    vnumberRangeID = query1[0].numberRangeID
+                } catch (error) {
+                    // var vstatusCode = error.statusCode
+                    var verrorMessage = error.innererror.response.body.error.message
+                    req.error(406, verrorMessage)
+                }
             }
         }
-
-        //If Request Type is not present in Number Range, it will give Info msg
-        //(If selected request type is not there in Number Range, the vnumberRangeID will store undefined)
-        console.log('vnumberRangeID...................', vnumberRangeID)
-        if (vnumberRangeID == undefined) {
+        else {
+            console.log('............................')
+            //If Request Type is not present in Number Range, it will give Info msg
+            //(If selected request type is not there in Number Range)
             req.error(406, req.data.to_requestType_rType + ' Type is not present in Number Range.')
         }
 
@@ -264,7 +268,6 @@ module.exports = cds.service.impl(async function () {
         console.log('queryStatusDisp', queryStatusDisp)
         console.log('queryStatusDisp....', queryStatusDisp[1].rStatusDesc)
 
-
         //MR Status = Created & Selected Status = Request for New Worklist
         if (query[0].to_requestStatus_rStatus == 'MRCRTD' && queryStatus[0].rStatus == 'NWLREQ')
             updateStatus()
@@ -332,19 +335,19 @@ module.exports = cds.service.impl(async function () {
         else if (query[0].to_requestStatus_rStatus == 'WLCRTD' && queryStatus[0].rStatus == 'WLCRTD')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        //MR Status = All Worklists Received & Selected Status = Ready for Approval state 
-        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus == 'APRRDY')
+        //MR Status = All Worklists Received & Selected Status = Ready for Approval and previous all statuses
+        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && (queryStatus[0].rStatus == 'APRRDY' || queryStatus[0].rStatus == 'NWLREQ' || queryStatus[0].rStatus == 'WLRQTD' || queryStatus[0].rStatus == 'NWLREC' || queryStatus[0].rStatus == 'NWLSCR' || queryStatus[0].rStatus == 'NWLVAL' || queryStatus[0].rStatus == 'WLCRTD'))
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus != 'APRRDY' && queryStatus[0].rStatus != 'AWLREC')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[8].rStatusDesc)
+        else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus != 'APRRDY' && queryStatus[0].rStatus != 'AWLREC' && queryStatus[0].rStatus != 'NWLREQ' && queryStatus[0].rStatus != 'WLRQTD' && queryStatus[0].rStatus != 'NWLREC' && queryStatus[0].rStatus != 'NWLSCR' && queryStatus[0].rStatus != 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD')
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[8].rStatusDesc + ' and to all its previsous statuses.')
         else if (query[0].to_requestStatus_rStatus == 'AWLREC' && queryStatus[0].rStatus == 'AWLREC')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
-        //MR Status = Ready for Approval & Selected Status = Approved
-        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus == 'MRAPRD')
+        //MR Status = Ready for Approval & Selected Status = Approved and Previous all statuses
+        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && (queryStatus[0].rStatus == 'MRAPRD' || queryStatus[0].rStatus == 'NWLREQ' || queryStatus[0].rStatus == 'WLRQTD' || queryStatus[0].rStatus == 'NWLREC' || queryStatus[0].rStatus == 'NWLSCR' || queryStatus[0].rStatus == 'NWLVAL' || queryStatus[0].rStatus == 'WLCRTD' || queryStatus[0].rStatus == 'AWLREC'))
             updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus != 'MRAPRD' && queryStatus[0].rStatus != 'APRRDY')
-            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[9].rStatusDesc)
+        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus != 'MRAPRD' && queryStatus[0].rStatus != 'APRRDY' && queryStatus[0].rStatus != 'NWLREQ' && queryStatus[0].rStatus != 'WLRQTD' && queryStatus[0].rStatus != 'NWLREC' && queryStatus[0].rStatus != 'NWLSCR' && queryStatus[0].rStatus != 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus != 'AWLREC')
+            req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only move to next status ' + queryStatusDisp[9].rStatusDesc + ' and to all its previsous statuses.')
         else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus == 'APRRDY')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
@@ -452,8 +455,21 @@ module.exports = cds.service.impl(async function () {
                 else {
                     vplanningPlant = reqwcPlant
                 }
-                //Revision text will contain Request description + request Number
-                vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + query[0].eqMaterial + ' ' + query[0].eqSerialNumber
+
+                //Revision text will contain Request Number + Type + Material + Serial Number
+                //If null value will be there is serial number or material then will not pass those fields in revision Description
+                if (query[0].eqMaterial == null && query[0].eqSerialNumber == null) {
+                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType
+                } else if (query[0].eqMaterial == null && query[0].eqSerialNumber != null) {
+                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + veqSerialNumber
+                }
+                else if (query[0].eqMaterial != null && query[0].eqSerialNumber == null) {
+                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + veqMaterial
+                }
+                else {
+                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + veqMaterial + ' ' + veqSerialNumber
+                }
+
                 vworkCenter = query[0].locationWC
 
                 //After selecting thw workcenter that is coming from patch

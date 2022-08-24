@@ -214,7 +214,7 @@ extend service mrorequestdolphinService with {
             RevisionText      @UI.HiddenFilter @(Common.Label : '{i18n>RevisionText}'),
             RevisionType      @(Common.Label : '{i18n>RevisionType}'),
             WorkCenter        @(Common.Label : '{i18n>WorkCenter}'),
-            WorkCenterPlant   @(Common.Label : '{i18n>WorkCenterPlant}')
+            WorkCenterPlant   @(Common.Label : '{i18n>Plant}')
     };
 }
 
@@ -226,7 +226,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Common.FilterExpress
 
 //Admin Screen
 //Request Type as Drop down for Admin Screen
-annotate mrorequestdolphinService.Configurations with {
+/*annotate mrorequestdolphinService.Configurations with {
     to_requestType @(Common : {
         ValueListWithFixedValues,
         ValueList : {
@@ -291,4 +291,4 @@ annotate mrorequestdolphinService.Configurations with {
     to_requestIndustry @(Common.Label : '{i18n>requestIndustry_rIndustry}');
     to_schemaType      @(Common.Label : '{i18n>schemaType_sSchema}')
 
-}
+}*/

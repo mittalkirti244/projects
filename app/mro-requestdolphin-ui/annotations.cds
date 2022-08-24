@@ -118,43 +118,22 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                 width : '10rem',
             }
         },
-        /*{
-            Value                 : functionalLocation,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },
-        {
-            Value                 : equipment,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },
-        {
-            Value                 : contract,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },*/
-        {
-            Value                 : modifiedBy,
-            Label                 : '{i18n>modifiedBy}',
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },
-        {
-            Value                 : modifiedAt,
+        /* {
+             Value                 : modifiedBy,
+             Label                 : '{i18n>modifiedBy}',
+             ![@HTML5.CssDefaults] : {
+                 $Type : 'HTML5.CssDefaultsType',
+                 width : '10rem',
+             }
+         },
+         {
+             Value                 : modifiedAt,
             Label                 : '{i18n>modifiedAt}',
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            }
-        },
+             ![@HTML5.CssDefaults] : {
+                 $Type : 'HTML5.CssDefaultsType',
+                 width : '10rem',
+             }
+         },*/
         //fields to be hidden in settings tab on list report page
         {
             Value : businessPartner,
@@ -593,7 +572,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         $value                 : to_requestStatusDisp_rStatus,
         ![@UI.TextArrangement] : #TextLast
     }});
-};
+};*/
 
 //Text arrangement for Status field on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -604,7 +583,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 };
 
 //Text arrangemnt for Phase
-annotate mrorequestdolphinService.MaintenanceRequests with {
+/*annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestPhase_rPhaseDesc @(Common : {Text : {
         $value                 : to_requestPhase_rPhase,
         ![@UI.TextArrangement] : #TextLast
@@ -1138,7 +1117,9 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         to_requestStatusDisp_rStatus,
         to_requestPhase_rPhase,
         to_requestPhase_ID,
-        to_ranges_ID
+        to_ranges_ID,
+        modifiedAt,
+        modifiedBy
     ]
 }};
 
@@ -1276,7 +1257,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
             {Value : url},
             /*{
                 Value : modifiedAt,
-                Label : '{i18n>modifiedAt}'
+                //Label : '{i18n>modifiedAt}'
             },*/
             //{Value : eMailRecievedDateAndTime},
             {Value : to_typeOfAttachment_attachmentType},

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "creator": "cds-dk 6.0.4"
+    "creator": "cds-dk 6.1.1"
   },
   "$version": "2.0",
   "definitions": {
@@ -22,56 +22,93 @@
         "createdAt": {
           "type": "cds.Timestamp",
           "@odata.Precision": 7,
-          "@odata.Type": "Edm.DateTimeOffset"
+          "@odata.Type": "Edm.DateTimeOffset",
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@Core.Computed": true,
+          "@Common.Label": "CreatedAt"
         },
         "modifiedAt": {
           "type": "cds.Timestamp",
           "@odata.Precision": 7,
-          "@odata.Type": "Edm.DateTimeOffset"
+          "@odata.Type": "Edm.DateTimeOffset",
+          "@UI.HiddenFilter": true,
+          "@Core.Computed": true,
+          "@Common.Label": "ChangedAt"
         },
         "ID": {
           "key": true,
-          "type": "cds.UUID"
+          "type": "cds.UUID",
+          "@Core.Computed": true,
+          "@Common.Label": "ID"
         },
         "numberRangeID": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Number Range ID",
+          "@Common.FieldControl": {
+            "#": {
+              "#": "Mandatory"
+            }
+          }
         },
         "description": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Description"
         },
         "prefix": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Prefix"
         },
         "runningNumber": {
-          "type": "cds.Integer"
+          "type": "cds.Integer",
+          "@Common.Label": "Running Number"
         },
         "postfix": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Postfix"
         },
         "status": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Status"
         },
         "numberStart": {
-          "type": "cds.Integer"
+          "type": "cds.Integer",
+          "@Common.Label": "Starting Number",
+          "@Common.FieldControl": {
+            "#": {
+              "#": "Mandatory"
+            }
+          }
         },
         "numberEnd": {
-          "type": "cds.Integer"
+          "type": "cds.Integer",
+          "@Common.Label": "Ending Number",
+          "@Common.FieldControl": {
+            "#": {
+              "#": "Mandatory"
+            }
+          }
         },
         "autoRepeat": {
-          "type": "cds.LargeString"
+          "type": "cds.Boolean",
+          "@Common.Label": "Auto Repeat"
         },
         "concatinatedLastRunningNo": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Last Running Number"
         },
         "IsActiveEntity": {
           "key": true,
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "@UI.Hidden": true
         },
         "HasActiveEntity": {
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "@UI.Hidden": true
         },
         "HasDraftEntity": {
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "@UI.Hidden": true
         },
         "DraftAdministrativeData": {
           "type": "cds.Association",
@@ -80,7 +117,8 @@
           "cardinality": {
             "max": 1
           },
-          "keys": []
+          "keys": [],
+          "@UI.Hidden": true
         },
         "SiblingEntity": {
           "type": "cds.Association",
@@ -121,6 +159,224 @@
             "type": "NumberRangeService.NumberRanges"
           }
         }
+      },
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "numberRangeID"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "description"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "prefix"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "postfix"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "numberStart"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "numberEnd"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "autoRepeat"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "concatinatedLastRunningNo"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "status"
+          },
+          "@UI.Hidden": true
+        }
+      ],
+      "@UI.HeaderInfo": {
+        "$Type": "UI.HeaderInfoType",
+        "TypeName": "Number Range",
+        "TypeNamePlural": "Number Ranges",
+        "TypeImageUrl": "sap-icon://information",
+        "Title": {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "numberRangeID"
+          }
+        },
+        "Description": {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "description"
+          }
+        }
+      },
+      "@UI.HeaderFacets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "Target": {}
+        }
+      ],
+      "@UI.FieldGroup#HeaderGeneralInformation": {
+        "$Type": "UI.FieldGroupType",
+        "Data": [
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "createdAt"
+            },
+            "Label": "Created Date & Time"
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "modifiedAt"
+            },
+            "Label": "Last Modified Date & Time"
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "concatinatedLastRunningNo"
+            }
+          }
+        ]
+      },
+      "@UI.Facets": [
+        {
+          "$Type": "UI.CollectionFacet",
+          "ID": "NumberRangeFacet",
+          "Facets": [
+            {
+              "$Type": "UI.ReferenceFacet",
+              "ID": "NumberRangeFacet",
+              "Target": {}
+            }
+          ]
+        }
+      ],
+      "@UI.FieldGroup#NumberRangeFacet": {
+        "$Type": "UI.FieldGroupType",
+        "Data": [
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "numberRangeID"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "description"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "autoRepeat"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "numberStart"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "numberEnd"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "prefix"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "postfix"
+            }
+          }
+        ]
+      },
+      "@Capabilities.InsertRestrictions": {
+        "$Type": "Capabilities.InsertRestrictionsType",
+        "Insertable": true
+      },
+      "@Capabilities.FilterRestrictions": {
+        "$Type": "Capabilities.FilterRestrictionsType",
+        "NonFilterableProperties": [
+          "status"
+        ]
+      },
+      "@Capabilities.DeleteRestrictions": {
+        "$Type": "Capabilities.DeleteRestrictionsType",
+        "Deletable": true
+      },
+      "@Common.DraftRoot": {
+        "$Type": "Common.DraftRootType",
+        "ActivationAction": "NumberRangeService.draftActivate",
+        "EditAction": "NumberRangeService.draftEdit",
+        "PreparationAction": "NumberRangeService.draftPrepare"
       }
     },
     "NumberRangeService.DraftAdministrativeData": {
@@ -129,37 +385,49 @@
       "elements": {
         "DraftUUID": {
           "key": true,
-          "type": "cds.UUID"
+          "type": "cds.UUID",
+          "@UI.Hidden": true,
+          "@Common.Label": "Draft_DraftUUID"
         },
         "CreationDateTime": {
           "type": "cds.Timestamp",
           "@odata.Precision": 7,
-          "@odata.Type": "Edm.DateTimeOffset"
+          "@odata.Type": "Edm.DateTimeOffset",
+          "@Common.Label": "Draft_CreationDateTime"
         },
         "CreatedByUser": {
           "type": "cds.String",
-          "length": 256
+          "length": 256,
+          "@Common.Label": "Draft_CreatedByUser"
         },
         "DraftIsCreatedByMe": {
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "@UI.Hidden": true,
+          "@Common.Label": "Draft_DraftIsCreatedByMe"
         },
         "LastChangeDateTime": {
           "type": "cds.Timestamp",
           "@odata.Precision": 7,
-          "@odata.Type": "Edm.DateTimeOffset"
+          "@odata.Type": "Edm.DateTimeOffset",
+          "@Common.Label": "Draft_LastChangeDateTime"
         },
         "LastChangedByUser": {
           "type": "cds.String",
-          "length": 256
+          "length": 256,
+          "@Common.Label": "Draft_LastChangedByUser"
         },
         "InProcessByUser": {
           "type": "cds.String",
-          "length": 256
+          "length": 256,
+          "@Common.Label": "Draft_InProcessByUser"
         },
         "DraftIsProcessedByMe": {
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "@UI.Hidden": true,
+          "@Common.Label": "Draft_DraftIsProcessedByMe"
         }
-      }
+      },
+      "@Common.Label": "Draft_DraftAdministrativeData"
     },
     "NumberRangeService": {
       "kind": "service",

@@ -9,6 +9,9 @@
   <edmx:Reference Uri="https://oasis-tcs.github.io/odata-vocabularies/vocabularies/Org.OData.Core.V1.xml">
     <edmx:Include Alias="Core" Namespace="Org.OData.Core.V1"/>
   </edmx:Reference>
+  <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/HTML5.xml">
+    <edmx:Include Alias="HTML5" Namespace="com.sap.vocabularies.HTML5.v1"/>
+  </edmx:Reference>
   <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
     <edmx:Include Alias="UI" Namespace="com.sap.vocabularies.UI.v1"/>
   </edmx:Reference>
@@ -36,7 +39,7 @@
         <Property Name="status" Type="Edm.String"/>
         <Property Name="numberStart" Type="Edm.Int32"/>
         <Property Name="numberEnd" Type="Edm.Int32"/>
-        <Property Name="autoRepeat" Type="Edm.String"/>
+        <Property Name="autoRepeat" Type="Edm.Boolean"/>
         <Property Name="concatinatedLastRunningNo" Type="Edm.String"/>
         <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="true"/>
         <Property Name="HasActiveEntity" Type="Edm.Boolean" Nullable="false" DefaultValue="false"/>
@@ -76,32 +79,75 @@
         <ReturnType Type="Edm.String"/>
       </Function>
       <Annotations Target="NumberRangeService.NumberRanges">
-        <Annotation Term="Capabilities.InsertRestrictions">
-          <Record Type="Capabilities.InsertRestrictionsType">
-            <PropertyValue Property="Insertable" Bool="true"/>
-          </Record>
-        </Annotation>
-        <Annotation Term="Capabilities.DeleteRestrictions">
-          <Record Type="Capabilities.DeleteRestrictionsType">
-            <PropertyValue Property="Deletable" Bool="true"/>
-          </Record>
-        </Annotation>
         <Annotation Term="UI.LineItem">
           <Collection>
             <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="numberRangeID"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
             </Record>
             <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="description"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
             </Record>
             <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="prefix"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
             </Record>
             <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="postfix"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="numberStart"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="numberEnd"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="autoRepeat"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
             </Record>
             <Record Type="UI.DataField">
               <PropertyValue Property="Value" Path="concatinatedLastRunningNo"/>
+              <Annotation Term="HTML5.CssDefaults">
+                <Record Type="HTML5.CssDefaultsType">
+                  <PropertyValue Property="width" String="10rem"/>
+                </Record>
+              </Annotation>
+            </Record>
+            <Record Type="UI.DataField">
+              <PropertyValue Property="Value" Path="status"/>
+              <Annotation Term="UI.Hidden" Bool="true"/>
             </Record>
           </Collection>
         </Annotation>
@@ -135,14 +181,11 @@
               <Collection>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="createdAt"/>
-                  <PropertyValue Property="Label" String="Created At"/>
+                  <PropertyValue Property="Label" String="Created Date &amp; Time"/>
                 </Record>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="modifiedAt"/>
-                  <PropertyValue Property="Label" String="Modified At"/>
-                </Record>
-                <Record Type="UI.DataField">
-                  <PropertyValue Property="Value" Path="status"/>
+                  <PropertyValue Property="Label" String="Last Modified Date &amp; Time"/>
                 </Record>
                 <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="concatinatedLastRunningNo"/>
@@ -154,7 +197,6 @@
         <Annotation Term="UI.Facets">
           <Collection>
             <Record Type="UI.CollectionFacet">
-              <PropertyValue Property="Label" String="Number Range"/>
               <PropertyValue Property="ID" String="NumberRangeFacet"/>
               <PropertyValue Property="Facets">
                 <Collection>
@@ -178,6 +220,9 @@
                   <PropertyValue Property="Value" Path="description"/>
                 </Record>
                 <Record Type="UI.DataField">
+                  <PropertyValue Property="Value" Path="autoRepeat"/>
+                </Record>
+                <Record Type="UI.DataField">
                   <PropertyValue Property="Value" Path="numberStart"/>
                 </Record>
                 <Record Type="UI.DataField">
@@ -198,6 +243,15 @@
         <Annotation Term="Capabilities.InsertRestrictions">
           <Record Type="Capabilities.InsertRestrictionsType">
             <PropertyValue Property="Insertable" Bool="true"/>
+          </Record>
+        </Annotation>
+        <Annotation Term="Capabilities.FilterRestrictions">
+          <Record Type="Capabilities.FilterRestrictionsType">
+            <PropertyValue Property="NonFilterableProperties">
+              <Collection>
+                <PropertyPath>status</PropertyPath>
+              </Collection>
+            </PropertyValue>
           </Record>
         </Annotation>
         <Annotation Term="Capabilities.DeleteRestrictions">
@@ -253,6 +307,7 @@
       </Annotations>
       <Annotations Target="NumberRangeService.NumberRanges/numberEnd">
         <Annotation Term="Common.Label" String="Ending Number"/>
+        <Annotation Term="Common.FieldControl" EnumMember="Common.FieldControlType/Mandatory"/>
       </Annotations>
       <Annotations Target="NumberRangeService.NumberRanges/autoRepeat">
         <Annotation Term="Common.Label" String="Auto Repeat"/>
