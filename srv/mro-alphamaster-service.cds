@@ -3,21 +3,24 @@ using {MAINTREQ_SB as s4maintReq} from './external/MAINTREQ_SB';
 service alphamasterService {
 
     @readonly
-    entity BusinessPartnerVH   as projection on s4maintReq.BusinessPartnerVH {
+    entity BusinessPartnerVH  as projection on s4maintReq.BusinessPartnerVH {
         key BusinessPartner,
+        key BusinessPartnerRole,
+        key SalesContract,
+            BusinessPartnerRoleName,
             BusinessPartnerName,
             FirstName,
             LastName,
-            Description,
             ContactPersonEmailID,
             ContactPersonName,
             TelephoneNo,
             SearchTerm1,
-            SearchTerm2
+            SearchTerm2,
+            TurnAroundTime
     };
 
     @readonly
-    entity WorkCenterVH        as projection on s4maintReq.WorkCenterVH {
+    entity WorkCenterVH       as projection on s4maintReq.WorkCenterVH {
         key Plant,
         key WorkCenter,
             WorkCenterCategoryCode,
@@ -26,7 +29,7 @@ service alphamasterService {
     };
 
     @readonly
-    entity SalesContractVH     as projection on s4maintReq.SalesContractVH {
+    entity SalesContractVH    as projection on s4maintReq.SalesContractVH {
         key SalesContract,
             SalesContractName,
             SoldToPartyBP,
@@ -34,7 +37,7 @@ service alphamasterService {
     };
 
     @readonly
-    entity FunctionLocationVH  as projection on s4maintReq.FunctionLocationVH {
+    entity FunctionLocationVH as projection on s4maintReq.FunctionLocationVH {
         key functionalLocation,
             FunctionalLocationName,
             ManufacturerPartTypeName,
@@ -45,7 +48,7 @@ service alphamasterService {
     };
 
     @readonly
-    entity EquipmentVH         as projection on s4maintReq.EquipmentVH {
+    entity EquipmentVH        as projection on s4maintReq.EquipmentVH {
         key Equipment,
             EquipmentName,
             Material,
@@ -55,7 +58,7 @@ service alphamasterService {
             FunctionalLocation
     };
 
-    entity Revisions           as projection on s4maintReq.MaintRevision {
+    entity Revisions          as projection on s4maintReq.MaintRevision {
         key PlanningPlant,
         key RevisionNo,
             Equipment,

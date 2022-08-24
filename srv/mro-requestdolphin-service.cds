@@ -151,16 +151,20 @@ extend service mrorequestdolphinService with {
 
     @readonly
     entity BusinessPartnerVH        as projection on alpha.BusinessPartnerVH {
-        key BusinessPartner      @(Common.Label : '{i18n>BusinessPartner}'),
-            BusinessPartnerName  @(Common.Label : '{i18n>BusinessPartnerName}') @UI.HiddenFilter,
-            FirstName            @(Common.Label : '{i18n>FirstName}') @UI.HiddenFilter,
-            LastName             @(Common.Label : '{i18n>LastName}') @UI.HiddenFilter,
-            SearchTerm1          @(Common.Label : '{i18n>SearchTerm1}') @UI.HiddenFilter,
-            SearchTerm2          @(Common.Label : '{i18n>SearchTerm2}') @UI.HiddenFilter,
-            Description          @(Common.Label : '{i18n>Description}') @UI.HiddenFilter,
-            ContactPersonName    @(Common.Label : '{i18n>ContactPersonName}') @UI.HiddenFilter,
-            ContactPersonEmailID @(Common.Label : '{i18n>ContactPersonEmailID}'),
-            TelephoneNo          @(Common.Label : '{i18n>TelephoneNo}')
+        key BusinessPartner         @(Common.Label : '{i18n>BusinessPartner}'),
+        key BusinessPartnerRole     @(Common.Label : '{i18n>BusinessPartnerRole}')  @UI.HiddenFilter,
+        key SalesContract           @(Common.Label : '{i18n>SalesContract}'),
+            BusinessPartnerName     @(Common.Label : '{i18n>BusinessPartnerName}') @UI.HiddenFilter,
+            BusinessPartnerRoleName @(Common.Label : '{i18n>BusinessPartnerRoleName}'),
+            FirstName               @(Common.Label : '{i18n>FirstName}') @UI.HiddenFilter,
+            LastName                @(Common.Label : '{i18n>LastName}') @UI.HiddenFilter,
+            SearchTerm1             @(Common.Label : '{i18n>SearchTerm1}') @UI.HiddenFilter,
+            SearchTerm2             @(Common.Label : '{i18n>SearchTerm2}') @UI.HiddenFilter,
+            ContactPersonName       @(Common.Label : '{i18n>ContactPersonName}') @UI.HiddenFilter,
+            ContactPersonEmailID    @(Common.Label : '{i18n>ContactPersonEmailID}'),
+            TelephoneNo             @(Common.Label : '{i18n>TelephoneNo}'),
+            TurnAroundTime          @(Common.Label : '{i18n>TurnAroundTime}')  @UI.HiddenFilter
+
     };
 
     @readonly

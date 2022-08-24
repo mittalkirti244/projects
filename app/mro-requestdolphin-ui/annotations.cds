@@ -628,26 +628,18 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 LocalDataProperty : 'businessPartnerNameDisp',
                 ValueListProperty : 'BusinessPartnerName'
             },
-            /* {
-                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                 ValueListProperty : 'FirstName'
-             },
-             {
-                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                 ValueListProperty : 'LastName'
-             },*/
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'Description'
+                ValueListProperty : 'BusinessPartnerRoleName'
             },
-            /* {
-                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                 ValueListProperty : 'SearchTerm1'
-             },
-             {
-                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                 ValueListProperty : 'SearchTerm2'
-             },*/
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'SalesContract'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'TurnAroundTime'
+            },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'ContactPersonName',
@@ -680,26 +672,19 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 LocalDataProperty : 'businessPartnerName',
                 ValueListProperty : 'BusinessPartnerName'
             },
-            /*{
+            {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'FirstName'
+                ValueListProperty : 'BusinessPartnerRoleName'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'contract',
+                ValueListProperty : 'SalesContract',
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'LastName'
-            },*/
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'Description'
+                ValueListProperty : 'TurnAroundTime'
             },
-            /*{
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'SearchTerm1'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'SearchTerm2'
-            },*/
             {
                 $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'ccpersonName',
@@ -786,7 +771,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 }
 
 //Contract Value Help on object page
-annotate mrorequestdolphinService.MaintenanceRequests with {
+/*annotate mrorequestdolphinService.MaintenanceRequests with {
     contract @(Common : {ValueList : {
         CollectionPath : 'SalesContractVH',
         Label          : '{i18n>contract}',
@@ -816,7 +801,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             },
         ]
     }});
-};
+};*/
 
 //Work Center Value help on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {

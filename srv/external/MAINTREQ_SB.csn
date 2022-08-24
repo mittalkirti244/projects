@@ -1,6 +1,6 @@
 {
   "meta": {
-    "creator": "cds-dk 6.0.4"
+    "creator": "cds-dk 6.1.1"
   },
   "$version": "2.0",
   "definitions": {
@@ -259,7 +259,7 @@
           "type": "cds.String",
           "length": 3,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "RTL Document Type",
+          "@sap.label": "Document Type",
           "@sap.value.list": "standard"
         },
         "DocumentInfoRecordDocNumber": {
@@ -267,7 +267,7 @@
           "type": "cds.String",
           "length": 25,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "RTL Document Number",
+          "@sap.label": "Document Number",
           "@sap.value.list": "standard"
         },
         "DocumentInfoRecordDocPart": {
@@ -275,7 +275,7 @@
           "type": "cds.String",
           "length": 3,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "RTL Document Part",
+          "@sap.label": "Document Part",
           "@sap.value.list": "standard"
         },
         "DocumentInfoRecordDocVersion": {
@@ -283,7 +283,7 @@
           "type": "cds.String",
           "length": 2,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "RTL Document Version",
+          "@sap.label": "Document Version",
           "@sap.value.list": "standard"
         },
         "DIRLinkCounterMARA": {
@@ -291,21 +291,21 @@
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "NonNegative",
-          "@sap.label": "RTL Material Link Counter",
-          "@sap.quickinfo": "Material RTL DIR Object Link Counter"
+          "@sap.label": "Material Link Counter",
+          "@sap.quickinfo": "Material DIR Object Link Counter"
         },
         "DIRLinkCounterPLKO": {
           "key": true,
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "NonNegative",
-          "@sap.label": "RTL Task List Link Counter"
+          "@sap.label": "Task List Link Counter"
         },
         "ExternalReference": {
           "key": true,
           "type": "cds.String",
           "length": 40,
-          "@sap.label": "RTL External Reference"
+          "@sap.label": "External Reference"
         },
         "Material": {
           "key": true,
@@ -350,7 +350,7 @@
         "DocumentInfoRecordDoc": {
           "type": "cds.String",
           "length": 120,
-          "@sap.label": "RTL Document"
+          "@sap.label": "Document"
         },
         "MaterialName": {
           "type": "cds.String",
@@ -421,6 +421,12 @@
           "length": 8,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Work Center"
+        },
+        "WorkCenterPlant": {
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Work Center Plant"
         }
       }
     },
@@ -1239,6 +1245,30 @@
           "@sap.quickinfo": "Business Partner Number",
           "@sap.value.list": "standard"
         },
+        "SalesContract": {
+          "key": true,
+          "type": "cds.String",
+          "length": 10,
+          "@sap.display.format": "UpperCase",
+          "@sap.text": "SalesContractName",
+          "@sap.label": "Sales Contract",
+          "@sap.value.list": "standard"
+        },
+        "BusinessPartnerRole": {
+          "key": true,
+          "type": "cds.String",
+          "length": 6,
+          "@sap.display.format": "UpperCase",
+          "@sap.text": "BusinessPartnerRoleName",
+          "@sap.label": "Business Partner Role",
+          "@sap.quickinfo": "BP Role"
+        },
+        "BusinessPartnerRoleName": {
+          "type": "cds.String",
+          "length": 50,
+          "@sap.label": "Business Partner Role Name",
+          "@sap.quickinfo": "BP Role Description"
+        },
         "FirstName": {
           "type": "cds.String",
           "length": 40,
@@ -1290,6 +1320,30 @@
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Telephone (Registered No)"
+        },
+        "TurnAroundTimeinUnit": {
+          "type": "cds.String",
+          "length": 260,
+          "@sap.label": "Turn Around Time(in Time Unit)"
+        },
+        "TurnAroundTimeUnit": {
+          "type": "cds.String",
+          "length": 260,
+          "@sap.label": "Turn Around Time Unit"
+        },
+        "TurnAroundTime": {
+          "type": "cds.String",
+          "length": 260,
+          "@sap.label": "Turn Around Time(in Days)"
+        },
+        "to_SalesContract": {
+          "@cds.ambiguous": "missing on condition?",
+          "type": "cds.Association",
+          "target": "MAINTREQ_SB.SalesContractVH",
+          "cardinality": {
+            "max": "*"
+          },
+          "keys": []
         }
       }
     },
