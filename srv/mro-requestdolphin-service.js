@@ -480,13 +480,13 @@ module.exports = cds.service.impl(async function () {
                 if (query[0].eqMaterial == null && query[0].eqSerialNumber == null) {
                     vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType
                 } else if (query[0].eqMaterial == null && query[0].eqSerialNumber != null) {
-                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + veqSerialNumber
+                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + query[0].eqSerialNumber
                 }
                 else if (query[0].eqMaterial != null && query[0].eqSerialNumber == null) {
-                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + veqMaterial
+                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + query[0].eqMaterial
                 }
                 else {
-                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + veqMaterial + ' ' + veqSerialNumber
+                    vrevisionText = query[0].requestNo + ' ' + query[0].to_requestType_rType + ' ' + query[0].eqMaterial + ' ' + query[0].eqSerialNumber
                 }
 
                 vworkCenter = query[0].locationWC
