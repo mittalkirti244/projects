@@ -1052,6 +1052,7 @@ annotate mrorequestdolphinService.MaintenanceRequests {
     equipmentName                @readonly;
     functionalLocationName       @readonly;
     contractName                 @readonly;
+    //contract                     @readonly;
     requestTypeDisp              @readonly;
     //requestStatusDisp         @readonly;
     MaintenanceRevision          @readonly;

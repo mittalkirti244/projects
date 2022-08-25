@@ -115,8 +115,10 @@ module.exports = cds.service.impl(async function () {
 
         //To store the value of BusinessPartnerName in database
         let query1 = await service2.read(BusinessPartnerVH).where({ BusinessPartner: req.data.businessPartner })
-        if (req.data.businessPartner != null)
+        console.log('query1', query1)
+        if (req.data.businessPartner != null) {
             req.data.businessPartnerName = query1[0].BusinessPartnerName
+        }
 
         //bpConcatenation is used for Overview page(bp + bp name)
         req.data.bpConcatenation = req.data.businessPartner + '(' + req.data.businessPartnerName + ')'
@@ -182,10 +184,10 @@ module.exports = cds.service.impl(async function () {
             req.error(406, 'Please enter a valid E-Mail Address')
 
         //To fetch the tat and contract name from contract service
-        let query3 = await service2.read(SalesContractVH).where({ SalesContract: req.data.contract })
-        if (req.data.contract != null) {
-            // req.data.contractName = query3[0].SalesContractName
-            // tat = query3[0].TurnAroundTime
+        if (req.data.contract != '') {
+            let query3 = await service2.read(SalesContractVH).where({ SalesContract: req.data.contract })
+            req.data.contractName = query3[0].SalesContractName
+            tat = query3[0].TurnAroundTime
         }
         else
             req.data.contractName = ''
@@ -242,7 +244,6 @@ module.exports = cds.service.impl(async function () {
         req.data.requestNoConcat = req.data.requestNo
 
         //Status and Phase value for list report page 
-        //..........................................
         req.data.to_requestStatusDisp_rStatus = req.data.to_requestStatus_rStatus
         req.data.to_requestStatusDisp_rStatusDesc = req.data.to_requestStatus_rStatusDesc
 
@@ -272,6 +273,7 @@ module.exports = cds.service.impl(async function () {
         }
 
     });
+
 
     //On click of Change Status(Second change status button)
     this.on('changeStatus', async (req) => {
@@ -366,10 +368,24 @@ module.exports = cds.service.impl(async function () {
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
         //MR Status = Ready for Approval & Selected Status = Approved and Previous all statuses
-        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && (queryStatus[0].rStatus == 'MRAPRD' || queryStatus[0].rStatus == 'NWLREQ' || queryStatus[0].rStatus == 'WLRQTD' || queryStatus[0].rStatus == 'NWLREC' || queryStatus[0].rStatus == 'NWLSCR' || queryStatus[0].rStatus == 'NWLVAL' || queryStatus[0].rStatus == 'WLCRTD' || queryStatus[0].rStatus == 'AWLREC'))
-            updateStatus()
-        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus != 'MRAPRD' && queryStatus[0].rStatus != 'APRRDY' && queryStatus[0].rStatus != 'NWLREQ' && queryStatus[0].rStatus != 'WLRQTD' && queryStatus[0].rStatus != 'NWLREC' && queryStatus[0].rStatus != 'NWLSCR' && queryStatus[0].rStatus != 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus != 'AWLREC')
+        else if (query[0].to_requestStatus_rStatus == 'APRRDY') {
+            if (queryStatus[0].rStatus == 'MRAPRD') {
+                console.log('query[0].contract', query[0].contract)
+                //Check if contract is present
+                if (query[0].contract != '') {
+                    updateStatus()
+                }
+                else {
+                    req.error(406, 'For Request ' + query[0].requestNoConcat + ', contract details are missing for Business Partner ' + query[0].businessPartner + '.')
+                }
+            }
+            else if (queryStatus[0].rStatus == 'NWLREQ' || queryStatus[0].rStatus == 'WLRQTD' || queryStatus[0].rStatus == 'NWLREC' || queryStatus[0].rStatus == 'NWLSCR' || queryStatus[0].rStatus == 'NWLVAL' || queryStatus[0].rStatus == 'WLCRTD' || queryStatus[0].rStatus == 'AWLREC') {
+                updateStatus()
+            }
+        }
+        else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus != 'MRAPRD' && queryStatus[0].rStatus != 'APRRDY' && queryStatus[0].rStatus != 'NWLREQ' && queryStatus[0].rStatus != 'WLRQTD' && queryStatus[0].rStatus != 'NWLREC' && queryStatus[0].rStatus != 'NWLSCR' && queryStatus[0].rStatus != 'NWLVAL' && queryStatus[0].rStatus != 'WLCRTD' && queryStatus[0].rStatus != 'AWLREC') {
             req.error(406, 'For Request ' + query[0].requestNoConcat + ' current status is ' + query[0].to_requestStatus_rStatusDesc + ' and can only proceed to next status ' + queryStatusDisp[9].rStatusDesc + ' and to previous statuses.')
+        }
         else if (query[0].to_requestStatus_rStatus == 'APRRDY' && queryStatus[0].rStatus == 'APRRDY')
             req.error(406, 'Request is already in status ' + query[0].to_requestStatus_rStatusDesc)
 
