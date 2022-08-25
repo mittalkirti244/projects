@@ -92,8 +92,10 @@ module.exports = cds.service.impl(async function () {
         }
 
         //Field to be field at the time of creating a new record
-        req.data.to_requestStatus_rStatusDesc = 'Created'
         req.data.to_requestStatus_rStatus = 'MRCRTD'
+        //  req.data.to_requestStatus_ID = 1
+        req.data.to_requestStatus_rStatusDesc = 'Created'
+        // req.data.to_requestPhase_ID = 1
         req.data.to_requestPhase_rPhase = 'MRINIT'
         req.data.to_requestPhase_rPhaseDesc = 'Initiation'
         //Change Status button will be enable after creating a record
@@ -182,8 +184,8 @@ module.exports = cds.service.impl(async function () {
         //To fetch the tat and contract name from contract service
         let query3 = await service2.read(SalesContractVH).where({ SalesContract: req.data.contract })
         if (req.data.contract != null) {
-            req.data.contractName = query3[0].SalesContractName
-            tat = query3[0].TurnAroundTime
+            // req.data.contractName = query3[0].SalesContractName
+            // tat = query3[0].TurnAroundTime
         }
         else
             req.data.contractName = ''
@@ -240,6 +242,7 @@ module.exports = cds.service.impl(async function () {
         req.data.requestNoConcat = req.data.requestNo
 
         //Status and Phase value for list report page 
+        //..........................................
         req.data.to_requestStatusDisp_rStatus = req.data.to_requestStatus_rStatus
         req.data.to_requestStatusDisp_rStatusDesc = req.data.to_requestStatus_rStatusDesc
 
@@ -264,7 +267,7 @@ module.exports = cds.service.impl(async function () {
             console.log('DS Status', query1[0].to_requestStatusDisp_rStatus);
 
             if (query1[0].to_requestStatusDisp_rStatus == query[7].rStatus || query1[0].to_requestStatusDisp_rStatus == query[8].rStatus || query1[0].to_requestStatusDisp_rStatus == query[9].rStatus || query1[0].to_requestStatusDisp_rStatus == query[10].rStatus || query1[0].to_requestStatusDisp_rStatus == query[11].rStatus || query1[0].to_requestStatusDisp_rStatus == query[12].rStatus || query1[0].to_requestStatusDisp_rStatus == query[13].rStatus) {
-                req.error(402,'For Request ' + query1[0].requestNo + ' current status is ' + query1[0].to_requestStatus_rStatusDesc + '. New documents cannot be created.');
+                req.error(402, 'For Request ' + query1[0].requestNo + ' current status is ' + query1[0].to_requestStatus_rStatusDesc + '. New documents cannot be created.');
             }
         }
 
@@ -455,8 +458,8 @@ module.exports = cds.service.impl(async function () {
         if (query[0].revision != null) {
             await UPDATE(MaintenanceRequests).set({
                 to_requestStatus_rStatus: 'RVCRTD',
-                to_requestStatusDisp_rStatus: 'RVCRTD',
                 to_requestStatus_rStatusDesc: 'Revision Created',
+                to_requestStatusDisp_rStatus: 'RVCRTD',
                 to_requestStatusDisp_rStatusDesc: 'Revision Created',
                 to_requestPhase_rPhase: 'MRPREP',
                 to_requestPhase_rPhaseDesc: 'Preparation',

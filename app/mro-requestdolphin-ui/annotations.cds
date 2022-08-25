@@ -567,12 +567,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 };
 
 //Text arrangement for Status field on List page
-/*annotate mrorequestdolphinService.MaintenanceRequests with {
+annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestStatusDisp_rStatusDesc @(Common : {Text : {
         $value                 : to_requestStatusDisp_rStatus,
         ![@UI.TextArrangement] : #TextLast
     }});
-};*/
+};
 
 //Text arrangement for Status field on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -583,12 +583,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 };
 
 //Text arrangemnt for Phase
-/*annotate mrorequestdolphinService.MaintenanceRequests with {
+annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestPhase_rPhaseDesc @(Common : {Text : {
         $value                 : to_requestPhase_rPhase,
         ![@UI.TextArrangement] : #TextLast
     }});
-};*/
+};
 
 
 //Request Number value Help for List Page
@@ -989,7 +989,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 
 //Request Status DropDown on List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    to_requestStatusDisp @(Common : {
+    to_requestStatusDisp_rStatusDesc @(Common : {
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'RequestStatusesDisp',
@@ -1005,7 +1005,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 
 //Request Phase Dropdown
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    to_requestPhase @(Common : {
+    to_requestPhase_rPhaseDesc @(Common : {
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'RequestPhases',
@@ -1037,24 +1037,24 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 
 //Readonly and mandatory fields
 annotate mrorequestdolphinService.MaintenanceRequests {
-    businessPartner        @mandatory;
-    requestDesc            @mandatory;
-    to_requestType         @mandatory;
-    to_requestPhase        @readonly;
-    to_requestStatus       @readonly;
-    locationWC             @mandatory;
-    revisionType           @readonly;
-    revisionDescription    @readonly;
-    businessPartnerName    @readonly;
-    locationWCDetail       @readonly;
+    businessPartner              @mandatory;
+    requestDesc                  @mandatory;
+    to_requestType               @mandatory;
+    to_requestPhase_rPhaseDesc   @readonly;
+    to_requestStatus_rStatusDesc @readonly;
+    locationWC                   @mandatory;
+    revisionType                 @readonly;
+    revisionDescription          @readonly;
+    businessPartnerName          @readonly;
+    locationWCDetail             @readonly;
     //MaintenancePlanningPlant @readonly;
     //MaintenancePlanningPlant @Common : {FieldControl : #Inapplicable};
-    equipmentName          @readonly;
-    functionalLocationName @readonly;
-    contractName           @readonly;
-    requestTypeDisp        @readonly;
+    equipmentName                @readonly;
+    functionalLocationName       @readonly;
+    contractName                 @readonly;
+    requestTypeDisp              @readonly;
     //requestStatusDisp         @readonly;
-    MaintenanceRevision    @readonly;
+    MaintenanceRevision          @readonly;
 }
 
 //Hide fields in Adapt filters on list report page
