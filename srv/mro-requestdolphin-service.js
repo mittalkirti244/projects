@@ -268,7 +268,7 @@ module.exports = cds.service.impl(async function () {
             console.log('DS Status', query1[0].to_requestStatusDisp_rStatus);
 
             if (query1[0].to_requestStatusDisp_rStatus == query[7].rStatus || query1[0].to_requestStatusDisp_rStatus == query[8].rStatus || query1[0].to_requestStatusDisp_rStatus == query[9].rStatus || query1[0].to_requestStatusDisp_rStatus == query[10].rStatus || query1[0].to_requestStatusDisp_rStatus == query[11].rStatus || query1[0].to_requestStatusDisp_rStatus == query[12].rStatus || query1[0].to_requestStatusDisp_rStatus == query[13].rStatus) {
-                req.error(402, 'For Request ' + query1[0].requestNo + ' current status is ' + query1[0].to_requestStatus_rStatusDesc + '. New documents cannot be created.');
+                req.error(406, 'For Request ' + query1[0].requestNo + ' current status is ' + query1[0].to_requestStatus_rStatusDesc + '. New documents cannot be created.');
             }
         }
 
