@@ -1,7 +1,7 @@
 {
     "name": "hcl-mro-requestdolphin",
     "version": "2.0.0",
-    "description": "MRO RequestDolphin (Rel20220824)",
+    "description": "MRO RequestDolphin (Rel20220825)",
     "repository": "<Add your repository here>",
     "license": "UNLICENSED",
     "private": true,
@@ -80,14 +80,14 @@
                 "kind": "odata",
                 "model": "srv/external/NumberRangeService",
                 "credentials": {
-                    "url": "http://localhost:36971/NumberRangeService"
+                    "url": "http://localhost:39619/NumberRangeService"
                 }
             },
             "notifleo": {
                 "kind": "odata",
                 "model": "srv/external/notifleo",
                 "credentials": {
-                    "url": "http://localhost:41195/notifleo"
+                    "url": "http://localhost:41233/notifleo"
                 }
             }
         },
