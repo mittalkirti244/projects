@@ -93,9 +93,7 @@ module.exports = cds.service.impl(async function () {
 
         //Field to be field at the time of creating a new record
         req.data.to_requestStatus_rStatus = 'MRCRTD'
-        //  req.data.to_requestStatus_ID = 1
         req.data.to_requestStatus_rStatusDesc = 'Created'
-        // req.data.to_requestPhase_ID = 1
         req.data.to_requestPhase_rPhase = 'MRINIT'
         req.data.to_requestPhase_rPhaseDesc = 'Initiation'
         //Change Status button will be enable after creating a record
@@ -188,6 +186,7 @@ module.exports = cds.service.impl(async function () {
             let query3 = await service2.read(SalesContractVH).where({ SalesContract: req.data.contract })
             req.data.contractName = query3[0].SalesContractName
             tat = query3[0].TurnAroundTime
+            console.log('tat', tat)
         }
         else
             req.data.contractName = ''
@@ -204,8 +203,16 @@ module.exports = cds.service.impl(async function () {
         req.data.expectedArrivalDate = returnDate(req.data.expectedArrivalDate)
         req.data.startDate = returnDate(req.data.startDate)
 
+        var queryDate = await SELECT.from(MaintenanceRequests).columns('*').where({ ID: req.data.ID });
+        if (queryDate[0] != null) {
+            reqDeliveryDate = queryDate[0].expectedDeliveryDate
+        }
+
+        //console.log('queryDate', queryDate)
+
         var newCurrentDate = returnDate(new Date())
-        reqDeliveryDate = returnDate(reqDeliveryDate)
+        var
+            reqDeliveryDate = returnDate(reqDeliveryDate)
 
         if (req.data.contract == null) {
             req.data.expectedDeliveryDate = returnDate(req.data.expectedDeliveryDate)
@@ -250,10 +257,10 @@ module.exports = cds.service.impl(async function () {
     });
 
     //This handler will handle all the values when you perform any opertaion on UI(Patch Handler)
-    this.after('PATCH', 'MaintenanceRequests', async (req) => {
+    /*this.after('PATCH', 'MaintenanceRequests', async (req) => {
         //Fetch delivery date whenever user select the field at UI
         reqDeliveryDate = req.expectedDeliveryDate
-    });
+    });*/
 
     //This handler is used while creating a Document record(Create Handler)
     this.before('NEW', 'MaintenanceRequests/to_document', async (req) => {
