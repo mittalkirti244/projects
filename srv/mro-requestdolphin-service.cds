@@ -7,7 +7,13 @@ service mrorequestdolphinService {
 
     @odata.draft.enabled
     @cds.redirection.target
-    entity MaintenanceRequests     as projection on maintReq.MaintenanceRequests actions {
+    entity MaintenanceRequests     as projection on maintReq.MaintenanceRequests {
+        *,
+        createdAt                           @(Common.Label : '{i18n>createdAt}'),
+        createdBy                           @(Common.Label : '{i18n>createdBy}'),
+        modifiedAt                          @(Common.Label : '{i18n>modifiedAt}'),
+        modifiedBy                          @(Common.Label : '{i18n>modifiedBy}')
+    } actions {
         //action requestMail();
         //Update the UI after action is performed
         @(
@@ -104,7 +110,13 @@ service mrorequestdolphinService {
         $Type    : 'Capabilities.SortRestrictionsType',
         Sortable : false
     }
-    entity Documents               as projection on maintReq.Documents;
+    entity Documents               as projection on maintReq.Documents {
+        *,
+        createdAt  @(Common.Label : '{i18n>createdAt}'),
+        createdBy  @(Common.Label : '{i18n>createdBy}'),
+        modifiedAt @(Common.Label : '{i18n>modifiedAt}'),
+        modifiedBy @(Common.Label : '{i18n>modifiedBy}')
+    };
 
     entity AttachmentTypes         as projection on maintReq.AttachmentTypes;
     entity DocumentStatuses        as projection on maintReq.DocumentStatuses;
@@ -152,7 +164,7 @@ extend service mrorequestdolphinService with {
     @readonly
     entity BusinessPartnerVH        as projection on alpha.BusinessPartnerVH {
         key BusinessPartner         @(Common.Label : '{i18n>BusinessPartner}'),
-        key BusinessPartnerRole     @(Common.Label : '{i18n>BusinessPartnerRole}')  @UI.HiddenFilter,
+        key BusinessPartnerRole     @(Common.Label : '{i18n>BusinessPartnerRole}') @UI.HiddenFilter,
         key SalesContract           @(Common.Label : '{i18n>SalesContract}'),
             BusinessPartnerName     @(Common.Label : '{i18n>BusinessPartnerName}') @UI.HiddenFilter,
             BusinessPartnerRoleName @(Common.Label : '{i18n>BusinessPartnerRoleName}'),
@@ -163,7 +175,7 @@ extend service mrorequestdolphinService with {
             ContactPersonName       @(Common.Label : '{i18n>ContactPersonName}') @UI.HiddenFilter,
             ContactPersonEmailID    @(Common.Label : '{i18n>ContactPersonEmailID}'),
             TelephoneNo             @(Common.Label : '{i18n>TelephoneNo}'),
-            TurnAroundTime          @(Common.Label : '{i18n>TurnAroundTime}')  @UI.HiddenFilter
+            TurnAroundTime          @(Common.Label : '{i18n>TurnAroundTime}') @UI.HiddenFilter
 
     };
 

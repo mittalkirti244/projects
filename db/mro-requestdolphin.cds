@@ -81,7 +81,7 @@ entity RequestTypes {
 
 //It is used in change status action button as a drop down on Object Page
 entity RequestStatuses {
-    key ID          : Integer; 
+    key ID          : Integer;
     key rStatus     : String;
     key rStatusDesc : String;
         to_rPhase   : Association to RequestPhases;
@@ -171,7 +171,7 @@ entity SchemaTypes {
 view AggregatedMaintenanceReqOnStatuses as
     select from MaintenanceRequests {
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         createdAtDate,
         MaintenancePlanningPlant,
         locationWC,
@@ -187,7 +187,7 @@ view AggregatedMaintenanceReqOnStatuses as
 view AggregatedMaintenanceReqOnPhases as
     select from MaintenanceRequests {
         @Analytics.Dimension : true
-        to_requestPhase.rPhaseDesc,
+        to_requestPhase_rPhaseDesc,
         createdAtDate,
         MaintenancePlanningPlant,
         locationWC,
@@ -204,7 +204,7 @@ view AggregatedReqByCompleteAssetAndWC as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         locationWC,
         businessPartnerDisp,
@@ -224,7 +224,7 @@ view AggregatedReqByComponentAndWC as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         locationWC,
         businessPartnerDisp,
@@ -244,7 +244,7 @@ view AggregatedReqByAssemblyAndWC as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         locationWC,
         businessPartnerDisp,
@@ -264,7 +264,7 @@ view AggregatedReqByCompleteAssetAndBP as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         businessPartnerDisp,
         @Analytics.Dimension : true
         bpConcatenation,
@@ -284,7 +284,7 @@ view AggregatedReqByComponentAndBP as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         businessPartnerDisp,
         @Analytics.Dimension : true
         bpConcatenation,
@@ -304,7 +304,7 @@ view AggregatedReqByAssemblyAndBP as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         businessPartnerDisp,
         @Analytics.Dimension : true
         bpConcatenation,
@@ -324,7 +324,7 @@ view ReqByCompleteAssetAndRangeUntilRequestedWorkList as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true //
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
         businessPartnerDisp,
@@ -338,9 +338,9 @@ view ReqByCompleteAssetAndRangeUntilRequestedWorkList as
 where
     to_requestType.rType = 'Complete Asset'
     and (
-           to_requestStatusDisp.rStatusDesc = 'Created'
-        or to_requestStatusDisp.rStatusDesc = 'Request for New Worklist'
-        or to_requestStatusDisp.rStatusDesc = 'New Worklist Requested'
+           to_requestStatusDisp_rStatusDesc = 'Created'
+        or to_requestStatusDisp_rStatusDesc = 'Request for New Worklist'
+        or to_requestStatusDisp_rStatusDesc = 'New Worklist Requested'
     );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis Created, Request for Work List, Requested Work List
@@ -349,7 +349,7 @@ view ReqByAssemblyAndRangeUntilRequestedWorkList as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true //
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
         businessPartnerDisp,
@@ -363,9 +363,9 @@ view ReqByAssemblyAndRangeUntilRequestedWorkList as
 where
     to_requestType.rType = 'Assembly'
     and (
-           to_requestStatusDisp.rStatusDesc = 'Created'
-        or to_requestStatusDisp.rStatusDesc = 'Request for New Worklist'
-        or to_requestStatusDisp.rStatusDesc = 'New Worklist Requested'
+           to_requestStatusDisp_rStatusDesc = 'Created'
+        or to_requestStatusDisp_rStatusDesc = 'Request for New Worklist'
+        or to_requestStatusDisp_rStatusDesc = 'New Worklist Requested'
     );
 
 
@@ -375,7 +375,7 @@ view ReqByComponentAndRangeUntilRequestedWorkList as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
         businessPartnerDisp,
@@ -389,9 +389,9 @@ view ReqByComponentAndRangeUntilRequestedWorkList as
     where
         to_requestType.rType = 'Component'
         and (
-               to_requestStatusDisp.rStatusDesc = 'Created'
-            or to_requestStatusDisp.rStatusDesc = 'Request for New Worklist'
-            or to_requestStatusDisp.rStatusDesc = 'New Worklist Requested'
+               to_requestStatusDisp_rStatusDesc = 'Created'
+            or to_requestStatusDisp_rStatusDesc = 'Request for New Worklist'
+            or to_requestStatusDisp_rStatusDesc = 'New Worklist Requested'
         );
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
@@ -400,7 +400,7 @@ view ReqByCompleteAssetAndRangeOverallStatus as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
         businessPartnerDisp,
@@ -421,7 +421,7 @@ view ReqByAssemblyAndRangeOverallStatus as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
         businessPartnerDisp,
@@ -442,7 +442,7 @@ view ReqByComponentAndRangeOverallStatus as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
         businessPartnerDisp,
@@ -462,7 +462,7 @@ view ReqByCompleteAssetAndRangeUntilNotifications as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
         businessPartnerDisp,
@@ -476,8 +476,8 @@ view ReqByCompleteAssetAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Complete Asset'
         and (
-               to_requestStatusDisp.rStatusDesc = 'Approved'
-            or to_requestStatusDisp.rStatusDesc = 'Notifications Created'
+               to_requestStatusDisp_rStatusDesc = 'Approved'
+            or to_requestStatusDisp_rStatusDesc = 'Notifications Created'
         );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
@@ -486,7 +486,7 @@ view ReqByAssemblyAndRangeUntilNotifications as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
         businessPartnerDisp,
@@ -500,8 +500,8 @@ view ReqByAssemblyAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Assembly'
         and (
-               to_requestStatusDisp.rStatusDesc = 'Approved'
-            or to_requestStatusDisp.rStatusDesc = 'Notifications Created'
+               to_requestStatusDisp_rStatusDesc = 'Approved'
+            or to_requestStatusDisp_rStatusDesc = 'Notifications Created'
         );
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
@@ -510,7 +510,7 @@ view ReqByComponentAndRangeUntilNotifications as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
         businessPartnerDisp,
@@ -524,8 +524,8 @@ view ReqByComponentAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Component'
         and (
-               to_requestStatusDisp.rStatusDesc = 'Approved'
-            or to_requestStatusDisp.rStatusDesc = 'Notifications Created'
+               to_requestStatusDisp_rStatusDesc = 'Approved'
+            or to_requestStatusDisp_rStatusDesc = 'Notifications Created'
         );
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
@@ -534,7 +534,7 @@ view ReqByCompleteAssetAndRangePendingRevision as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
         businessPartnerDisp,
@@ -548,7 +548,7 @@ view ReqByCompleteAssetAndRangePendingRevision as
     where
         to_requestType.rType = 'Complete Asset'
         and (
-            to_requestStatusDisp.rStatusDesc = 'Task List Identified'
+            to_requestStatusDisp_rStatusDesc = 'Task List Identified'
         );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
@@ -557,7 +557,7 @@ view ReqByAssemblyAndRangePendingRevision as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
         businessPartnerDisp,
@@ -571,7 +571,7 @@ view ReqByAssemblyAndRangePendingRevision as
     where
         to_requestType.rType = 'Assembly'
         and (
-            to_requestStatusDisp.rStatusDesc = 'Task List Identified'
+            to_requestStatusDisp_rStatusDesc = 'Task List Identified'
         );
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
@@ -580,7 +580,7 @@ view ReqByComponentAndRangePendingRevision as
     select from MaintenanceRequests {
         to_requestType,
         @Analytics.Dimension : true
-        to_requestStatusDisp.rStatusDesc,
+        to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
         businessPartnerDisp,
@@ -594,5 +594,5 @@ view ReqByComponentAndRangePendingRevision as
     where
         to_requestType.rType = 'Component'
         and (
-            to_requestStatusDisp.rStatusDesc = 'Task List Identified'
+            to_requestStatusDisp_rStatusDesc = 'Task List Identified'
         );

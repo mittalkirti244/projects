@@ -257,13 +257,14 @@ module.exports = cds.service.impl(async function () {
 
     //This handler is used while creating a Document record(Create Handler)
     this.before('NEW', 'MaintenanceRequests/to_document', async (req) => {
+
         //fetching all the records in the RequestStatusesDisp - used to fetch status detail
         var query = await SELECT.from(RequestStatusesDisp).columns('*');
-        console.log('query--------', query);
-        console.log('MR ID', req.data.to_maintenanceRequest_ID);
+        //console.log('query--------', query);
+        // console.log('MR ID', req.data.to_maintenanceRequest_ID);
         //fetch the all MR Details using the ID
         var query1 = await SELECT.from(MaintenanceRequests).columns('*').where({ ID: req.data.to_maintenanceRequest_ID });
-        console.log('query1--------', query1);
+        // console.log('query1--------', query1);
         if (query1[0] != null) {
             console.log('DS Status', query1[0].to_requestStatusDisp_rStatus);
 
@@ -273,7 +274,6 @@ module.exports = cds.service.impl(async function () {
         }
 
     });
-
 
     //On click of Change Status(Second change status button)
     this.on('changeStatus', async (req) => {

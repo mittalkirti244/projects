@@ -128,7 +128,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
          },
          {
              Value                 : modifiedAt,
-            Label                 : '{i18n>modifiedAt}',
+            //Label                 : '{i18n>modifiedAt}',
              ![@HTML5.CssDefaults] : {
                  $Type : 'HTML5.CssDefaultsType',
                  width : '10rem',
@@ -311,22 +311,22 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
     FieldGroup #Detail                          : {Data : [
         {
             Value : createdBy,
-            Label : '{i18n>createdBy}'
+            //Label : '{i18n>createdBy}'
         },
         {
             Value : modifiedBy,
-            Label : '{i18n>modifiedBy}'
+            //Label : '{i18n>modifiedBy}'
         }
     ]},
     //Column 4 for header facet
     FieldGroup #Detail1                         : {Data : [
         {
             Value : createdAt,
-            Label : '{i18n>createdAt}'
+           //Label : '{i18n>createdAt}'
         },
         {
             Value : modifiedAt,
-            Label : '{i18n>modifiedAt}'
+            //Label : '{i18n>modifiedAt}'
         }
     ]},
 
@@ -410,11 +410,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                  },
         {
             Value : modifiedBy,
-            Label : '{i18n>modifiedBy}'
+            //Label : '{i18n>modifiedBy}'
         },
         {
             Value : modifiedAt,
-            Label : '{i18n>modifiedAt}'
+            //Label : '{i18n>modifiedAt}'
         }
     ]},
     //Column 2 in General tab
@@ -1158,7 +1158,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
         },
         {
             Value                 : modifiedBy,
-            Label                 : '{i18n>modifiedBy}',
+           // Label                 : '{i18n>modifiedBy}',
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -1166,7 +1166,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
         },
         {
             Value                 : modifiedAt,
-            Label                 : '{i18n>modifiedAt}',
+           // Label                 : '{i18n>modifiedAt}',
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
