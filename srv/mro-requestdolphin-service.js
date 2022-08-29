@@ -265,6 +265,16 @@ module.exports = cds.service.impl(async function () {
     //This handler is used while creating a Document record(Create Handler)
     this.before('NEW', 'MaintenanceRequests/to_document', async (req) => {
 
+        var query1 = await service1.read(NumberRanges).columns('*').where({ numberRangeID: 'Document' })
+        console.log('query1', query1)
+        if (query1[0] != null) {
+            const nrID = await service1.getLastRunningNumber(query1[0].numberRangeID)
+            req.data.ID = nrID
+            console.log('req.data.ID', req.data.ID)
+        } else {
+            req.error(406, req.data.to_to_workItemType_workItemType + ' ID is not present in Number Range.')
+        }
+
         //fetching all the records in the RequestStatusesDisp - used to fetch status detail
         var query = await SELECT.from(RequestStatusesDisp).columns('*');
         //console.log('query--------', query);

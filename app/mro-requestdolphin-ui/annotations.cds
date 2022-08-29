@@ -1258,7 +1258,7 @@ annotate mrorequestdolphinService.Documents with @(UI : {
 });
 
 annotate mrorequestdolphinService.Documents {
-    ID      @mandatory;
+    ID      @mandatory @readonly;
     UUID    @readonly;
     //url     @mandatory;
     remarks @UI.MultiLineText;
