@@ -88,7 +88,7 @@ module.exports = cds.service.impl(async function () {
             console.log('............................')
             //If Request Type is not present in Number Range, it will give Info msg
             //(If selected request type is not there in Number Range)
-            req.error(406, req.data.to_requestType_rType + ' Type is not present in Number Range.')
+            req.error(406, req.data.to_requestType_rType + ' Type is not maintained in NumberRange.')
         }
 
         //Field to be field at the time of creating a new record
@@ -272,7 +272,7 @@ module.exports = cds.service.impl(async function () {
             req.data.ID = nrID
             console.log('req.data.ID', req.data.ID)
         } else {
-            req.error(406, req.data.to_to_workItemType_workItemType + ' ID is not present in Number Range.')
+            req.error(406, 'Document ID is not maintained in NumberRange.')
         }
 
         //fetching all the records in the RequestStatusesDisp - used to fetch status detail
