@@ -44,8 +44,25 @@ module.exports = cds.service.impl(async function () {
         return service2.tx(req).run(req.query);
     });
 
+    /*this.on("error", async (err, req) => {
+        console.log('................')
+        try {
+            var verrorMessage = err.innererror.response.body.error.message.value
+            console.log('verrorMessage....................', verrorMessage)
+            // req.error(404, verrorMessage)
+            console.log('...........', req.error(404, verrorMessage))
+            req.error(404, verrorMessage)
+            throw new Error(verrorMessage)
+        }
+        catch (errorIn) {
+            console.log('3333333333333333333333')
+            console.log('4444444444444', verrorMessage)
+            req.error(404, verrorMessage)
+        }
+    });*/
+
     //Read the MaintenanceRequestHeader from WorkItem Service
-    this.on('READ', MaintenanceRequestHeader, req => {
+    this.on('READ', MaintenanceRequestHeader, (req) => {
         return service4.tx(req).run(req.query);
     });
 
@@ -112,41 +129,41 @@ module.exports = cds.service.impl(async function () {
     this.before(['CREATE', 'UPDATE'], 'MaintenanceRequests', async (req) => {
 
         //To store the value of BusinessPartnerName in database
-        let query1 = await service2.read(BusinessPartnerVH).where({ BusinessPartner: req.data.businessPartner })
+        /*let query1 = await service2.read(BusinessPartnerVH).where({ BusinessPartner: req.data.businessPartner })
         console.log('query1', query1)
         if (req.data.businessPartner != null) {
             req.data.businessPartnerName = query1[0].BusinessPartnerName
-        }
+        }*/
 
         //bpConcatenation is used for Overview page(bp + bp name)
         req.data.bpConcatenation = req.data.businessPartner + '(' + req.data.businessPartnerName + ')'
         console.log('bpConcatenation', req.data.bpConcatenation)
 
         //To store the value of WorkCenterText in database
-        let query2 = await service2.read(WorkCenterVH).where({ WorkCenter: req.data.locationWC })
-        if (req.data.locationWC != null) {
-            req.data.locationWCDetail = query2[0].WorkCenterText
-            req.data.plantName = query2[0].PlantName
-            // req.data.MaintenancePlanningPlant = query2[0].Plant
-        }
-
-        //To store the value of FunctionalLocationName in database
-        let q1 = await service2.read(FunctionLocationVH).where({ functionalLocation: req.data.functionalLocation })
-        if (req.data.functionalLocation != null)
-            req.data.functionalLocationName = q1[0].FunctionalLocationName
-
-        //To store the value of EquipmentName in database
-        let q2 = await service2.read(EquipmentVH).where({ Equipment: req.data.equipment })
-        if (req.data.equipment != null)
-            req.data.equipmentName = q2[0].EquipmentName
-
-        //To store the value of RevisionType &  RevisionText in database
-        let q3 = await service2.read(RevisionVH).where({ RevisionNo: req.data.revision })
-        if (req.data.revision != null) {
-            req.data.MaintenanceRevision = req.data.revision
-            req.data.revisionType = q3[0].RevisionType
-            req.data.revisionText = q3[0].RevisionText
-        }
+        /* let query2 = await service2.read(WorkCenterVH).where({ WorkCenter: req.data.locationWC })
+         if (req.data.locationWC != null) {
+             req.data.locationWCDetail = query2[0].WorkCenterText
+             req.data.plantName = query2[0].PlantName
+             // req.data.MaintenancePlanningPlant = query2[0].Plant
+         }
+ 
+         //To store the value of FunctionalLocationName in database
+         let q1 = await service2.read(FunctionLocationVH).where({ functionalLocation: req.data.functionalLocation })
+         if (req.data.functionalLocation != null)
+             req.data.functionalLocationName = q1[0].FunctionalLocationName
+ 
+         //To store the value of EquipmentName in database
+         let q2 = await service2.read(EquipmentVH).where({ Equipment: req.data.equipment })
+         if (req.data.equipment != null)
+             req.data.equipmentName = q2[0].EquipmentName
+ 
+         //To store the value of RevisionType &  RevisionText in database
+         let q3 = await service2.read(RevisionVH).where({ RevisionNo: req.data.revision })
+         if (req.data.revision != null) {
+             req.data.MaintenanceRevision = req.data.revision
+             req.data.revisionType = q3[0].RevisionType
+             req.data.revisionText = q3[0].RevisionText
+         }*/
 
         //Validation for all dates value
         var arrivalDate = req.data.expectedArrivalDate
@@ -249,6 +266,7 @@ module.exports = cds.service.impl(async function () {
 
         //Request Number field on list report page
         req.data.requestNoConcat = req.data.requestNo
+        console.log('req.data.requestNoConcat', req.data.requestNoConcat)
 
         //Status and Phase value for list report page 
         req.data.to_requestStatusDisp_rStatus = req.data.to_requestStatus_rStatus
@@ -590,7 +608,7 @@ module.exports = cds.service.impl(async function () {
                                 } catch (error) {
                                     //If floc and equip are not in parent-child relation then floc will pass to create a revision
                                     var data1 = Object.create(data)
-                                    data.FunctionLocation = FunctionLocation
+                                    data.FunctionLocation = vfunctionalLocation
                                     var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
                                 }
                             }
@@ -618,21 +636,8 @@ module.exports = cds.service.impl(async function () {
                         req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage)
                     }
                 }
-
             }
-            /* else if (query[0].to_requestStatus_rStatus == 'NTCRTD' || query[0].to_requestStatus_rStatus == 'RVCRTD') {
-                 req.data.to_requestStatus_rStatus = 'RVCRTD'
-                 req.info(101, 'For Request ' + query[0].requestNoConcat + ' Revision is already been created')
-             }
-             else if (query[0].to_requestStatus_rStatus == 'MRCMPL') {
-                 req.info(101, 'MR ' + query[0].requestNoConcat + ' is already Completed')
-             }
-             else if (query[0].to_requestStatus_rStatus != 'NTCRTD' || query[0].to_requestStatus_rStatus != 'MRCMPL' || query[0].to_requestStatus_rStatus != 'TLIDNT')
-                 req.info(101, 'For Request ' + query[0].requestNoConcat + ' Task List should be identified')*/
-            //}
         }
-
-
     });
 
     //Handler for Calculate Ageing

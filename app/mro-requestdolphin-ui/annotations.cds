@@ -118,22 +118,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                 width : '10rem',
             }
         },
-        /* {
-             Value                 : modifiedBy,
-             Label                 : '{i18n>modifiedBy}',
-             ![@HTML5.CssDefaults] : {
-                 $Type : 'HTML5.CssDefaultsType',
-                 width : '10rem',
-             }
-         },
-         {
-             Value                 : modifiedAt,
-            //Label                 : '{i18n>modifiedAt}',
-             ![@HTML5.CssDefaults] : {
-                 $Type : 'HTML5.CssDefaultsType',
-                 width : '10rem',
-             }
-         },*/
         //fields to be hidden in settings tab on list report page
         {
             Value : businessPartner,
@@ -235,10 +219,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Value : to_requestStatusDisp_rStatus,
             ![@UI.Hidden]
         },
-        /*{
-            Value : to_requestType_rType,
-            ![@UI.Hidden]
-        },*/
         {
             Value : to_requestPhase_rPhase,
             ![@UI.Hidden]
@@ -283,15 +263,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {
             //Column 2 for header facet
             $Type  : 'UI.ReferenceFacet',
-            Target : '@UI.FieldGroup#Basic2'
-        },
-        {
-            //Column 3 for header facet
-            $Type  : 'UI.ReferenceFacet',
             Target : '@UI.FieldGroup#Detail'
         },
         {
-            //Column 4 for header facet
+            //Column 3 for header facet
             $Type  : 'UI.ReferenceFacet',
             Target : '@UI.FieldGroup#Detail1'
         }
@@ -303,31 +278,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : to_requestPhase_rPhaseDesc}
     ]},
     //Column 2 for header facet
-    FieldGroup #Basic2                          : {Data : [
-                                                           /*  {Value : locationWC},
-                                                             {Value : MaintenancePlanningPlant}*/
-                                                          ]},
-    //Column 3 for header facet
     FieldGroup #Detail                          : {Data : [
-        {
-            Value : createdBy,
-            //Label : '{i18n>createdBy}'
-        },
-        {
-            Value : modifiedBy,
-            //Label : '{i18n>modifiedBy}'
-        }
+        {Value : createdBy},
+        {Value : modifiedBy}
     ]},
-    //Column 4 for header facet
+    //Column 3 for header facet
     FieldGroup #Detail1                         : {Data : [
-        {
-            Value : createdAt,
-           //Label : '{i18n>createdAt}'
-        },
-        {
-            Value : modifiedAt,
-            //Label : '{i18n>modifiedAt}'
-        }
+        {Value : createdAt},
+        {Value : modifiedAt}
     ]},
 
     //Tabs for facets on object page
@@ -408,14 +366,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
                                              // Criticality               : criticalityLevel,
                                              // CriticalityRepresentation : #WithoutIcon
                  },
-        {
-            Value : modifiedBy,
-            //Label : '{i18n>modifiedBy}'
-        },
-        {
-            Value : modifiedAt,
-            //Label : '{i18n>modifiedAt}'
-        }
+        {Value : modifiedBy,
+                             //Label : '{i18n>modifiedBy}'
+                 },
+        {Value : modifiedAt,
+                             //Label : '{i18n>modifiedAt}'
+                 }
     ]},
     //Column 2 in General tab
     FieldGroup #generalGroup2                   : {Data : [
@@ -485,14 +441,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         ![@UI.TextArrangement] : #TextFirst
     }});
 };
-
-//Text arrangment for request type
-/*annotate mrorequestdolphinService.MaintenanceRequests with {
-    requestTypeDisp @(Common : {Text : {
-        $value                 : to_requestType_rType,
-        ![@UI.TextArrangement] : #TextFirst,
-    }});
-};*/
 
 //Text Arrangment for BP in List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -590,8 +538,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-
-//Request Number value Help for List Page
+//Request Number Value help for List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     requestNoConcat @(Common : {ValueList : {
         CollectionPath  : 'MaintenanceRequestsDisp',
@@ -611,7 +558,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Business Partner value Help for list report page
+//Business Partner Value help for list report page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     businessPartnerDisp @(Common : {ValueList : {
         CollectionPath  : 'BusinessPartnerVH',
@@ -619,13 +566,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         Label           : '{i18n>businessPartner}',
         Parameters      : [
             {
-                $Type             : 'Common.ValueListParameterOut',
+                $Type             : 'Common.ValueListParameterInOut',
                 LocalDataProperty : 'businessPartnerDisp',
                 ValueListProperty : 'BusinessPartner'
             },
             {
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'businessPartnerNameDisp',
+                $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'BusinessPartnerName'
             },
             {
@@ -656,7 +602,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Business partner value Help for object page
+//Business partner Value help for object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     businessPartner @(Common : {ValueList : {
         CollectionPath : 'BusinessPartnerVH',
@@ -672,8 +618,13 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 LocalDataProperty : 'businessPartnerName',
                 ValueListProperty : 'BusinessPartnerName'
             },
+            // {
+            //     $Type             : 'Common.ValueListParameterDisplayOnly',
+            //     ValueListProperty : 'BusinessPartnerRoleName'
+            // },
             {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'businessPartnerRole',
                 ValueListProperty : 'BusinessPartnerRoleName'
             },
             {
@@ -704,7 +655,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Revision Number value Help on list page
+//Revision Number Value help on list page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     MaintenanceRevision @(Common : {ValueList : {
         CollectionPath  : 'RevisionDisp',
@@ -728,6 +679,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 }
 
+//Revision Number Value help on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     revision @(Common : {ValueList : {
         CollectionPath  : 'RevisionVH',
@@ -769,39 +721,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         ]
     }});
 }
-
-//Contract Value Help on object page
-/*annotate mrorequestdolphinService.MaintenanceRequests with {
-    contract @(Common : {ValueList : {
-        CollectionPath : 'SalesContractVH',
-        Label          : '{i18n>contract}',
-        Parameters     : [
-            {
-                $Type             : 'Common.ValueListParameterIn',
-                LocalDataProperty : 'businessPartner',
-                ValueListProperty : 'SoldToPartyBP',
-            },
-            {
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'contract',
-                ValueListProperty : 'SalesContract'
-            },
-            {
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'contractName',
-                ValueListProperty : 'SalesContractName'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'TurnAroundTime'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'SoldToPartyBP'
-            },
-        ]
-    }});
-};*/
 
 //Work Center Value help on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -961,7 +880,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Request Type DropDown
+//Request Type Drop Down
 annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestType @(Common : {
         /* Text      : {
@@ -987,34 +906,48 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     })
 };
 
-//Request Status DropDown on List Page
+//Request Status Drop Down on List Page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestStatusDisp_rStatusDesc @(Common : {
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'RequestStatusesDisp',
             Label          : '{i18n>requestStatus}',
-            Parameters     : [{
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'to_requestStatusDisp_rStatusDesc',
-                ValueListProperty : 'rStatusDesc'
-            }]
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterIn',
+                    LocalDataProperty : 'to_requestStatusDisp_rStatus',
+                    ValueListProperty : 'rStatus'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterOut',
+                    LocalDataProperty : 'to_requestStatusDisp_rStatusDesc',
+                    ValueListProperty : 'rStatusDesc'
+                }
+            ]
         }
     });
 };
 
-//Request Phase Dropdown
+//Request Phase Drop Down
 annotate mrorequestdolphinService.MaintenanceRequests with {
     to_requestPhase_rPhaseDesc @(Common : {
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'RequestPhases',
             Label          : '{i18n>requestPhases}',
-            Parameters     : [{
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'to_requestPhase_rPhaseDesc',
-                ValueListProperty : 'rPhaseDesc'
-            }]
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterIn',
+                    LocalDataProperty : 'to_requestPhase_rPhase',
+                    ValueListProperty : 'rPhase'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterOut',
+                    LocalDataProperty : 'to_requestPhase_rPhaseDesc',
+                    ValueListProperty : 'rPhaseDesc'
+                }
+            ]
         }
     });
 };
@@ -1026,14 +959,54 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         ValueList : {
             CollectionPath : 'Ranges',
             //Label          : '{i18n>Range}',
-            Parameters     : [{
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'to_ranges_range',
-                ValueListProperty : 'range'
-            }]
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterIn',
+                    LocalDataProperty : 'to_ranges_ID',
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterOut',
+                    LocalDataProperty : 'to_ranges_range',
+                    ValueListProperty : 'range'
+                }
+            ]
         }
     })
 };
+
+//Contract Value Help on object page
+/*annotate mrorequestdolphinService.MaintenanceRequests with {
+    contract @(Common : {ValueList : {
+        CollectionPath : 'SalesContractVH',
+        Label          : '{i18n>contract}',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterIn',
+                LocalDataProperty : 'businessPartner',
+                ValueListProperty : 'SoldToPartyBP',
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'contract',
+                ValueListProperty : 'SalesContract'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'contractName',
+                ValueListProperty : 'SalesContractName'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'TurnAroundTime'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'SoldToPartyBP'
+            },
+        ]
+    }});
+};*/
 
 //Readonly and mandatory fields
 annotate mrorequestdolphinService.MaintenanceRequests {
@@ -1043,18 +1016,16 @@ annotate mrorequestdolphinService.MaintenanceRequests {
     to_requestPhase_rPhaseDesc   @readonly;
     to_requestStatus_rStatusDesc @readonly;
     locationWC                   @mandatory;
-    revisionType                 @readonly;
-    revisionDescription          @readonly;
-    businessPartnerName          @readonly;
-    locationWCDetail             @readonly;
+   // revisionType                 @readonly;
+   // revisionDescription          @readonly;
+    //businessPartnerName          @readonly;
+   // locationWCDetail             @readonly;
     //MaintenancePlanningPlant @readonly;
     //MaintenancePlanningPlant @Common : {FieldControl : #Inapplicable};
-    equipmentName                @readonly;
-    functionalLocationName       @readonly;
-    contractName                 @readonly;
-    //contract                     @readonly;
+    //equipmentName                @readonly;
+    //functionalLocationName       @readonly;
+   // contractName                 @readonly;
     requestTypeDisp              @readonly;
-    //requestStatusDisp         @readonly;
     MaintenanceRevision          @readonly;
 }
 
@@ -1069,7 +1040,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         businessPartnerNameDisp,
         criticalityLevel,
         emailFlag,
-        // requestStatusDisp,
         requestTypeDisp,
         uiHidden,
         uiHidden1,
@@ -1158,7 +1128,6 @@ annotate mrorequestdolphinService.Documents with @(UI : {
         },
         {
             Value                 : modifiedBy,
-           // Label                 : '{i18n>modifiedBy}',
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -1166,7 +1135,6 @@ annotate mrorequestdolphinService.Documents with @(UI : {
         },
         {
             Value                 : modifiedAt,
-           // Label                 : '{i18n>modifiedAt}',
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -1241,30 +1209,20 @@ annotate mrorequestdolphinService.Documents with @(UI : {
             {Value : ID},
             {Value : documentName},
             {Value : url},
-            /*{
-                Value : modifiedAt,
-                //Label : '{i18n>modifiedAt}'
-            },*/
-            //{Value : eMailRecievedDateAndTime},
             {Value : to_typeOfAttachment_attachmentType},
             {Value : to_documentStatus_docStatusDesc},
-            //{Value : fileFormatCheckRequired},
-            //{Value : formatCheck},
-            //{Value : eMailSent},
-            //{Value : workItemsCreated},
             {Value : remarks}
         ]
     }
 });
 
 annotate mrorequestdolphinService.Documents {
-    ID      @mandatory @readonly;
+    ID      @mandatory  @readonly;
     UUID    @readonly;
-    //url     @mandatory;
     remarks @UI.MultiLineText;
 };
 
-//Drop down for Document status
+//Drop Down for Document status
 annotate mrorequestdolphinService.Documents with {
     to_documentStatus @(Common : {
         ValueListWithFixedValues,
@@ -1273,42 +1231,40 @@ annotate mrorequestdolphinService.Documents with {
             Label          : '{i18n>to_documentStatus}',
             //  SearchSupported : true,
             Parameters     : [
-                              /* {
-                                   $Type             : 'Common.ValueListParameterOut',
-                                   LocalDataProperty : 'to_documentStatus_ID',
-                                   ValueListProperty : 'ID'
-                               },*/
-                             {
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'to_documentStatus_docStatusDesc',
-                ValueListProperty : 'docStatusDesc'
-            }]
+                {
+                    $Type             : 'Common.ValueListParameterIn',
+                    LocalDataProperty : 'to_documentStatus_docStatus',
+                    ValueListProperty : 'docStatus'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterOut',
+                    LocalDataProperty : 'to_documentStatus_docStatusDesc',
+                    ValueListProperty : 'docStatusDesc'
+                }
+            ]
         }
     })
 };
 
-//Drop down for Attachment Type
+//Drop Down for Attachment Type
 annotate mrorequestdolphinService.Documents with {
     to_typeOfAttachment @(Common : {
-        /* Text      : {
-             $value                 : to_typeOfAttachment_attachmentType,
-             ![@UI.TextArrangement] : #TextLast
-         },*/
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'AttachmentTypes',
             Label          : '{i18n>to_typeOfAttachment}',
             Parameters     : [
-                              /* {
-                                   $Type             : 'Common.ValueListParameterInOut',
-                                   LocalDataProperty : 'to_typeOfAttachment_ID',
-                                   ValueListProperty : 'ID'
-                               },*/
-                             {
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'to_typeOfAttachment_attachmentType',
-                ValueListProperty : 'attachmentType'
-            }]
+                {
+                    $Type             : 'Common.ValueListParameterIn',
+                    LocalDataProperty : 'to_typeOfAttachment_ID',
+                    ValueListProperty : 'ID'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterOut',
+                    LocalDataProperty : 'to_typeOfAttachment_attachmentType',
+                    ValueListProperty : 'attachmentType'
+                }
+            ]
         }
     })
 };

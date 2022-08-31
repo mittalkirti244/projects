@@ -1,7 +1,7 @@
 {
     "name": "hcl-mro-requestdolphin",
     "version": "2.1.0",
-    "description": "MRO RequestDolphin (Rel20220829)",
+    "description": "MRO RequestDolphin (Rel20220830)",
     "repository": "<Add your repository here>",
     "license": "UNLICENSED",
     "private": true,
@@ -71,21 +71,23 @@
                 "kind": "odata-v2",
                 "model": "srv/external/MAINTREQ_SB",
                 "credentials": {
-                    "destination": "MaintReq"
+                    "url": "http://20.122.41.136:8003/sap/opu/odata/ISAMMRCO/MAINTREQ_SB/",
+                    "username": "SANGITAP",
+                    "password": "Admin@12345"
                 }
             },
             "NumberRangeService": {
                 "kind": "odata",
                 "model": "srv/external/NumberRangeService",
                 "credentials": {
-                    "destination": "NumberRange"
+                    "url": "http://localhost:43779/NumberRangeService"
                 }
             },
             "notifleo": {
                 "kind": "odata",
                 "model": "srv/external/notifleo",
                 "credentials": {
-                    "destination": "Notifleo"
+                    "url": "http://localhost:44783/notifleo"
                 }
             }
         },

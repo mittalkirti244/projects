@@ -52,6 +52,7 @@ entity MaintenanceRequests : managed {
         age                              : Integer default 0                                                           @title                 : '{i18n>age}'; //For representing Aging field
         changeStatusFlag                 : Boolean not null default false                                              @title                 : '{i18n>changeStatusFlag}'; //For Change Status Action - Disable action at the time of create
         updateRevisionFlag               : Boolean not null default false                                              @title                 : '{i18n>updateRevisionFlag}'; //For Update Revision Action - Disable action at the  time of create
+        businessPartnerRole              : String;
         to_requestType                   : Association to RequestTypes                                                 @title :                 '{i18n>requestType}'  @assert.integrity   : false; //as dropdown - request number will generate through request type
         to_requestStatus_rStatus         : String                                                                      @title                 : '{i18n>requestStatus}';
         to_requestStatus_rStatusDesc     : String                                                                      @title                 : '{i18n>requestStatus}';
