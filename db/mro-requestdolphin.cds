@@ -324,7 +324,7 @@ view AggregatedReqByAssemblyAndBP as
 view ReqByCompleteAssetAndRangeUntilRequestedWorkList as
     select from MaintenanceRequests {
         to_requestType,
-        @Analytics.Dimension : true //
+        @Analytics.Dimension : true
         to_requestStatusDisp_rStatusDesc,
         @Analytics.Dimension : true
         to_ranges,
@@ -335,14 +335,14 @@ view ReqByCompleteAssetAndRangeUntilRequestedWorkList as
         @Analytics.Measure   : true
         @Aggregation.default : #SUM
         mrCount
-}
-where
-    to_requestType.rType = 'Complete Asset'
-    and (
-           to_requestStatusDisp_rStatusDesc = 'Created'
-        or to_requestStatusDisp_rStatusDesc = 'Request for New Worklist'
-        or to_requestStatusDisp_rStatusDesc = 'New Worklist Requested'
-    );
+    }
+    where
+        to_requestType.rType = 'Complete Asset'
+        and (
+               to_requestStatusDisp_rStatus = 'MRCRTD' //Created
+            or to_requestStatusDisp_rStatus = 'NWLREQ' //Request for New Worklist
+            or to_requestStatusDisp_rStatus = 'WLRQTD' //New Worklist Requested
+        );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis Created, Request for Work List, Requested Work List
 @Aggregation.ApplySupported.PropertyRestrictions : true
@@ -364,9 +364,9 @@ view ReqByAssemblyAndRangeUntilRequestedWorkList as
 where
     to_requestType.rType = 'Assembly'
     and (
-           to_requestStatusDisp_rStatusDesc = 'Created'
-        or to_requestStatusDisp_rStatusDesc = 'Request for New Worklist'
-        or to_requestStatusDisp_rStatusDesc = 'New Worklist Requested'
+           to_requestStatusDisp_rStatus = 'MRCRTD' //Created
+        or to_requestStatusDisp_rStatus = 'NWLREQ' //Request for New Worklist
+        or to_requestStatusDisp_rStatus = 'WLRQTD' //New Worklist Requested
     );
 
 
@@ -390,9 +390,9 @@ view ReqByComponentAndRangeUntilRequestedWorkList as
     where
         to_requestType.rType = 'Component'
         and (
-               to_requestStatusDisp_rStatusDesc = 'Created'
-            or to_requestStatusDisp_rStatusDesc = 'Request for New Worklist'
-            or to_requestStatusDisp_rStatusDesc = 'New Worklist Requested'
+               to_requestStatusDisp_rStatus = 'MRCRTD' //Created
+            or to_requestStatusDisp_rStatus = 'NWLREQ' //Request for New Worklist
+            or to_requestStatusDisp_rStatus = 'WLRQTD' //New Worklist Requested
         );
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
@@ -477,8 +477,8 @@ view ReqByCompleteAssetAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Complete Asset'
         and (
-               to_requestStatusDisp_rStatusDesc = 'Approved'
-            or to_requestStatusDisp_rStatusDesc = 'Notifications Created'
+               to_requestStatusDisp_rStatus = 'MRAPRD' //Approved
+            or to_requestStatusDisp_rStatus = 'NTCRTD' //Notifications Created
         );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
@@ -501,8 +501,8 @@ view ReqByAssemblyAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Assembly'
         and (
-               to_requestStatusDisp_rStatusDesc = 'Approved'
-            or to_requestStatusDisp_rStatusDesc = 'Notifications Created'
+               to_requestStatusDisp_rStatus = 'MRAPRD' //Approved
+            or to_requestStatusDisp_rStatus = 'NTCRTD' //Notifications Created
         );
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
@@ -525,8 +525,8 @@ view ReqByComponentAndRangeUntilNotifications as
     where
         to_requestType.rType = 'Component'
         and (
-               to_requestStatusDisp_rStatusDesc = 'Approved'
-            or to_requestStatusDisp_rStatusDesc = 'Notifications Created'
+               to_requestStatusDisp_rStatus = 'MRAPRD' //Approved
+            or to_requestStatusDisp_rStatus = 'NTCRTD' //Notifications Created
         );
 
 //Number of Request based on MR type(Complete Asset) which has Ranges on x-axis and status on y-axis
@@ -549,7 +549,7 @@ view ReqByCompleteAssetAndRangePendingRevision as
     where
         to_requestType.rType = 'Complete Asset'
         and (
-            to_requestStatusDisp_rStatusDesc = 'Task List Identified'
+            to_requestStatusDisp_rStatusDesc = 'TLIDNT' //Task List Identified
         );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
@@ -572,7 +572,7 @@ view ReqByAssemblyAndRangePendingRevision as
     where
         to_requestType.rType = 'Assembly'
         and (
-            to_requestStatusDisp_rStatusDesc = 'Task List Identified'
+            to_requestStatusDisp_rStatusDesc = 'TLIDNT' //Task List Identified
         );
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
@@ -595,5 +595,5 @@ view ReqByComponentAndRangePendingRevision as
     where
         to_requestType.rType = 'Component'
         and (
-            to_requestStatusDisp_rStatusDesc = 'Task List Identified'
+            to_requestStatusDisp_rStatusDesc = 'TLIDNT' //Task List Identified
         );

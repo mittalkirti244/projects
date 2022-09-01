@@ -5,7 +5,7 @@
 _schema-version: "3.1"
 ID: hcl-mro-requestdolphin
 version: 2.1.0
-description: "MRO RequestDolphin (Rel20220830)"
+description: "MRO RequestDolphin (Rel20220901)"
 parameters:
   enable-parallel-deployments: true
 

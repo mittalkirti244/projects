@@ -46,19 +46,17 @@ module.exports = cds.service.impl(async function () {
 
     /*this.on("error", async (err, req) => {
         console.log('................')
-        try {
-            var verrorMessage = err.innererror.response.body.error.message.value
-            console.log('verrorMessage....................', verrorMessage)
-            // req.error(404, verrorMessage)
-            console.log('...........', req.error(404, verrorMessage))
-            req.error(404, verrorMessage)
-            throw new Error(verrorMessage)
-        }
-        catch (errorIn) {
-            console.log('3333333333333333333333')
-            console.log('4444444444444', verrorMessage)
-            req.error(404, verrorMessage)
-        }
+        var verrorMessage = err.innererror.response.body.error.message.value
+        console.log('verrorMessage....................', verrorMessage)
+        var verrorCode = err.innererror.response.status
+        console.log('verrorCode..........', verrorCode)
+        err.message = 'Status Code ' + verrorCode + ': ' + verrorMessage
+
+        /*var verrorMessageCloud = err.innererror.response.body.error.message
+        console.log('verrorMessageCloud....................', verrorMessageCloud)
+        var verrorCodeCloud = err.statusCode
+        console.log('verrorCodeCloud..........', verrorCodeCloud)
+        err.message = 'Status Code ' + verrorCodeCloud + ': ' + verrorMessageCloud
     });*/
 
     //Read the MaintenanceRequestHeader from WorkItem Service
@@ -607,6 +605,7 @@ module.exports = cds.service.impl(async function () {
                                     var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
                                 } catch (error) {
                                     //If floc and equip are not in parent-child relation then floc will pass to create a revision
+                                    //Err- Either select floc or equip
                                     var data1 = Object.create(data)
                                     data.FunctionLocation = vfunctionalLocation
                                     var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
