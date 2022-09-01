@@ -71,7 +71,7 @@
         },
         "MaterialNumber": {
           "type": "cds.String",
-          "length": 40,
+          "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Material",
           "@sap.value.list": "standard"
@@ -259,7 +259,7 @@
           "type": "cds.String",
           "length": 3,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Document Type",
+          "@sap.label": "RTL Document Type",
           "@sap.value.list": "standard"
         },
         "DocumentInfoRecordDocNumber": {
@@ -267,7 +267,7 @@
           "type": "cds.String",
           "length": 25,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Document Number",
+          "@sap.label": "RTL Document Number",
           "@sap.value.list": "standard"
         },
         "DocumentInfoRecordDocPart": {
@@ -275,7 +275,7 @@
           "type": "cds.String",
           "length": 3,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Document Part",
+          "@sap.label": "RTL Document Part",
           "@sap.value.list": "standard"
         },
         "DocumentInfoRecordDocVersion": {
@@ -283,7 +283,7 @@
           "type": "cds.String",
           "length": 2,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Document Version",
+          "@sap.label": "RTL Document Version",
           "@sap.value.list": "standard"
         },
         "DIRLinkCounterMARA": {
@@ -291,26 +291,26 @@
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "NonNegative",
-          "@sap.label": "Material Link Counter",
-          "@sap.quickinfo": "Material DIR Object Link Counter"
+          "@sap.label": "RTL Material Link Counter",
+          "@sap.quickinfo": "Material RTL DIR Object Link Counter"
         },
         "DIRLinkCounterPLKO": {
           "key": true,
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "NonNegative",
-          "@sap.label": "Task List Link Counter"
+          "@sap.label": "RTL Task List Link Counter"
         },
         "ExternalReference": {
           "key": true,
           "type": "cds.String",
           "length": 40,
-          "@sap.label": "External Reference"
+          "@sap.label": "RTL External Reference"
         },
         "Material": {
           "key": true,
           "type": "cds.String",
-          "length": 40,
+          "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.text": "MaterialName",
           "@sap.label": "Material",
@@ -350,7 +350,7 @@
         "DocumentInfoRecordDoc": {
           "type": "cds.String",
           "length": 120,
-          "@sap.label": "Document"
+          "@sap.label": "RTL Document"
         },
         "MaterialName": {
           "type": "cds.String",
@@ -421,12 +421,6 @@
           "length": 8,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Work Center"
-        },
-        "WorkCenterPlant": {
-          "type": "cds.String",
-          "length": 4,
-          "@sap.display.format": "UpperCase",
-          "@sap.label": "Work Center Plant"
         }
       }
     },
@@ -456,7 +450,7 @@
         },
         "Material": {
           "type": "cds.String",
-          "length": 40,
+          "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Material Description",
           "@sap.quickinfo": "Material Number"
@@ -477,8 +471,7 @@
         "MaterialName": {
           "type": "cds.String",
           "length": 40,
-          "@sap.label": "Material Description",
-          "@sap.quickinfo": "Material description"
+          "@sap.label": "Material Description"
         },
         "SerialNumber": {
           "type": "cds.String",
@@ -589,7 +582,7 @@
         "RequiredEndTime": {
           "type": "cds.Time",
           "@sap.label": "Req. end time",
-          "@sap.quickinfo": "Requested End Time"
+          "@sap.quickinfo": "Required End Time"
         },
         "NotificationCreationDate": {
           "type": "cds.Date",
@@ -684,7 +677,7 @@
         },
         "Material": {
           "type": "cds.String",
-          "length": 40,
+          "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Material",
           "@sap.quickinfo": "Material Number"
@@ -699,7 +692,7 @@
         },
         "Assembly": {
           "type": "cds.String",
-          "length": 40,
+          "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Assembly",
           "@sap.value.list": "standard"
@@ -814,13 +807,13 @@
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales office"
+          "@sap.label": "Sales Office"
         },
         "SalesGroup": {
           "type": "cds.String",
           "length": 3,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales group"
+          "@sap.label": "Sales Group"
         },
         "NotificationHasLongText": {
           "type": "cds.String",
@@ -950,7 +943,7 @@
         },
         "Assembly": {
           "type": "cds.String",
-          "length": 40,
+          "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Assembly"
         },
@@ -994,7 +987,7 @@
         "Material": {
           "key": true,
           "type": "cds.String",
-          "length": 40,
+          "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Material",
           "@sap.quickinfo": "Material Number"
@@ -1003,7 +996,7 @@
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Description",
-          "@sap.quickinfo": "Material description"
+          "@sap.quickinfo": "Material Description"
         },
         "MaterialType": {
           "type": "cds.String",
@@ -1059,20 +1052,20 @@
           "length": 4,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Item Category",
-          "@sap.quickinfo": "Sales document item category"
+          "@sap.quickinfo": "Sales Document Item Category"
         },
         "CreatedByUser": {
           "type": "cds.String",
           "length": 12,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Created By",
-          "@sap.quickinfo": "Name of Person who Created the Object"
+          "@sap.quickinfo": "Name of Person Responsible for Creating the Object"
         },
         "CreationDate": {
           "type": "cds.Date",
           "@sap.display.format": "Date",
           "@sap.label": "Creation Date",
-          "@sap.quickinfo": "Date on which the record was created"
+          "@sap.quickinfo": "Record Created On"
         },
         "CreationTime": {
           "type": "cds.Time",
@@ -1081,7 +1074,7 @@
         },
         "Material": {
           "type": "cds.String",
-          "length": 40,
+          "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Material",
           "@sap.quickinfo": "Material Number",
@@ -1091,11 +1084,11 @@
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Material Name",
-          "@sap.quickinfo": "Material description"
+          "@sap.quickinfo": "Material Description"
         },
         "RequestedMaterial": {
           "type": "cds.String",
-          "length": 40,
+          "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Requested Material",
           "@sap.quickinfo": "Material entered",
@@ -1105,7 +1098,7 @@
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Requested Material Name",
-          "@sap.quickinfo": "Material description"
+          "@sap.quickinfo": "Material Description"
         },
         "MaterialGroup": {
           "type": "cds.String",
@@ -1124,8 +1117,7 @@
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Storage Location",
-          "@sap.quickinfo": "Storage location"
+          "@sap.label": "Storage Location"
         },
         "OrderQuantity": {
           "type": "cds.Decimal",
@@ -1139,7 +1131,7 @@
           "type": "cds.String",
           "length": 3,
           "@sap.label": "Order Quantity Unit",
-          "@sap.quickinfo": "Sales unit",
+          "@sap.quickinfo": "Sales Unit",
           "@sap.semantics": "unit-of-measure"
         },
         "BaseUnit": {
@@ -1205,7 +1197,7 @@
           "type": "cds.String",
           "length": 3,
           "@sap.label": "Item Weight Unit",
-          "@sap.quickinfo": "Weight Unit",
+          "@sap.quickinfo": "Unit of Weight",
           "@sap.semantics": "unit-of-measure"
         },
         "ItemVolume": {
@@ -1220,7 +1212,7 @@
           "type": "cds.String",
           "length": 3,
           "@sap.label": "Item Volume Unit",
-          "@sap.quickinfo": "Volume unit",
+          "@sap.quickinfo": "Volume Unit",
           "@sap.semantics": "unit-of-measure"
         }
       }
@@ -1324,17 +1316,29 @@
         "TurnAroundTimeinUnit": {
           "type": "cds.String",
           "length": 260,
-          "@sap.label": "Turn Around Time(in Time Unit)"
+          "@sap.label": "Turn Around Time(in Time Unit)",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "@sap.filterable": "false"
         },
         "TurnAroundTimeUnit": {
           "type": "cds.String",
           "length": 260,
-          "@sap.label": "Turn Around Time Unit"
+          "@sap.label": "Turn Around Time Unit",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "@sap.filterable": "false"
         },
         "TurnAroundTime": {
           "type": "cds.String",
           "length": 260,
-          "@sap.label": "Turn Around Time(in Days)"
+          "@sap.label": "Turn Around Time(in Days)",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "@sap.sortable": "false",
+          "@sap.filterable": "false"
         },
         "to_SalesContract": {
           "@cds.ambiguous": "missing on condition?",
@@ -1626,7 +1630,7 @@
         "UnitOfMeasureLongName": {
           "type": "cds.String",
           "length": 30,
-          "@sap.label": "UoM Text",
+          "@sap.label": "Measurement Unit Txt",
           "@sap.quickinfo": "Unit of Measurement Text (Maximum 30 Characters)"
         },
         "UnitOfMeasureDimension": {
@@ -1817,8 +1821,8 @@
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Item category",
-          "@sap.quickinfo": "Sales document item category"
+          "@sap.label": "Item Category",
+          "@sap.quickinfo": "Sales Document Item Category"
         },
         "NetAmount": {
           "type": "cds.Decimal",
@@ -1830,7 +1834,7 @@
         },
         "Material": {
           "type": "cds.String",
-          "length": 40,
+          "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.text": "MaterialName",
           "@sap.label": "Product",
@@ -1839,7 +1843,7 @@
         "MaterialName": {
           "type": "cds.String",
           "length": 40,
-          "@sap.label": "Material description"
+          "@sap.label": "Material Description"
         },
         "MaterialByCustomer": {
           "type": "cds.String",
@@ -2412,7 +2416,8 @@
         "TaskListDesc": {
           "type": "cds.String",
           "length": 40,
-          "@sap.label": "Description"
+          "@sap.label": "Description",
+          "@sap.quickinfo": "Routing Description"
         }
       }
     },
@@ -2495,7 +2500,7 @@
         "Material": {
           "key": true,
           "type": "cds.String",
-          "length": 40,
+          "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.text": "Material_Text",
           "@sap.label": "Material",
@@ -2504,7 +2509,7 @@
         "Material_Text": {
           "type": "cds.String",
           "length": 40,
-          "@sap.label": "Material description",
+          "@sap.label": "Material Description",
           "@sap.creatable": "false",
           "@sap.updatable": "false"
         }
@@ -2635,7 +2640,7 @@
         "Product": {
           "key": true,
           "type": "cds.String",
-          "length": 40,
+          "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.text": "Product_Text",
           "@sap.label": "Product",
@@ -2647,6 +2652,13 @@
           "@sap.label": "Product Description",
           "@sap.creatable": "false",
           "@sap.updatable": "false"
+        },
+        "ProductExternalID": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "External Product ID",
+          "@sap.quickinfo": "External Representation of Material Number"
         },
         "IndustrySector": {
           "type": "cds.String",
@@ -2689,8 +2701,7 @@
         "WeightUnit": {
           "type": "cds.String",
           "length": 3,
-          "@sap.label": "Weight unit",
-          "@sap.quickinfo": "Weight Unit",
+          "@sap.label": "Unit of Weight",
           "@sap.semantics": "unit-of-measure"
         },
         "ManufacturerNumber": {
