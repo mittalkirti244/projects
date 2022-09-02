@@ -308,6 +308,10 @@ module.exports = cds.service.impl(async function () {
 
     });
 
+    this.before('SAVE', 'MaintenanceRequests', async (req) => {
+        console.log('req.data in SAVE',req.data)
+     })
+
     //On click of Change Status(Second change status button)
     this.on('changeStatus', async (req) => {
         id1 = req.params[0].ID
