@@ -1016,15 +1016,15 @@ annotate mrorequestdolphinService.MaintenanceRequests {
     to_requestPhase_rPhaseDesc   @readonly;
     to_requestStatus_rStatusDesc @readonly;
     locationWC                   @mandatory;
-   // revisionType                 @readonly;
-   // revisionDescription          @readonly;
+    // revisionType                 @readonly;
+    // revisionDescription          @readonly;
     //businessPartnerName          @readonly;
-   // locationWCDetail             @readonly;
+    // locationWCDetail             @readonly;
     //MaintenancePlanningPlant @readonly;
     //MaintenancePlanningPlant @Common : {FieldControl : #Inapplicable};
     //equipmentName                @readonly;
     //functionalLocationName       @readonly;
-   // contractName                 @readonly;
+    // contractName                 @readonly;
     requestTypeDisp              @readonly;
     MaintenanceRevision          @readonly;
 }

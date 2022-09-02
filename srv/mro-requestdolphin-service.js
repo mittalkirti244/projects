@@ -576,9 +576,7 @@ module.exports = cds.service.impl(async function () {
                                 "WorkCenter": vworkCenter,
                                 "WorkCenterPlant": vworkCenterPlant,
                                 "RevisionStartDate": vformatexpectedArrivalDate,
-                                //"RevisionStartTime": 'PT00H00M00S',
-                                "RevisionEndDate": vformatedexpectedDeliveryDate,
-                                // "RevisionEndTime": 'PT00H00M00S'
+                                "RevisionEndDate": vformatedexpectedDeliveryDate
                             }
                             if (vfunctionalLocation == null && vequipment == null) {
                                 var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
@@ -602,13 +600,19 @@ module.exports = cds.service.impl(async function () {
                                     var data1 = Object.create(data)
                                     data.FunctionLocation = vfunctionalLocation
                                     data.Equipment = vequipment
+                                    console.log('data', data)
                                     var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
                                 } catch (error) {
                                     //If floc and equip are not in parent-child relation then floc will pass to create a revision
                                     //Err- Either select floc or equip
-                                    var data1 = Object.create(data)
-                                    data.FunctionLocation = vfunctionalLocation
+                                    //Will pass the Floc and delete the equip from payload
+                                    delete data.Equipment
+                                    console.log('data', data)
                                     var result = await tx.send({ method: 'POST', path: 'MaintRevision', data })
+                                    await UPDATE(MaintenanceRequests).set({
+                                        equipment: null,
+                                        equipmentName: null
+                                    }).where({ ID: id1 })
                                 }
                             }
                             console.log('Revision', result)
