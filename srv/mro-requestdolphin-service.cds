@@ -83,6 +83,11 @@ service mrorequestdolphinService {
     entity RequestPhases           as projection on maintReq.RequestPhases;
 
     //Request Number value Help for List Page
+    //Filter restriction is used to select multiple values from Value help
+    @Common : {FilterExpressionRestrictions : [{
+        $Type              : 'Common.FilterExpressionRestrictionType',
+        AllowedExpressions : #MultiValue,
+    }, ], }
     entity MaintenanceRequestsDisp as projection on maintReq.MaintenanceRequests {
         requestNoConcat @UI.HiddenFilter,
         requestDesc     @UI.HiddenFilter

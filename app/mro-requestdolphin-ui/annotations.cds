@@ -234,6 +234,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {
             Value : updateRevisionFlag,
             ![@UI.Hidden]
+        },
+        {
+            Value : startDate,
+            ![@UI.Hidden]
+        },
+        {
+            Value : endDate,
+            ![@UI.Hidden]
         }
     ],
     //Sort all Requests based on createdAt in list report page
@@ -574,13 +582,23 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'BusinessPartnerName'
             },
+            // {
+            //     $Type             : 'Common.ValueListParameterDisplayOnly',
+            //     ValueListProperty : 'BusinessPartnerRoleName'
+            // },
+            // {
+            //     $Type             : 'Common.ValueListParameterDisplayOnly',
+            //     ValueListProperty : 'SalesContract'
+            // },
             {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'businessPartnerRole',
                 ValueListProperty : 'BusinessPartnerRoleName'
             },
             {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'SalesContract'
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'contract',
+                ValueListProperty : 'SalesContract',
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
@@ -1075,7 +1093,9 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         to_requestPhase_ID,
         to_ranges_ID,
         modifiedAt,
-        modifiedBy
+        modifiedBy,
+        startDate,
+        endDate
     ]
 }};
 

@@ -80,14 +80,14 @@
                 "kind": "odata",
                 "model": "srv/external/NumberRangeService",
                 "credentials": {
-                    "url": "http://localhost:38229/NumberRangeService"
+                    "url": "http://localhost:36921/NumberRangeService"
                 }
             },
             "notifleo": {
                 "kind": "odata",
                 "model": "srv/external/notifleo",
                 "credentials": {
-                    "url": "http://localhost:41961/notifleo"
+                    "url": "http://localhost:41791/notifleo"
                 }
             }
         },
