@@ -1,6 +1,6 @@
 {
   "meta": {
-    "creator": "cds-dk 6.0.4"
+    "creator": "cds-dk 6.1.1"
   },
   "$version": "2.0",
   "definitions": {
@@ -11,38 +11,234 @@
         "createdAt": {
           "type": "cds.Timestamp",
           "@odata.Precision": 7,
-          "@odata.Type": "Edm.DateTimeOffset"
+          "@odata.Type": "Edm.DateTimeOffset",
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@Core.Computed": true,
+          "@Common.Label": "CreatedAt"
         },
         "createdBy": {
           "type": "cds.String",
           "length": 255,
-          "doc": "UserID.Description"
+          "@UI.HiddenFilter": true,
+          "@Core.Immutable": true,
+          "@Core.Computed": true,
+          "doc": "UserID.Description",
+          "@Common.Label": "CreatedBy"
         },
         "modifiedAt": {
           "type": "cds.Timestamp",
           "@odata.Precision": 7,
-          "@odata.Type": "Edm.DateTimeOffset"
+          "@odata.Type": "Edm.DateTimeOffset",
+          "@UI.HiddenFilter": true,
+          "@Core.Computed": true,
+          "@Common.Label": "ChangedAt"
         },
         "modifiedBy": {
           "type": "cds.String",
           "length": 255,
-          "doc": "UserID.Description"
+          "@UI.HiddenFilter": true,
+          "@Core.Computed": true,
+          "doc": "UserID.Description",
+          "@Common.Label": "ChangedBy"
         },
         "ID": {
           "key": true,
-          "type": "cds.UUID"
+          "type": "cds.UUID",
+          "@Core.Computed": true,
+          "@Common.Label": "ID"
         },
         "workItemID": {
-          "type": "cds.Integer"
+          "type": "cds.Integer",
+          "@Common.Label": "Work Item"
         },
         "requestNo": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.ValueList": {
+            "$Type": "Common.ValueListType",
+            "CollectionPath": "MaintenanceRequestsVH",
+            "Label": "Request ID",
+            "Parameters": [
+              {
+                "$Type": "Common.ValueListParameterInOut",
+                "LocalDataProperty": {
+                  "=": "requestNo"
+                },
+                "ValueListProperty": "requestNo"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "requestDesc"
+                },
+                "ValueListProperty": "requestDesc"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "mrequestType"
+                },
+                "ValueListProperty": "to_requestType_rType"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "mrequestStatus"
+                },
+                "ValueListProperty": "to_requestStatusDisp_rStatusDesc"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "workCenter"
+                },
+                "ValueListProperty": "locationWC"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "workCenterDetail"
+                },
+                "ValueListProperty": "locationWCDetail"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "planningPlant"
+                },
+                "ValueListProperty": "MaintenancePlanningPlant"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "contractNo"
+                },
+                "ValueListProperty": "contract"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "contractName"
+                },
+                "ValueListProperty": "contractName"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "functionalLocation"
+                },
+                "ValueListProperty": "functionalLocation"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "functionalLocationName"
+                },
+                "ValueListProperty": "functionalLocationName"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "equipment"
+                },
+                "ValueListProperty": "equipment"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "equipmentName"
+                },
+                "ValueListProperty": "equipmentName"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "revisionNo"
+                },
+                "ValueListProperty": "MaintenanceRevision"
+              }
+            ]
+          },
+          "@Common.FieldControl": {
+            "#": {
+              "#": "Mandatory"
+            }
+          },
+          "@Common.Label": "Request ID"
         },
         "requestNoDisp": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Core.Computed": true,
+          "@Common.Label": "Request ID"
         },
         "requestNoConcat": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Text": {
+            "$Path": "requestDesc"
+          },
+          "@Common.ValueList": {
+            "$Type": "Common.ValueListType",
+            "CollectionPath": "MaintenanceRequestsVH",
+            "Label": "Request ID",
+            "Parameters": [
+              {
+                "$Type": "Common.ValueListParameterInOut",
+                "LocalDataProperty": {
+                  "=": "requestNoConcat"
+                },
+                "ValueListProperty": "requestNo"
+              },
+              {
+                "$Type": "Common.ValueListParameterFilterOnly",
+                "ValueListProperty": "requestDesc"
+              },
+              {
+                "$Type": "Common.ValueListParameterFilterOnly",
+                "ValueListProperty": "to_requestType_rType"
+              },
+              {
+                "$Type": "Common.ValueListParameterFilterOnly",
+                "ValueListProperty": "locationWC"
+              },
+              {
+                "$Type": "Common.ValueListParameterFilterOnly",
+                "ValueListProperty": "locationWCDetail"
+              },
+              {
+                "$Type": "Common.ValueListParameterFilterOnly",
+                "ValueListProperty": "MaintenancePlanningPlant"
+              },
+              {
+                "$Type": "Common.ValueListParameterFilterOnly",
+                "ValueListProperty": "contract"
+              },
+              {
+                "$Type": "Common.ValueListParameterFilterOnly",
+                "ValueListProperty": "contractName"
+              },
+              {
+                "$Type": "Common.ValueListParameterFilterOnly",
+                "ValueListProperty": "functionalLocation"
+              },
+              {
+                "$Type": "Common.ValueListParameterFilterOnly",
+                "ValueListProperty": "functionalLocationName"
+              },
+              {
+                "$Type": "Common.ValueListParameterFilterOnly",
+                "ValueListProperty": "equipment"
+              },
+              {
+                "$Type": "Common.ValueListParameterFilterOnly",
+                "ValueListProperty": "equipmentName"
+              },
+              {
+                "$Type": "Common.ValueListParameterFilterOnly",
+                "ValueListProperty": "MaintenanceRevision"
+              }
+            ]
+          },
+          "@Common.Label": "Request ID"
         },
         "uiHidden": {
           "type": "cds.Boolean"
@@ -51,88 +247,166 @@
           "type": "cds.Boolean"
         },
         "sequenceNo": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Sequence Number"
         },
         "requestDesc": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Request Description"
         },
         "mrequestType": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Core.Computed": true,
+          "@Common.Label": "Request Type"
         },
         "mrequestStatus": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Status"
         },
         "businessPartner": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Business Partner"
         },
         "businessPartnerName": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Business Partner Name"
         },
         "functionalLocation": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Text": {
+            "$Path": "functionalLocationName"
+          },
+          "@Common.Label": "Functional Location"
         },
         "functionalLocationName": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Functional Location Name"
         },
         "equipment": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Text": {
+            "$Path": "equipmentName"
+          },
+          "@Common.Label": "Equipment"
         },
         "equipmentName": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Equipment Name"
         },
         "revisionNo": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Revision"
         },
         "planningPlant": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Work Location Plant"
         },
         "workCenter": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Text": {
+            "$Path": "workCenterDetail"
+          },
+          "@Common.Label": "Work Location"
         },
         "workCenterDetail": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Work Location"
         },
         "contractNo": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Text": {
+            "$Path": "contractName"
+          },
+          "@Common.Label": "Contract"
         },
         "contractName": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Contract Name"
         },
         "fileName": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "File Name"
         },
         "noOfEmail": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Number Of Emails"
         },
         "noOfAttachment": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Number Of Attachments"
         },
         "workOrderNo": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Work Order Number"
         },
         "customerRef": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Customer Reference"
         },
         "taskDescription": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Description"
         },
         "estimatedDueDate": {
-          "type": "cds.Date"
+          "type": "cds.Date",
+          "@Common.Label": "Estimated Due Date"
         },
         "quantity": {
-          "type": "cds.Integer"
+          "type": "cds.Integer",
+          "@Common.Label": "Quantity"
         },
         "unitOfMeasure": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Unit Of Measurement"
         },
         "notificationNo": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.ValueList": {
+            "$Type": "Common.ValueListType",
+            "CollectionPath": "MaintNotifications",
+            "Label": "Notification",
+            "Parameters": [
+              {
+                "$Type": "Common.ValueListParameterInOut",
+                "LocalDataProperty": {
+                  "=": "notificationNo"
+                },
+                "ValueListProperty": "MaintenanceNotification"
+              },
+              {
+                "$Type": "Common.ValueListParameterDisplayOnly",
+                "ValueListProperty": "NotificationText"
+              },
+              {
+                "$Type": "Common.ValueListParameterDisplayOnly",
+                "ValueListProperty": "NotificationType"
+              }
+            ]
+          },
+          "@Common.Label": "Notification"
         },
         "notificationNoDisp": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.ValueList": {
+            "$Type": "Common.ValueListType",
+            "CollectionPath": "NotificationVH",
+            "Label": "Notification",
+            "Parameters": [
+              {
+                "$Type": "Common.ValueListParameterInOut",
+                "LocalDataProperty": {
+                  "=": "notificationNoDisp"
+                },
+                "ValueListProperty": "notificationNoDisp"
+              }
+            ]
+          },
+          "@Common.Label": "Notification"
         },
         "notificationFlag": {
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "@Common.Label": "Notification Exists",
+          "@Core.Computed": true
         },
         "notificationGenerateFlag": {
           "type": "cds.Boolean"
@@ -141,31 +415,107 @@
           "type": "cds.Boolean"
         },
         "additionalRemark": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@UI.MultiLineText": true,
+          "@Common.Label": "Additional Remarks"
         },
         "billOfWorkDocRef": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Core.Computed": true,
+          "@Common.Label": "Bill Of Work Document Reference"
         },
         "quotationDoc": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Core.Computed": true,
+          "@Common.Label": "Quotation Document"
         },
         "genericRef": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Generic Reference (OEM/CAMP/Industry)"
         },
         "taskListGroup": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Core.Computed": true,
+          "@Common.Label": "Task List Group"
         },
         "taskListGroupCounter": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Core.Computed": true,
+          "@Common.Label": "Task List Group Counter"
         },
         "taskListType": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.ValueList": {
+            "$Type": "Common.ValueListType",
+            "CollectionPath": "ReferenceTaskListVH",
+            "Label": "Task List Type",
+            "Parameters": [
+              {
+                "$Type": "Common.ValueListParameterIn",
+                "LocalDataProperty": {
+                  "=": "genericRef"
+                },
+                "ValueListProperty": "ExternalReference"
+              },
+              {
+                "$Type": "Common.ValueListParameterIn",
+                "LocalDataProperty": {
+                  "=": "customerRef"
+                },
+                "ValueListProperty": "ExternalCustomerReference"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "taskListType"
+                },
+                "ValueListProperty": "TaskListType"
+              },
+              {
+                "$Type": "Common.ValueListParameterInOut",
+                "LocalDataProperty": {
+                  "=": "taskListGroup"
+                },
+                "ValueListProperty": "TaskListGroup"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "taskListGroupCounter"
+                },
+                "ValueListProperty": "TaskListGroupCounter"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "taskListDescription"
+                },
+                "ValueListProperty": "TaskListDesc"
+              },
+              {
+                "$Type": "Common.ValueListParameterDisplayOnly",
+                "ValueListProperty": "ExternalCustomerReference"
+              },
+              {
+                "$Type": "Common.ValueListParameterDisplayOnly",
+                "ValueListProperty": "ExternalReference"
+              },
+              {
+                "$Type": "Common.ValueListParameterDisplayOnly",
+                "ValueListProperty": "Plant"
+              }
+            ]
+          },
+          "@Common.Label": "Task List Type"
         },
         "taskListDescription": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Core.Computed": true,
+          "@Common.Label": "Task List Description"
         },
         "taskListFlag": {
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "@Common.Label": "Task List Flag"
         },
         "to_typeOfLoad": {
           "type": "cds.Association",
@@ -187,23 +537,79 @@
                 "to_typeOfLoad_loadType"
               ]
             }
-          ]
+          ],
+          "@Common.Label": "Data Upload Process"
         },
         "to_typeOfLoad_ID": {
-          "type": "cds.Integer"
+          "type": "cds.Integer",
+          "@Common.Text": {
+            "$Path": "to_typeOfLoad_loadType"
+          },
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList": {
+            "$Type": "Common.ValueListType",
+            "CollectionPath": "TypeOfLoads",
+            "Label": "Unit Of Measurement",
+            "Parameters": [
+              {
+                "$Type": "Common.ValueListParameterInOut",
+                "LocalDataProperty": {
+                  "=": "to_typeOfLoad_ID"
+                },
+                "ValueListProperty": "ID"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "to_typeOfLoad_loadType"
+                },
+                "ValueListProperty": "loadType"
+              }
+            ]
+          },
+          "@Common.Label": "Data Upload Process"
         },
         "to_typeOfLoad_loadType": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Text": {
+            "$Path": "to_typeOfLoad_loadType"
+          },
+          "@Common.ValueListWithFixedValues": true,
+          "@Common.ValueList": {
+            "$Type": "Common.ValueListType",
+            "CollectionPath": "TypeOfLoads",
+            "Label": "Unit Of Measurement",
+            "Parameters": [
+              {
+                "$Type": "Common.ValueListParameterInOut",
+                "LocalDataProperty": {
+                  "=": "to_typeOfLoad_ID"
+                },
+                "ValueListProperty": "ID"
+              },
+              {
+                "$Type": "Common.ValueListParameterOut",
+                "LocalDataProperty": {
+                  "=": "to_typeOfLoad_loadType"
+                },
+                "ValueListProperty": "loadType"
+              }
+            ]
+          },
+          "@Common.Label": "Data Upload Process"
         },
         "IsActiveEntity": {
           "key": true,
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "@UI.Hidden": true
         },
         "HasActiveEntity": {
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "@UI.Hidden": true
         },
         "HasDraftEntity": {
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "@UI.Hidden": true
         },
         "DraftAdministrativeData": {
           "type": "cds.Association",
@@ -212,7 +618,8 @@
           "cardinality": {
             "max": 1
           },
-          "keys": []
+          "keys": [],
+          "@UI.Hidden": true
         },
         "SiblingEntity": {
           "type": "cds.Association",
@@ -226,7 +633,17 @@
       },
       "actions": {
         "createNotification": {
-          "kind": "action"
+          "kind": "action",
+          "@Common.SideEffects": {
+            "$Type": "Common.SideEffectsType",
+            "TargetProperties": [
+              "_it/notificationNo",
+              "_it/notificationGenerateFlag"
+            ]
+          },
+          "@Core.OperationAvailable": {
+            "$Path": "_it/notificationGenerateFlag"
+          }
         },
         "updateNotification": {
           "kind": "action",
@@ -234,10 +651,51 @@
             "notificationNo": {
               "type": "cds.LargeString"
             }
+          },
+          "@Common.SideEffects": {
+            "$Type": "Common.SideEffectsType",
+            "TargetProperties": [
+              "_it/notificationNo",
+              "_it/notificationUpdateFlag"
+            ]
+          },
+          "@Core.OperationAvailable": {
+            "$Path": "_it/notificationUpdateFlag"
+          },
+          "@Common.Label": "Notification",
+          "@Common.ValueList": {
+            "$Type": "Common.ValueListType",
+            "CollectionPath": "MaintNotifications",
+            "Parameters": [
+              {
+                "$Type": "Common.ValueListParameterInOut",
+                "LocalDataProperty": {
+                  "=": "notificationNo"
+                },
+                "ValueListProperty": "MaintenanceNotification"
+              },
+              {
+                "$Type": "Common.ValueListParameterDisplayOnly",
+                "ValueListProperty": "NotificationText"
+              },
+              {
+                "$Type": "Common.ValueListParameterDisplayOnly",
+                "ValueListProperty": "NotificationType"
+              }
+            ]
           }
         },
         "assignTaskList": {
-          "kind": "action"
+          "kind": "action",
+          "@Common.SideEffects": {
+            "$Type": "Common.SideEffectsType",
+            "TargetProperties": [
+              "_it/taskListType",
+              "_it/taskListGroup",
+              "_it/taskListGroupCounter",
+              "_it/taskListDescription"
+            ]
+          }
         },
         "draftPrepare": {
           "kind": "action",
@@ -267,6 +725,627 @@
             "type": "notifleo.MaintenanceRequestHeader"
           }
         }
+      },
+      "@UI.SelectionFields": [
+        "requestNoConcat",
+        "notificationNoDisp"
+      ],
+      "@UI.LineItem": [
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "notifleo.assignTaskList",
+          "Label": "Assign Task List"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "notifleo.createNotification",
+          "Label": "Generate Notification"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "notifleo.updateNotification",
+          "Label": "Update Notification"
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "workItemID"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "workOrderNo"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "taskDescription"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "requestNoConcat"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "mrequestType"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "notificationNo"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "taskListType"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "taskListGroup"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "taskListGroupCounter"
+          },
+          "@HTML5.CssDefaults": {
+            "$Type": "HTML5.CssDefaultsType",
+            "width": "10rem"
+          }
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "businessPartner"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "businessPartnerName"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "to_typeOfLoad_ID"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "to_typeOfLoad_loadType"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "noOfAttachment"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "noOfEmail"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "workCenterDetail"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "requestNo"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "requestNoDisp"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "uiHidden"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "uiHidden1"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "billOfWorkDocRef"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "notificationFlag"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "quantity"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "unitOfMeasure"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "quotationDoc"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "contractNo"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "contractName"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "equipment"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "equipmentName"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "functionalLocation"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "functionalLocationName"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "requestDesc"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "mrequestStatus"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "workCenter"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "planningPlant"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "revisionNo"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "taskListFlag"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "fileName"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "notificationUpdateFlag"
+          },
+          "@UI.Hidden": true
+        },
+        {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "notificationGenerateFlag"
+          },
+          "@UI.Hidden": true
+        }
+      ],
+      "@UI.PresentationVariant": {
+        "$Type": "UI.PresentationVariantType",
+        "SortOrder": [
+          {
+            "$Type": "Common.SortOrderType",
+            "Property": {
+              "=": "createdAt"
+            },
+            "Descending": true
+          }
+        ],
+        "Visualizations": [
+          "@UI.LineItem"
+        ]
+      },
+      "@UI.HeaderInfo": {
+        "$Type": "UI.HeaderInfoType",
+        "TypeName": "Work Item Details",
+        "TypeNamePlural": "Work Items",
+        "Title": {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "workItemID"
+          }
+        },
+        "Description": {
+          "$Type": "UI.DataField",
+          "Value": {
+            "=": "taskDescription"
+          }
+        }
+      },
+      "@UI.HeaderFacets": [
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "basicDetail1",
+          "Target": {}
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "basicDetail2",
+          "Target": {}
+        },
+        {
+          "$Type": "UI.ReferenceFacet",
+          "ID": "basicDetail3",
+          "Target": {}
+        }
+      ],
+      "@UI.Facets": [
+        {
+          "$Type": "UI.CollectionFacet",
+          "ID": "customerGroup",
+          "Facets": [
+            {
+              "$Type": "UI.ReferenceFacet",
+              "ID": "customerGroup1",
+              "Target": {}
+            },
+            {
+              "$Type": "UI.ReferenceFacet",
+              "ID": "customerGroup2",
+              "Target": {}
+            },
+            {
+              "$Type": "UI.ReferenceFacet",
+              "ID": "customerGroup3",
+              "Target": {}
+            }
+          ]
+        }
+      ],
+      "@UI.FieldGroup#basicDetail1": {
+        "$Type": "UI.FieldGroupType",
+        "Data": [
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "requestDesc"
+            }
+          }
+        ]
+      },
+      "@UI.FieldGroup#basicDetail2": {
+        "$Type": "UI.FieldGroupType",
+        "Data": [
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "createdBy"
+            },
+            "Label": "Created By"
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "modifiedBy"
+            },
+            "Label": "Last Modified By"
+          }
+        ]
+      },
+      "@UI.FieldGroup#basicDetail3": {
+        "$Type": "UI.FieldGroupType",
+        "Data": [
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "createdAt"
+            },
+            "Label": "Created Date & Time"
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "modifiedAt"
+            },
+            "Label": "Last Modified Date & Time"
+          }
+        ]
+      },
+      "@UI.FieldGroup#customerGroup1": {
+        "$Type": "UI.FieldGroupType",
+        "Data": [
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "requestNo"
+            },
+            "@UI.Hidden": {
+              "$Path": "uiHidden"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "requestNoDisp"
+            },
+            "@UI.Hidden": {
+              "$Path": "uiHidden1"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "mrequestType"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "workOrderNo"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "sequenceNo"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "taskDescription"
+            }
+          }
+        ]
+      },
+      "@UI.FieldGroup#customerGroup2": {
+        "$Type": "UI.FieldGroupType",
+        "Data": [
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "customerRef"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "genericRef"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "taskListType"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "taskListGroup"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "taskListGroupCounter"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "taskListDescription"
+            }
+          }
+        ]
+      },
+      "@UI.FieldGroup#customerGroup3": {
+        "$Type": "UI.FieldGroupType",
+        "Data": [
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "estimatedDueDate"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "additionalRemark"
+            }
+          },
+          {
+            "$Type": "UI.DataField",
+            "Value": {
+              "=": "notificationNo"
+            }
+          }
+        ]
+      },
+      "@UI.Identification": [
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "notifleo.assignTaskList",
+          "Label": "Assign Task List"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "notifleo.createNotification",
+          "Label": "Generate Notification"
+        },
+        {
+          "$Type": "UI.DataFieldForAction",
+          "Action": "notifleo.updateNotification",
+          "Label": "Update Notification"
+        }
+      ],
+      "@Capabilities.FilterRestrictions": {
+        "$Type": "Capabilities.FilterRestrictionsType",
+        "NonFilterableProperties": [
+          "ID",
+          "functionalLocation",
+          "functionalLocationName",
+          "equipment",
+          "contractName",
+          "to_typeOfLoad_ID",
+          "to_typeOfLoad_loadType",
+          "requestNo",
+          "requestNoDisp",
+          "uiHidden",
+          "uiHidden1",
+          "workCenterDetail",
+          "billOfWorkDocRef",
+          "businessPartner",
+          "businessPartnerName",
+          "requestDesc",
+          "noOfAttachment",
+          "noOfEmail",
+          "quantity",
+          "unitOfMeasure",
+          "notificationFlag",
+          "quotationDoc",
+          "contractName",
+          "contractNo",
+          "equipmentName",
+          "revisionNo",
+          "mrequestStatus",
+          "workCenter",
+          "planningPlant",
+          "taskListFlag",
+          "fileName",
+          "notificationGenerateFlag",
+          "notificationUpdateFlag"
+        ]
+      },
+      "@Common.DraftRoot": {
+        "$Type": "Common.DraftRootType",
+        "ActivationAction": "notifleo.draftActivate",
+        "EditAction": "notifleo.draftEdit",
+        "PreparationAction": "notifleo.draftPrepare"
       }
     },
     "notifleo.TypeOfLoads": {
@@ -300,15 +1379,19 @@
         "MaintenanceNotification": {
           "key": true,
           "type": "cds.String",
-          "length": 12
+          "length": 12,
+          "@Common.Label": "Notification Number"
         },
         "NotificationText": {
           "type": "cds.String",
-          "length": 40
+          "length": 40,
+          "@UI.HiddenFilter": true,
+          "@Common.Label": "Notification Text"
         },
         "NotificationType": {
           "type": "cds.String",
-          "length": 2
+          "length": 2,
+          "@Common.Label": "Notification Type"
         }
       }
     },
@@ -318,31 +1401,38 @@
       "elements": {
         "TaskListType": {
           "type": "cds.String",
-          "length": 1
+          "length": 1,
+          "@Common.Label": "Task List Type"
         },
         "TaskListGroup": {
           "type": "cds.String",
-          "length": 8
+          "length": 8,
+          "@Common.Label": "Task List Group"
         },
         "TaskListGroupCounter": {
           "type": "cds.String",
-          "length": 2
+          "length": 2,
+          "@Common.Label": "Task List Group Counter"
         },
         "TaskListDesc": {
           "type": "cds.String",
-          "length": 40
+          "length": 40,
+          "@Common.Label": "Task List Description"
         },
         "ExternalCustomerReference": {
           "type": "cds.String",
-          "length": 40
+          "length": 40,
+          "@Common.Label": "Customer Reference"
         },
         "ExternalReference": {
           "type": "cds.String",
-          "length": 40
+          "length": 40,
+          "@Common.Label": "Generic Reference"
         },
         "Plant": {
           "type": "cds.String",
-          "length": 4
+          "length": 4,
+          "@Common.Label": "Plant"
         }
       }
     },
@@ -351,7 +1441,8 @@
       "@cds.persistence.skip": true,
       "elements": {
         "notificationNoDisp": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Notification"
         }
       }
     },
@@ -360,58 +1451,78 @@
       "@cds.persistence.skip": true,
       "elements": {
         "ID": {
-          "type": "cds.UUID"
+          "type": "cds.UUID",
+          "@UI.HiddenFilter": true
         },
         "requestNo": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Request ID"
         },
         "requestDesc": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Request Description"
         },
         "to_requestType_rType": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Request Type"
         },
         "to_requestStatusDisp_rStatusDesc": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Status"
         },
         "to_requestStatusDisp_rStatus": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@UI.HiddenFilter": true
         },
         "locationWC": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Work Location"
         },
         "locationWCDetail": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Work Location Detail"
         },
         "MaintenancePlanningPlant": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Work Location Plant"
         },
         "contract": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Contract"
         },
         "contractName": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Contract Name"
         },
         "functionalLocation": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Functional Location"
         },
         "functionalLocationName": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Functional Location Name"
         },
         "equipment": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Equipment"
         },
         "equipmentName": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Equipment Name"
         },
         "MaintenanceRevision": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Revision"
         },
         "businessPartner": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Business Partner",
+          "@UI.HiddenFilter": true
         },
         "businessPartnerName": {
-          "type": "cds.LargeString"
+          "type": "cds.LargeString",
+          "@Common.Label": "Business Partner Name",
+          "@UI.HiddenFilter": true
         }
       }
     },
@@ -490,37 +1601,49 @@
       "elements": {
         "DraftUUID": {
           "key": true,
-          "type": "cds.UUID"
+          "type": "cds.UUID",
+          "@UI.Hidden": true,
+          "@Common.Label": "Draft_DraftUUID"
         },
         "CreationDateTime": {
           "type": "cds.Timestamp",
           "@odata.Precision": 7,
-          "@odata.Type": "Edm.DateTimeOffset"
+          "@odata.Type": "Edm.DateTimeOffset",
+          "@Common.Label": "Draft_CreationDateTime"
         },
         "CreatedByUser": {
           "type": "cds.String",
-          "length": 256
+          "length": 256,
+          "@Common.Label": "Draft_CreatedByUser"
         },
         "DraftIsCreatedByMe": {
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "@UI.Hidden": true,
+          "@Common.Label": "Draft_DraftIsCreatedByMe"
         },
         "LastChangeDateTime": {
           "type": "cds.Timestamp",
           "@odata.Precision": 7,
-          "@odata.Type": "Edm.DateTimeOffset"
+          "@odata.Type": "Edm.DateTimeOffset",
+          "@Common.Label": "Draft_LastChangeDateTime"
         },
         "LastChangedByUser": {
           "type": "cds.String",
-          "length": 256
+          "length": 256,
+          "@Common.Label": "Draft_LastChangedByUser"
         },
         "InProcessByUser": {
           "type": "cds.String",
-          "length": 256
+          "length": 256,
+          "@Common.Label": "Draft_InProcessByUser"
         },
         "DraftIsProcessedByMe": {
-          "type": "cds.Boolean"
+          "type": "cds.Boolean",
+          "@UI.Hidden": true,
+          "@Common.Label": "Draft_DraftIsProcessedByMe"
         }
-      }
+      },
+      "@Common.Label": "Draft_DraftAdministrativeData"
     },
     "notifleo": {
       "kind": "service",

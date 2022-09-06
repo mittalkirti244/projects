@@ -9,7 +9,7 @@ ID;rStatus;rStatusDesc
 8;AWLREC;All Worklists Received
 9;APRRDY;Ready for Approval
 10;MRAPRD;Approved
-11;TLIDNT;Task List Identified 
-12;RVCRTD;Revision Created 
+11;TLIDNT;Task List Identified
+12;RVCRTD;Revision Created
 13;NTCRTD;Notifications Created
 14;MRCMPL;Document Completed
