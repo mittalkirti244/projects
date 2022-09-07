@@ -308,9 +308,9 @@ module.exports = cds.service.impl(async function () {
 
     });
 
-    this.before('SAVE', 'MaintenanceRequests', async (req) => {
+    /*this.before('SAVE', 'MaintenanceRequests', async (req) => {
         console.log('req.data in SAVE', req.data)
-    })
+    })*/
 
     //On click of Change Status(Second change status button)
     this.on('changeStatus', async (req) => {

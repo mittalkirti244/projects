@@ -15,6 +15,7 @@ service mrorequestdolphinService {
         modifiedBy                          @(Common.Label : '{i18n>modifiedBy}')
     } actions {
         //action requestMail();
+        
         //Update the UI after action is performed
         @(
             cds.odata.bindingparameter.name : '_it',

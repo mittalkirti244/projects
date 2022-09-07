@@ -938,7 +938,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                     ValueListProperty : 'rStatus'
                 },
                 {
-                    $Type             : 'Common.ValueListParameterOut',
+                    $Type             : 'Common.ValueListParameterInOut',
                     LocalDataProperty : 'to_requestStatusDisp_rStatusDesc',
                     ValueListProperty : 'rStatusDesc'
                 }
