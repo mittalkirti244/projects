@@ -242,6 +242,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {
             Value : endDate,
             ![@UI.Hidden]
+        },
+        {
+            Value : revision,
+            ![@UI.Hidden]
         }
     ],
     //Sort all Requests based on createdAt in list report page
@@ -424,7 +428,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : equipment}
     ]},
     //Cloumn 3 of asset Information
-    FieldGroup #additionalReferenceObjectsGroup : {Data : [{Value : revision}]}
+    FieldGroup #additionalReferenceObjectsGroup : {Data : [{Value : MaintenanceRevision}]}
 });
 
 //Actions Defination
@@ -507,12 +511,12 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 };
 
 //Text arrangement for Revision and Revision text on object page
-annotate mrorequestdolphinService.MaintenanceRequests with {
+/*annotate mrorequestdolphinService.MaintenanceRequests with {
     revision @(Common : {Text : {
         $value                 : revisionText,
         ![@UI.TextArrangement] : #TextFirst
     }});
-};
+};*/
 
 //Text arrangement for Maintenance Revision and Revision text on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -674,7 +678,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 };
 
 //Revision Number Value help on list page
-annotate mrorequestdolphinService.MaintenanceRequests with {
+/*annotate mrorequestdolphinService.MaintenanceRequests with {
     MaintenanceRevision @(Common : {ValueList : {
         CollectionPath  : 'RevisionDisp',
         SearchSupported : true,
@@ -695,22 +699,23 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             }
         ]
     }});
-}
+}*/
 
 //Revision Number Value help on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    revision @(Common : {ValueList : {
+    MaintenanceRevision @(Common : {ValueList : {
         CollectionPath  : 'RevisionVH',
         SearchSupported : true,
         Label           : '{i18n>MaintenanceRevision}',
         Parameters      : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'revision',
+                LocalDataProperty : 'MaintenanceRevision',
                 ValueListProperty : 'RevisionNo'
             },
             {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'revisionText',
                 ValueListProperty : 'RevisionText'
             },
             {
@@ -883,7 +888,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 ValueListProperty : 'Plant'
             },
             {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'functionalLocation',
                 ValueListProperty : 'FunctionalLocation'
             },
             {
@@ -1044,7 +1050,7 @@ annotate mrorequestdolphinService.MaintenanceRequests {
     //functionalLocationName       @readonly;
     // contractName                 @readonly;
     requestTypeDisp              @readonly;
-    MaintenanceRevision          @readonly;
+//  MaintenanceRevision          @readonly;
 }
 
 //Hide fields in Adapt filters on list report page
@@ -1095,7 +1101,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         modifiedAt,
         modifiedBy,
         startDate,
-        endDate
+        endDate,
+        revision
     ]
 }};
 

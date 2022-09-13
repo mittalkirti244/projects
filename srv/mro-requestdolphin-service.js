@@ -508,7 +508,8 @@ module.exports = cds.service.impl(async function () {
         console.log('query', queryPhase)
         var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
         console.log('query...........', query)
-        if (query[0].revision != null) {
+        if (query[0].MaintenanceRevision != null) {
+            console.log('...........................')
             await UPDATE(MaintenanceRequests).set({
                 to_requestStatus_rStatus: 'RVCRTD',
                 to_requestStatus_rStatusDesc: 'Revision Created',
@@ -621,7 +622,7 @@ module.exports = cds.service.impl(async function () {
                             }
                             console.log('Revision', result)
                             await UPDATE(MaintenanceRequests).set({
-                                revision: result.RevisionNo,
+                                //revision: result.RevisionNo,
                                 MaintenanceRevision: result.RevisionNo,
                                 revisionType: result.RevisionType,
                                 revisionText: result.RevisionText,
