@@ -433,7 +433,7 @@ module.exports = cds.service.impl(async function () {
                 console.log('queryWorkItem[i].taskListFlag', queryWorkItem[i].taskListFlag)
                 array[i] = queryWorkItem[i].taskListFlag
                 //If any of the workitem doesnot have tasklist it will give a error msg
-                if (array.includes(false)) {
+                if (array.includes(false) && queryWorkItem[i].taskListFlag == false) {
                     req.error(406, 'For Request ' + query[0].requestNoConcat + ' Task List is not identified for WorkItem ' + queryWorkItem[i].workItemID)
                 }
                 else {
