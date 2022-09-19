@@ -126,42 +126,9 @@ module.exports = cds.service.impl(async function () {
     //This handler is used for creating and updating the request(Create and Update Handler)
     this.before(['CREATE', 'UPDATE'], 'MaintenanceRequests', async (req) => {
 
-        //To store the value of BusinessPartnerName in database
-        /*let query1 = await service2.read(BusinessPartnerVH).where({ BusinessPartner: req.data.businessPartner })
-        console.log('query1', query1)
-        if (req.data.businessPartner != null) {
-            req.data.businessPartnerName = query1[0].BusinessPartnerName
-        }*/
-
         //bpConcatenation is used for Overview page(bp + bp name)
         req.data.bpConcatenation = req.data.businessPartner + '(' + req.data.businessPartnerName + ')'
         console.log('bpConcatenation', req.data.bpConcatenation)
-
-        //To store the value of WorkCenterText in database
-        /* let query2 = await service2.read(WorkCenterVH).where({ WorkCenter: req.data.locationWC })
-         if (req.data.locationWC != null) {
-             req.data.locationWCDetail = query2[0].WorkCenterText
-             req.data.plantName = query2[0].PlantName
-             // req.data.MaintenancePlanningPlant = query2[0].Plant
-         }
- 
-         //To store the value of FunctionalLocationName in database
-         let q1 = await service2.read(FunctionLocationVH).where({ functionalLocation: req.data.functionalLocation })
-         if (req.data.functionalLocation != null)
-             req.data.functionalLocationName = q1[0].FunctionalLocationName
- 
-         //To store the value of EquipmentName in database
-         let q2 = await service2.read(EquipmentVH).where({ Equipment: req.data.equipment })
-         if (req.data.equipment != null)
-             req.data.equipmentName = q2[0].EquipmentName
- 
-         //To store the value of RevisionType &  RevisionText in database
-         let q3 = await service2.read(RevisionVH).where({ RevisionNo: req.data.revision })
-         if (req.data.revision != null) {
-             req.data.MaintenanceRevision = req.data.revision
-             req.data.revisionType = q3[0].RevisionType
-             req.data.revisionText = q3[0].RevisionText
-         }*/
 
         //Validation for all dates value
         var arrivalDate = req.data.expectedArrivalDate
@@ -223,11 +190,8 @@ module.exports = cds.service.impl(async function () {
             reqDeliveryDate = queryDate[0].expectedDeliveryDate
         }
 
-        //console.log('queryDate', queryDate)
-
         var newCurrentDate = returnDate(new Date())
-        var
-            reqDeliveryDate = returnDate(reqDeliveryDate)
+        var reqDeliveryDate = returnDate(reqDeliveryDate)
 
         if (req.data.contract == null) {
             req.data.expectedDeliveryDate = returnDate(req.data.expectedDeliveryDate)
@@ -270,13 +234,32 @@ module.exports = cds.service.impl(async function () {
         req.data.to_requestStatusDisp_rStatus = req.data.to_requestStatus_rStatus
         req.data.to_requestStatusDisp_rStatusDesc = req.data.to_requestStatus_rStatusDesc
 
-    });
+        //If user manually remove the text arrangement fields, then it will set it as null
+        //If User remove the Plant field
+        if (req.data.MaintenancePlanningPlant == '') {
+            req.data.plantName = null
+            req.data.MaintenancePlanningPlant = null
+        }
 
-    //This handler will handle all the values when you perform any opertaion on UI(Patch Handler)
-    /*this.after('PATCH', 'MaintenanceRequests', async (req) => {
-        //Fetch delivery date whenever user select the field at UI
-        reqDeliveryDate = req.expectedDeliveryDate
-    });*/
+        //If user manually removes equipment
+        if (req.data.equipment == '') {
+            req.data.equipment = null
+            req.data.equipmentName = null
+        }
+
+        //If user manually removes the floc
+        if (req.data.functionalLocation == '') {
+            req.data.functionalLocation = null
+            req.data.functionalLocationName = null
+        }
+
+        // If user manully remove Revision 
+        if (req.data.MaintenanceRevision == '') {
+            req.data.MaintenanceRevision = null
+            req.data.revisionText = null
+        }
+
+    });
 
     //This handler is used while creating a Document record(Create Handler)
     this.before('NEW', 'MaintenanceRequests/to_document', async (req) => {
@@ -293,14 +276,10 @@ module.exports = cds.service.impl(async function () {
 
         //fetching all the records in the RequestStatusesDisp - used to fetch status detail
         var query = await SELECT.from(RequestStatusesDisp).columns('*');
-        //console.log('query--------', query);
-        // console.log('MR ID', req.data.to_maintenanceRequest_ID);
         //fetch the all MR Details using the ID
         var query1 = await SELECT.from(MaintenanceRequests).columns('*').where({ ID: req.data.to_maintenanceRequest_ID });
-        // console.log('query1--------', query1);
         if (query1[0] != null) {
-            console.log('DS Status', query1[0].to_requestStatusDisp_rStatus);
-
+            //console.log('DS Status', query1[0].to_requestStatusDisp_rStatus);
             if (query1[0].to_requestStatusDisp_rStatus == query[7].rStatus || query1[0].to_requestStatusDisp_rStatus == query[8].rStatus || query1[0].to_requestStatusDisp_rStatus == query[9].rStatus || query1[0].to_requestStatusDisp_rStatus == query[10].rStatus || query1[0].to_requestStatusDisp_rStatus == query[11].rStatus || query1[0].to_requestStatusDisp_rStatus == query[12].rStatus || query1[0].to_requestStatusDisp_rStatus == query[13].rStatus) {
                 req.error(406, 'For Request ' + query1[0].requestNo + ' current status is ' + query1[0].to_requestStatus_rStatusDesc + '. New documents cannot be created.');
             }
@@ -308,26 +287,22 @@ module.exports = cds.service.impl(async function () {
 
     });
 
-    /*this.before('SAVE', 'MaintenanceRequests', async (req) => {
-        console.log('req.data in SAVE', req.data)
-    })*/
-
     //On click of Change Status(Second change status button)
     this.on('changeStatus', async (req) => {
         id1 = req.params[0].ID
-        console.log('id1', id1)
+        //console.log('id1', id1)
         const tx1 = cds.transaction(req)
         query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
-        console.log('query................', query[0])
+        //console.log('query................', query[0])
         queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: req.data.status })
-        console.log('query Status...............', queryStatus)
+        //console.log('query Status...............', queryStatus)
         queryPhase = await tx1.read(RequestPhases).where({ rPhase: queryStatus[0].to_rPhase_rPhase })
-        console.log('query phase.............', queryPhase)
+        //console.log('query phase.............', queryPhase)
         var queryWorkItem = await service4.read('MaintenanceRequestHeader').where({ requestNo: query[0].requestNo })
-        console.log('queryWorkItem ', queryWorkItem)
+        //console.log('queryWorkItem............', queryWorkItem)
         var queryStatusDisp = await tx1.read('RequestStatusesDisp')
-        console.log('queryStatusDisp', queryStatusDisp)
-        console.log('queryStatusDisp....', queryStatusDisp[1].rStatusDesc)
+        //console.log('queryStatusDisp', queryStatusDisp)
+        //console.log('queryStatusDisp....', queryStatusDisp[1].rStatusDesc)
 
         //MR Status = Created & Selected Status = Request for New Worklist
         if (query[0].to_requestStatus_rStatus == 'MRCRTD' && queryStatus[0].rStatus == 'NWLREQ')

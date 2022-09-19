@@ -168,6 +168,10 @@ extend service mrorequestdolphinService with {
     entity MaintenanceRequestHeader as projection on notifleo.MaintenanceRequestHeader;
 
     @readonly
+    @Capabilities.SearchRestrictions : {
+        $Type : 'Capabilities.SearchRestrictionsType',
+        Searchable,
+    }
     entity BusinessPartnerVH        as projection on alpha.BusinessPartnerVH {
         key BusinessPartner         @(Common.Label : '{i18n>BusinessPartner}'),
         key BusinessPartnerRole     @(Common.Label : '{i18n>BusinessPartnerRole}') @UI.HiddenFilter,
@@ -188,7 +192,13 @@ extend service mrorequestdolphinService with {
     @readonly
     entity WorkCenterVH             as projection on alpha.WorkCenterVH {
         key Plant                  @(Common.Label : '{i18n>Plant}'),
-        key WorkCenter             @(Common.Label : '{i18n>WorkCenter}'),
+        key WorkCenter             @(
+            Common.Label : '{i18n>WorkCenter}',
+           /* Common       : {
+                Text            : WorkCenterText,
+                TextArrangement : #TextFirst
+            },*/
+        ),
             WorkCenterText         @(Common.Label : '{i18n>WorkCenterText}'),
             WorkCenterCategoryCode @(Common.Label : '{i18n>WorkCenterCategoryCode}'),
             PlantName              @(Common.Label : '{i18n>PlantName}')
@@ -245,6 +255,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Common.FilterExpress
     Property           : createdAtDate,
     AllowedExpressions : #SingleInterval
 }];
+
 
 //Admin Screen
 //Request Type as Drop down for Admin Screen

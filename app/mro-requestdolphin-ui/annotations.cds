@@ -486,6 +486,13 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
+// annotate mrorequestdolphinService.WorkCenterVH with {
+//     WorkCenter @(Common : {Text : {
+//         $value                 : WorkCenterText,
+//         ![@UI.TextArrangement] : #TextFirst
+//     }});
+// };
+
 // Text Arrangment for Functional Location and Functional Location Name
 annotate mrorequestdolphinService.MaintenanceRequests with {
     functionalLocation @(Common : {Text : {
@@ -627,9 +634,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
 //Business partner Value help for object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     businessPartner @(Common : {ValueList : {
-        CollectionPath : 'BusinessPartnerVH',
-        Label          : '{i18n>businessPartner}',
-        Parameters     : [
+        CollectionPath  : 'BusinessPartnerVH',
+        Label           : '{i18n>businessPartner}',
+        SearchSupported : true,
+        Parameters      : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
                 LocalDataProperty : 'businessPartner',
@@ -676,30 +684,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
         ]
     }});
 };
-
-//Revision Number Value help on list page
-/*annotate mrorequestdolphinService.MaintenanceRequests with {
-    MaintenanceRevision @(Common : {ValueList : {
-        CollectionPath  : 'RevisionDisp',
-        SearchSupported : true,
-        Label           : '{i18n>MaintenanceRevision}',
-        Parameters      : [
-            {
-                $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'MaintenanceRevision',
-                ValueListProperty : 'MaintenanceRevision'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'revisionText'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'revisionType'
-            }
-        ]
-    }});
-}*/
 
 //Revision Number Value help on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
@@ -762,6 +746,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 LocalDataProperty : 'locationWCDetail',
                 ValueListProperty : 'WorkCenterText'
             },
+            // {
+            //     $Type             : 'Common.ValueListParameterDisplayOnly',
+            //     //LocalDataProperty : 'locationWCDetail',
+            //     ValueListProperty : 'WorkCenterText'
+            // },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
                 ValueListProperty : 'WorkCenterCategoryCode'
@@ -1040,17 +1029,9 @@ annotate mrorequestdolphinService.MaintenanceRequests {
     to_requestPhase_rPhaseDesc   @readonly;
     to_requestStatus_rStatusDesc @readonly;
     locationWC                   @mandatory;
-    // revisionType                 @readonly;
-    // revisionDescription          @readonly;
-    //businessPartnerName          @readonly;
-    // locationWCDetail             @readonly;
     //MaintenancePlanningPlant @readonly;
     //MaintenancePlanningPlant @Common : {FieldControl : #Inapplicable};
-    //equipmentName                @readonly;
-    //functionalLocationName       @readonly;
-    // contractName                 @readonly;
     requestTypeDisp              @readonly;
-//  MaintenanceRevision          @readonly;
 }
 
 //Hide fields in Adapt filters on list report page
