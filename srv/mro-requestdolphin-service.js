@@ -160,8 +160,16 @@ module.exports = cds.service.impl(async function () {
 
         //Validation for Email Address
         const emailCheck = validator.validate(req.data.ccemail);
-        if (emailCheck == false && req.data.ccemail != '')
+        if (emailCheck == false && req.data.ccemail != '') {
             req.error(406, 'Please enter a valid E-Mail Address')
+        }
+
+        //When user select the Equip first then the Text arrangement will be done by the service call of Floc
+        //Because the Equipment VH doesnt have Equip detail field
+        if (req.data.functionalLocation != null) {
+            let queryEquip = await service2.read(FunctionLocationVH).where({ functionalLocation: req.data.functionalLocation })
+            req.data.functionalLocationName = queryEquip[0].FunctionalLocationName
+        }
 
         //To fetch the tat and contract name from contract service
         if (req.data.contract != '') {
