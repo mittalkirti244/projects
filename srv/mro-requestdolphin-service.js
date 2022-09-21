@@ -166,9 +166,9 @@ module.exports = cds.service.impl(async function () {
 
         //When user select the Equip first then the Text arrangement will be done by the service call of Floc
         //Because the Equipment VH doesnt have Equip detail field
-        if (req.data.functionalLocation != null) {
-            let queryEquip = await service2.read(FunctionLocationVH).where({ functionalLocation: req.data.functionalLocation })
-            req.data.functionalLocationName = queryEquip[0].FunctionalLocationName
+        if (req.data.functionalLocation != null && req.data.functionalLocation != '') {
+            let queryFloc = await service2.read(FunctionLocationVH).where({ functionalLocation: req.data.functionalLocation })
+            req.data.functionalLocationName = queryFloc[0].FunctionalLocationName
         }
 
         //To fetch the tat and contract name from contract service
