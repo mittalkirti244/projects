@@ -4,8 +4,8 @@
 ## approuter=
 _schema-version: "3.1"
 ID: hcl-mro-requestdolphin
-version: 2.1.0
-description: "MRO RequestDolphin (Rel20220921)"
+version: 1.3.0
+description: "MRO RequestDolphin (Rel20221006)"
 parameters:
   enable-parallel-deployments: true
 
@@ -48,28 +48,6 @@ modules:
       disk-quota: 100M
     requires:
       # 'hana' and 'xsuaa' resources extracted from CAP configuration
-      - name: com-hcl-mro-requestdolphin-db
-      - name: com-hcl-mro-requestdolphin-destination
-      - name: com-hcl-mro-requestdolphin-uaa
-      - name: com-hcl-mro-requestdolphin-connectivity
-
-  # -------------------------UI  MODULE ------------------------
-  - name: hcl-mro-requestdolphin-ui
-    # ------------------------------------------------------------
-    type: nodejs
-    path: app
-    parameters:
-      buildpack: https://github.com/cloudfoundry/nodejs-buildpack/releases/download/v1.7.72/nodejs-buildpack-cflinuxfs3-v1.7.72.zip
-      disk-quota: 400M
-      memory: 400M
-    requires:
-      - name: srv-api
-        group: destinations
-        properties:
-          forwardAuthToken: true
-          name: srv-api
-          strictSSL: true
-          url: ~{srv-url}
       - name: com-hcl-mro-requestdolphin-db
       - name: com-hcl-mro-requestdolphin-destination
       - name: com-hcl-mro-requestdolphin-uaa

@@ -1,7 +1,7 @@
 {
     "name": "hcl-mro-requestdolphin",
-    "version": "2.1.0",
-    "description": "MRO RequestDolphin (Rel20220921)",
+    "version": "1.3.0",
+    "description": "MRO RequestDolphin (Rel20221006)",
     "repository": "<Add your repository here>",
     "license": "UNLICENSED",
     "private": true,
@@ -20,6 +20,7 @@
     "devDependencies": {
         "@sap/hdi-deploy": "^4.2.3",
         "@sap/ux-specification": "^1.96.16",
+        "sqlite": "^4.1.2",
         "sqlite3": "^5.1.1"
     },
     "scripts": {
