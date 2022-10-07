@@ -549,7 +549,7 @@ view ReqByCompleteAssetAndRangePendingRevision as
     where
         to_requestType.rType = 'Complete Asset'
         and (
-            to_requestStatusDisp_rStatusDesc = 'TLIDNT' //Task List Identified
+            to_requestStatusDisp_rStatus = 'TLIDNT' //Task List Identified
         );
 
 //Number of Request based on MR type(Assembly) which has Ranges on x-axis and status on y-axis
@@ -572,7 +572,7 @@ view ReqByAssemblyAndRangePendingRevision as
     where
         to_requestType.rType = 'Assembly'
         and (
-            to_requestStatusDisp_rStatusDesc = 'TLIDNT' //Task List Identified
+            to_requestStatusDisp_rStatus = 'TLIDNT' //Task List Identified
         );
 
 //Number of Request based on MR type(Component) which has Ranges on x-axis and status on y-axis
@@ -595,5 +595,5 @@ view ReqByComponentAndRangePendingRevision as
     where
         to_requestType.rType = 'Component'
         and (
-            to_requestStatusDisp_rStatusDesc = 'TLIDNT' //Task List Identified
+            to_requestStatusDisp_rStatus = 'TLIDNT' //Task List Identified
         );
