@@ -7,7 +7,9 @@ module.exports = cds.service.impl(async function () {
         FunctionLocationVH,
         SalesContractVH,
         EquipmentVH,
-        Revisions } = this.entities
+        Revisions,
+        MaintNotifications,
+        ReferenceTaskListVH } = this.entities
     const service = await cds.connect.to('MAINTREQ_SB');
 
     this.on('READ', [BusinessPartnerVH,
@@ -15,7 +17,9 @@ module.exports = cds.service.impl(async function () {
         FunctionLocationVH,
         SalesContractVH,
         EquipmentVH,
-        Revisions], req => {
+        Revisions,
+        MaintNotifications,
+        ReferenceTaskListVH], req => {
             return service.tx(req).run(req.query);
         });
 })

@@ -1,13 +1,12 @@
 using {com.hcl.mro.requestdolphin as maintReq} from '../db/mro-requestdolphin';
 using {NumberRangeService as numberRange} from './external/NumberRangeService';
 using {alphamasterService as alpha} from './mro-alphamaster-service';
-using {notifleo} from './external/notifleo';
 
 service mrorequestdolphinService {
 
     @odata.draft.enabled
     @cds.redirection.target
-    entity MaintenanceRequests     as projection on maintReq.MaintenanceRequests {
+    entity MaintenanceRequests      as projection on maintReq.MaintenanceRequests {
         *,
         createdAt                           @(Common.Label : '{i18n>createdAt}'),
         createdBy                           @(Common.Label : '{i18n>createdBy}'),
@@ -78,10 +77,94 @@ service mrorequestdolphinService {
         action revisionCreated();
     };
 
-    entity RequestTypes            as projection on maintReq.RequestTypes;
-    entity RequestStatuses         as projection on maintReq.RequestStatuses;
-    entity RequestStatusesDisp     as projection on maintReq.RequestStatusesDisp;
-    entity RequestPhases           as projection on maintReq.RequestPhases;
+    entity RequestTypes             as projection on maintReq.RequestTypes;
+    entity RequestStatuses          as projection on maintReq.RequestStatuses;
+    entity RequestStatusesDisp      as projection on maintReq.RequestStatusesDisp;
+    entity RequestPhases            as projection on maintReq.RequestPhases;
+
+    @odata.draft.enabled
+    @cds.redirection.target
+    entity MaintenanceRequestHeader as projection on maintReq.MaintenanceRequestHeader {
+        *,
+        createdAt  @(Common.Label : '{i18n>createdAt}'),
+        createdBy  @(Common.Label : '{i18n>createdBy}'),
+        modifiedAt @(Common.Label : '{i18n>modifiedAt}'),
+        modifiedBy @(Common.Label : '{i18n>modifiedBy}')
+    } actions {
+        //update the UI after the action is performed
+        @(
+            cds.odata.bindingparameter.name : '_it',
+            Common.SideEffects              : {TargetProperties : [
+                '_it/notificationNo',
+                '_it/notificationGenerateFlag'
+            ]}
+        )
+        //@core.operation available is used for disable and enable of action button
+        //Maintain Notification will be disable at the time of create - set as false in db
+        @Core : {OperationAvailable : _it.notificationGenerateFlag}
+        action createNotification();
+
+        /*@(
+            cds.odata.bindingparameter.name : '_it',
+            Common.SideEffects              : {TargetProperties : [
+                '_it/notificationNo',
+                '_it/notificationUpdateFlag'
+            ]}
+        )
+        //@core.operation available is used for disable and enable of action button
+        //Maintain Notification will be disable at the time of create - set as false in db
+        @Core :                                                     {OperationAvailable : _it.notificationUpdateFlag}
+        action updateNotification(notificationNo : String @Common : {
+            Label     : '{i18n>notificationNo}',
+            ValueList : {
+                $Type          : 'Common.ValueListType',
+                CollectionPath : 'MaintNotifications',
+                Parameters     : [
+                    {
+                        $Type             : 'Common.ValueListParameterInOut',
+                        LocalDataProperty : 'notificationNo',
+                        ValueListProperty : 'MaintenanceNotification'
+                    },
+                    {
+                        $Type             : 'Common.ValueListParameterDisplayOnly',
+                        ValueListProperty : 'NotificationText'
+                    },
+                    {
+                        $Type             : 'Common.ValueListParameterDisplayOnly',
+                        ValueListProperty : 'NotificationType'
+                    }
+                ]
+            }
+        });*/
+
+        @(
+            cds.odata.bindingparameter.name : '_it',
+            Common.SideEffects              : {TargetProperties : [
+                '_it/taskListType',
+                '_it/taskListGroup',
+                '_it/taskListGroupCounter',
+                '_it/taskListDescription',
+                '_it/assignTaskListFlag',
+                '_it/multiTaskListFlag',
+                '_it/taskListIdentifiedDate',
+                '_it/documentNo',
+                '_it/documentVersion'
+            ]}
+        )
+        @Core : {OperationAvailable : _it.assignTaskListFlag}
+        action assignTaskList();
+    };
+
+    entity TypeOfLoads              as projection on maintReq.TypeOfLoads;
+    entity WorkItemTypes            as projection on maintReq.WorkItemTypes;
+
+    //It is used as Notification VH on list report page
+    entity NotificationVH           as
+        select from maintReq.MaintenanceRequestHeader {
+            requestNo @(Common.Label : '{i18n>requestNo}')
+        }
+        where
+            notificationFlag = true;
 
     //Request Number value Help for List Page
     //Filter restriction is used to select multiple values from Value help
@@ -89,13 +172,13 @@ service mrorequestdolphinService {
         $Type              : 'Common.FilterExpressionRestrictionType',
         AllowedExpressions : #MultiValue,
     }, ], }
-    entity MaintenanceRequestsDisp as projection on maintReq.MaintenanceRequests {
+    entity MaintenanceRequestsDisp  as projection on maintReq.MaintenanceRequests {
         requestNoConcat @UI.HiddenFilter,
         requestDesc     @UI.HiddenFilter
     };
 
     //Revision Number Entity used for value help in List report page
-    entity RevisionDisp            as
+    entity RevisionDisp             as
         select from maintReq.MaintenanceRequests {
             MaintenanceRevision,
             revisionText @UI.HiddenFilter,
@@ -116,7 +199,7 @@ service mrorequestdolphinService {
         $Type    : 'Capabilities.SortRestrictionsType',
         Sortable : false
     }
-    entity Documents               as projection on maintReq.Documents {
+    entity Documents                as projection on maintReq.Documents {
         *,
         createdAt  @(Common.Label : '{i18n>createdAt}'),
         createdBy  @(Common.Label : '{i18n>createdBy}'),
@@ -124,12 +207,12 @@ service mrorequestdolphinService {
         modifiedBy @(Common.Label : '{i18n>modifiedBy}')
     };
 
-    entity AttachmentTypes         as projection on maintReq.AttachmentTypes;
-    entity DocumentStatuses        as projection on maintReq.DocumentStatuses;
-    entity BotStatuses             as projection on maintReq.BotStatuses;
+    entity AttachmentTypes          as projection on maintReq.AttachmentTypes;
+    entity DocumentStatuses         as projection on maintReq.DocumentStatuses;
+    entity BotStatuses              as projection on maintReq.BotStatuses;
     //entity ProcessTypes         as projection on maintReq.ProcessTypes;
 
-    entity Ranges                  as projection on maintReq.Ranges;
+    entity Ranges                   as projection on maintReq.Ranges;
     //All views used for Overview page
     view AggregatedMaintenanceReqOnStatuses as select from maintReq.AggregatedMaintenanceReqOnStatuses;
     view AggregatedMaintenanceReqOnPhases as select from maintReq.AggregatedMaintenanceReqOnPhases;
@@ -156,23 +239,22 @@ service mrorequestdolphinService {
     //To Change Document Status in Documents Tab
     function changeDocumentStatus(status : String, ID : String) returns String;
     //Entities for Admin SCreen
-    entity Configurations          as projection on maintReq.Configurations;
-    entity RequestIndustries       as projection on maintReq.RequestIndustries;
-    entity SchemaTypes             as projection on maintReq.SchemaTypes;
+    entity Configurations           as projection on maintReq.Configurations;
+    entity RequestIndustries        as projection on maintReq.RequestIndustries;
+    entity SchemaTypes              as projection on maintReq.SchemaTypes;
 };
 
 //Maintained all entites that is coming from external
 extend service mrorequestdolphinService with {
 
-    entity NumberRanges             as projection on numberRange.NumberRanges;
-    entity MaintenanceRequestHeader as projection on notifleo.MaintenanceRequestHeader;
+    entity NumberRanges        as projection on numberRange.NumberRanges;
 
     @readonly
     @Capabilities.SearchRestrictions : {
         $Type : 'Capabilities.SearchRestrictionsType',
         Searchable,
     }
-    entity BusinessPartnerVH        as projection on alpha.BusinessPartnerVH {
+    entity BusinessPartnerVH   as projection on alpha.BusinessPartnerVH {
         key BusinessPartner         @(Common.Label : '{i18n>BusinessPartner}'),
         key BusinessPartnerRole     @(Common.Label : '{i18n>BusinessPartnerRole}') @UI.HiddenFilter,
         key SalesContract           @(Common.Label : '{i18n>SalesContract}'),
@@ -190,22 +272,21 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity WorkCenterVH             as projection on alpha.WorkCenterVH {
+    entity WorkCenterVH        as projection on alpha.WorkCenterVH {
         key Plant                  @(Common.Label : '{i18n>Plant}'),
-        key WorkCenter             @(
-            Common.Label : '{i18n>WorkCenter}',
-           /* Common       : {
-                Text            : WorkCenterText,
-                TextArrangement : #TextFirst
-            },*/
-        ),
+        key WorkCenter             @(Common.Label : '{i18n>WorkCenter}',
+                                                                         /* Common       : {
+                                                                              Text            : WorkCenterText,
+                                                                              TextArrangement : #TextFirst
+                                                                          },*/
+                                                    ),
             WorkCenterText         @(Common.Label : '{i18n>WorkCenterText}'),
             WorkCenterCategoryCode @(Common.Label : '{i18n>WorkCenterCategoryCode}'),
             PlantName              @(Common.Label : '{i18n>PlantName}')
     };
 
     @readonly
-    entity FunctionLocationVH       as projection on alpha.FunctionLocationVH {
+    entity FunctionLocationVH  as projection on alpha.FunctionLocationVH {
         key functionalLocation       @(Common.Label : '{i18n>functionalLocation}'),
             FunctionalLocationName   @(Common.Label : '{i18n>FunctionalLocationName}'),
             ManufacturerName         @(Common.Label : '{i18n>ManufacturerName}'),
@@ -216,7 +297,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity SalesContractVH          as projection on alpha.SalesContractVH {
+    entity SalesContractVH     as projection on alpha.SalesContractVH {
         key SalesContract     @(Common.Label : '{i18n>SalesContract}'),
             SalesContractName @(Common.Label : '{i18n>SalesContractName}'),
             TurnAroundTime    @(Common.Label : '{i18n>TurnAroundTime}'),
@@ -224,7 +305,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity EquipmentVH              as projection on alpha.EquipmentVH {
+    entity EquipmentVH         as projection on alpha.EquipmentVH {
         key Equipment,
             EquipmentName      @(Common.Label : '{i18n>EquipmentName}'),
             FunctionalLocation @(Common.Label : '{i18n>functionalLocation}'),
@@ -234,7 +315,7 @@ extend service mrorequestdolphinService with {
             Plant              @UI.HiddenFilter
     };
 
-    entity RevisionVH               as projection on alpha.Revisions {
+    entity RevisionVH          as projection on alpha.Revisions {
         key PlanningPlant     @UI.HiddenFilter,
         key RevisionNo        @(Common.Label : '{i18n>RevisionNo}'),
             Equipment         @UI.HiddenFilter,
@@ -248,6 +329,26 @@ extend service mrorequestdolphinService with {
             WorkCenter        @(Common.Label : '{i18n>WorkCenter}'),
             WorkCenterPlant   @(Common.Label : '{i18n>Plant}')
     };
+
+    //Maintenance Notification number value help on object page
+    entity MaintNotifications  as projection on alpha.MaintNotifications {
+        MaintenanceNotification @(Common.Label : '{i18n>MaintenanceNotification}'),
+        NotificationText        @UI.HiddenFilter @(Common.Label : '{i18n>NotificationText}'),
+        NotificationType        @(Common.Label : '{i18n>NotificationType}')
+    };
+
+    entity ReferenceTaskListVH as projection on alpha.ReferenceTaskListVH {
+        key TaskListType                 @(Common.Label : '{i18n>TaskListType}'),
+        key TaskListGroup                @(Common.Label : '{i18n>TaskListGroup}'),
+        key TaskListGroupCounter         @(Common.Label : '{i18n>TaskListGroupCounter}'),
+        key ExternalReference            @(Common.Label : '{i18n>ExternalReference}'),
+        key DocumentInfoRecordDocNumber  @(Common.Label : '{i18n>DocumentInfoRecordDocNumber}'),
+        key DocumentInfoRecordDocVersion @(Common.Label : '{i18n>DocumentInfoRecordDocVersion}'),
+            TaskListDesc                 @(Common.Label : '{i18n>TaskListDesc}'),
+            ExternalCustomerReference    @(Common.Label : '{i18n>ExternalCustomerReference}'),
+            Plant                        @(Common.Label : '{i18n>Plant}')
+    };
+
 }
 
 //Filter restriction that is used for (Semantic date filter) on overview page
@@ -255,6 +356,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Common.FilterExpress
     Property           : createdAtDate,
     AllowedExpressions : #SingleInterval
 }];
+
 
 
 //Admin Screen

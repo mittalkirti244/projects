@@ -21,18 +21,20 @@ module.exports = cds.service.impl(async function () {
         DocumentStatuses,
         Ranges,
         MaintenanceRequestHeader,
-        RequestStatusesDisp } = this.entities
+        RequestStatusesDisp,
+        MaintNotifications,
+        ReferenceTaskListVH,
+        WorkItemTypes } = this.entities
     const service1 = await cds.connect.to('NumberRangeService');
     const service2 = await cds.connect.to('alphamasterService');
     const service3 = await cds.connect.to('MAINTREQ_SB');
-    const service4 = await cds.connect.to('notifleo');
+    //const service4 = await cds.connect.to('notifleo');
 
     var newFormatedDate, tat, reqDeliveryDate, assignedDeliveryDate, vnumberRangeID;
     var queryStatus, queryPhase, query;
     var id1;
     var vplanningPlant, vrevisionText, vworkCenter, vworkCenterPlant, vrevisionStartDate, vrevisionEndDate, vfunctionalLocation, vequipment, reqwcPlant, reqwcDetail
     let cvalue = 1;
-    // var vforeCastDays, vforeCastDate, vdiffInCurrentAndArrivalDate, vdiffInArrivalAndDeliveryDate, vdiffInCurrentAndDeliveryDate
 
     //Read the NumberRanges entity from Number Range Service
     this.on('READ', NumberRanges, req => {
@@ -40,28 +42,8 @@ module.exports = cds.service.impl(async function () {
     });
 
     //Read the BusinessPartnerVH, WorkCenterVH, FunctionLocationVH, SalesContractVH, EquipmentVH, Revisions entity from S4(MaintReq).
-    this.on('READ', [BusinessPartnerVH, WorkCenterVH, FunctionLocationVH, SalesContractVH, EquipmentVH, RevisionVH], req => {
+    this.on('READ', [BusinessPartnerVH, WorkCenterVH, FunctionLocationVH, SalesContractVH, EquipmentVH, RevisionVH, MaintNotifications, ReferenceTaskListVH], req => {
         return service2.tx(req).run(req.query);
-    });
-
-    /*this.on("error", async (err, req) => {
-        console.log('................')
-        var verrorMessage = err.innererror.response.body.error.message.value
-        console.log('verrorMessage....................', verrorMessage)
-        var verrorCode = err.innererror.response.status
-        console.log('verrorCode..........', verrorCode)
-        err.message = 'Status Code ' + verrorCode + ': ' + verrorMessage
-
-        /*var verrorMessageCloud = err.innererror.response.body.error.message
-        console.log('verrorMessageCloud....................', verrorMessageCloud)
-        var verrorCodeCloud = err.statusCode
-        console.log('verrorCodeCloud..........', verrorCodeCloud)
-        err.message = 'Status Code ' + verrorCodeCloud + ': ' + verrorMessageCloud
-    });*/
-
-    //Read the MaintenanceRequestHeader from WorkItem Service
-    this.on('READ', MaintenanceRequestHeader, (req) => {
-        return service4.tx(req).run(req.query);
     });
 
     //Custom handler for new create(To load details at the time of first CREATE Button i.e., present on list page)
@@ -298,7 +280,6 @@ module.exports = cds.service.impl(async function () {
     //On click of Change Status(Second change status button)
     this.on('changeStatus', async (req) => {
         id1 = req.params[0].ID
-        //console.log('id1', id1)
         const tx1 = cds.transaction(req)
         query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
         //console.log('query................', query[0])
@@ -306,8 +287,7 @@ module.exports = cds.service.impl(async function () {
         //console.log('query Status...............', queryStatus)
         queryPhase = await tx1.read(RequestPhases).where({ rPhase: queryStatus[0].to_rPhase_rPhase })
         //console.log('query phase.............', queryPhase)
-        var queryWorkItem = await service4.read('MaintenanceRequestHeader').where({ requestNo: query[0].requestNo })
-        //console.log('queryWorkItem............', queryWorkItem)
+
         var queryStatusDisp = await tx1.read('RequestStatusesDisp')
         //console.log('queryStatusDisp', queryStatusDisp)
         //console.log('queryStatusDisp....', queryStatusDisp[1].rStatusDesc)
@@ -352,6 +332,9 @@ module.exports = cds.service.impl(async function () {
 
         //MR Status = New Worklist Validated  & Selected Status = New Worklist Created
         else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus == 'WLCRTD') {
+
+            var queryWorkItem = await tx1.read('MaintenanceRequestHeader').where({ requestNo: query[0].requestNo })
+            //console.log('queryWorkItem............', queryWorkItem)
 
             //check one condition (If atleast one workitem is created for particular MR the it allo to change the status to New Worklist Created)
             //(.length doesnot work in HANA)
@@ -411,6 +394,8 @@ module.exports = cds.service.impl(async function () {
 
         //MR Status = Approved & Selected Status = Task List Identified
         else if (query[0].to_requestStatus_rStatus == 'MRAPRD' && queryStatus[0].rStatus == 'TLIDNT') {
+            var queryWorkItem = await tx1.read('MaintenanceRequestHeader').where({ requestNo: query[0].requestNo })
+            //console.log('queryWorkItem............', queryWorkItem)
             var array = new Array()
             for (var i = 0; i < queryWorkItem.length; i++) {
                 console.log('queryWorkItem[i].taskListFlag', queryWorkItem[i].taskListFlag)
@@ -441,6 +426,8 @@ module.exports = cds.service.impl(async function () {
 
         //MR Status = Revision Created & selected status = Notifications Created
         else if (query[0].to_requestStatus_rStatus == 'RVCRTD' && queryStatus[0].rStatus == 'NTCRTD') {
+            var queryWorkItem = await tx1.read('MaintenanceRequestHeader').where({ requestNo: query[0].requestNo })
+            //console.log('queryWorkItem............', queryWorkItem)
             var array1 = new Array()
             for (var i = 0; i < queryWorkItem.length; i++) {
                 console.log('queryWorkItem[i].notificationFlag', queryWorkItem[i].notificationFlag)
@@ -721,6 +708,264 @@ module.exports = cds.service.impl(async function () {
         return result;
     });
 
+    this.before('CREATE', 'MaintenanceRequestHeader', async (req) => {
+        //Insert and update restrictions using hidden criteria
+        req.data.uiHidden = true  //Hide the requestNo field after create
+        req.data.uiHidden1 = false //Unhiede the requestNoDisp field after create
+        //req.data.requestNoDisp = req.data.requestNo
+        // query = await service2.read(MaintenanceRequestsVH).where({ requestNo: req.data.requestNo });
+        // console.log('query.....', query)
+        var query = await SELECT.from(MaintenanceRequests).columns('*').where({ requestNo: req.data.requestNo })
+        if (query[0].to_requestStatusDisp_rStatus != 'NWLVAL') {
+            req.error(406, 'Work item cannot be created as current status of Request ' + req.data.requestNo + ' is ' + query[0].to_requestStatusDisp_rStatusDesc + '.');
+        }
+
+        //Generating the WorkItem number from Number Range service
+        var query = await SELECT.from(WorkItemTypes).columns('*')
+        console.log('query', query)
+        var query1 = await service1.read(NumberRanges).columns('*').where({ numberRangeID: query[0].workItemType })
+        req.data.to_to_workItemType_workItemType = query[0].workItemType
+        console.log('req.data.to_to_workItemType_workItemType', req.data.to_to_workItemType_workItemType)
+        console.log('query1', query1)
+        if (query1[0] != null) {
+            const nrID = await service1.getLastRunningNumber(query1[0].numberRangeID)
+            req.data.workItemID = nrID
+            console.log('req.data.workItem', req.data.workItemID)
+            //vnumberRangeID = query1[i].numberRangeID 
+        } else {
+            req.error(406, req.data.to_to_workItemType_workItemType + ' ID is not present in Number Range.')
+        }
+    })
+
+    this.before(['CREATE', 'UPDATE'], 'MaintenanceRequestHeader', async (req) => {
+
+        if (req.data.notificationNo == '')
+            req.data.notificationFlag = false
+        else if (req.data.notificationNo != null) {
+            req.data.notificationFlag = true;
+        }
+
+        //If the task list is assign to the workitem , the flag will set as true
+        if (req.data.taskListType != null && req.data.taskListGroup != null && req.data.taskListGroupCounter != null) {
+            if (req.data.taskListType == '' && req.data.taskListGroup == '' && req.data.taskListGroupCounter == '') {
+                req.data.taskListDescription = null
+                req.data.documentNo = null
+                req.data.documentVersion = null
+                req.data.taskListFlag = false
+                req.data.assignTaskListFlag = true
+                req.data.multiTaskListFlag = null
+            }
+            else if (req.data.taskListType == '' && req.data.taskListGroup == '') {
+                req.error(401, 'Task List Type and Task List Group is empty.')
+            }
+            else if (req.data.taskListType == '' && req.data.taskListGroupCounter == '') {
+                req.error(401, 'Task List Type and Task List Group Counter is empty.')
+            }
+            else if (req.data.taskListGroup == '' && req.data.taskListGroupCounter == '') {
+                req.error(401, 'Task List Group and Task List Group Counter is empty.')
+            }
+            else if (req.data.taskListType == '') {
+                req.error(401, 'Task List Type is empty.')
+            }
+            else if (req.data.taskListGroup == '') {
+                req.error(401, 'Task List Group is empty.')
+            }
+            else if (req.data.taskListGroupCounter == '') {
+                req.error(401, 'Task List Group Counter is empty.')
+            }
+            else {
+                req.data.taskListFlag = true;
+                req.data.assignTaskListFlag = false;
+                req.data.multiTaskListFlag = false;
+            }
+        }
+        else {
+            req.data.taskListFlag = false
+            req.data.assignTaskListFlag = true
+        }
+
+
+        if (req.data.notificationNo != null) {//11000000
+            req.data.notificationUpdateFlag = true;//update enable
+            req.data.notificationGenerateFlag = false
+        }
+        else {
+            req.data.notificationGenerateFlag = true;//disable
+            req.data.notificationUpdateFlag = false
+        }
+
+        req.data.notificationNoDisp = req.data.notificationNo
+
+        //It will fetch the previsous detail of tasklist.
+        var queryWorkItem1 = await SELECT.from(MaintenanceRequestHeader).columns('*').where({ ID: req.data.ID })
+        if (queryWorkItem1[0] != null) {
+            //If tasklist is not equal or it gets modified then it will fetch modified date of tasklist
+            if (req.data.taskListType != queryWorkItem1[0].taskListType || req.data.taskListGroup != queryWorkItem1[0].taskListGroup || req.data.taskListGroupCounter != queryWorkItem1[0].taskListGroupCounter || req.data.taskListDescription != queryWorkItem1[0].taskListDescription) {
+                req.data.taskListIdentifiedDate = returnDate(new Date());
+                if (req.data.taskListType == '' || req.data.taskListGroup == '' || req.data.taskListGroupCounter == '') {
+                    req.data.taskListIdentifiedDate = null
+                }
+            }
+        }
+        else {
+            if (req.data.taskListType != null) {
+                req.data.taskListIdentifiedDate = returnDate(new Date());
+            }
+        }
+
+        req.data.requestNoDisp = req.data.requestNo
+        req.data.requestNoConcat = req.data.requestNo
+    });
+
+
+    this.on('createNotification', async (req) => {
+
+        for (let i = 0; i < req.params.length; i++) {
+            console.log('length of req.param', req.params.length)
+            const id1 = req.params[i].ID
+            console.log('id1', id1)
+            const tx1 = cds.transaction(req)
+
+            var query = await tx1.read(MaintenanceRequestHeader).where({ ID: id1 })
+            console.log('query.........', query)
+
+            /* /Date(1224043200000)/ */
+            /*var vestimatedDueDate = new Date(query[i].estimatedDueDate)
+            var vformatedestimatedDueDate = '/Date(' + vestimatedDueDate.getTime() + ')/'
+            console.log('vformatedestimatedDueDate', vformatedestimatedDueDate)*/
+
+            if (query[i].taskDescription != null) {
+                var shortTaskDescription = query[i].requestNo + ' | ' + query[i].taskDescription;
+                shortTaskDescription = shortTaskDescription.substring(0, 39); //Notification text length - 40 character
+                console.log('shortTaskDescription value =', shortTaskDescription)
+            }
+
+            var vNotificationLongTextCreate = query[i].requestNo + ' | ' + query[i].mrequestType + ' | ' + query[i].workOrderNo + ' | ' + query[i].sequenceNo + ' | ' + query[i].taskDescription
+            console.log('vNotificationLongText', vNotificationLongTextCreate)
+
+          //  var query1 = await service2.read(MaintenanceRequestsVH).where({ requestNo: query[i].requestNo })
+            var query1 = await SELECT.from(MaintenanceRequests).columns('*').where({ requestNo: query[i].requestNo })
+
+            console.log('query1', query1)
+
+
+            try {
+                if (query[i].notificationNo == null || query[i].notificationNo == '') {
+
+                    if (query1[0].to_requestStatusDisp_rStatus == 'RVCRTD') {
+
+                        // if (query[i].workOrderNo != null && query[i].sequenceNo != null && query[i].taskDescription != null) {
+                        const tx = service2.tx(req)
+
+                        var data = {
+                            "NotificationText": shortTaskDescription,//MR no. + task descr
+                            "NotificationType": "M1",
+                            //"ReportedByUser": query[i].createdBy,
+                            //"RequiredEndDate": vformatedestimatedDueDate,///????
+                            //"RequiredEndTime": "PT00H00M00S",
+                            "RequiredStartDate": query1[0].expectedArrivalDate,//Expected Arrival Date from MR
+                            "MaintenanceRevisionWPS": query1[0].MaintenanceRevision,//From MR
+                            "MaintenancePlanningPlant": query1[0].MaintenancePlanningPlant,//From MR
+                            "WorkCenter": query1[0].locationWC,//From MR
+                            "MaintenanceWorkCenterPlant": query1[0].MaintenancePlanningPlant,//From MR
+                            "Equipment": query1[0].equipment,//From MR
+                            "FunctionalLocation": query1[0].functionalLocation,//From MR
+                            "NotificationLongTextCreate": vNotificationLongTextCreate,//MRNO + MR Type + WorkOrderNo + Sequence No + Task Description
+                            "TaskListType": query[i].taskListType,
+                            "TaskListGroup": query[i].taskListGroup,
+                            "TaskListGroupCounter": query[i].taskListGroupCounter
+                        }
+                        console.log('data', data)
+                        var result = await tx.send({ method: 'POST', path: 'MaintNotification', data })
+                        console.log('result.MaintenanceNotification value', result.MaintenanceNotification)
+                        console.log('result', result)
+
+                        console.log('vID in post', query[i].ID)
+                        const affectedRows = await UPDATE(MaintenanceRequestHeader).set({
+                            notificationNo: result.MaintenanceNotification,
+                            notificationNoDisp: result.MaintenanceNotification,
+                            notificationFlag: true,
+                            notificationGenerateFlag: false
+                        }).where({ ID: query[i].ID })
+                        req.notify(201, 'For Work Item ' + query[i].workItemID + ' Notification ' + result.MaintenanceNotification + ' has been generated.')
+                        console.log('affectedRows', affectedRows)
+                        //}
+                        /*else
+                            req.error(406, 'Work Order Number, Sequence Number and Task description is required to generate the notification.')*/
+                    }
+                    else
+                        req.error(406, 'For Request ' + query[i].requestNo + ' current status is  ' + query1[0].to_requestStatusDisp_rStatusDesc + '. Revision is required to generate notification.')
+
+                    // req.error(406, 'Status for Maintenance Request Number ' + query[i].requestNo + ' is ' + query1[0].to_requestStatusDisp_rStatusDesc)
+                }
+                else {
+                    req.error(406, 'Notification already been created for Work Item ' + query[i].workItemID + '.')
+                }
+
+            } catch (error) {
+                console.log('Status code -----------', error.statusCode)
+                console.log('innererror  -----------', error.innererror.response.body.error.message.value)
+                var vstatusCode = error.statusCode
+                var verrorMessage = error.innererror.response.body.error.message.value
+                req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage + '.')
+            }
+        }
+    })
+
+    this.on('assignTaskList', async (req) => {
+        for (let i = 0; i < req.params.length; i++) {
+            console.log('length of req.param', req.params.length)
+            const id1 = req.params[i].ID
+            console.log('id1', id1)
+            const tx1 = cds.transaction(req)
+
+            var query = await tx1.read(MaintenanceRequestHeader).where({ ID: id1 })
+            console.log('query.........', query)
+
+            var query2 = await SELECT.from(MaintenanceRequests).columns('*').where({ requestNo: query[i].requestNo })
+
+            // var query2 = await service2.read(MaintenanceRequestsVH).where({ requestNo: query[i].requestNo })
+            console.log('query2', query2)
+
+            if (query[0].taskListType == null || query[0].taskListType == '') {
+                var count = 0;
+                var query1 = await service2.read(ReferenceTaskListVH).where({ ExternalReference: query[0].genericRef, ExternalCustomerReference: query[0].customerRef, Plant: query2[0].MaintenancePlanningPlant })
+
+                //.length function is not supportive in HANA DB, So to resolve that use count
+                query1.forEach(_ => count++)
+                console.log('count', count)
+
+                if (count > 1) {
+                    req.notify(101, 'For Work Item ' + query[0].workItemID + ' there is multiple Task List identified.')
+
+                    await UPDATE(MaintenanceRequestHeader).set({
+                        multiTaskListFlag: true
+                    }).where({ ID: query[i].ID })
+                }
+                else if (count < 1) {
+                    req.info(101, 'For Work Item ' + query[0].workItemID + ' there is no Task List identified.')
+                }
+                else {
+                    await UPDATE(MaintenanceRequestHeader).set({
+                        taskListType: query1[0].TaskListType,
+                        taskListGroup: query1[0].TaskListGroup,
+                        taskListGroupCounter: query1[0].TaskListGroupCounter,
+                        taskListDescription: query1[0].TaskListDesc,
+                        documentNo: query1[0].DocumentInfoRecordDocNumber,
+                        documentVersion: query1[0].DocumentInfoRecordDocVersion,
+                        taskListFlag: true,
+                        assignTaskListFlag: false,
+                        taskListIdentifiedDate: returnDate(new Date())
+                    }).where({ ID: query[i].ID })
+                    req.notify(201, 'For Work Item ' + query[i].workItemID + ' Task List has been assigned.')
+                }
+            }
+            else {
+                req.info(101, 'Task List is already assigned to Work Item ' + query[0].workItemID + '.')
+            }
+        }
+    })
+
     //Function for converting date into (YYYY-MM-DD) format
     function returnDate(dateValue) {
         var newDate = new Date(dateValue)
@@ -748,6 +993,7 @@ module.exports = cds.service.impl(async function () {
             to_requestPhase_rPhaseDesc: queryPhase[0].rPhaseDesc
         }).where({ ID: id1 })
     };
+
 })
 
 /*this.on('requestMail', async (req) => {

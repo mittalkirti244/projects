@@ -1,7 +1,7 @@
 {
     "name": "hcl-mro-requestdolphin",
     "version": "1.3.0",
-    "description": "MRO RequestDolphin (Rel20221006)",
+    "description": "MRO RequestDolphin (Rel20221013)",
     "repository": "<Add your repository here>",
     "license": "UNLICENSED",
     "private": true,
@@ -19,13 +19,14 @@
     },
     "devDependencies": {
         "@sap/hdi-deploy": "^4.2.3",
-        "@sap/ux-specification": "^1.96.16",
+        "@sap/ux-specification": "^1.102.9",
         "sqlite": "^4.1.2",
         "sqlite3": "^5.1.2"
     },
     "scripts": {
         "start": "cds run",
-        "watch-mro-requestdolphin-ui": "cds watch --open mro-requestdolphin-ui/webapp/index.html#fe-lrop-v4"
+        "watch-mro-requestdolphin-ui": "cds watch --open mro-requestdolphin-ui/webapp/index.html#fe-lrop-v4",
+        "watch-notifleo-ui": "cds watch --open notifleo-ui/webapp/index.html?sap-ui-xx-viewCache=false"
     },
     "eslintConfig": {
         "extends": "eslint:recommended",
@@ -55,7 +56,8 @@
     "cds": {
         "i18n": {
             "folders": [
-                "app/mro-requestdolphin-ui/webapp/i18n"
+                "app/mro-requestdolphin-ui/webapp/i18n",
+                "app/notifleo-ui/webapp/i18n"
             ]
         },
         "requires": {
@@ -72,21 +74,16 @@
                 "kind": "odata-v2",
                 "model": "srv/external/MAINTREQ_SB",
                 "credentials": {
-                    "destination": "MaintReq"
+                    "url": "http://20.122.41.136:8003/sap/opu/odata/ISAMMRCO/MAINTREQ_SB/",
+                    "username": "SANGITAP",
+                    "password": "Admin@12345"
                 }
             },
             "NumberRangeService": {
                 "kind": "odata",
                 "model": "srv/external/NumberRangeService",
                 "credentials": {
-                    "destination": "NumberRange"
-                }
-            },
-            "notifleo": {
-                "kind": "odata",
-                "model": "srv/external/notifleo",
-                "credentials": {
-                    "destination": "Notifleo"
+                    "url": "http://localhost:36539/number-range"
                 }
             }
         },
@@ -95,6 +92,7 @@
         }
     },
     "sapux": [
-        "app/mro-requestdolphin-ui"
+        "app/mro-requestdolphin-ui",
+        "app/notifleo-ui"
     ]
 }

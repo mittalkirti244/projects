@@ -3,7 +3,7 @@ using {MAINTREQ_SB as s4maintReq} from './external/MAINTREQ_SB';
 service alphamasterService {
 
     @readonly
-    entity BusinessPartnerVH  as projection on s4maintReq.BusinessPartnerVH {
+    entity BusinessPartnerVH   as projection on s4maintReq.BusinessPartnerVH {
         key BusinessPartner,
         key BusinessPartnerRole,
         key SalesContract,
@@ -20,7 +20,7 @@ service alphamasterService {
     };
 
     @readonly
-    entity WorkCenterVH       as projection on s4maintReq.WorkCenterVH {
+    entity WorkCenterVH        as projection on s4maintReq.WorkCenterVH {
         key Plant,
         key WorkCenter,
             WorkCenterCategoryCode,
@@ -29,7 +29,7 @@ service alphamasterService {
     };
 
     @readonly
-    entity SalesContractVH    as projection on s4maintReq.SalesContractVH {
+    entity SalesContractVH     as projection on s4maintReq.SalesContractVH {
         key SalesContract,
             SalesContractName,
             SoldToPartyBP,
@@ -37,7 +37,7 @@ service alphamasterService {
     };
 
     @readonly
-    entity FunctionLocationVH as projection on s4maintReq.FunctionLocationVH {
+    entity FunctionLocationVH  as projection on s4maintReq.FunctionLocationVH {
         key functionalLocation,
             FunctionalLocationName,
             ManufacturerPartTypeName,
@@ -48,7 +48,7 @@ service alphamasterService {
     };
 
     @readonly
-    entity EquipmentVH        as projection on s4maintReq.EquipmentVH {
+    entity EquipmentVH         as projection on s4maintReq.EquipmentVH {
         key Equipment,
             EquipmentName,
             Material,
@@ -58,7 +58,7 @@ service alphamasterService {
             FunctionalLocation
     };
 
-    entity Revisions          as projection on s4maintReq.MaintRevision {
+    entity Revisions           as projection on s4maintReq.MaintRevision {
         key PlanningPlant,
         key RevisionNo,
             Equipment,
@@ -71,5 +71,23 @@ service alphamasterService {
             RevisionType,
             WorkCenter,
             WorkCenterPlant
+    };
+
+    entity MaintNotifications  as projection on s4maintReq.MaintNotification {
+        MaintenanceNotification,
+        NotificationText,
+        NotificationType
+    };
+
+    entity ReferenceTaskListVH as projection on s4maintReq.ReferenceTaskListVH {
+        key TaskListType,
+        key TaskListGroup,
+        key TaskListGroupCounter,
+        key ExternalReference,
+        key DocumentInfoRecordDocNumber,
+        key DocumentInfoRecordDocVersion,
+            TaskListDesc,
+            ExternalCustomerReference,
+            Plant
     };
 }
