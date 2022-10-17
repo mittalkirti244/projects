@@ -831,36 +831,28 @@ module.exports = cds.service.impl(async function () {
             console.log('query1', query1)
 
             /* /Date(1224043200000)/ */
-            var vestimatedDueDate = new Date(query1[i].expectedArrivalDate)
-            var vformatedestimatedDueDate = '/Date(' + vestimatedDueDate.getTime() + ')/'
-            console.log('vformatedestimatedDueDate', vformatedestimatedDueDate)
+            var vexpectedArrivalDate = new Date(query1[i].expectedArrivalDate)
+            var vformatedexpectedArrivalDate = '/Date(' + vexpectedArrivalDate.getTime() + ')/'
+            console.log('vformatedexpectedArrivalDate', vformatedexpectedArrivalDate)
 
-            // if (query[i].taskDescription != null) {
             var shortTaskDescription = query[i].requestNo + ' | ' + query[i].taskDescription;
             shortTaskDescription = shortTaskDescription.substring(0, 39); //Notification text length - 40 character
             console.log('shortTaskDescription value =', shortTaskDescription)
-            // }
 
             var vNotificationLongTextCreate = query[i].requestNo + ' | ' + query[i].mrequestType + ' | ' + query[i].workOrderNo + ' | ' + query[i].sequenceNo + ' | ' + query[i].taskDescription
             console.log('vNotificationLongText', vNotificationLongTextCreate)
-
-            // var query1 = await service2.read(MaintenanceRequestsVH).where({ requestNo: query[i].requestNo })
 
             try {
                 if (query[i].notificationNo == null || query[i].notificationNo == '') {
 
                     if (query1[0].to_requestStatusDisp_rStatus == 'RVCRTD') {
 
-                        // if (query[i].workOrderNo != null && query[i].sequenceNo != null && query[i].taskDescription != null) {
-                        const tx = service2.tx(req)
+                        const tx = service3.tx(req)
 
-                        var data1 = {
+                        var data = {
                             "NotificationText": shortTaskDescription,//MR no. + task descr
-                            "NotificationType": "M1",
-                            //"ReportedByUser": query[i].createdBy,
-                            //"RequiredEndDate": vformatedestimatedDueDate,///????
-                            //"RequiredEndTime": "PT00H00M00S",
-                            "RequiredStartDate": vformatedestimatedDueDate,//Expected Arrival Date from MR
+                            "NotificationType": 'M1',
+                            "RequiredStartDate": vformatedexpectedArrivalDate,//Expected Arrival Date from MR
                             "MaintenanceRevisionWPS": query1[0].MaintenanceRevision,//From MR
                             "MaintenancePlanningPlant": query1[0].MaintenancePlanningPlant,//From MR
                             "WorkCenter": query1[0].locationWC,//From MR
@@ -872,29 +864,10 @@ module.exports = cds.service.impl(async function () {
                             "TaskListGroup": query[i].taskListGroup,
                             "TaskListGroupCounter": query[i].taskListGroupCounter
                         }
-                        var data = {
-                            "NotificationText": 'abcd',//MR no. + task descr
-                            "NotificationType": 'M1',
-                            //"ReportedByUser": query[i].createdBy,
-                            //"RequiredEndDate": vformatedestimatedDueDate,///????
-                            //"RequiredEndTime": "PT00H00M00S",
-                            //"RequiredStartDate": "/Date(1665964800000)/",//Expected Arrival Date from MR
-                            // "MaintenanceRevisionWPS": query1[0].MaintenanceRevision,//From MR
-                            // "MaintenancePlanningPlant": query1[0].MaintenancePlanningPlant,//From MR
-                            // "WorkCenter": query1[0].locationWC,//From MR
-                            // "MaintenanceWorkCenterPlant": query1[0].MaintenancePlanningPlant,//From MR
-                            // "Equipment": query1[0].equipment,//From MR
-                            // "FunctionalLocation": query1[0].functionalLocation,//From MR
-                            // "NotificationLongTextCreate": vNotificationLongTextCreate,//MRNO + MR Type + WorkOrderNo + Sequence No + Task Description
-                            // "TaskListType": query[i].taskListType,
-                            // "TaskListGroup": query[i].taskListGroup,
-                            // "TaskListGroupCounter": query[i].taskListGroupCounter
-                        }
                         console.log('data', data)
                         var result = await tx.send({ method: 'POST', path: 'MaintNotification', data })
+                        console.log('result.MaintenanceNotification value', result.MaintenanceNotification)
                         console.log('result', result)
-                        // console.log('result.MaintenanceNotification value', result.MaintenanceNotification)
-                        // console.log('result', result)
 
                         console.log('vID in post', query[i].ID)
                         const affectedRows = await UPDATE(WorkItems).set({
@@ -905,27 +878,20 @@ module.exports = cds.service.impl(async function () {
                         }).where({ ID: query[i].ID })
                         req.notify(201, 'For Work Item ' + query[i].workItemID + ' Notification ' + result.MaintenanceNotification + ' has been generated.')
                         console.log('affectedRows', affectedRows)
-                        //}
-                        /*else
-                            req.error(406, 'Work Order Number, Sequence Number and Task description is required to generate the notification.')*/
                     }
                     else
                         req.error(406, 'For Request ' + query[i].requestNo + ' current status is  ' + query1[0].to_requestStatusDisp_rStatusDesc + '. Revision is required to generate notification.')
-
-                    // req.error(406, 'Status for Maintenance Request Number ' + query[i].requestNo + ' is ' + query1[0].to_requestStatusDisp_rStatusDesc)
                 }
                 else {
                     req.error(406, 'Notification already been created for Work Item ' + query[i].workItemID + '.')
                 }
 
             } catch (error) {
-                console.log('...................Inside Catch.............')
-                console.log('error...........', error)
-                //console.log('Status code -----------', error.statusCode)
-                // console.log('innererror  -----------', error.innererror.response.body.error.message.value)
-                // var vstatusCode = error.statusCode
-                // var verrorMessage = error.innererror.response.body.error.message.value
-                // req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage + '.')
+                console.log('Status code -----------', error.statusCode)
+                console.log('innererror  -----------', error.innererror.response.body.error.message.value)
+                var vstatusCode = error.statusCode
+                var verrorMessage = error.innererror.response.body.error.message.value
+                req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage + '.')
             }
         }
     })
