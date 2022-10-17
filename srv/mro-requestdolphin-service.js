@@ -75,14 +75,12 @@ module.exports = cds.service.impl(async function () {
                     req.data.requestNo = nrID
                     vnumberRangeID = query1[0].numberRangeID
                 } catch (error) {
-                    // var vstatusCode = error.statusCode
                     var verrorMessage = error.innererror.response.body.error.message
                     req.error(406, verrorMessage)
                 }
             }
         }
         else {
-            console.log('............................')
             //If Request Type is not present in Number Range, it will give Info msg
             //(If selected request type is not there in Number Range)
             req.error(406, req.data.to_requestType_rType + ' Type is not maintained in NumberRange.')
@@ -269,12 +267,10 @@ module.exports = cds.service.impl(async function () {
         //fetch the all MR Details using the ID
         var query1 = await SELECT.from(MaintenanceRequests).columns('*').where({ ID: req.data.to_maintenanceRequest_ID });
         if (query1[0] != null) {
-            //console.log('DS Status', query1[0].to_requestStatusDisp_rStatus);
             if (query1[0].to_requestStatusDisp_rStatus == query[7].rStatus || query1[0].to_requestStatusDisp_rStatus == query[8].rStatus || query1[0].to_requestStatusDisp_rStatus == query[9].rStatus || query1[0].to_requestStatusDisp_rStatus == query[10].rStatus || query1[0].to_requestStatusDisp_rStatus == query[11].rStatus || query1[0].to_requestStatusDisp_rStatus == query[12].rStatus || query1[0].to_requestStatusDisp_rStatus == query[13].rStatus) {
                 req.error(406, 'For Request ' + query1[0].requestNo + ' current status is ' + query1[0].to_requestStatus_rStatusDesc + '. New documents cannot be created.');
             }
         }
-
     });
 
     //On click of Change Status(Second change status button)
@@ -282,15 +278,9 @@ module.exports = cds.service.impl(async function () {
         id1 = req.params[0].ID
         const tx1 = cds.transaction(req)
         query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
-        //console.log('query................', query[0])
         queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: req.data.status })
-        //console.log('query Status...............', queryStatus)
         queryPhase = await tx1.read(RequestPhases).where({ rPhase: queryStatus[0].to_rPhase_rPhase })
-        //console.log('query phase.............', queryPhase)
-
-        var queryStatusDisp = await tx1.read('RequestStatusesDisp')
-        //console.log('queryStatusDisp', queryStatusDisp)
-        //console.log('queryStatusDisp....', queryStatusDisp[1].rStatusDesc)
+        queryStatusDisp = await tx1.read('RequestStatusesDisp')
 
         //MR Status = Created & Selected Status = Request for New Worklist
         if (query[0].to_requestStatus_rStatus == 'MRCRTD' && queryStatus[0].rStatus == 'NWLREQ')
@@ -334,7 +324,6 @@ module.exports = cds.service.impl(async function () {
         else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus == 'WLCRTD') {
 
             var queryWorkItem = await tx1.read('WorkItems').where({ requestNo: query[0].requestNo })
-            //console.log('queryWorkItem............', queryWorkItem)
 
             //check one condition (If atleast one workitem is created for particular MR the it allo to change the status to New Worklist Created)
             //(.length doesnot work in HANA)
@@ -395,7 +384,6 @@ module.exports = cds.service.impl(async function () {
         //MR Status = Approved & Selected Status = Task List Identified
         else if (query[0].to_requestStatus_rStatus == 'MRAPRD' && queryStatus[0].rStatus == 'TLIDNT') {
             var queryWorkItem = await tx1.read('WorkItems').where({ requestNo: query[0].requestNo })
-            //console.log('queryWorkItem............', queryWorkItem)
             var array = new Array()
             for (var i = 0; i < queryWorkItem.length; i++) {
                 console.log('queryWorkItem[i].taskListFlag', queryWorkItem[i].taskListFlag)
@@ -427,7 +415,6 @@ module.exports = cds.service.impl(async function () {
         //MR Status = Revision Created & selected status = Notifications Created
         else if (query[0].to_requestStatus_rStatus == 'RVCRTD' && queryStatus[0].rStatus == 'NTCRTD') {
             var queryWorkItem = await tx1.read('WorkItems').where({ requestNo: query[0].requestNo })
-            //console.log('queryWorkItem............', queryWorkItem)
             var array1 = new Array()
             for (var i = 0; i < queryWorkItem.length; i++) {
                 console.log('queryWorkItem[i].notificationFlag', queryWorkItem[i].notificationFlag)
@@ -469,17 +456,15 @@ module.exports = cds.service.impl(async function () {
 
     //Handler for Create Revision Action button
     this.on('revisionCreated', async (req) => {
-        // for (let i = 0; i < req.params.length; i++) {
         const id1 = req.params[0].ID
         const tx1 = cds.transaction(req)
-        var queryStatus = await tx1.read(RequestStatuses).where({ rStatusDesc: 'Revision Created' })
-        console.log('query', queryStatus)
-        var queryPhase = await tx1.read(RequestPhases).where({ rPhaseDesc: 'Preparation' })
-        console.log('query', queryPhase)
+        var queryStatus = await tx1.read(RequestStatusesDisp).where({ rStatus: 'RVCRTD' })
+        console.log('queryStatus', queryStatus)
+        var queryPhase = await tx1.read(RequestPhases).where({ rPhase: 'MRPREP' })
+        console.log('queryPhase', queryPhase)
         var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
-        console.log('query...........', query)
+        console.log('query', query)
         if (query[0].MaintenanceRevision != null) {
-            console.log('...........................')
             await UPDATE(MaintenanceRequests).set({
                 to_requestStatus_rStatus: 'RVCRTD',
                 to_requestStatus_rStatusDesc: 'Revision Created',
@@ -529,11 +514,9 @@ module.exports = cds.service.impl(async function () {
                 /* /Date(1224043200000)/ */
                 var vexpectedArrivalDate = new Date(query[0].expectedArrivalDate)
                 var vformatexpectedArrivalDate = '/Date(' + vexpectedArrivalDate.getTime() + ')/'
-                //console.log('vformatexpectedArrivalDate', vformatexpectedArrivalDate)
                 vrevisionStartDate = query[0].expectedArrivalDate
                 var vexpectedDeliveryDate = new Date(query[0].expectedDeliveryDate)
                 var vformatedexpectedDeliveryDate = '/Date(' + vexpectedDeliveryDate.getTime() + ')/'
-                // console.log('vformatedexpectedDeliveryDate', vformatedexpectedDeliveryDate)
                 vrevisionEndDate = query[0].expectedDeliveryDate
                 vfunctionalLocation = query[0].functionalLocation
                 vequipment = query[0].equipment
@@ -626,7 +609,6 @@ module.exports = cds.service.impl(async function () {
 
             var rangeID, range, age;
             var currentDate = new Date()
-            //var currentDate = new Date("2023-07-11T10:44:42.709Z");
             var createdDate = new Date(query[i].createdAt);
 
             console.log('createdDate', createdDate)
