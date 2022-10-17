@@ -73,8 +73,8 @@ entity MaintenanceRequests : managed {
                                                on to_document.to_maintenanceRequest = $self                            @title                 : '{i18n>document}'; //One to many (1 MR - multiple documents links) i.e. Attaching multiple url w.r.t. MR
         to_botStatus                     : Association to BotStatuses                                                  @title :                 '{i18n>botStatus}'  @assert.integrity     : false; // Status will get update when mail is sent to customer
         to_ranges                        : Association to Ranges                                                       @title :                 '{i18n>range}'  @assert.integrity         : false; //Age Range (0-30,30-60,...)
-        to_maintenanceRequestHeader      : Association to many MaintenanceRequestHeader
-                                               on to_maintenanceRequestHeader.to_maintenanceRequest = $self;
+        to_workItems      : Association to many WorkItems
+                                               on to_workItems.to_maintenanceRequest = $self;
 };
 
 entity RequestTypes {
@@ -103,7 +103,7 @@ entity RequestPhases {
     key rPhaseDesc : String;
 };
 
-entity MaintenanceRequestHeader : managed {
+entity WorkItems : managed {
     key ID                       : UUID                           @title :                    '{i18n>ID}'  @Core.Computed;
         workItemID               : Integer                        @title :                    '{i18n>workItem}';
         requestNo                : String                         @title :                    '{i18n>requestNo}'; //Maintenance Request No using on object page on create

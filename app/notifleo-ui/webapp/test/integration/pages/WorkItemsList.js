@@ -9,8 +9,8 @@ sap.ui.define(['sap/fe/test/ListReport'], function(ListReport) {
     return new ListReport(
         {
             appId: 'notifleoui',
-            componentId: 'MaintenanceRequestHeaderList',
-            entitySet: 'MaintenanceRequestHeader'
+            componentId: 'WorkItemsList',
+            entitySet: 'WorkItems'
         },
         CustomPageDefinitions
     );

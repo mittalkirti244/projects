@@ -1,7 +1,7 @@
 ## Application Details
 |               |
 | ------------- |
-|**Generation Date and Time**<br>Thu Oct 13 2022 05:52:01 GMT+0000 (Coordinated Universal Time)|
+|**Generation Date and Time**<br>Mon Oct 17 2022 13:22:11 GMT+0000 (Coordinated Universal Time)|
 |**App Generator**<br>@sap/generator-fiori-elements|
 |**App Generator Version**<br>1.7.5|
 |**Generation Platform**<br>SAP Business Application Studio|
@@ -9,14 +9,14 @@
 |**Service Type**<br>Local Cap|
 |**Service URL**<br>http://localhost:4004/mrorequestdolphin/
 |**Module Name**<br>notifleo-ui|
-|**Application Title**<br>Manage Work Items|
+|**Application Title**<br>App Title|
 |**Namespace**<br>|
 |**UI5 Theme**<br>sap_horizon|
 |**UI5 Version**<br>1.102.1|
 |**Enable Code Assist Libraries**<br>False|
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>False|
-|**Main Entity**<br>MaintenanceRequestHeader|
+|**Main Entity**<br>WorkItems|
 
 ## notifleo-ui
 

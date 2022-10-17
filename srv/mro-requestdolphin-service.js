@@ -20,7 +20,7 @@ module.exports = cds.service.impl(async function () {
         Documents,
         DocumentStatuses,
         Ranges,
-        MaintenanceRequestHeader,
+        WorkItems,
         RequestStatusesDisp,
         MaintNotifications,
         ReferenceTaskListVH,
@@ -333,7 +333,7 @@ module.exports = cds.service.impl(async function () {
         //MR Status = New Worklist Validated  & Selected Status = New Worklist Created
         else if (query[0].to_requestStatus_rStatus == 'NWLVAL' && queryStatus[0].rStatus == 'WLCRTD') {
 
-            var queryWorkItem = await tx1.read('MaintenanceRequestHeader').where({ requestNo: query[0].requestNo })
+            var queryWorkItem = await tx1.read('WorkItems').where({ requestNo: query[0].requestNo })
             //console.log('queryWorkItem............', queryWorkItem)
 
             //check one condition (If atleast one workitem is created for particular MR the it allo to change the status to New Worklist Created)
@@ -394,7 +394,7 @@ module.exports = cds.service.impl(async function () {
 
         //MR Status = Approved & Selected Status = Task List Identified
         else if (query[0].to_requestStatus_rStatus == 'MRAPRD' && queryStatus[0].rStatus == 'TLIDNT') {
-            var queryWorkItem = await tx1.read('MaintenanceRequestHeader').where({ requestNo: query[0].requestNo })
+            var queryWorkItem = await tx1.read('WorkItems').where({ requestNo: query[0].requestNo })
             //console.log('queryWorkItem............', queryWorkItem)
             var array = new Array()
             for (var i = 0; i < queryWorkItem.length; i++) {
@@ -426,7 +426,7 @@ module.exports = cds.service.impl(async function () {
 
         //MR Status = Revision Created & selected status = Notifications Created
         else if (query[0].to_requestStatus_rStatus == 'RVCRTD' && queryStatus[0].rStatus == 'NTCRTD') {
-            var queryWorkItem = await tx1.read('MaintenanceRequestHeader').where({ requestNo: query[0].requestNo })
+            var queryWorkItem = await tx1.read('WorkItems').where({ requestNo: query[0].requestNo })
             //console.log('queryWorkItem............', queryWorkItem)
             var array1 = new Array()
             for (var i = 0; i < queryWorkItem.length; i++) {
@@ -708,7 +708,7 @@ module.exports = cds.service.impl(async function () {
         return result;
     });
 
-    this.before('CREATE', 'MaintenanceRequestHeader', async (req) => {
+    this.before('CREATE', 'WorkItems', async (req) => {
         //Insert and update restrictions using hidden criteria
         req.data.uiHidden = true  //Hide the requestNo field after create
         req.data.uiHidden1 = false //Unhiede the requestNoDisp field after create
@@ -737,7 +737,7 @@ module.exports = cds.service.impl(async function () {
         }
     })
 
-    this.before(['CREATE', 'UPDATE'], 'MaintenanceRequestHeader', async (req) => {
+    this.before(['CREATE', 'UPDATE'], 'WorkItems', async (req) => {
 
         if (req.data.notificationNo == '')
             req.data.notificationFlag = false
@@ -784,7 +784,6 @@ module.exports = cds.service.impl(async function () {
             req.data.assignTaskListFlag = true
         }
 
-
         if (req.data.notificationNo != null) {//11000000
             req.data.notificationUpdateFlag = true;//update enable
             req.data.notificationGenerateFlag = false
@@ -797,7 +796,7 @@ module.exports = cds.service.impl(async function () {
         req.data.notificationNoDisp = req.data.notificationNo
 
         //It will fetch the previsous detail of tasklist.
-        var queryWorkItem1 = await SELECT.from(MaintenanceRequestHeader).columns('*').where({ ID: req.data.ID })
+        var queryWorkItem1 = await SELECT.from(WorkItems).columns('*').where({ ID: req.data.ID })
         if (queryWorkItem1[0] != null) {
             //If tasklist is not equal or it gets modified then it will fetch modified date of tasklist
             if (req.data.taskListType != queryWorkItem1[0].taskListType || req.data.taskListGroup != queryWorkItem1[0].taskListGroup || req.data.taskListGroupCounter != queryWorkItem1[0].taskListGroupCounter || req.data.taskListDescription != queryWorkItem1[0].taskListDescription) {
@@ -817,7 +816,6 @@ module.exports = cds.service.impl(async function () {
         req.data.requestNoConcat = req.data.requestNo
     });
 
-
     this.on('createNotification', async (req) => {
 
         for (let i = 0; i < req.params.length; i++) {
@@ -826,28 +824,27 @@ module.exports = cds.service.impl(async function () {
             console.log('id1', id1)
             const tx1 = cds.transaction(req)
 
-            var query = await tx1.read(MaintenanceRequestHeader).where({ ID: id1 })
+            var query = await tx1.read(WorkItems).where({ ID: id1 })
             console.log('query.........', query)
 
-            /* /Date(1224043200000)/ */
-            /*var vestimatedDueDate = new Date(query[i].estimatedDueDate)
-            var vformatedestimatedDueDate = '/Date(' + vestimatedDueDate.getTime() + ')/'
-            console.log('vformatedestimatedDueDate', vformatedestimatedDueDate)*/
+            var query1 = await tx1.read(MaintenanceRequests).where({ requestNo: query[i].requestNo })
+            console.log('query1', query1)
 
-            if (query[i].taskDescription != null) {
-                var shortTaskDescription = query[i].requestNo + ' | ' + query[i].taskDescription;
-                shortTaskDescription = shortTaskDescription.substring(0, 39); //Notification text length - 40 character
-                console.log('shortTaskDescription value =', shortTaskDescription)
-            }
+            /* /Date(1224043200000)/ */
+            var vestimatedDueDate = new Date(query1[i].expectedArrivalDate)
+            var vformatedestimatedDueDate = '/Date(' + vestimatedDueDate.getTime() + ')/'
+            console.log('vformatedestimatedDueDate', vformatedestimatedDueDate)
+
+            // if (query[i].taskDescription != null) {
+            var shortTaskDescription = query[i].requestNo + ' | ' + query[i].taskDescription;
+            shortTaskDescription = shortTaskDescription.substring(0, 39); //Notification text length - 40 character
+            console.log('shortTaskDescription value =', shortTaskDescription)
+            // }
 
             var vNotificationLongTextCreate = query[i].requestNo + ' | ' + query[i].mrequestType + ' | ' + query[i].workOrderNo + ' | ' + query[i].sequenceNo + ' | ' + query[i].taskDescription
             console.log('vNotificationLongText', vNotificationLongTextCreate)
 
-          //  var query1 = await service2.read(MaintenanceRequestsVH).where({ requestNo: query[i].requestNo })
-            var query1 = await SELECT.from(MaintenanceRequests).columns('*').where({ requestNo: query[i].requestNo })
-
-            console.log('query1', query1)
-
+            // var query1 = await service2.read(MaintenanceRequestsVH).where({ requestNo: query[i].requestNo })
 
             try {
                 if (query[i].notificationNo == null || query[i].notificationNo == '') {
@@ -857,13 +854,13 @@ module.exports = cds.service.impl(async function () {
                         // if (query[i].workOrderNo != null && query[i].sequenceNo != null && query[i].taskDescription != null) {
                         const tx = service2.tx(req)
 
-                        var data = {
+                        var data1 = {
                             "NotificationText": shortTaskDescription,//MR no. + task descr
                             "NotificationType": "M1",
                             //"ReportedByUser": query[i].createdBy,
                             //"RequiredEndDate": vformatedestimatedDueDate,///????
                             //"RequiredEndTime": "PT00H00M00S",
-                            "RequiredStartDate": query1[0].expectedArrivalDate,//Expected Arrival Date from MR
+                            "RequiredStartDate": vformatedestimatedDueDate,//Expected Arrival Date from MR
                             "MaintenanceRevisionWPS": query1[0].MaintenanceRevision,//From MR
                             "MaintenancePlanningPlant": query1[0].MaintenancePlanningPlant,//From MR
                             "WorkCenter": query1[0].locationWC,//From MR
@@ -875,13 +872,32 @@ module.exports = cds.service.impl(async function () {
                             "TaskListGroup": query[i].taskListGroup,
                             "TaskListGroupCounter": query[i].taskListGroupCounter
                         }
+                        var data = {
+                            "NotificationText": 'abcd',//MR no. + task descr
+                            "NotificationType": 'M1',
+                            //"ReportedByUser": query[i].createdBy,
+                            //"RequiredEndDate": vformatedestimatedDueDate,///????
+                            //"RequiredEndTime": "PT00H00M00S",
+                            //"RequiredStartDate": "/Date(1665964800000)/",//Expected Arrival Date from MR
+                            // "MaintenanceRevisionWPS": query1[0].MaintenanceRevision,//From MR
+                            // "MaintenancePlanningPlant": query1[0].MaintenancePlanningPlant,//From MR
+                            // "WorkCenter": query1[0].locationWC,//From MR
+                            // "MaintenanceWorkCenterPlant": query1[0].MaintenancePlanningPlant,//From MR
+                            // "Equipment": query1[0].equipment,//From MR
+                            // "FunctionalLocation": query1[0].functionalLocation,//From MR
+                            // "NotificationLongTextCreate": vNotificationLongTextCreate,//MRNO + MR Type + WorkOrderNo + Sequence No + Task Description
+                            // "TaskListType": query[i].taskListType,
+                            // "TaskListGroup": query[i].taskListGroup,
+                            // "TaskListGroupCounter": query[i].taskListGroupCounter
+                        }
                         console.log('data', data)
                         var result = await tx.send({ method: 'POST', path: 'MaintNotification', data })
-                        console.log('result.MaintenanceNotification value', result.MaintenanceNotification)
                         console.log('result', result)
+                        // console.log('result.MaintenanceNotification value', result.MaintenanceNotification)
+                        // console.log('result', result)
 
                         console.log('vID in post', query[i].ID)
-                        const affectedRows = await UPDATE(MaintenanceRequestHeader).set({
+                        const affectedRows = await UPDATE(WorkItems).set({
                             notificationNo: result.MaintenanceNotification,
                             notificationNoDisp: result.MaintenanceNotification,
                             notificationFlag: true,
@@ -903,11 +919,13 @@ module.exports = cds.service.impl(async function () {
                 }
 
             } catch (error) {
-                console.log('Status code -----------', error.statusCode)
-                console.log('innererror  -----------', error.innererror.response.body.error.message.value)
-                var vstatusCode = error.statusCode
-                var verrorMessage = error.innererror.response.body.error.message.value
-                req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage + '.')
+                console.log('...................Inside Catch.............')
+                console.log('error...........', error)
+                //console.log('Status code -----------', error.statusCode)
+                // console.log('innererror  -----------', error.innererror.response.body.error.message.value)
+                // var vstatusCode = error.statusCode
+                // var verrorMessage = error.innererror.response.body.error.message.value
+                // req.error(406, 'Error Code : ' + vstatusCode + ' Error Message : ' + verrorMessage + '.')
             }
         }
     })
@@ -919,7 +937,7 @@ module.exports = cds.service.impl(async function () {
             console.log('id1', id1)
             const tx1 = cds.transaction(req)
 
-            var query = await tx1.read(MaintenanceRequestHeader).where({ ID: id1 })
+            var query = await tx1.read(WorkItems).where({ ID: id1 })
             console.log('query.........', query)
 
             var query2 = await SELECT.from(MaintenanceRequests).columns('*').where({ requestNo: query[i].requestNo })
@@ -938,7 +956,7 @@ module.exports = cds.service.impl(async function () {
                 if (count > 1) {
                     req.notify(101, 'For Work Item ' + query[0].workItemID + ' there is multiple Task List identified.')
 
-                    await UPDATE(MaintenanceRequestHeader).set({
+                    await UPDATE(WorkItems).set({
                         multiTaskListFlag: true
                     }).where({ ID: query[i].ID })
                 }
@@ -946,7 +964,7 @@ module.exports = cds.service.impl(async function () {
                     req.info(101, 'For Work Item ' + query[0].workItemID + ' there is no Task List identified.')
                 }
                 else {
-                    await UPDATE(MaintenanceRequestHeader).set({
+                    await UPDATE(WorkItems).set({
                         taskListType: query1[0].TaskListType,
                         taskListGroup: query1[0].TaskListGroup,
                         taskListGroupCounter: query1[0].TaskListGroupCounter,

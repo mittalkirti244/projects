@@ -9,8 +9,8 @@ sap.ui.define(['sap/fe/test/ObjectPage'], function(ObjectPage) {
     return new ObjectPage(
         {
             appId: 'notifleoui',
-            componentId: 'MaintenanceRequestHeaderObjectPage',
-            entitySet: 'MaintenanceRequestHeader'
+            componentId: 'WorkItemsObjectPage',
+            entitySet: 'WorkItems'
         },
         CustomPageDefinitions
     );

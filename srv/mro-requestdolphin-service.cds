@@ -84,7 +84,7 @@ service mrorequestdolphinService {
 
     @odata.draft.enabled
     @cds.redirection.target
-    entity MaintenanceRequestHeader as projection on maintReq.MaintenanceRequestHeader {
+    entity WorkItems as projection on maintReq.WorkItems {
         *,
         createdAt  @(Common.Label : '{i18n>createdAt}'),
         createdBy  @(Common.Label : '{i18n>createdBy}'),
@@ -160,7 +160,7 @@ service mrorequestdolphinService {
 
     //It is used as Notification VH on list report page
     entity NotificationVH           as
-        select from maintReq.MaintenanceRequestHeader {
+        select from maintReq.WorkItems {
             requestNo @(Common.Label : '{i18n>requestNo}')
         }
         where

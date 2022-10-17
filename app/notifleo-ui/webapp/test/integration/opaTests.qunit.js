@@ -2,10 +2,10 @@ sap.ui.require(
     [
         'sap/fe/test/JourneyRunner',
         'notifleoui/test/integration/FirstJourney',
-		'notifleoui/test/integration/pages/MaintenanceRequestHeaderList',
-		'notifleoui/test/integration/pages/MaintenanceRequestHeaderObjectPage'
+		'notifleoui/test/integration/pages/WorkItemsList',
+		'notifleoui/test/integration/pages/WorkItemsObjectPage'
     ],
-    function(JourneyRunner, opaJourney, MaintenanceRequestHeaderList, MaintenanceRequestHeaderObjectPage) {
+    function(JourneyRunner, opaJourney, WorkItemsList, WorkItemsObjectPage) {
         'use strict';
         var JourneyRunner = new JourneyRunner({
             // start index.html in web folder
@@ -16,8 +16,8 @@ sap.ui.require(
         JourneyRunner.run(
             {
                 pages: { 
-					onTheMaintenanceRequestHeaderList: MaintenanceRequestHeaderList,
-					onTheMaintenanceRequestHeaderObjectPage: MaintenanceRequestHeaderObjectPage
+					onTheWorkItemsList: WorkItemsList,
+					onTheWorkItemsObjectPage: WorkItemsObjectPage
                 }
             },
             opaJourney.run

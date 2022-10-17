@@ -13,7 +13,7 @@
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
       "version": "1.7.5",
-      "toolsId": "76ac8249-c3f9-4965-812a-633e0a3a2dcb"
+      "toolsId": "63c36a7d-e9f8-48d2-8428-1d76edfaf453"
     },
     "dataSources": {
       "mainService": {
@@ -97,42 +97,42 @@
       "routes": [
         {
           "pattern": ":?query:",
-          "name": "MaintenanceRequestHeaderList",
-          "target": "MaintenanceRequestHeaderList"
+          "name": "WorkItemsList",
+          "target": "WorkItemsList"
         },
         {
-          "pattern": "MaintenanceRequestHeader({key}):?query:",
-          "name": "MaintenanceRequestHeaderObjectPage",
-          "target": "MaintenanceRequestHeaderObjectPage"
+          "pattern": "WorkItems({key}):?query:",
+          "name": "WorkItemsObjectPage",
+          "target": "WorkItemsObjectPage"
         }
       ],
       "targets": {
-        "MaintenanceRequestHeaderList": {
+        "WorkItemsList": {
           "type": "Component",
-          "id": "MaintenanceRequestHeaderList",
+          "id": "WorkItemsList",
           "name": "sap.fe.templates.ListReport",
           "options": {
             "settings": {
-              "entitySet": "MaintenanceRequestHeader",
+              "entitySet": "WorkItems",
               "variantManagement": "Page",
               "navigation": {
-                "MaintenanceRequestHeader": {
+                "WorkItems": {
                   "detail": {
-                    "route": "MaintenanceRequestHeaderObjectPage"
+                    "route": "WorkItemsObjectPage"
                   }
                 }
               }
             }
           }
         },
-        "MaintenanceRequestHeaderObjectPage": {
+        "WorkItemsObjectPage": {
           "type": "Component",
-          "id": "MaintenanceRequestHeaderObjectPage",
+          "id": "WorkItemsObjectPage",
           "name": "sap.fe.templates.ObjectPage",
           "options": {
             "settings": {
               "editableHeaderContent": false,
-              "entitySet": "MaintenanceRequestHeader"
+              "entitySet": "WorkItems"
             }
           }
         }

@@ -1,6 +1,6 @@
 using mrorequestdolphinService as service from '../../srv/mro-requestdolphin-service';
 
-annotate service.MaintenanceRequestHeader with @(UI : {
+annotate service.WorkItems with @(UI : {
     //Selection Fields in Header of List Report Page
     SelectionFields            : [
         requestNoConcat,
@@ -300,7 +300,7 @@ annotate service.MaintenanceRequestHeader with @(UI : {
     }
 });
 
-annotate service.MaintenanceRequestHeader with @(UI : {Identification : [
+annotate service.WorkItems with @(UI : {Identification : [
     {
         $Type  : 'UI.DataFieldForAction',
         Action : 'mrorequestdolphinService.assignTaskList',
@@ -313,21 +313,21 @@ annotate service.MaintenanceRequestHeader with @(UI : {Identification : [
     }
 ]});
 
-annotate service.MaintenanceRequestHeader with {
+annotate service.WorkItems with {
     requestNoConcat @(Common : {Text : {
         $value                 : requestDesc,
         ![@UI.TextArrangement] : #TextFirst
     }});
 };
 
-annotate service.MaintenanceRequestHeader with {
+annotate service.WorkItems with {
     requestNo @(Common : {Text : {
         $value                 : requestDesc,
         ![@UI.TextArrangement] : #TextFirst
     }});
 };
 
-annotate service.MaintenanceRequestHeader with {
+annotate service.WorkItems with {
     requestNoDisp @(Common : {Text : {
         $value                 : requestDesc,
         ![@UI.TextArrangement] : #TextFirst
@@ -335,7 +335,7 @@ annotate service.MaintenanceRequestHeader with {
 };
 
 //Request Number value help on object page
-annotate service.MaintenanceRequestHeader with {
+annotate service.WorkItems with {
     requestNo @(Common : {ValueList : {
         CollectionPath : 'MaintenanceRequests',
         Label          : '{i18n>requestNo}',
@@ -406,7 +406,7 @@ annotate service.MaintenanceRequestHeader with {
 };
 
 //Request Number Value Help Filter for list report page
-annotate service.MaintenanceRequestHeader with {
+annotate service.WorkItems with {
     requestNoConcat @(Common : {ValueList : {
         CollectionPath : 'MaintenanceRequests',
         Label          : '{i18n>requestNo}',
@@ -470,7 +470,7 @@ annotate service.MaintenanceRequestHeader with {
 };
 
 //Notification Number Value Help Filter for list report page
-annotate service.MaintenanceRequestHeader with {
+annotate service.WorkItems with {
     notificationNoDisp @(Common : {ValueList : {
         CollectionPath : 'NotificationVH',
         Label          : '{i18n>notificationNo}',
@@ -509,7 +509,7 @@ annotate service.MaintenanceRequestHeader with {
 };
 
 //TaskListType Value Help
-annotate service.MaintenanceRequestHeader with {
+annotate service.WorkItems with {
     taskListType @(Common : {ValueList : {
         CollectionPath : 'ReferenceTaskListVH',
         Label          : '{i18n>taskListType}',
@@ -576,7 +576,7 @@ annotate service.MaintenanceRequestHeader with {
 };
 
 //TaskListGroup Value Help
-annotate service.MaintenanceRequestHeader with {
+annotate service.WorkItems with {
     taskListGroup @(Common : {ValueList : {
         CollectionPath : 'ReferenceTaskListVH',
         Label          : '{i18n>taskListGroup}',
@@ -643,7 +643,7 @@ annotate service.MaintenanceRequestHeader with {
 };
 
 //TaskListGroup Counter Value Help
-annotate service.MaintenanceRequestHeader with {
+annotate service.WorkItems with {
     taskListGroupCounter @(Common : {ValueList : {
         CollectionPath : 'ReferenceTaskListVH',
         Label          : '{i18n>taskListGroupCounter}',
@@ -710,7 +710,7 @@ annotate service.MaintenanceRequestHeader with {
 };
 
 //Drop Down for typeOfLoad(Data Upload Process)
-annotate service.MaintenanceRequestHeader with {
+annotate service.WorkItems with {
     to_typeOfLoad @(Common : {
         Text      : {
             $value                 : to_typeOfLoad_loadType,
@@ -736,7 +736,7 @@ annotate service.MaintenanceRequestHeader with {
     });
 };
 
-annotate service.MaintenanceRequestHeader {
+annotate service.WorkItems {
     requestNo              @mandatory;
     //mrequestType           @readonly;
     requestNoDisp          @readonly;
@@ -750,7 +750,7 @@ annotate service.MaintenanceRequestHeader {
 }
 
 //Adapt Filters
-annotate service.MaintenanceRequestHeader with @Capabilities : {FilterRestrictions : {
+annotate service.WorkItems with @Capabilities : {FilterRestrictions : {
     $Type                   : 'Capabilities.FilterRestrictionsType',
     NonFilterableProperties : [
         ID,
