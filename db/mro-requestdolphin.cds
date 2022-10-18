@@ -73,8 +73,10 @@ entity MaintenanceRequests : managed {
                                                on to_document.to_maintenanceRequest = $self                            @title                 : '{i18n>document}'; //One to many (1 MR - multiple documents links) i.e. Attaching multiple url w.r.t. MR
         to_botStatus                     : Association to BotStatuses                                                  @title :                 '{i18n>botStatus}'  @assert.integrity     : false; // Status will get update when mail is sent to customer
         to_ranges                        : Association to Ranges                                                       @title :                 '{i18n>range}'  @assert.integrity         : false; //Age Range (0-30,30-60,...)
-        to_workItems      : Association to many WorkItems
-                                               on to_workItems.to_maintenanceRequest = $self;
+        // to_workItems                     : Association to many WorkItems
+        //                                        on to_workItems.to_maintenanceRequest = $self;
+        to_workItems                     : Association to many WorkItems
+                                               on to_workItems.requestNo = $self.requestNo
 };
 
 entity RequestTypes {
@@ -146,7 +148,8 @@ entity WorkItems : managed {
         taskListIdentifiedDate   : Date                           @title :                    '{i18n>taskListIdentifiedDate}';
         multiTaskListFlag        : Boolean                        @title :                    '{i18n>multiTaskListFlag}'; // Multi assign task list
         to_typeOfLoad            : Association to TypeOfLoads     @assert.integrity :         false  @title : '{i18n>typeOfLoad}'; //Type Of Load
-        to_maintenanceRequest    : Association to MaintenanceRequests;
+        to_maintenanceRequest    : Association to MaintenanceRequests
+                                       on to_maintenanceRequest.requestNo = $self.requestNo;
 };
 
 //Data upload process
@@ -170,16 +173,10 @@ entity Documents : managed {
         eMailSent                : Boolean not null default false  @title :            '{i18n>eMailSent}'; // Email Sent Y/N
         workItemsCreated         : Boolean not null default false  @title :            '{i18n>workItemsCreated}'; // WorkItems Created Y/N
         remarks                  : String                          @title :            '{i18n>remarks}'; // Remarks
-        // to_typeOfProcess         : Association to ProcessTypes    @assert.integrity : false  @title : '{i18n>to_typeOfProcess}'; //Processed By. Bot/ Manual
         to_documentStatus        : Association to DocumentStatuses @assert.integrity : false  @title : '{i18n>to_documentStatus}'; //Association to DocumentStatuses Entity
         to_typeOfAttachment      : Association to AttachmentTypes  @assert.integrity : false  @title : '{i18n>to_typeOfAttachment}'; //Association to AttachmentTypes (file extension)
         to_maintenanceRequest    : Association to MaintenanceRequests; //one to one(1 document link - 1 MR)
 };
-
-/*entity ProcessTypes {
-    key ID          : Integer;
-    key processType : String;
-};*/
 
 entity DocumentStatuses {
     key ID            : Integer;
@@ -655,3 +652,17 @@ view ReqByComponentAndRangePendingRevision as
         and (
             to_requestStatusDisp_rStatus = 'TLIDNT' //Task List Identified
         );
+
+
+entity ABC {
+    key ID     : UUID;
+        name   : String;
+        to_xyz : Association to many XYZ
+                     on to_xyz.to_abc = $self
+}
+
+entity XYZ {
+    key ID      : UUID;
+        address : String;
+        to_abc  : Association to ABC;
+}

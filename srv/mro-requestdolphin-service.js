@@ -101,6 +101,8 @@ module.exports = cds.service.impl(async function () {
         req.data.uiHidden1 = false
         //To assign the Request type ID in requestTypeDisp -> It will enable at the time of edit with readonly field
         req.data.requestTypeDisp = req.data.to_requestType_rType
+
+        console.log('req.data............',req.data)
     });
 
     //This handler is used for creating and updating the request(Create and Update Handler)
@@ -690,13 +692,11 @@ module.exports = cds.service.impl(async function () {
         return result;
     });
 
+    //Handler for Creating the WorkItem
     this.before('CREATE', 'WorkItems', async (req) => {
         //Insert and update restrictions using hidden criteria
         req.data.uiHidden = true  //Hide the requestNo field after create
         req.data.uiHidden1 = false //Unhiede the requestNoDisp field after create
-        //req.data.requestNoDisp = req.data.requestNo
-        // query = await service2.read(MaintenanceRequestsVH).where({ requestNo: req.data.requestNo });
-        // console.log('query.....', query)
         var query = await SELECT.from(MaintenanceRequests).columns('*').where({ requestNo: req.data.requestNo })
         if (query[0].to_requestStatusDisp_rStatus != 'NWLVAL') {
             req.error(406, 'Work item cannot be created as current status of Request ' + req.data.requestNo + ' is ' + query[0].to_requestStatusDisp_rStatusDesc + '.');
@@ -719,6 +719,7 @@ module.exports = cds.service.impl(async function () {
         }
     })
 
+    //Handler for creating and updating the workItem
     this.before(['CREATE', 'UPDATE'], 'WorkItems', async (req) => {
 
         if (req.data.notificationNo == '')

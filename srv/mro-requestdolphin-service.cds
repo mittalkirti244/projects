@@ -6,7 +6,7 @@ service mrorequestdolphinService {
 
     @odata.draft.enabled
     @cds.redirection.target
-    entity MaintenanceRequests      as projection on maintReq.MaintenanceRequests {
+    entity MaintenanceRequests     as projection on maintReq.MaintenanceRequests {
         *,
         createdAt                           @(Common.Label : '{i18n>createdAt}'),
         createdBy                           @(Common.Label : '{i18n>createdBy}'),
@@ -77,14 +77,14 @@ service mrorequestdolphinService {
         action revisionCreated();
     };
 
-    entity RequestTypes             as projection on maintReq.RequestTypes;
-    entity RequestStatuses          as projection on maintReq.RequestStatuses;
-    entity RequestStatusesDisp      as projection on maintReq.RequestStatusesDisp;
-    entity RequestPhases            as projection on maintReq.RequestPhases;
+    entity RequestTypes            as projection on maintReq.RequestTypes;
+    entity RequestStatuses         as projection on maintReq.RequestStatuses;
+    entity RequestStatusesDisp     as projection on maintReq.RequestStatusesDisp;
+    entity RequestPhases           as projection on maintReq.RequestPhases;
 
     @odata.draft.enabled
     @cds.redirection.target
-    entity WorkItems as projection on maintReq.WorkItems {
+    entity WorkItems               as projection on maintReq.WorkItems {
         *,
         createdAt  @(Common.Label : '{i18n>createdAt}'),
         createdBy  @(Common.Label : '{i18n>createdBy}'),
@@ -155,11 +155,11 @@ service mrorequestdolphinService {
         action assignTaskList();
     };
 
-    entity TypeOfLoads              as projection on maintReq.TypeOfLoads;
-    entity WorkItemTypes            as projection on maintReq.WorkItemTypes;
+    entity TypeOfLoads             as projection on maintReq.TypeOfLoads;
+    entity WorkItemTypes           as projection on maintReq.WorkItemTypes;
 
     //It is used as Notification VH on list report page
-    entity NotificationVH           as
+    entity NotificationVH          as
         select from maintReq.WorkItems {
             requestNo @(Common.Label : '{i18n>requestNo}')
         }
@@ -172,13 +172,13 @@ service mrorequestdolphinService {
         $Type              : 'Common.FilterExpressionRestrictionType',
         AllowedExpressions : #MultiValue,
     }, ], }
-    entity MaintenanceRequestsDisp  as projection on maintReq.MaintenanceRequests {
+    entity MaintenanceRequestsDisp as projection on maintReq.MaintenanceRequests {
         requestNoConcat @UI.HiddenFilter,
         requestDesc     @UI.HiddenFilter
     };
 
     //Revision Number Entity used for value help in List report page
-    entity RevisionDisp             as
+    entity RevisionDisp            as
         select from maintReq.MaintenanceRequests {
             MaintenanceRevision,
             revisionText @UI.HiddenFilter,
@@ -199,7 +199,7 @@ service mrorequestdolphinService {
         $Type    : 'Capabilities.SortRestrictionsType',
         Sortable : false
     }
-    entity Documents                as projection on maintReq.Documents {
+    entity Documents               as projection on maintReq.Documents {
         *,
         createdAt  @(Common.Label : '{i18n>createdAt}'),
         createdBy  @(Common.Label : '{i18n>createdBy}'),
@@ -207,12 +207,12 @@ service mrorequestdolphinService {
         modifiedBy @(Common.Label : '{i18n>modifiedBy}')
     };
 
-    entity AttachmentTypes          as projection on maintReq.AttachmentTypes;
-    entity DocumentStatuses         as projection on maintReq.DocumentStatuses;
-    entity BotStatuses              as projection on maintReq.BotStatuses;
+    entity AttachmentTypes         as projection on maintReq.AttachmentTypes;
+    entity DocumentStatuses        as projection on maintReq.DocumentStatuses;
+    entity BotStatuses             as projection on maintReq.BotStatuses;
     //entity ProcessTypes         as projection on maintReq.ProcessTypes;
 
-    entity Ranges                   as projection on maintReq.Ranges;
+    entity Ranges                  as projection on maintReq.Ranges;
     //All views used for Overview page
     view AggregatedMaintenanceReqOnStatuses as select from maintReq.AggregatedMaintenanceReqOnStatuses;
     view AggregatedMaintenanceReqOnPhases as select from maintReq.AggregatedMaintenanceReqOnPhases;
@@ -239,9 +239,9 @@ service mrorequestdolphinService {
     //To Change Document Status in Documents Tab
     function changeDocumentStatus(status : String, ID : String) returns String;
     //Entities for Admin SCreen
-    entity Configurations           as projection on maintReq.Configurations;
-    entity RequestIndustries        as projection on maintReq.RequestIndustries;
-    entity SchemaTypes              as projection on maintReq.SchemaTypes;
+    entity Configurations          as projection on maintReq.Configurations;
+    entity RequestIndustries       as projection on maintReq.RequestIndustries;
+    entity SchemaTypes             as projection on maintReq.SchemaTypes;
 };
 
 //Maintained all entites that is coming from external
@@ -356,7 +356,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Common.FilterExpress
     Property           : createdAtDate,
     AllowedExpressions : #SingleInterval
 }];
-
 
 
 //Admin Screen
