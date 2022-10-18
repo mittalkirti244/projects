@@ -56,8 +56,7 @@
     "cds": {
         "i18n": {
             "folders": [
-                "app/mro-requestdolphin-ui/webapp/i18n",
-                "app/notifleo-ui/webapp/i18n"
+                "app/i18n"
             ]
         },
         "requires": {
