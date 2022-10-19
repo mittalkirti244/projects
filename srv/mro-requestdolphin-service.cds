@@ -161,18 +161,19 @@ service mrorequestdolphinService {
 
     //It is used as Notification VH on list report page
     entity NotificationVH          as
-        select from maintReq.WorkItems as WI,
-        maintReq.MaintenanceRequests as MR {
-            notificationNoDisp        @(Common.Label : 'Notification'),
-            WI.requestNo as requestNo @(Common.Label : 'Maintenance Request'),
-            planningPlant             @(Common.Label : 'Work Location Plant'),
-            functionalLocation        @(Common.Label : 'Functional Location'),
-            eqMaterial                @(Common.Label : 'Material'),
-            equipment                 @(Common.Label : 'Equipment'),
-            MaintenanceRevision       @(Common.Label : 'Revision')
-        }
+        select
+            WI.notificationNoDisp  as notificationNoDisp  @(Common.Label : 'Notification'),
+            WI.requestNo           as requestNo           @(Common.Label : 'Maintenance Request'),
+            WI.planningPlant       as planningPlant       @(Common.Label : 'Work Location Plant'),
+            MR.functionalLocation  as functionalLocation  @(Common.Label : 'Functional Location'),
+            MR.eqMaterial          as eqMaterial          @(Common.Label : 'Material'),
+            MR.equipment           as equipment           @(Common.Label : 'Equipment'),
+            MR.MaintenanceRevision as MaintenanceRevision @(Common.Label : 'Revision')
+        from maintReq.WorkItems as WI
+        join maintReq.MaintenanceRequests as MR
+            on WI.requestNo = MR.requestNo
         where
-            notificationFlag = true;
+            WI.notificationFlag = true;
 
     //Request Number value Help for List Page
     //Filter restriction is used to select multiple values from Value help

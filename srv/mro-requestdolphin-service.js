@@ -28,9 +28,8 @@ module.exports = cds.service.impl(async function () {
     const service1 = await cds.connect.to('NumberRangeService');
     const service2 = await cds.connect.to('alphamasterService');
     const service3 = await cds.connect.to('MAINTREQ_SB');
-    //const service4 = await cds.connect.to('notifleo');
 
-    var newFormatedDate, tat, reqDeliveryDate, assignedDeliveryDate, vnumberRangeID;
+    var newFormatedDate, tat, assignedDeliveryDate;
     var queryStatus, queryPhase, query;
     var id1;
     var vplanningPlant, vrevisionText, vworkCenter, vworkCenterPlant, vrevisionStartDate, vrevisionEndDate, vfunctionalLocation, vequipment, reqwcPlant, reqwcDetail
@@ -799,6 +798,7 @@ module.exports = cds.service.impl(async function () {
         req.data.requestNoConcat = req.data.requestNo
     });
 
+    //Handler for Create notification Action
     this.on('createNotification', async (req) => {
 
         for (let i = 0; i < req.params.length; i++) {
@@ -879,6 +879,7 @@ module.exports = cds.service.impl(async function () {
         }
     })
 
+    //Handler for Assign Tasklist
     this.on('assignTaskList', async (req) => {
         for (let i = 0; i < req.params.length; i++) {
             console.log('length of req.param', req.params.length)
@@ -890,8 +891,6 @@ module.exports = cds.service.impl(async function () {
             console.log('query.........', query)
 
             var query2 = await SELECT.from(MaintenanceRequests).columns('*').where({ requestNo: query[i].requestNo })
-
-            // var query2 = await service2.read(MaintenanceRequestsVH).where({ requestNo: query[i].requestNo })
             console.log('query2', query2)
 
             if (query[0].taskListType == null || query[0].taskListType == '') {
