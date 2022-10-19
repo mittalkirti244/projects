@@ -71,16 +71,12 @@ entity MaintenanceRequests : managed {
                                                and to_requestPhase.rPhaseDesc = to_requestPhase_rPhaseDesc             @assert.integrity      : false; //at create = initial
         to_document                      : Composition of many Documents
                                                on to_document.to_maintenanceRequest = $self                            @title                 : '{i18n>document}'; //One to many (1 MR - multiple documents links) i.e. Attaching multiple url w.r.t. MR
-        to_botStatus                     : Association to BotStatuses                                                  @title :                 '{i18n>botStatus}'  @assert.integrity     : false; // Status will get update when mail is sent to customer
         to_ranges                        : Association to Ranges                                                       @title :                 '{i18n>range}'  @assert.integrity         : false; //Age Range (0-30,30-60,...)
-        // to_workItems                     : Association to many WorkItems
-        //                                        on to_workItems.to_maintenanceRequest = $self;
         to_workItems                     : Association to many WorkItems
                                                on to_workItems.requestNo = $self.requestNo
 };
 
 entity RequestTypes {
-        // key ID    : Integer;
     key rType : String;
 };
 
@@ -106,60 +102,51 @@ entity RequestPhases {
 };
 
 entity WorkItems : managed {
-    key ID                       : UUID                           @title :                    '{i18n>ID}'  @Core.Computed;
-        workItemID               : Integer                        @title :                    '{i18n>workItem}';
-        requestNo                : String                         @title :                    '{i18n>requestNo}'; //Maintenance Request No using on object page on create
-        requestNoDisp            : String                         @title :                    '{i18n>requestNo}'; //Maintenance Request No using on object on edit
-        requestNoConcat          : String                         @title :                    '{i18n>requestNo}'; // using list report page (RequestNo and RequestDescription)
+    key ID                       : UUID                           @title :                    'ID'  @Core.Computed;
+        workItemID               : Integer                        @title :                    'Work Item';
+        requestNo                : String                         @title :                    'Maintenance Request'; //Maintenance Request No using on object page on create
+        requestNoDisp            : String                         @title :                    'Maintenance Request'; //Maintenance Request No using on object on edit
+        requestNoConcat          : String                         @title :                    'Maintenance Request'; // using list report page (RequestNo and RequestDescription)
         uiHidden                 : Boolean not null default false; //this field will be used at the time of create for requestNo
         uiHidden1                : Boolean not null default true; //this field will used at the time of edit (read only) for requestNoDisp
-        sequenceNo               : String                         @title :                    '{i18n>sequenceNo}'; //sequence Number
-        requestDesc              : String                         @title :                    '{i18n>requestDesc}'; // Maintenance Request Description
-        mrequestType             : String                         @title :                    '{i18n>mRequestType}'; //Maintenance Request Type
-        planningPlant            : String                         @title :                    '{i18n>planningPlant}'; //Planning Plant
-        mrequestStatus           : String                         @title :                    '{i18n>mrequestStatus}'; //Maintenance Request Status
-        fileName                 : String                         @title :                    '{i18n>fileName}'; //File Name
-        noOfEmail                : String                         @title :                    '{i18n>noOfEmail}'; // Number Of Emails
-        noOfAttachment           : String                         @title :                    '{i18n>noOfAttachment}'; // Number Of Attachments
-        workOrderNo              : String                         @title :                    '{i18n>workOrderNo}'; //Work Order
-        customerRef              : String                         @title :                    '{i18n>customerRef}'; //Customer Refrence
-        taskDescription          : String                         @title :                    '{i18n>taskDescription}'; //Task Description
-        estimatedDueDate         : Date                           @title :                    '{i18n>estimatedDueDate}'; //Estimated Due Date
-        quantity                 : Integer                        @title :                    '{i18n>quantity}'; // Quantity
-        unitOfMeasure            : String                         @title :                    '{i18n>unitOfMeasure}'; //Unit Of Measurement
-        notificationNo           : String                         @title :                    '{i18n>notificationNo}'; //Notification No
-        notificationNoDisp       : String                         @title :                    '{i18n>notificationNo}'; //Displaying notification Number in notification VH in List report Page
-        notificationFlag         : Boolean not null default false @title :                    '{i18n>notificationFlag}'  @readonly; //Notification Created Flag (Yes/No)
+        sequenceNo               : String                         @title :                    'Sequence Number'; //sequence Number
+        requestDesc              : String                         @title :                    'Maintenance Request Description'; // Maintenance Request Description
+        mrequestType             : String                         @title :                    'Maintenance Request Type'; //Maintenance Request Type
+        planningPlant            : String                         @title :                    'Work Location Plant'; //Planning Plant
+        mrequestStatus           : String                         @title :                    'Status'; //Maintenance Request Status
+        workOrderNo              : String                         @title :                    'Work Order Number'; //Work Order
+        customerRef              : String                         @title :                    'Customer Reference'; //Customer Refrence
+        taskDescription          : String                         @title :                    'Description'; //Task Description
+        notificationNo           : String                         @title :                    'Notification'; //Notification No
+        notificationNoDisp       : String                         @title :                    'Notification'; //Displaying notification Number in notification VH in List report Page
+        notificationFlag         : Boolean not null default false @title :                    'Notification Exists'  @readonly; //Notification Created Flag (Yes/No)
         notificationGenerateFlag : Boolean not null default false; // Notification action flag for enabling and disabling Generate Notification button
         notificationUpdateFlag   : Boolean not null default false; // Notification action flag for enabling and disabling Update Notification button
-        additionalRemark         : String                         @UI.MultiLineText  @title : '{i18n>additionalRemark}'; //Additional Remarks
-        billOfWorkDocRef         : String                         @title :                    '{i18n>billOfWorkDocRef}'; // Bill Of Work Document reference
-        quotationDoc             : String                         @title :                    '{i18n>quotationDoc}'; // Quotation Document
-        documentID               : String                         @title :                    '{i18n>documentID}';
-        genericRef               : String                         @title :                    '{i18n>genericRef}'; //genericRef
-        taskListGroup            : String                         @title :                    '{i18n>taskListGroup}'; //task List Group
-        taskListGroupCounter     : String                         @title :                    '{i18n>taskListGroupCounter}'; //task List Group Counter
-        taskListType             : String                         @title :                    '{i18n>taskListType}'; //task List Type
-        taskListDescription      : String                         @title :                    '{i18n>taskListDescription}'; //task List Description
-        documentNo               : String                         @title :                    '{i18n>documentNo}';
-        documentVersion          : String                         @title :                    '{i18n>documentVersion}';
-        taskListFlag             : Boolean not null default false @title :                    '{i18n>taskListFlag}'; //Once the task list is created for workitem, the flag will set as true
-        assignTaskListFlag       : Boolean not null default false @title :                    '{i18n>assignTaskListFlag}'; //Enable and disable of Assign tasklist button
-        taskListIdentifiedDate   : Date                           @title :                    '{i18n>taskListIdentifiedDate}';
-        multiTaskListFlag        : Boolean                        @title :                    '{i18n>multiTaskListFlag}'; // Multi assign task list
-        to_typeOfLoad            : Association to TypeOfLoads     @assert.integrity :         false  @title : '{i18n>typeOfLoad}'; //Type Of Load
-        to_maintenanceRequest    : Association to MaintenanceRequests
-                                       on to_maintenanceRequest.requestNo = $self.requestNo;
+        additionalRemark         : String                         @UI.MultiLineText  @title : 'Additional Remarks'; //Additional Remarks
+        documentID               : String                         @title :                    'Document ID';
+        genericRef               : String                         @title :                    'Generic Reference'; //genericRef
+        taskListGroup            : String                         @title :                    'Task List Group'; //task List Group
+        taskListGroupCounter     : String                         @title :                    'Task List Group Counter'; //task List Group Counter
+        taskListType             : String                         @title :                    'Task List Type'; //task List Type
+        taskListDescription      : String                         @title :                    'Task List Description'; //task List Description
+        documentNo               : String                         @title :                    'Document Number';
+        documentVersion          : String                         @title :                    'Document Version';
+        taskListFlag             : Boolean not null default false @title :                    'Task List Flag'; //Once the task list is created for workitem, the flag will set as true
+        assignTaskListFlag       : Boolean not null default false @title :                    'Assign Task List Flag'; //Enable and disable of Assign tasklist button
+        taskListIdentifiedDate   : Date                           @title :                    'Task List Identified Date';
+        multiTaskListFlag        : Boolean                        @title :                    'Multiple Task List'; // Multi assign task list
+        to_typeOfLoad            : Association to TypeOfLoads     @assert.integrity :         false  @title : 'Data Upload Process'; //Type Of Load
+        to_maintenanceRequest    : Association to one MaintenanceRequests;
+};
+
+entity WorkItemTypes {
+    key workItemType : String;
 };
 
 //Data upload process
 entity TypeOfLoads {
     key ID       : Integer;
     key loadType : String; //type of load for data upload process
-};
-
-entity WorkItemTypes {
-    key workItemType : String;
 };
 
 entity Documents : managed {
@@ -187,11 +174,6 @@ entity DocumentStatuses {
 entity AttachmentTypes {
     key ID             : Integer;
     key attachmentType : String;
-};
-
-entity BotStatuses {
-    key ID      : Integer; //Unique ID for Bot statuses
-    key bStatus : String; //Bot status (Mail Sent, Mail Received, Request Validated, Work Items Created, Notifications Created)
 };
 
 entity Ranges {

@@ -11,12 +11,12 @@ annotate service.WorkItems with @(UI : {
         {
             $Type  : 'UI.DataFieldForAction',
             Action : 'mrorequestdolphinService.assignTaskList',
-            Label  : '{i18n>assignTaskList}'
+            Label  : 'Assign Task List'
         },
         {
             $Type  : 'UI.DataFieldForAction',
             Action : 'mrorequestdolphinService.createNotification',
-            Label  : '{i18n>generatenotification}'
+            Label  : 'Generate Notification'
         },
         {
             Value                 : workItemID,
@@ -47,7 +47,7 @@ annotate service.WorkItems with @(UI : {
             },
         },
         {
-            Value                 : to_maintenanceRequest.to_requestType_rType,
+            Value                 : mrequestType,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -98,22 +98,6 @@ annotate service.WorkItems with @(UI : {
 
         //Fields to hide in settings Tab
         {
-            Value : to_typeOfLoad_ID,
-            ![@UI.Hidden]
-        },
-        {
-            Value : to_typeOfLoad_loadType,
-            ![@UI.Hidden]
-        },
-        {
-            Value : noOfAttachment,
-            ![@UI.Hidden]
-        },
-        {
-            Value : noOfEmail,
-            ![@UI.Hidden]
-        },
-        {
             Value : requestNo,
             ![@UI.Hidden]
         },
@@ -130,25 +114,11 @@ annotate service.WorkItems with @(UI : {
             ![@UI.Hidden]
         },
         {
-            Value : billOfWorkDocRef,
-            ![@UI.Hidden]
-        },
-
-        {
             Value : notificationFlag,
-            ![@UI.Hidden]
-        },
-
-        {
-            Value : quantity,
             ![@UI.Hidden]
         },
         {
             Value : unitOfMeasure,
-            ![@UI.Hidden]
-        },
-        {
-            Value : quotationDoc,
             ![@UI.Hidden]
         },
         {
@@ -157,10 +127,6 @@ annotate service.WorkItems with @(UI : {
         },
         {
             Value : taskListFlag,
-            ![@UI.Hidden]
-        },
-        {
-            Value : fileName,
             ![@UI.Hidden]
         },
         {
@@ -180,11 +146,11 @@ annotate service.WorkItems with @(UI : {
             ![@UI.Hidden]
         },
         {
-            Value : estimatedDueDate,
+            Value : ID,
             ![@UI.Hidden]
         },
         {
-            Value : ID,
+            Value : to_maintenanceRequest_ID,
             ![@UI.Hidden]
         }
     ],
@@ -199,8 +165,8 @@ annotate service.WorkItems with @(UI : {
     //Header Information in Object Page
     HeaderInfo                 : {
         $Type          : 'UI.HeaderInfoType',
-        TypeName       : '{i18n>workItemHeader}', //Label of object page
-        TypeNamePlural : '{i18n>workItems}', //Label on list
+        TypeName       : 'Work Item Details', //Label of object page
+        TypeNamePlural : 'Work Items', //Label on list
         Title          : {Value : workItemID},
         Description    : {Value : taskDescription}
     },
@@ -225,19 +191,19 @@ annotate service.WorkItems with @(UI : {
                 $Type  : 'UI.ReferenceFacet',
                 ID     : 'customerGroup1',
                 Target : '@UI.FieldGroup#customerGroup1',
-                Label  : '{i18n>workItemInformation}'
+                Label  : 'Work Item Information'
             },
             {
                 $Type  : 'UI.ReferenceFacet',
                 ID     : 'customerGroup2',
                 Target : '@UI.FieldGroup#customerGroup2',
-                Label  : '{i18n>technicalReference}'
+                Label  : 'Technical Reference'
             },
             {
                 $Type  : 'UI.ReferenceFacet',
                 ID     : 'customerGroup3',
                 Target : '@UI.FieldGroup#customerGroup3',
-                Label  : '{i18n>additionalInformation}'
+                Label  : 'Additional Information'
             },
         ],
     }, ],
@@ -304,12 +270,12 @@ annotate service.WorkItems with @(UI : {Identification : [
     {
         $Type  : 'UI.DataFieldForAction',
         Action : 'mrorequestdolphinService.assignTaskList',
-        Label  : '{i18n>assignTaskList}'
+        Label  : 'Assign Task List'
     },
     {
         $Type  : 'UI.DataFieldForAction',
         Action : 'mrorequestdolphinService.createNotification',
-        Label  : '{i18n>generatenotification}'
+        Label  : 'Generate Notification'
     }
 ]});
 
@@ -338,7 +304,7 @@ annotate service.WorkItems with {
 annotate service.WorkItems with {
     requestNo @(Common : {ValueList : {
         CollectionPath : 'MaintenanceRequests',
-        Label          : '{i18n>requestNo}',
+        Label          : 'Maintenance Request',
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
@@ -409,7 +375,7 @@ annotate service.WorkItems with {
 annotate service.WorkItems with {
     requestNoConcat @(Common : {ValueList : {
         CollectionPath : 'MaintenanceRequests',
-        Label          : '{i18n>requestNo}',
+        Label          : 'Maintenance Request',
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
@@ -473,7 +439,7 @@ annotate service.WorkItems with {
 annotate service.WorkItems with {
     notificationNoDisp @(Common : {ValueList : {
         CollectionPath : 'NotificationVH',
-        Label          : '{i18n>notificationNo}',
+        Label          : 'Notification',
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
@@ -494,7 +460,7 @@ annotate service.WorkItems with {
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'material'
+                ValueListProperty : 'eqMaterial'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
@@ -502,7 +468,7 @@ annotate service.WorkItems with {
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'revisionNo'
+                ValueListProperty : 'MaintenanceRevision'
             }
         ]
     }});
@@ -512,7 +478,7 @@ annotate service.WorkItems with {
 annotate service.WorkItems with {
     taskListType @(Common : {ValueList : {
         CollectionPath : 'ReferenceTaskListVH',
-        Label          : '{i18n>taskListType}',
+        Label          : 'Task List Type',
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterIn',
@@ -579,7 +545,7 @@ annotate service.WorkItems with {
 annotate service.WorkItems with {
     taskListGroup @(Common : {ValueList : {
         CollectionPath : 'ReferenceTaskListVH',
-        Label          : '{i18n>taskListGroup}',
+        Label          : 'Task List Group',
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterIn',
@@ -646,7 +612,7 @@ annotate service.WorkItems with {
 annotate service.WorkItems with {
     taskListGroupCounter @(Common : {ValueList : {
         CollectionPath : 'ReferenceTaskListVH',
-        Label          : '{i18n>taskListGroupCounter}',
+        Label          : 'Task List Group Counter',
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterIn',
@@ -709,44 +675,16 @@ annotate service.WorkItems with {
     }});
 };
 
-//Drop Down for typeOfLoad(Data Upload Process)
-annotate service.WorkItems with {
-    to_typeOfLoad @(Common : {
-        Text      : {
-            $value                 : to_typeOfLoad_loadType,
-            ![@UI.TextArrangement] : #TextFirst
-        },
-        ValueListWithFixedValues,
-        ValueList : {
-            CollectionPath : 'TypeOfLoads',
-            Label          : '{i18n>unitOfMeasure}',
-            Parameters     : [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'to_typeOfLoad_ID',
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterOut',
-                    LocalDataProperty : 'to_typeOfLoad_loadType',
-                    ValueListProperty : 'loadType'
-                }
-            ]
-        }
-    });
-};
 
 annotate service.WorkItems {
     requestNo              @mandatory;
-    //mrequestType           @readonly;
     requestNoDisp          @readonly;
     requestDesc            @readonly;
-    billOfWorkDocRef       @readonly;
-    quotationDoc           @readonly;
     taskListIdentifiedDate @readonly;
     multiTaskListFlag      @readonly;
     notificationNo         @readonly;
-//planningPlant          @readonly;
+// mrequestType           @readonly;
+// planningPlant          @readonly;
 }
 
 //Adapt Filters
@@ -758,23 +696,17 @@ annotate service.WorkItems with @Capabilities : {FilterRestrictions : {
         functionalLocationName,
         equipment,
         contractName,
-        to_typeOfLoad_ID,
-        to_typeOfLoad_loadType,
         requestNo,
         requestNoDisp,
         uiHidden,
         uiHidden1,
         workCenterDetail,
-        billOfWorkDocRef,
         businessPartner,
         businessPartnerName,
         requestDesc,
-        noOfAttachment,
-        noOfEmail,
         quantity,
         unitOfMeasure,
         notificationFlag,
-        quotationDoc,
         contractName,
         contractNo,
         equipmentName,
@@ -783,11 +715,10 @@ annotate service.WorkItems with @Capabilities : {FilterRestrictions : {
         workCenter,
         planningPlant,
         taskListFlag,
-        fileName,
         notificationGenerateFlag,
         notificationUpdateFlag,
         assignTaskListFlag,
         notificationNo,
-        estimatedDueDate
+        to_maintenanceRequest_ID
     ]
 }};

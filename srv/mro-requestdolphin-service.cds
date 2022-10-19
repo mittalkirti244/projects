@@ -96,7 +96,8 @@ service mrorequestdolphinService {
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
                 '_it/notificationNo',
-                '_it/notificationGenerateFlag'
+                '_it/notificationGenerateFlag',
+                '_it/notificationNoDisp'
             ]}
         )
         //@core.operation available is used for disable and enable of action button
@@ -155,13 +156,20 @@ service mrorequestdolphinService {
         action assignTaskList();
     };
 
-    entity TypeOfLoads             as projection on maintReq.TypeOfLoads;
     entity WorkItemTypes           as projection on maintReq.WorkItemTypes;
+    entity TypeOfLoads             as projection on maintReq.TypeOfLoads;
 
     //It is used as Notification VH on list report page
     entity NotificationVH          as
-        select from maintReq.WorkItems {
-            requestNo @(Common.Label : '{i18n>requestNo}')
+        select from maintReq.WorkItems as WI,
+        maintReq.MaintenanceRequests as MR {
+            notificationNoDisp        @(Common.Label : 'Notification'),
+            WI.requestNo as requestNo @(Common.Label : 'Maintenance Request'),
+            planningPlant             @(Common.Label : 'Work Location Plant'),
+            functionalLocation        @(Common.Label : 'Functional Location'),
+            eqMaterial                @(Common.Label : 'Material'),
+            equipment                 @(Common.Label : 'Equipment'),
+            MaintenanceRevision       @(Common.Label : 'Revision')
         }
         where
             notificationFlag = true;
@@ -209,9 +217,6 @@ service mrorequestdolphinService {
 
     entity AttachmentTypes         as projection on maintReq.AttachmentTypes;
     entity DocumentStatuses        as projection on maintReq.DocumentStatuses;
-    entity BotStatuses             as projection on maintReq.BotStatuses;
-    //entity ProcessTypes         as projection on maintReq.ProcessTypes;
-
     entity Ranges                  as projection on maintReq.Ranges;
     //All views used for Overview page
     view AggregatedMaintenanceReqOnStatuses as select from maintReq.AggregatedMaintenanceReqOnStatuses;
@@ -332,21 +337,21 @@ extend service mrorequestdolphinService with {
 
     //Maintenance Notification number value help on object page
     entity MaintNotifications  as projection on alpha.MaintNotifications {
-        MaintenanceNotification @(Common.Label : '{i18n>MaintenanceNotification}'),
-        NotificationText        @UI.HiddenFilter @(Common.Label : '{i18n>NotificationText}'),
-        NotificationType        @(Common.Label : '{i18n>NotificationType}')
+        MaintenanceNotification @(Common.Label : 'Notification'),
+        NotificationText        @UI.HiddenFilter @(Common.Label : 'Notification Text'),
+        NotificationType        @(Common.Label : 'Notification Type')
     };
 
     entity ReferenceTaskListVH as projection on alpha.ReferenceTaskListVH {
-        key TaskListType                 @(Common.Label : '{i18n>TaskListType}'),
-        key TaskListGroup                @(Common.Label : '{i18n>TaskListGroup}'),
-        key TaskListGroupCounter         @(Common.Label : '{i18n>TaskListGroupCounter}'),
-        key ExternalReference            @(Common.Label : '{i18n>ExternalReference}'),
-        key DocumentInfoRecordDocNumber  @(Common.Label : '{i18n>DocumentInfoRecordDocNumber}'),
-        key DocumentInfoRecordDocVersion @(Common.Label : '{i18n>DocumentInfoRecordDocVersion}'),
-            TaskListDesc                 @(Common.Label : '{i18n>TaskListDesc}'),
-            ExternalCustomerReference    @(Common.Label : '{i18n>ExternalCustomerReference}'),
-            Plant                        @(Common.Label : '{i18n>Plant}')
+        key TaskListType                 @(Common.Label : 'Task List Type'),
+        key TaskListGroup                @(Common.Label : 'Task List Group'),
+        key TaskListGroupCounter         @(Common.Label : 'Task List Group Counter'),
+        key ExternalReference            @(Common.Label : 'Generic Reference'),
+        key DocumentInfoRecordDocNumber  @(Common.Label : 'Document Number'),
+        key DocumentInfoRecordDocVersion @(Common.Label : 'Document Version'),
+            TaskListDesc                 @(Common.Label : 'Task List Description'),
+            ExternalCustomerReference    @(Common.Label : 'Customer Reference'),
+            Plant                        @(Common.Label : 'Work Location Plant')
     };
 
 }
