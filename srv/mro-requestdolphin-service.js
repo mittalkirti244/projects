@@ -26,13 +26,12 @@ module.exports = cds.service.impl(async function () {
         ReferenceTaskListVH,
         WorkItemTypes } = this.entities
     const service1 = await cds.connect.to('NumberRangeService');
-    const service2 = await cds.connect.to('alphamasterService');
-    const service3 = await cds.connect.to('MAINTREQ_SB');
+    const service2 = await cds.connect.to('MAINTREQ_SB');
 
     var newFormatedDate, tat, assignedDeliveryDate;
     var queryStatus, queryPhase, query;
     var id1;
-    var vplanningPlant, vrevisionText, vworkCenter, vworkCenterPlant, vrevisionStartDate, vrevisionEndDate, vfunctionalLocation, vequipment, reqwcPlant, reqwcDetail
+    var vplanningPlant, vrevisionText, vworkCenter, vworkCenterPlant, vrevisionStartDate, vrevisionEndDate, vfunctionalLocation, vequipment, reqwcPlant
     let cvalue = 1;
 
     //Read the NumberRanges entity from Number Range Service
@@ -55,6 +54,7 @@ module.exports = cds.service.impl(async function () {
         req.data.endDate = returnDate(new Date())
         req.data.createdAtDate = returnDate(new Date())
 
+        //Used in Overview Page
         req.data.mrCount = cvalue
         console.log('req.data.mrCount', req.data.mrCount + 1)
     });
@@ -85,12 +85,12 @@ module.exports = cds.service.impl(async function () {
             req.error(406, req.data.to_requestType_rType + ' Type is not maintained in NumberRange.')
         }
 
-        //Field to be field at the time of creating a new record
+        //Data to be filled at the time of creating a new record
         req.data.to_requestStatus_rStatus = 'MRCRTD'
         req.data.to_requestStatus_rStatusDesc = 'Created'
         req.data.to_requestPhase_rPhase = 'MRINIT'
         req.data.to_requestPhase_rPhaseDesc = 'Initiation'
-        //Change Status button will be enable after creating a record
+        //Change Status button will be enabled after creating a record
         req.data.changeStatusFlag = true
 
         //Insert and update restrictions using hidden criteria
@@ -100,8 +100,6 @@ module.exports = cds.service.impl(async function () {
         req.data.uiHidden1 = false
         //To assign the Request type ID in requestTypeDisp -> It will enable at the time of edit with readonly field
         req.data.requestTypeDisp = req.data.to_requestType_rType
-
-        console.log('req.data............',req.data)
     });
 
     //This handler is used for creating and updating the request(Create and Update Handler)
@@ -145,8 +143,7 @@ module.exports = cds.service.impl(async function () {
             req.error(406, 'Please enter a valid E-Mail Address')
         }
 
-        //When user select the Equip first then the Text arrangement will be done by the service call of Floc
-        //Because the Equipment VH doesnt have Equip detail field
+        //To fill the Floc Name for text arrangement When Equipment is selecting before the Floc.
         if (req.data.functionalLocation != null && req.data.functionalLocation != '') {
             let queryFloc = await service2.read(FunctionLocationVH).where({ functionalLocation: req.data.functionalLocation })
             req.data.functionalLocationName = queryFloc[0].FunctionalLocationName
@@ -223,8 +220,8 @@ module.exports = cds.service.impl(async function () {
         req.data.to_requestStatusDisp_rStatus = req.data.to_requestStatus_rStatus
         req.data.to_requestStatusDisp_rStatusDesc = req.data.to_requestStatus_rStatusDesc
 
-        //If user manually remove the text arrangement fields, then it will set it as null
-        //If User remove the Plant field
+        //If user manually removes the text arrangement fields, then it become null
+        //If User removes the Plant field
         if (req.data.MaintenancePlanningPlant == '') {
             req.data.plantName = null
             req.data.MaintenancePlanningPlant = null
@@ -253,6 +250,8 @@ module.exports = cds.service.impl(async function () {
     //This handler is used while creating a Document record(Create Handler)
     this.before('NEW', 'MaintenanceRequests/to_document', async (req) => {
 
+        //To Generate the Number for Document from Number Range Service
+        //Document is a number Range ID in Number Range Service
         var query1 = await service1.read(NumberRanges).columns('*').where({ numberRangeID: 'Document' })
         console.log('query1', query1)
         if (query1[0] != null) {
@@ -465,6 +464,8 @@ module.exports = cds.service.impl(async function () {
         console.log('queryPhase', queryPhase)
         var query = await tx1.read(MaintenanceRequests).where({ ID: id1 })
         console.log('query', query)
+        //IF Revision is selected from Revision VH on object Page
+        //Then Status will get Updated after clicking "Create Revision"
         if (query[0].MaintenanceRevision != null) {
             await UPDATE(MaintenanceRequests).set({
                 to_requestStatus_rStatus: 'RVCRTD',
@@ -477,6 +478,7 @@ module.exports = cds.service.impl(async function () {
             }).where({ ID: id1 })
         }
         else {
+            //When the Status is Task List Identified
             if (query[0].to_requestStatus_rStatus == 'TLIDNT') {
 
                 //Fetching planning plant, request desc, work center and arrival and delivery date for performing POST request to MaintRevision S4 Service
@@ -527,7 +529,7 @@ module.exports = cds.service.impl(async function () {
                 if (query[0].MaintenanceRevision == null) {
                     try {
                         if (vplanningPlant != null && vrevisionText != null && vworkCenter != null && vworkCenterPlant != null && vrevisionStartDate != null && vrevisionEndDate != null) {
-                            const tx = service3.tx(req)
+                            const tx = service2.tx(req)
                             var data = {
                                 "PlanningPlant": vplanningPlant,
                                 "RevisionType": 'A1',
@@ -668,7 +670,7 @@ module.exports = cds.service.impl(async function () {
         return "Aging Calculated";
     });
 
-    //Handler for change documnet status and handling it in bot
+    //Handler for change document status and it is handled by a BOT 
     this.on('changeDocumentStatus', async (req) => {
         var ID = req.data.ID;
         var status = req.data.status;
@@ -827,10 +829,10 @@ module.exports = cds.service.impl(async function () {
 
             try {
                 if (query[i].notificationNo == null || query[i].notificationNo == '') {
-
+                    //When Status is Revision Created
                     if (query1[0].to_requestStatusDisp_rStatus == 'RVCRTD') {
 
-                        const tx = service3.tx(req)
+                        const tx = service2.tx(req)
 
                         var data = {
                             "NotificationText": shortTaskDescription,//MR no. + task descr
@@ -900,7 +902,7 @@ module.exports = cds.service.impl(async function () {
                 //.length function is not supportive in HANA DB, So to resolve that use count
                 query1.forEach(_ => count++)
                 console.log('count', count)
-
+                //When count is more thn 1 means multiple tasklist is identified.
                 if (count > 1) {
                     req.notify(101, 'For Work Item ' + query[0].workItemID + ' there is multiple Task List identified.')
 
@@ -909,6 +911,7 @@ module.exports = cds.service.impl(async function () {
                     }).where({ ID: query[i].ID })
                 }
                 else if (count < 1) {
+                    //When Count is less than 1 means no tasklist is indentified
                     req.info(101, 'For Work Item ' + query[0].workItemID + ' there is no Task List identified.')
                 }
                 else {

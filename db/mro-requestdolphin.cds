@@ -22,7 +22,7 @@ entity MaintenanceRequests : managed {
         locationWC                       : String                                                                      @title                 : '{i18n>locationWC}'; //workcenter
         locationWCDetail                 : String                                                                      @title                 : '{i18n>locationWCDetail}'; //work center Detail(Work Center Name)
         MaintenancePlanningPlant         : String                                                                      @title                 : '{i18n>MaintenancePlanningPlant}'; //workcenter plant = planning plant
-        plantName                        : String                                                                      @title                 : '{i18n>plantName}';
+        plantName                        : String                                                                      @title                 : '{i18n>plantName}';//Plant Description
         contract                         : String                                                                      @title                 : '{i18n>contract}'; // Contracts assosiated with BP (contract no, desc and Turn around time)
         contractName                     : String                                                                      @title                 : '{i18n>contractName}'; //contract name will auto populate after selcting right contract
         expectedArrivalDate              : Date                                                                        @title                 : '{i18n>expectedArrivalDate}'; //System current date
@@ -52,28 +52,28 @@ entity MaintenanceRequests : managed {
         age                              : Integer default 0                                                           @title                 : '{i18n>age}'; //For representing Aging field
         changeStatusFlag                 : Boolean not null default false                                              @title                 : '{i18n>changeStatusFlag}'; //For Change Status Action - Disable action at the time of create
         updateRevisionFlag               : Boolean not null default false                                              @title                 : '{i18n>updateRevisionFlag}'; //For Update Revision Action - Disable action at the  time of create
-        businessPartnerRole              : String                                                                      @title                 : '{i18n>businessPartnerRole}';
+        businessPartnerRole              : String                                                                      @title                 : '{i18n>businessPartnerRole}';//Business Partner as role
         to_requestType                   : Association to RequestTypes                                                 @title :                 '{i18n>requestType}'  @assert.integrity   : false; //as dropdown - request number will generate through request type
-        to_requestStatus_rStatus         : String                                                                      @title                 : '{i18n>requestStatus}';
-        to_requestStatus_rStatusDesc     : String                                                                      @title                 : '{i18n>requestStatus}';
+        to_requestStatus_rStatus         : String                                                                      @title                 : '{i18n>requestStatus}';//Physical field for status on object page- unmanged association
+        to_requestStatus_rStatusDesc     : String                                                                      @title                 : '{i18n>requestStatus}';//Physical field for statusDesc - unmanged association
         to_requestStatus                 : Association to RequestStatuses
                                                on  to_requestStatus.rStatus     = to_requestStatus_rStatus
-                                               and to_requestStatus.rStatusDesc = to_requestStatus_rStatusDesc         @assert.integrity      : false;
-        to_requestStatusDisp_rStatus     : String                                                                      @title                 : '{i18n>requestStatus}';
-        to_requestStatusDisp_rStatusDesc : String                                                                      @title                 : '{i18n>requestStatus}';
+                                               and to_requestStatus.rStatusDesc = to_requestStatus_rStatusDesc         @assert.integrity      : false;//At the time of create Request status is draft And at the time of edit,from dropdown request status can change from Draft to confirmed
+        to_requestStatusDisp_rStatus     : String                                                                      @title                 : '{i18n>requestStatus}';//Physical field for status on object page- unmanged association
+        to_requestStatusDisp_rStatusDesc : String                                                                      @title                 : '{i18n>requestStatus}';//Physical field for status Desc on object page- unmanged association
         to_requestStatusDisp             : Association to RequestStatusesDisp
                                                on  to_requestStatusDisp.rStatus     = to_requestStatusDisp_rStatus
-                                               and to_requestStatusDisp.rStatusDesc = to_requestStatusDisp_rStatusDesc @title                 : '{i18n>requestStatus}'  @assert.integrity : false;
-        to_requestPhase_rPhase           : String                                                                      @title                 : '{i18n>requestPhase}';
-        to_requestPhase_rPhaseDesc       : String                                                                      @title                 : '{i18n>requestPhase}';
+                                               and to_requestStatusDisp.rStatusDesc = to_requestStatusDisp_rStatusDesc @title                 : '{i18n>requestStatus}'  @assert.integrity : false;//Status filter on List Report page
+        to_requestPhase_rPhase           : String                                                                      @title                 : '{i18n>requestPhase}';//Physical field for phase on object page and list page- unmanged association - auto poulate with status change
+        to_requestPhase_rPhaseDesc       : String                                                                      @title                 : '{i18n>requestPhase}';//Physical field for phase desc on object page and list page - unmanged association - auto populate with status change
         to_requestPhase                  : Association to RequestPhases
                                                on  to_requestPhase.rPhase     = to_requestPhase_rPhase
-                                               and to_requestPhase.rPhaseDesc = to_requestPhase_rPhaseDesc             @assert.integrity      : false; //at create = initial
+                                               and to_requestPhase.rPhaseDesc = to_requestPhase_rPhaseDesc             @assert.integrity      : false; //at create = initial// Phase filter on List page 
         to_document                      : Composition of many Documents
                                                on to_document.to_maintenanceRequest = $self                            @title                 : '{i18n>document}'; //One to many (1 MR - multiple documents links) i.e. Attaching multiple url w.r.t. MR
         to_ranges                        : Association to Ranges                                                       @title :                 '{i18n>range}'  @assert.integrity         : false; //Age Range (0-30,30-60,...)
         to_workItems                     : Association to many WorkItems
-                                               on to_workItems.requestNo = $self.requestNo;//One to many association to WorkItems based on request Number
+                                               on to_workItems.requestNo = $self.requestNo; //One to many association to WorkItems based on request Number
 };
 
 entity RequestTypes {
@@ -95,6 +95,7 @@ entity RequestStatusesDisp {
     key rStatusDesc : String;
 };
 
+//It will auto populate after changing Status
 entity RequestPhases {
     key ID         : Integer;
     key rPhase     : String;
@@ -103,7 +104,7 @@ entity RequestPhases {
 
 entity WorkItems : managed {
     key ID                       : UUID                           @title :                    'ID'  @Core.Computed;
-        workItemID               : Integer                        @title :                    'Work Item';
+        workItemID               : Integer                        @title :                    'Work Item';//Generate the WorkItem number from Number Range service 
         requestNo                : String                         @title :                    'Maintenance Request'; //Maintenance Request No using on object page on create
         requestNoDisp            : String                         @title :                    'Maintenance Request'; //Maintenance Request No using on object on edit
         requestNoConcat          : String                         @title :                    'Maintenance Request'; // using list report page (RequestNo and RequestDescription)
@@ -114,6 +115,7 @@ entity WorkItems : managed {
         mrequestType             : String                         @title :                    'Maintenance Request Type'; //Maintenance Request Type
         planningPlant            : String                         @title :                    'Work Location Plant'; //Planning Plant
         mrequestStatus           : String                         @title :                    'Status'; //Maintenance Request Status
+        estimatedDueDate         : Date                           @title :                    '{i18n>estimatedDueDate}'; //Estimated Due Date Used in BOT
         workOrderNo              : String                         @title :                    'Work Order Number'; //Work Order
         customerRef              : String                         @title :                    'Customer Reference'; //Customer Refrence
         taskDescription          : String                         @title :                    'Description'; //Task Description
@@ -123,31 +125,32 @@ entity WorkItems : managed {
         notificationGenerateFlag : Boolean not null default false; // Notification action flag for enabling and disabling Generate Notification button
         notificationUpdateFlag   : Boolean not null default false; // Notification action flag for enabling and disabling Update Notification button
         additionalRemark         : String                         @UI.MultiLineText  @title : 'Additional Remarks'; //Additional Remarks
-        documentID               : String                         @title :                    'Document ID';
+        documentID               : String                         @title :                    'Document ID';// Document ID
         genericRef               : String                         @title :                    'Generic Reference'; //genericRef
         taskListGroup            : String                         @title :                    'Task List Group'; //task List Group
         taskListGroupCounter     : String                         @title :                    'Task List Group Counter'; //task List Group Counter
         taskListType             : String                         @title :                    'Task List Type'; //task List Type
         taskListDescription      : String                         @title :                    'Task List Description'; //task List Description
-        documentNo               : String                         @title :                    'Document Number';
-        documentVersion          : String                         @title :                    'Document Version';
+        documentNo               : String                         @title :                    'Document Number';// Auto populate from Task List Value Help
+        documentVersion          : String                         @title :                    'Document Version';//Auto Populate from Task List Value Help
         taskListFlag             : Boolean not null default false @title :                    'Task List Flag'; //Once the task list is created for workitem, the flag will set as true
         assignTaskListFlag       : Boolean not null default false @title :                    'Assign Task List Flag'; //Enable and disable of Assign tasklist button
-        taskListIdentifiedDate   : Date                           @title :                    'Task List Identified Date';
+        taskListIdentifiedDate   : Date                           @title :                    'Task List Identified Date';//When tasklist is identified it will capture the date 
         multiTaskListFlag        : Boolean                        @title :                    'Multiple Task List'; // Multi assign task list
-        to_typeOfLoad            : Association to TypeOfLoads     @assert.integrity :         false  @title : 'Data Upload Process'; //Type Of Load
+        //to_typeOfLoad            : Association to TypeOfLoads     @assert.integrity :         false  @title : 'Data Upload Process'; //Type Of Load
         to_maintenanceRequest    : Association to one MaintenanceRequests;
 };
 
+//Used to generate the WorkItem through workItem ID
 entity WorkItemTypes {
     key workItemType : String;
 };
 
 //Data upload process
-entity TypeOfLoads {
+/*entity TypeOfLoads {
     key ID       : Integer;
     key loadType : String; //type of load for data upload process
-};
+};*/
 
 entity Documents : managed {
     key UUID                     : UUID                            @Core.Computed; //Unique ID as UUID
@@ -634,17 +637,3 @@ view ReqByComponentAndRangePendingRevision as
         and (
             to_requestStatusDisp_rStatus = 'TLIDNT' //Task List Identified
         );
-
-
-entity ABC {
-    key ID     : UUID;
-        name   : String;
-        to_xyz : Association to many XYZ
-                     on to_xyz.to_abc = $self
-}
-
-entity XYZ {
-    key ID      : UUID;
-        address : String;
-        to_abc  : Association to ABC;
-}

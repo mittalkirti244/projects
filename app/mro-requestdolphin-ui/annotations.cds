@@ -988,39 +988,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     })
 };
 
-//Contract Value Help on object page
-/*annotate mrorequestdolphinService.MaintenanceRequests with {
-    contract @(Common : {ValueList : {
-        CollectionPath : 'SalesContractVH',
-        Label          : '{i18n>contract}',
-        Parameters     : [
-            {
-                $Type             : 'Common.ValueListParameterIn',
-                LocalDataProperty : 'businessPartner',
-                ValueListProperty : 'SoldToPartyBP',
-            },
-            {
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'contract',
-                ValueListProperty : 'SalesContract'
-            },
-            {
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'contractName',
-                ValueListProperty : 'SalesContractName'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'TurnAroundTime'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'SoldToPartyBP'
-            },
-        ]
-    }});
-};*/
-
 //Readonly and mandatory fields
 annotate mrorequestdolphinService.MaintenanceRequests {
     businessPartner              @mandatory;
@@ -1276,58 +1243,3 @@ annotate mrorequestdolphinService.Documents with {
         }
     })
 };
-
-//Bot Status DropDown
-/*annotate mrorequestdolphinService.MaintenanceRequests with {
-    to_botStatus @(Common : {
-        Text      : {
-            $value                 : to_botStatus_bStatus,
-            ![@UI.TextArrangement] : #TextFirst
-        },
-        ValueListWithFixedValues,
-        ValueList : {
-            CollectionPath : 'BotStatuses',
-            Label          : '{i18n>botStatus}',
-            Parameters     : [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'to_botStatus_ID',
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterOut',
-                    LocalDataProperty : 'to_botStatus_bStatus',
-                    ValueListProperty : 'bStatus'
-                }
-            ]
-        }
-    })
-};*/
-
-//Drop down for Processed By
-/*annotate mrorequestdolphinService.Documents with {
-    to_typeOfProcess @(Common : {
-        Text      : {
-            $value                 : to_typeOfProcess_processType,
-            ![@UI.TextArrangement] : #TextLast
-        },
-        ValueListWithFixedValues,
-        ValueList : {
-            CollectionPath : 'ProcessTypes',
-            Label          : '{i18n>to_typeOfProcess}',
-            //  SearchSupported : true,
-            Parameters     : [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'to_typeOfProcess_ID',
-                    ValueListProperty : 'ID'
-                },
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'to_typeOfProcess_processType',
-                    ValueListProperty : 'processType'
-                }
-            ]
-        }
-    })
-};*/

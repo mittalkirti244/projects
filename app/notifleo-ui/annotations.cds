@@ -152,6 +152,10 @@ annotate service.WorkItems with @(UI : {
         {
             Value : to_maintenanceRequest_ID,
             ![@UI.Hidden]
+        },
+        {
+            Value : estimatedDueDate,
+            ![@UI.Hidden]
         }
     ],
     PresentationVariant        : {
@@ -719,6 +723,7 @@ annotate service.WorkItems with @Capabilities : {FilterRestrictions : {
         notificationUpdateFlag,
         assignTaskListFlag,
         notificationNo,
-        to_maintenanceRequest_ID
+        to_maintenanceRequest_ID,
+        estimatedDueDate
     ]
 }};

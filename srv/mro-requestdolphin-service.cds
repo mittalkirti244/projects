@@ -1,6 +1,6 @@
 using {com.hcl.mro.requestdolphin as maintReq} from '../db/mro-requestdolphin';
 using {NumberRangeService as numberRange} from './external/NumberRangeService';
-using {alphamasterService as alpha} from './mro-alphamaster-service';
+using {MAINTREQ_SB as s4maintReq} from './external/MAINTREQ_SB';
 
 service mrorequestdolphinService {
 
@@ -157,18 +157,18 @@ service mrorequestdolphinService {
     };
 
     entity WorkItemTypes           as projection on maintReq.WorkItemTypes;
-    entity TypeOfLoads             as projection on maintReq.TypeOfLoads;
+    //entity TypeOfLoads             as projection on maintReq.TypeOfLoads;
 
     //It is used as Notification VH on list report page
     entity NotificationVH          as
         select
-            WI.notificationNoDisp  as notificationNoDisp  @(Common.Label : 'Notification'),
-            WI.requestNo           as requestNo           @(Common.Label : 'Maintenance Request'),
-            WI.planningPlant       as planningPlant       @(Common.Label : 'Work Location Plant'),
-            MR.functionalLocation  as functionalLocation  @(Common.Label : 'Functional Location'),
-            MR.eqMaterial          as eqMaterial          @(Common.Label : 'Material'),
-            MR.equipment           as equipment           @(Common.Label : 'Equipment'),
-            MR.MaintenanceRevision as MaintenanceRevision @(Common.Label : 'Revision')
+            WI.notificationNoDisp       as notificationNoDisp  @(Common.Label : 'Notification'),
+            WI.requestNo                as requestNo           @(Common.Label : 'Maintenance Request'),
+            MR.MaintenancePlanningPlant as planningPlant       @(Common.Label : 'Work Location Plant'),
+            MR.functionalLocation       as functionalLocation  @(Common.Label : 'Functional Location'),
+            MR.eqMaterial               as eqMaterial          @(Common.Label : 'Material'),
+            MR.equipment                as equipment           @(Common.Label : 'Equipment'),
+            MR.MaintenanceRevision      as MaintenanceRevision @(Common.Label : 'Revision')
         from maintReq.WorkItems as WI
         join maintReq.MaintenanceRequests as MR
             on WI.requestNo = MR.requestNo
@@ -260,7 +260,7 @@ extend service mrorequestdolphinService with {
         $Type : 'Capabilities.SearchRestrictionsType',
         Searchable,
     }
-    entity BusinessPartnerVH   as projection on alpha.BusinessPartnerVH {
+    entity BusinessPartnerVH   as projection on s4maintReq.BusinessPartnerVH {
         key BusinessPartner         @(Common.Label : '{i18n>BusinessPartner}'),
         key BusinessPartnerRole     @(Common.Label : '{i18n>BusinessPartnerRole}') @UI.HiddenFilter,
         key SalesContract           @(Common.Label : '{i18n>SalesContract}'),
@@ -278,7 +278,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity WorkCenterVH        as projection on alpha.WorkCenterVH {
+    entity WorkCenterVH        as projection on s4maintReq.WorkCenterVH {
         key Plant                  @(Common.Label : '{i18n>Plant}'),
         key WorkCenter             @(Common.Label : '{i18n>WorkCenter}',
                                                                          /* Common       : {
@@ -292,7 +292,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity FunctionLocationVH  as projection on alpha.FunctionLocationVH {
+    entity FunctionLocationVH  as projection on s4maintReq.FunctionLocationVH {
         key functionalLocation       @(Common.Label : '{i18n>functionalLocation}'),
             FunctionalLocationName   @(Common.Label : '{i18n>FunctionalLocationName}'),
             ManufacturerName         @(Common.Label : '{i18n>ManufacturerName}'),
@@ -303,7 +303,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity SalesContractVH     as projection on alpha.SalesContractVH {
+    entity SalesContractVH     as projection on s4maintReq.SalesContractVH {
         key SalesContract     @(Common.Label : '{i18n>SalesContract}'),
             SalesContractName @(Common.Label : '{i18n>SalesContractName}'),
             TurnAroundTime    @(Common.Label : '{i18n>TurnAroundTime}'),
@@ -311,7 +311,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity EquipmentVH         as projection on alpha.EquipmentVH {
+    entity EquipmentVH         as projection on s4maintReq.EquipmentVH {
         key Equipment,
             EquipmentName      @(Common.Label : '{i18n>EquipmentName}'),
             FunctionalLocation @(Common.Label : '{i18n>functionalLocation}'),
@@ -321,7 +321,7 @@ extend service mrorequestdolphinService with {
             Plant              @UI.HiddenFilter
     };
 
-    entity RevisionVH          as projection on alpha.Revisions {
+    entity RevisionVH          as projection on s4maintReq.MaintRevision {
         key PlanningPlant     @UI.HiddenFilter,
         key RevisionNo        @(Common.Label : '{i18n>RevisionNo}'),
             Equipment         @UI.HiddenFilter,
@@ -337,13 +337,13 @@ extend service mrorequestdolphinService with {
     };
 
     //Maintenance Notification number value help on object page
-    entity MaintNotifications  as projection on alpha.MaintNotifications {
+    entity MaintNotifications  as projection on s4maintReq.MaintNotification {
         MaintenanceNotification @(Common.Label : 'Notification'),
         NotificationText        @UI.HiddenFilter @(Common.Label : 'Notification Text'),
         NotificationType        @(Common.Label : 'Notification Type')
     };
 
-    entity ReferenceTaskListVH as projection on alpha.ReferenceTaskListVH {
+    entity ReferenceTaskListVH as projection on s4maintReq.ReferenceTaskListVH {
         key TaskListType                 @(Common.Label : 'Task List Type'),
         key TaskListGroup                @(Common.Label : 'Task List Group'),
         key TaskListGroupCounter         @(Common.Label : 'Task List Group Counter'),
@@ -354,7 +354,6 @@ extend service mrorequestdolphinService with {
             ExternalCustomerReference    @(Common.Label : 'Customer Reference'),
             Plant                        @(Common.Label : 'Work Location Plant')
     };
-
 }
 
 //Filter restriction that is used for (Semantic date filter) on overview page
@@ -362,7 +361,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Common.FilterExpress
     Property           : createdAtDate,
     AllowedExpressions : #SingleInterval
 }];
-
 
 //Admin Screen
 //Request Type as Drop down for Admin Screen
