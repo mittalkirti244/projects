@@ -170,7 +170,7 @@ service mrorequestdolphinService {
     };
 
     entity WorkItemTypes           as projection on maintReq.WorkItemTypes;
-    //entity TypeOfLoads             as projection on maintReq.TypeOfLoads;
+    entity TypeOfLoads             as projection on maintReq.TypeOfLoads;
 
     //It is used as Notification VH on list report page
     entity NotificationVH          as

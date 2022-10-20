@@ -671,6 +671,7 @@ module.exports = cds.service.impl(async function () {
     });
 
     //Handler for change document status and it is handled by a BOT 
+    //When New excel is in correct format then we used this function to change document status etc.
     this.on('changeDocumentStatus', async (req) => {
         var ID = req.data.ID;
         var status = req.data.status;
