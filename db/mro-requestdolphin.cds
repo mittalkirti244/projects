@@ -80,6 +80,16 @@ entity RequestTypes {
     key rType : String;
 };
 
+entity RequestTypeConfig {
+    to_requestType      : Association to RequestTypes;
+    to_notificationType : Association to NotificationTypes;
+};
+
+entity NotificationTypes {
+    key notifType : String;
+        bowType   : String;
+};
+
 //It is used in change status action button as a drop down on Object Page
 entity RequestStatuses {
     key ID          : Integer;

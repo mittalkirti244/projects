@@ -78,6 +78,19 @@ service mrorequestdolphinService {
     };
 
     entity RequestTypes            as projection on maintReq.RequestTypes;
+
+    entity RequestTypeConfig       as projection on maintReq.RequestTypeConfig {
+        *,
+        to_requestType      @(Common.Label : 'Maintenance Request Type'),
+        to_notificationType @(Common.Label : 'Notification Type')
+    };
+
+    entity NotificationTypes       as projection on maintReq.NotificationTypes {
+        *,
+        notifType @(Common.Label : 'Notification Type'),
+        bowType   @(Common.Label : 'Bill Of Work Type')
+    };
+
     entity RequestStatuses         as projection on maintReq.RequestStatuses;
     entity RequestStatusesDisp     as projection on maintReq.RequestStatusesDisp;
     entity RequestPhases           as projection on maintReq.RequestPhases;
