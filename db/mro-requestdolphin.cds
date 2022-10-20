@@ -73,11 +73,21 @@ entity MaintenanceRequests : managed {
                                                on to_document.to_maintenanceRequest = $self                            @title                 : '{i18n>document}'; //One to many (1 MR - multiple documents links) i.e. Attaching multiple url w.r.t. MR
         to_ranges                        : Association to Ranges                                                       @title :                 '{i18n>range}'  @assert.integrity         : false; //Age Range (0-30,30-60,...)
         to_workItems                     : Association to many WorkItems
-                                               on to_workItems.requestNo = $self.requestNo;//One to many association to WorkItems based on request Number
+                                               on to_workItems.requestNo = $self.requestNo; //One to many association to WorkItems based on request Number
 };
 
 entity RequestTypes {
     key rType : String;
+};
+
+entity RequestTypeConfig {
+    to_requestType      : Association to RequestTypes;
+    to_notificationType : Association to NotificationTypes;
+};
+
+entity NotificationTypes {
+    key notifType : String;
+        bowType   : String;
 };
 
 //It is used in change status action button as a drop down on Object Page
