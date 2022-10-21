@@ -4,7 +4,7 @@ annotate service.WorkItems with @(UI : {
     //Selection Fields in Header of List Report Page
     SelectionFields            : [
         requestNoConcat,
-        notificationNoDisp
+        MaintenanceNotification
     ],
     //Line Item in List Report Page
     LineItem                   : [
@@ -54,7 +54,7 @@ annotate service.WorkItems with @(UI : {
             },
         },
         {
-            Value                 : notificationNoDisp,
+            Value                 : MaintenanceNotification,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -142,10 +142,6 @@ annotate service.WorkItems with @(UI : {
             ![@UI.Hidden]
         },
         {
-            Value : notificationNo,
-            ![@UI.Hidden]
-        },
-        {
             Value : ID,
             ![@UI.Hidden]
         },
@@ -155,6 +151,14 @@ annotate service.WorkItems with @(UI : {
         },
         {
             Value : estimatedDueDate,
+            ![@UI.Hidden]
+        },
+        {
+            Value : to_typeOfLoad_ID,
+            ![@UI.Hidden]
+        },
+        {
+            Value : to_typeOfLoad_loadType,
             ![@UI.Hidden]
         }
     ],
@@ -258,7 +262,7 @@ annotate service.WorkItems with @(UI : {
             {Value : taskListIdentifiedDate},
             {Value : documentNo},
             {Value : documentVersion},
-            {Value : notificationNo}
+            {Value : MaintenanceNotification}
         ],
     },
     FieldGroup #customerGroup3 : {
@@ -441,38 +445,22 @@ annotate service.WorkItems with {
 
 //Notification Number Value Help Filter for list report page
 annotate service.WorkItems with {
-    notificationNoDisp @(Common : {ValueList : {
-        CollectionPath : 'NotificationVH',
+    MaintenanceNotification @(Common : {ValueList : {
+        CollectionPath : 'MaintNotifications',
         Label          : 'Notification',
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'notificationNoDisp',
-                ValueListProperty : 'notificationNoDisp'
+                LocalDataProperty : 'MaintenanceNotification',
+                ValueListProperty : 'MaintenanceNotification'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'requestNo'
+                ValueListProperty : 'NotificationText'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'planningPlant'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'functionalLocation'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'eqMaterial'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'equipment'
-            },
-            {
-                $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'MaintenanceRevision'
+                ValueListProperty : 'NotificationType'
             }
         ]
     }});
@@ -681,12 +669,12 @@ annotate service.WorkItems with {
 
 
 annotate service.WorkItems {
-    requestNo              @mandatory;
-    requestNoDisp          @readonly;
-    requestDesc            @readonly;
-    taskListIdentifiedDate @readonly;
-    multiTaskListFlag      @readonly;
-    notificationNo         @readonly;
+    requestNo               @mandatory;
+    requestNoDisp           @readonly;
+    requestDesc             @readonly;
+    taskListIdentifiedDate  @readonly;
+    multiTaskListFlag       @readonly;
+    MaintenanceNotification @readonly;
 // mrequestType           @readonly;
 // planningPlant          @readonly;
 }
@@ -722,8 +710,9 @@ annotate service.WorkItems with @Capabilities : {FilterRestrictions : {
         notificationGenerateFlag,
         notificationUpdateFlag,
         assignTaskListFlag,
-        notificationNo,
         to_maintenanceRequest_ID,
-        estimatedDueDate
+        estimatedDueDate,
+        to_typeOfLoad_ID,
+        to_typeOfLoad_loadType
     ]
 }};

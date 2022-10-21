@@ -724,9 +724,9 @@ module.exports = cds.service.impl(async function () {
     //Handler for creating and updating the workItem
     this.before(['CREATE', 'UPDATE'], 'WorkItems', async (req) => {
 
-        if (req.data.notificationNo == '')
+        if (req.data.MaintenanceNotification == '')
             req.data.notificationFlag = false
-        else if (req.data.notificationNo != null) {
+        else if (req.data.MaintenanceNotification != null) {
             req.data.notificationFlag = true;
         }
 
@@ -769,7 +769,7 @@ module.exports = cds.service.impl(async function () {
             req.data.assignTaskListFlag = true
         }
 
-        if (req.data.notificationNo != null) {//11000000
+        if (req.data.MaintenanceNotification != null) {//11000000
             req.data.notificationUpdateFlag = true;//update enable
             req.data.notificationGenerateFlag = false
         }
@@ -777,8 +777,6 @@ module.exports = cds.service.impl(async function () {
             req.data.notificationGenerateFlag = true;//disable
             req.data.notificationUpdateFlag = false
         }
-
-        req.data.notificationNoDisp = req.data.notificationNo
 
         //It will fetch the previsous detail of tasklist.
         var queryWorkItem1 = await SELECT.from(WorkItems).columns('*').where({ ID: req.data.ID })
@@ -829,7 +827,7 @@ module.exports = cds.service.impl(async function () {
             console.log('vNotificationLongText', vNotificationLongTextCreate)
 
             try {
-                if (query[i].notificationNo == null || query[i].notificationNo == '') {
+                if (query[i].MaintenanceNotification == null || query[i].MaintenanceNotification == '') {
                     //When Status is Revision Created
                     if (query1[0].to_requestStatusDisp_rStatus == 'RVCRTD') {
 
@@ -857,8 +855,9 @@ module.exports = cds.service.impl(async function () {
 
                         console.log('vID in post', query[i].ID)
                         const affectedRows = await UPDATE(WorkItems).set({
-                            notificationNo: result.MaintenanceNotification,
-                            notificationNoDisp: result.MaintenanceNotification,
+                            MaintenanceNotification: result.MaintenanceNotification,
+                            NotificationType: result.NotificationType,
+                            //notificationNoDisp: result.MaintenanceNotification,
                             notificationFlag: true,
                             notificationGenerateFlag: false
                         }).where({ ID: query[i].ID })

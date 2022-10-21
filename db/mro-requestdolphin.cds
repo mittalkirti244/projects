@@ -8,7 +8,7 @@ using {
 entity MaintenanceRequests : managed {
     key ID                               : UUID                                                                        @title                 : '{i18n>ID}'  @Core.Computed; //unique ID for Maintenace request
         requestNo                        : String                                                                      @title                 : '{i18n>requestNo}'; // will generate after selecting request type
-        requestNoConcat                  : String                                                                      @Common.SemanticObject : 'maintenancerequest'  @title              : '{i18n>requestNo}';
+        requestNoConcat                  : String                                                                      @Common.SemanticObject : 'MaintenanceWorkItem'  @title              : '{i18n>requestNo}';
         requestDesc                      : String                                                                      @title                 : '{i18n>requestDesc}'; // maintenance request Description
         businessPartner                  : String                                                                      @title                 : '{i18n>businessPartner}'; //bp service from s4
         businessPartnerDisp              : String                                                                      @title                 : '{i18n>businessPartner}'; // bp to be display on only list report page to perform filteration
@@ -36,7 +36,6 @@ entity MaintenanceRequests : managed {
         functionalLocation               : String                                                                      @title                 : '{i18n>functionalLocation}'; //VH for fucntional location s4 service with filter criteria(mname,mmodel and mserialNumber)
         functionalLocationName           : String                                                                      @title                 : '{i18n>functionalLocationName}'; //readonly field for functional location
         MaintenanceRevision              : String                                                                      @Common.SemanticObject : 'MaintenanceRevisionOverview'  @title     : '{i18n>MaintenanceRevision}'; // create by trigerring when request status is confirmed
-        revision                         : String                                                                      @title                 : '{i18n>MaintenanceRevision}'; //Maintenance Revision No on object page
         revisionType                     : String                                                                      @title                 : '{i18n>revisionType}'; // It will hold the value as A1
         revisionText                     : String                                                                      @title                 : '{i18n>revisionText}'; // concatenation of request Number and request Ddescription
         ccpersonName                     : String                                                                      @title                 : '{i18n>ccpersonName}'  @UI.Placeholder    : 'Name'; //free text field comes from BP
@@ -103,42 +102,43 @@ entity RequestPhases {
 };
 
 entity WorkItems : managed {
-    key ID                       : UUID                           @title :                    'ID'  @Core.Computed;
-        workItemID               : Integer                        @title :                    'Work Item'; //Generate the WorkItem number from Number Range service
-        requestNo                : String                         @title :                    'Maintenance Request'; //Maintenance Request No using on object page on create
-        requestNoDisp            : String                         @title :                    'Maintenance Request'; //Maintenance Request No using on object on edit
-        requestNoConcat          : String                         @title :                    'Maintenance Request'; // using list report page (RequestNo and RequestDescription)
+    key ID                       : UUID                           @title                 : 'ID'  @Core.Computed;
+        workItemID               : Integer                        @title                 : 'Work Item'; //Generate the WorkItem number from Number Range service
+        requestNo                : String                         @title                 : 'Maintenance Request'; //Maintenance Request No using on object page on create
+        requestNoDisp            : String                         @title                 : 'Maintenance Request'; //Maintenance Request No using on object on edit
+        requestNoConcat          : String                         @title                 : 'Maintenance Request'; // using list report page (RequestNo and RequestDescription)
         uiHidden                 : Boolean not null default false; //this field will be used at the time of create for requestNo
         uiHidden1                : Boolean not null default true; //this field will used at the time of edit (read only) for requestNoDisp
-        sequenceNo               : String                         @title :                    'Sequence Number'; //sequence Number
-        requestDesc              : String                         @title :                    'Maintenance Request Description'; // Maintenance Request Description
-        mrequestType             : String                         @title :                    'Maintenance Request Type'; //Maintenance Request Type
-        planningPlant            : String                         @title :                    'Work Location Plant'; //Planning Plant
-        mrequestStatus           : String                         @title :                    'Status'; //Maintenance Request Status
-        estimatedDueDate         : Date                           @title :                    '{i18n>estimatedDueDate}'; //Estimated Due Date Used in BOT
-        workOrderNo              : String                         @title :                    'Work Order Number'; //Work Order
-        customerRef              : String                         @title :                    'Customer Reference'; //Customer Refrence
-        taskDescription          : String                         @title :                    'Description'; //Task Description
-        notificationNo           : String                         @title :                    'Notification'; //Notification No
-        notificationNoDisp       : String                         @title :                    'Notification'; //Displaying notification Number in notification VH in List report Page
-        notificationFlag         : Boolean not null default false @title :                    'Notification Exists'  @readonly; //Notification Created Flag (Yes/No)
+        sequenceNo               : String                         @title                 : 'Sequence Number'; //sequence Number
+        requestDesc              : String                         @title                 : 'Maintenance Request Description'; // Maintenance Request Description
+        mrequestType             : String                         @title                 : 'Maintenance Request Type'; //Maintenance Request Type
+        planningPlant            : String                         @title                 : 'Work Location Plant'; //Planning Plant
+        mrequestStatus           : String                         @title                 : 'Status'; //Maintenance Request Status
+        estimatedDueDate         : Date                           @title                 : '{i18n>estimatedDueDate}'; //Estimated Due Date Used in BOT
+        workOrderNo              : String                         @title                 : 'Work Order Number'; //Work Order
+        customerRef              : String                         @title                 : 'Customer Reference'; //Customer Refrence
+        taskDescription          : String                         @title                 : 'Description'; //Task Description
+        MaintenanceNotification  : String                         @Common.SemanticObject : 'MaintenanceNotification'  @title : 'Notification'; //Notification No
+        NotificationType         : String                         @title                 : 'Notification Type'; //Notification Type
+        //notificationNoDisp       : String                         @title :                    'Notification'; //Displaying notification Number in notification VH in List report Page
+        notificationFlag         : Boolean not null default false @title                 : 'Notification Exists'  @readonly; //Notification Created Flag (Yes/No)
         notificationGenerateFlag : Boolean not null default false; // Notification action flag for enabling and disabling Generate Notification button
         notificationUpdateFlag   : Boolean not null default false; // Notification action flag for enabling and disabling Update Notification button
-        additionalRemark         : String                         @UI.MultiLineText  @title : 'Additional Remarks'; //Additional Remarks
-        documentID               : String                         @title :                    'Document ID'; // Document ID
-        genericRef               : String                         @title :                    'Generic Reference'; //genericRef
-        taskListGroup            : String                         @title :                    'Task List Group'; //task List Group
-        taskListGroupCounter     : String                         @title :                    'Task List Group Counter'; //task List Group Counter
-        taskListType             : String                         @title :                    'Task List Type'; //task List Type
-        taskListDescription      : String                         @title :                    'Task List Description'; //task List Description
-        documentNo               : String                         @title :                    'Document Number'; // Auto populate from Task List Value Help
-        documentVersion          : String                         @title :                    'Document Version'; //Auto Populate from Task List Value Help
-        taskListFlag             : Boolean not null default false @title :                    'Task List Flag'; //Once the task list is created for workitem, the flag will set as true
-        assignTaskListFlag       : Boolean not null default false @title :                    'Assign Task List Flag'; //Enable and disable of Assign tasklist button
-        taskListIdentifiedDate   : Date                           @title :                    'Task List Identified Date'; //When tasklist is identified it will capture the date
-        multiTaskListFlag        : Boolean                        @title :                    'Multiple Task List'; // Multi assign task list
-        to_typeOfLoad            : Association to TypeOfLoads     @assert.integrity :         false  @title : 'Data Upload Process'; //Type Of Load
-        to_maintenanceRequest    : Association to one MaintenanceRequests;
+        additionalRemark         : String                         @UI.MultiLineText  @title                                  : 'Additional Remarks'; //Additional Remarks
+        documentID               : String                         @title                 : 'Document ID'; // Document ID
+        genericRef               : String                         @title                 : 'Generic Reference'; //genericRef
+        taskListGroup            : String                         @title                 : 'Task List Group'; //task List Group
+        taskListGroupCounter     : String                         @title                 : 'Task List Group Counter'; //task List Group Counter
+        taskListType             : String                         @title                 : 'Task List Type'; //task List Type
+        taskListDescription      : String                         @title                 : 'Task List Description'; //task List Description
+        documentNo               : String                         @title                 : 'Document Number'; // Auto populate from Task List Value Help
+        documentVersion          : String                         @title                 : 'Document Version'; //Auto Populate from Task List Value Help
+        taskListFlag             : Boolean not null default false @title                 : 'Task List Flag'; //Once the task list is created for workitem, the flag will set as true
+        assignTaskListFlag       : Boolean not null default false @title                 : 'Assign Task List Flag'; //Enable and disable of Assign tasklist button
+        taskListIdentifiedDate   : Date                           @title                 : 'Task List Identified Date'; //When tasklist is identified it will capture the date
+        multiTaskListFlag        : Boolean                        @title                 : 'Multiple Task List'; // Multi assign task list
+        to_typeOfLoad            : Association to TypeOfLoads     @assert.integrity :      false  @title                     : 'Data Upload Process'; //Type Of Load
+        to_maintenanceRequest    : Association to one MaintenanceRequests; //One to one association to MR
 };
 
 //Used to generate the WorkItem through workItem ID
@@ -146,7 +146,7 @@ entity WorkItemTypes {
     key workItemType : String;
 };
 
-//Data upload process
+//Data upload process(Not using)
 entity TypeOfLoads {
     key ID       : Integer;
     key loadType : String; //type of load for data upload process
@@ -200,7 +200,7 @@ entity NotificationTypes {
 };
 
 
-//Configurations entity for Admin screen
+//Configurations entity for Admin screen(Not using)
 entity Configurations : managed {
     key ID                 : UUID                             @Core.Computed; //Unique ID
         manufacturerName   : Boolean; //Manufacturer Name
@@ -213,12 +213,12 @@ entity Configurations : managed {
         to_schemaType      : Association to SchemaTypes       @assert.integrity : false;
 }
 
-//RequestIndustries for Admin Screen
+//RequestIndustries for Admin Screen(Not using)
 entity RequestIndustries {
     key rIndustry : String //Industry
 }
 
-//Schema Types for Admin Screen
+//Schema Types for Admin Screen(Not using)
 entity SchemaTypes {
     key sSchema : String //Search Schema
 }

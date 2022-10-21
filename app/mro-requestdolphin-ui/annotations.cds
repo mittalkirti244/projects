@@ -242,10 +242,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {
             Value : endDate,
             ![@UI.Hidden]
-        },
-        {
-            Value : revision,
-            ![@UI.Hidden]
         }
     ],
     //Sort all Requests based on createdAt in list report page
@@ -1049,8 +1045,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         modifiedAt,
         modifiedBy,
         startDate,
-        endDate,
-        revision
+        endDate
     ]
 }};
 

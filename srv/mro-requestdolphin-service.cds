@@ -63,7 +63,7 @@ service mrorequestdolphinService {
                 '_it/to_requestStatus_rStatusDesc',
                 '_it/to_requestStatusDisp_rStatusDesc',
                 '_it/to_requestPhase_rPhaseDesc',
-                '_it/revision',
+                // '_it/revision',
                 '_it/MaintenanceRevision',
                 '_it/to_requestStatusDisp_rStatus',
                 '_it/to_requestStatus_rStatus',
@@ -108,9 +108,9 @@ service mrorequestdolphinService {
         @(
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_it/notificationNo',
-                '_it/notificationGenerateFlag',
-                '_it/notificationNoDisp'
+                '_it/MaintenanceNotification',
+                '_it/notificationGenerateFlag'
+                //'_it/notificationNoDisp'
             ]}
         )
         //@core.operation available is used for disable and enable of action button
@@ -121,22 +121,22 @@ service mrorequestdolphinService {
         /*@(
             cds.odata.bindingparameter.name : '_it',
             Common.SideEffects              : {TargetProperties : [
-                '_it/notificationNo',
+                '_it/MaintenanceNotification',
                 '_it/notificationUpdateFlag'
             ]}
         )
         //@core.operation available is used for disable and enable of action button
         //Maintain Notification will be disable at the time of create - set as false in db
         @Core :                                                     {OperationAvailable : _it.notificationUpdateFlag}
-        action updateNotification(notificationNo : String @Common : {
-            Label     : '{i18n>notificationNo}',
+        action updateNotification(MaintenanceNotification : String @Common : {
+            Label     : '{i18n>MaintenanceNotification}',
             ValueList : {
                 $Type          : 'Common.ValueListType',
                 CollectionPath : 'MaintNotifications',
                 Parameters     : [
                     {
                         $Type             : 'Common.ValueListParameterInOut',
-                        LocalDataProperty : 'notificationNo',
+                        LocalDataProperty : 'MaintenanceNotification',
                         ValueListProperty : 'MaintenanceNotification'
                     },
                     {
@@ -173,7 +173,7 @@ service mrorequestdolphinService {
     entity TypeOfLoads             as projection on maintReq.TypeOfLoads;
 
     //It is used as Notification VH on list report page
-    entity NotificationVH          as
+    /*entity NotificationVH          as
         select
             WI.notificationNoDisp       as notificationNoDisp  @(Common.Label : 'Notification'),
             WI.requestNo                as requestNo           @(Common.Label : 'Maintenance Request'),
@@ -186,7 +186,7 @@ service mrorequestdolphinService {
         join maintReq.MaintenanceRequests as MR
             on WI.requestNo = MR.requestNo
         where
-            WI.notificationFlag = true;
+            WI.notificationFlag = true;*/
 
     //Request Number value Help for List Page
     //Filter restriction is used to select multiple values from Value help
@@ -200,17 +200,17 @@ service mrorequestdolphinService {
     };
 
     //Revision Number Entity used for value help in List report page
-    entity RevisionDisp            as
+   /* entity RevisionDisp            as
         select from maintReq.MaintenanceRequests {
             MaintenanceRevision,
             revisionText @UI.HiddenFilter,
             revisionType
         }
         where
-               to_requestStatusDisp.rStatus =  'RVCRTD'
-            or to_requestStatusDisp.rStatus =  'NTCRTD'
-            or to_requestStatusDisp.rStatus =  'MRCMPL'
-            or revision                     != '';
+               to_requestStatusDisp.rStatus = 'RVCRTD'
+            or to_requestStatusDisp.rStatus = 'NTCRTD'
+            or to_requestStatusDisp.rStatus = 'MRCMPL';
+    //or revision                     != '';*/
 
     @Capabilities.SearchRestrictions : {
         $Type      : 'Capabilities.SearchRestrictionsType',
