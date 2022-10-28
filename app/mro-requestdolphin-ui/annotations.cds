@@ -29,6 +29,13 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Action : 'mrorequestdolphinService.revisionCreated',
             Label  : '{i18n>revisionCreated}'
         },
+        {
+            $Type           : 'UI.DataFieldForIntentBasedNavigation',
+            Label           : '{i18n>CreateWorkItems}',
+            SemanticObject  : 'MaintenanceWorkItem',
+            Action          : 'manage',
+            RequiresContext : true
+        },
         /*{
             $Type  : 'UI.DataFieldForAction',
             Action : 'mrorequestdolphinService.calculateAging',
@@ -387,13 +394,13 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : ccpersonName},
         {Value : ccemail},
         {Value : ccphoneNumber},
-         {
+        {
             $Type          : 'UI.DataFieldWithIntentBasedNavigation',
             //Label          : 'My Link for navigation',
             Value          : SalesContract,
             SemanticObject : 'SalesContract',
-            Action         : 'manage',
-        },
+            Action         : 'manage'
+        }
         //{Value : SalesContract}
     ]},
     //Column 3 in general tab

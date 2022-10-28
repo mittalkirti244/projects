@@ -79,10 +79,15 @@ service mrorequestdolphinService {
 
     entity RequestTypes            as projection on maintReq.RequestTypes;
 
+    @odata.draft.enabled
     entity RequestTypeConfig       as projection on maintReq.RequestTypeConfig {
         *,
-        to_requestType      @(Common.Label : 'Maintenance Request Type'),
-        to_notificationType @(Common.Label : 'Notification Type')
+        to_requestType      @(Common.Label : 'Request Type'),
+        to_notificationType @(Common.Label : 'Notification Type'),
+        createdAt           @(Common.Label : '{i18n>createdAt}'),
+        createdBy           @(Common.Label : '{i18n>createdBy}'),
+        modifiedAt          @(Common.Label : '{i18n>modifiedAt}'),
+        modifiedBy          @(Common.Label : '{i18n>modifiedBy}')
     };
 
     entity NotificationTypes       as projection on maintReq.NotificationTypes {
@@ -200,17 +205,17 @@ service mrorequestdolphinService {
     };
 
     //Revision Number Entity used for value help in List report page
-   /* entity RevisionDisp            as
-        select from maintReq.MaintenanceRequests {
-            MaintenanceRevision,
-            revisionText @UI.HiddenFilter,
-            revisionType
-        }
-        where
-               to_requestStatusDisp.rStatus = 'RVCRTD'
-            or to_requestStatusDisp.rStatus = 'NTCRTD'
-            or to_requestStatusDisp.rStatus = 'MRCMPL';
-    //or revision                     != '';*/
+    /* entity RevisionDisp            as
+         select from maintReq.MaintenanceRequests {
+             MaintenanceRevision,
+             revisionText @UI.HiddenFilter,
+             revisionType
+         }
+         where
+                to_requestStatusDisp.rStatus = 'RVCRTD'
+             or to_requestStatusDisp.rStatus = 'NTCRTD'
+             or to_requestStatusDisp.rStatus = 'MRCMPL';
+     //or revision                     != '';*/
 
     @Capabilities.SearchRestrictions : {
         $Type      : 'Capabilities.SearchRestrictionsType',
@@ -374,6 +379,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Common.FilterExpress
     Property           : createdAtDate,
     AllowedExpressions : #SingleInterval
 }];
+
 
 //Admin Screen
 //Request Type as Drop down for Admin Screen

@@ -19,14 +19,15 @@
     },
     "devDependencies": {
         "@sap/hdi-deploy": "^4.2.3",
-        "@sap/ux-specification": "^1.102.9",
+        "@sap/ux-specification": "^1.96.16",
         "sqlite": "^4.1.2",
         "sqlite3": "^5.1.2"
     },
     "scripts": {
         "start": "cds run",
         "watch-mro-requestdolphin-ui": "cds watch --open mro-requestdolphin-ui/webapp/index.html#fe-lrop-v4",
-        "watch-notifleo-ui": "cds watch --open notifleo-ui/webapp/index.html?sap-ui-xx-viewCache=false"
+        "watch-notifleo-ui": "cds watch --open notifleo-ui/webapp/index.html?sap-ui-xx-viewCache=false",
+        "watch-requesttype-ui": "cds watch --open requesttype-ui/webapp/index.html?sap-ui-xx-viewCache=false"
     },
     "eslintConfig": {
         "extends": "eslint:recommended",
@@ -90,6 +91,7 @@
     },
     "sapux": [
         "app/mro-requestdolphin-ui",
-        "app/notifleo-ui"
+        "app/notifleo-ui",
+        "app/requesttype-ui"
     ]
 }
