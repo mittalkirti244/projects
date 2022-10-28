@@ -192,12 +192,14 @@ entity RequestTypeConfig : managed{
     key ID              : UUID;
     to_requestType      : Association to RequestTypes;
     to_notificationType : Association to NotificationTypes;
+
+
 };
 
 //Notification Type used in Admin Screen
 entity NotificationTypes {
     key notifType : String;
-    key  bowType   : String;
+        bowType   : String;
 };
 
 

@@ -82,7 +82,7 @@ service mrorequestdolphinService {
     @odata.draft.enabled
     entity RequestTypeConfig       as projection on maintReq.RequestTypeConfig {
         *,
-        to_requestType      @(Common.Label : 'Maintenance Request Type'),
+        to_requestType      @(Common.Label : 'Request Type'),
         to_notificationType @(Common.Label : 'Notification Type'),
         createdAt           @(Common.Label : '{i18n>createdAt}'),
         createdBy           @(Common.Label : '{i18n>createdBy}'),
