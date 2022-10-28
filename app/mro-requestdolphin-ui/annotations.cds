@@ -387,7 +387,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : ccpersonName},
         {Value : ccemail},
         {Value : ccphoneNumber},
-        {Value : contract}
+         {
+            $Type          : 'UI.DataFieldWithIntentBasedNavigation',
+            //Label          : 'My Link for navigation',
+            Value          : SalesContract,
+            SemanticObject : 'SalesContract',
+            Action         : 'manage',
+        },
+        //{Value : SalesContract}
     ]},
     //Column 3 in general tab
     FieldGroup #generalGroup3                   : {Data : [
@@ -466,9 +473,9 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 };
 
-//Text Arrangment for contract and contract  name
+//Text Arrangment for SalesContract and contract  name
 annotate mrorequestdolphinService.MaintenanceRequests with {
-    contract @(Common : {Text : {
+    SalesContract @(Common : {Text : {
         $value                 : contractName,
         ![@UI.TextArrangement] : #TextFirst
     }});
@@ -604,7 +611,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'contract',
+                LocalDataProperty : 'SalesContract',
                 ValueListProperty : 'SalesContract',
             },
             {
@@ -655,7 +662,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'contract',
+                LocalDataProperty : 'SalesContract',
                 ValueListProperty : 'SalesContract',
             },
             {

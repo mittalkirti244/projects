@@ -53,12 +53,19 @@ annotate service.WorkItems with @(UI : {
                 width : '10rem',
             },
         },
+        // {
+        //     Value                 : MaintenanceNotification,
+        //     ![@HTML5.CssDefaults] : {
+        //         $Type : 'HTML5.CssDefaultsType',
+        //         width : '10rem',
+        //     },
+        // },
         {
-            Value                 : MaintenanceNotification,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            },
+            $Type          : 'UI.DataFieldWithIntentBasedNavigation',
+            //Label          : 'My Link for navigation',
+            Value          : MaintenanceNotification,
+            SemanticObject : 'MaintenanceNotification',
+            Action         : 'displayNotification',
         },
         {
             Value                 : customerRef,
@@ -262,7 +269,14 @@ annotate service.WorkItems with @(UI : {
             {Value : taskListIdentifiedDate},
             {Value : documentNo},
             {Value : documentVersion},
-            {Value : MaintenanceNotification}
+            {
+                $Type          : 'UI.DataFieldWithIntentBasedNavigation',
+                //Label          : 'My Link for navigation',
+                Value          : MaintenanceNotification,
+                SemanticObject : 'MaintenanceNotification',
+                Action         : 'displayNotification',
+            },
+        //{Value : MaintenanceNotification}
         ],
     },
     FieldGroup #customerGroup3 : {
@@ -348,7 +362,7 @@ annotate service.WorkItems with {
             },
             {
                 $Type             : 'Common.ValueListParameterFilterOnly',
-                ValueListProperty : 'contract'
+                ValueListProperty : 'SalesContract'
             },
             {
                 $Type             : 'Common.ValueListParameterFilterOnly',
@@ -412,7 +426,7 @@ annotate service.WorkItems with {
             },
             {
                 $Type             : 'Common.ValueListParameterFilterOnly',
-                ValueListProperty : 'contract'
+                ValueListProperty : 'SalesContract'
             },
             {
                 $Type             : 'Common.ValueListParameterFilterOnly',
@@ -700,7 +714,6 @@ annotate service.WorkItems with @Capabilities : {FilterRestrictions : {
         unitOfMeasure,
         notificationFlag,
         contractName,
-        contractNo,
         equipmentName,
         revisionNo,
         mrequestStatus,

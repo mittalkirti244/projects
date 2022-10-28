@@ -150,8 +150,8 @@ module.exports = cds.service.impl(async function () {
         }
 
         //To fetch the tat and contract name from contract service
-        if (req.data.contract != '') {
-            let query3 = await service2.read(SalesContractVH).where({ SalesContract: req.data.contract })
+        if (req.data.SalesContract != '') {
+            let query3 = await service2.read(SalesContractVH).where({ SalesContract: req.data.SalesContract })
             req.data.contractName = query3[0].SalesContractName
             tat = query3[0].TurnAroundTime
             console.log('tat', tat)
@@ -179,7 +179,7 @@ module.exports = cds.service.impl(async function () {
         var newCurrentDate = returnDate(new Date())
         var reqDeliveryDate = returnDate(reqDeliveryDate)
 
-        if (req.data.contract == null) {
+        if (req.data.SalesContract == null) {
             req.data.expectedDeliveryDate = returnDate(req.data.expectedDeliveryDate)
             req.data.endDate = returnDate(req.data.endDate)
         }
@@ -362,9 +362,9 @@ module.exports = cds.service.impl(async function () {
         //MR Status = Ready for Approval & Selected Status = Approved and Previous all statuses
         else if (query[0].to_requestStatus_rStatus == 'APRRDY') {
             if (queryStatus[0].rStatus == 'MRAPRD') {
-                console.log('query[0].contract', query[0].contract)
+                console.log('query[0].SalesContract', query[0].SalesContract)
                 //Check if contract is present
-                if (query[0].contract != '') {
+                if (query[0].SalesContract != '') {
                     updateStatus()
                 }
                 else {
