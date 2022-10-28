@@ -29,6 +29,13 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Action : 'mrorequestdolphinService.revisionCreated',
             Label  : '{i18n>revisionCreated}'
         },
+        {
+            $Type           : 'UI.DataFieldForIntentBasedNavigation',
+            Label           : '{i18n>CreateWorkItems}',
+            SemanticObject  : 'MaintenanceWorkItem',
+            Action          : 'manage',
+            RequiresContext : true
+        },
         /*{
             $Type  : 'UI.DataFieldForAction',
             Action : 'mrorequestdolphinService.calculateAging',

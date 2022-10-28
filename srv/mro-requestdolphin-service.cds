@@ -78,7 +78,7 @@ service mrorequestdolphinService {
     };
 
     entity RequestTypes            as projection on maintReq.RequestTypes;
-
+    @odata.draft.enabled
     entity RequestTypeConfig       as projection on maintReq.RequestTypeConfig {
         *,
         to_requestType      @(Common.Label : 'Maintenance Request Type'),
@@ -374,6 +374,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Common.FilterExpress
     Property           : createdAtDate,
     AllowedExpressions : #SingleInterval
 }];
+
 
 //Admin Screen
 //Request Type as Drop down for Admin Screen

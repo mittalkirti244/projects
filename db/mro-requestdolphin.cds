@@ -188,7 +188,8 @@ entity Ranges {
 };
 
 //Request Type Config used in Admin Screen
-entity RequestTypeConfig {
+entity RequestTypeConfig : managed{
+    key ID              : UUID;
     to_requestType      : Association to RequestTypes;
     to_notificationType : Association to NotificationTypes;
 };
@@ -196,7 +197,7 @@ entity RequestTypeConfig {
 //Notification Type used in Admin Screen
 entity NotificationTypes {
     key notifType : String;
-        bowType   : String;
+    key  bowType   : String;
 };
 
 
