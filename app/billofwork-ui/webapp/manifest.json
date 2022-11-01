@@ -1,5 +1,5 @@
 {
-  "_version": "1.37.0",
+  "_version": "1.42.0",
   "sap.app": {
     "id": "billofworkui",
     "type": "application",
@@ -12,8 +12,8 @@
     "resources": "resources.json",
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
-      "version": "1.7.6",
-      "toolsId": "fc6ba566-a94b-48f2-980e-78ce6555bd98"
+      "version": "1.8.0",
+      "toolsId": "a6f50157-3168-4c76-8f66-41cf35cee8a9"
     },
     "dataSources": {
       "mainService": {
@@ -55,7 +55,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.96.14",
+      "minUI5Version": "1.102.1",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},

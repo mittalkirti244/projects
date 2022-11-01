@@ -178,12 +178,12 @@ annotate service.BillOfWorks with @(UI : {
         Data  : [
             {Value : to_maintenanceRequest.functionalLocation},
             {Value : to_maintenanceRequest.equipment},
-            //{Value : to_maintenanceRequest.to_workItems.workOrderNo}
+        //{Value : to_maintenanceRequest.to_workItems.workOrderNo}
         ]
     }
 });
 
-/*annotate service.BillOfWorks with {
+annotate service.BillOfWorks with {
     requestNo @(Common : {ValueList : {
         CollectionPath : 'MaintenanceRequests',
         Label          : 'Maintenance Request',
@@ -203,48 +203,16 @@ annotate service.BillOfWorks with @(UI : {
                 LocalDataProperty : 'to_maintenanceRequest/businessPartner',
                 ValueListProperty : 'businessPartner'
             },
-        // {
-        //     $Type             : 'Common.ValueListParameterFilterOnly',
-        //     ValueListProperty : 'locationWC'
-        // },
-        // {
-        //     $Type             : 'Common.ValueListParameterFilterOnly',
-        //     ValueListProperty : 'locationWCDetail'
-        // },
-        // {
-        //     $Type             : 'Common.ValueListParameterOut',
-        //     LocalDataProperty : 'planningPlant',
-        //     ValueListProperty : 'MaintenancePlanningPlant'
-        // },
-        // {
-        //     $Type             : 'Common.ValueListParameterFilterOnly',
-        //     ValueListProperty : 'SalesContract'
-        // },
-        // {
-        //     $Type             : 'Common.ValueListParameterFilterOnly',
-        //     ValueListProperty : 'contractName'
-        // },
-
-        // {
-        //     $Type             : 'Common.ValueListParameterFilterOnly',
-        //     ValueListProperty : 'functionalLocation'
-        // },
-        // {
-        //     $Type             : 'Common.ValueListParameterFilterOnly',
-        //     ValueListProperty : 'functionalLocationName'
-        // },
-        // {
-        //     $Type             : 'Common.ValueListParameterFilterOnly',
-        //     ValueListProperty : 'equipment'
-        // },
-        // {
-        //     $Type             : 'Common.ValueListParameterFilterOnly',
-        //     ValueListProperty : 'equipmentName'
-        // },
-        // {
-        //     $Type             : 'Common.ValueListParameterFilterOnly',
-        //     ValueListProperty : 'MaintenanceRevision'
-        // }
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'to_maintenanceRequest/locationWC',
+                ValueListProperty : 'locationWC'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'to_maintenanceRequest/MaintenancePlanningPlant',
+                ValueListProperty : 'MaintenancePlanningPlant'
+            }
         ]
     }});
-};*/
+};

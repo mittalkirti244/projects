@@ -1,18 +1,18 @@
 ## Application Details
 |               |
 | ------------- |
-|**Generation Date and Time**<br>Mon Oct 31 2022 12:49:26 GMT+0000 (Coordinated Universal Time)|
+|**Generation Date and Time**<br>Tue Nov 01 2022 07:23:46 GMT+0000 (Coordinated Universal Time)|
 |**App Generator**<br>@sap/generator-fiori-elements|
-|**App Generator Version**<br>1.7.6|
+|**App Generator Version**<br>1.8.0|
 |**Generation Platform**<br>SAP Business Application Studio|
-|**Floorplan Used**<br>List Report Object Page V4|
+|**Template Used**<br>List Report Page V4|
 |**Service Type**<br>Local Cap|
 |**Service URL**<br>http://localhost:4004/mrorequestdolphin/
 |**Module Name**<br>billofwork-ui|
 |**Application Title**<br>Manage Bill of Work|
 |**Namespace**<br>|
-|**UI5 Theme**<br>sap_fiori_3|
-|**UI5 Version**<br>1.96.14|
+|**UI5 Theme**<br>sap_horizon|
+|**UI5 Version**<br>1.102.1|
 |**Enable Code Assist Libraries**<br>False|
 |**Enable TypeScript**<br>False|
 |**Add Eslint configuration**<br>False|
