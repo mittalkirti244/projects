@@ -394,14 +394,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {Value : ccpersonName},
         {Value : ccemail},
         {Value : ccphoneNumber},
-        {
+        /*{
             $Type          : 'UI.DataFieldWithIntentBasedNavigation',
             //Label          : 'My Link for navigation',
             Value          : SalesContract,
             SemanticObject : 'SalesContract',
             Action         : 'manage'
-        }
-        //{Value : SalesContract}
+        }*/
+        {Value : SalesContract}
     ]},
     //Column 3 in general tab
     FieldGroup #generalGroup3                   : {Data : [

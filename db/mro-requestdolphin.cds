@@ -73,6 +73,8 @@ entity MaintenanceRequests : managed {
         to_ranges                        : Association to Ranges                                                       @title :                 '{i18n>range}'  @assert.integrity         : false; //Age Range (0-30,30-60,...)
         to_workItems                     : Association to many WorkItems
                                                on to_workItems.requestNo = $self.requestNo; //One to many association to WorkItems based on request Number
+        to_billOfWorks                   : Association to many BillOfWorks
+                                               on to_billOfWorks.requestNo = $self.requestNo; //One to many association to Bill of Works based on request number
 };
 
 entity RequestTypes {
@@ -200,6 +202,20 @@ entity NotificationTypes {
         bowType   : String;
 };
 
+entity BillOfWorks : managed {
+    requestNo             : String @title : 'Request Number';
+    // revisionNo            : String @title : 'Revision Number';
+    Bowid                 : String @title : 'Bill of Work Number';
+    //workCenter            : String ;
+    //plant                 : String;
+    currency              : String @title : 'Currency';
+    salesOrganization     : String @title : 'Sales Organization';
+    distributionChannel   : String @title : 'Distribution Channel';
+    devision              : String @title : 'Devision';
+    serviceProduct        : String @title : 'Service Product';
+    standardProject       : String @title : 'Standard Product';
+    to_maintenanceRequest : Association to MaintenanceRequests;
+};
 
 //Configurations entity for Admin screen(Not using)
 entity Configurations : managed {
@@ -212,17 +228,17 @@ entity Configurations : managed {
         to_requestType     : Association to RequestTypes      @assert.integrity : false;
         to_requestIndustry : Association to RequestIndustries @assert.integrity : false;
         to_schemaType      : Association to SchemaTypes       @assert.integrity : false;
-}
+};
 
 //RequestIndustries for Admin Screen(Not using)
 entity RequestIndustries {
     key rIndustry : String //Industry
-}
+};
 
 //Schema Types for Admin Screen(Not using)
 entity SchemaTypes {
     key sSchema : String //Search Schema
-}
+};
 
 //Number of Request based on Request Statuses on Overview Page
 @Aggregation.ApplySupported.PropertyRestrictions : true

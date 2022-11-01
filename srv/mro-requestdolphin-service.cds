@@ -237,6 +237,10 @@ service mrorequestdolphinService {
     entity AttachmentTypes         as projection on maintReq.AttachmentTypes;
     entity DocumentStatuses        as projection on maintReq.DocumentStatuses;
     entity Ranges                  as projection on maintReq.Ranges;
+
+    @odata.draft.enabled
+    entity BillOfWorks             as projection on maintReq.BillOfWorks;
+
     //All views used for Overview page
     view AggregatedMaintenanceReqOnStatuses as select from maintReq.AggregatedMaintenanceReqOnStatuses;
     view AggregatedMaintenanceReqOnPhases as select from maintReq.AggregatedMaintenanceReqOnPhases;
