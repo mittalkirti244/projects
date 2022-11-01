@@ -2,21 +2,21 @@ using mrorequestdolphinService as service from '../../srv/mro-requestdolphin-ser
 
 annotate service.RequestTypeConfig with @(UI : {
     SelectionFields             : [
-        to_requestType_rType,
-        to_notificationType_notifType
+        requestType,
+        notificationType
     ],
     LineItem                    : [
         {
             $Type : 'UI.DataField',
-            Value : to_requestType_rType,
+            Value : requestType,
         },
         {
             $Type : 'UI.DataField',
-            Value : to_notificationType_notifType,
+            Value : notificationType,
         },
         {
             $Type : 'UI.DataField',
-            Value : to_notificationType.bowType,
+            Value : bowType,
         },
         {
             Value : ID,
@@ -45,15 +45,15 @@ annotate service.RequestTypeConfig with @(UI : {
         Data  : [
             {
                 $Type : 'UI.DataField',
-                Value : to_requestType_rType,
+                Value : requestType,
             },
             {
                 $Type : 'UI.DataField',
-                Value : to_notificationType_notifType,
+                Value : notificationType,
             },
             {
                 $Type : 'UI.DataField',
-                Value : to_notificationType.bowType,
+                Value : bowType,
             }
         ],
     },
@@ -61,8 +61,8 @@ annotate service.RequestTypeConfig with @(UI : {
         $Type          : 'UI.HeaderInfoType',
         TypeName       : 'Request Type Details',
         TypeNamePlural : 'Request Types',
-        //Title          : {Value : ID},
-        //Description    : {Value : requestDesc}
+        Title          : {Value : requestType},
+    //Description    : {Value : requestDesc}
     },
     HeaderFacets                : [
         {
@@ -95,14 +95,14 @@ annotate service.RequestTypeConfig with @(UI : {
 });
 
 annotate service.RequestTypeConfig with {
-    to_requestType @(Common : {
+    requestType @(Common : {
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'RequestTypes',
             Label          : '{i18n>requestType}',
             Parameters     : [{
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'to_requestType_rType',
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'requestType',
                 ValueListProperty : 'rType'
             }]
         }
@@ -110,56 +110,33 @@ annotate service.RequestTypeConfig with {
 };
 
 annotate service.RequestTypeConfig with {
-    to_notificationType @(Common : {
+    notificationType @(Common : {
         ValueListWithFixedValues,
         ValueList : {
             CollectionPath : 'NotificationTypes',
             Label          : '{i18n>notificationType}',
-            Parameters     : [
-                {
-                    $Type             : 'Common.ValueListParameterInOut',
-                    LocalDataProperty : 'to_notificationType_notifType',
-                    ValueListProperty : 'notifType'
-                },
-                // {
-                //     $Type             : 'Common.ValueListParameterOut',
-                //     LocalDataProperty : 'to_notificationType/bowType',
-                //     ValueListProperty : 'bowType'
-                // }
+            Parameters     : [{
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'notificationType',
+                ValueListProperty : 'notifType'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'bowType',
+                ValueListProperty : 'bowType'
+            }
             ]
         }
     })
 };
 
 
-// annotate service.RequestTypeConfig with {
-//     to_notificationType @(Common : {ValueList : {
-//         CollectionPath  : 'NotificationTypes',
-//         Label           : '{i18n>notificationType}',
-//         SearchSupported : true,
-//         Parameters      : [
-//             {
-//                 $Type             : 'Common.ValueListParameterInOut',
-//                 LocalDataProperty : 'to_notificationType_notifType',
-//                 ValueListProperty : 'notifType'
-//             },
-//             {
-//                 $Type             : 'Common.ValueListParameterOut',
-//                 LocalDataProperty : 'to_notificationType/bowType',
-//                 ValueListProperty : 'bowType'
-//             }
-//         ]
-//     }});
-// };
-
 annotate service.RequestTypeConfig with {
-    to_requestType @Common.FieldControl : #Mandatory;
-    to_notificationType @Common.FieldControl : #Mandatory
+    requestType      @Common.FieldControl : #Mandatory;
+    notificationType @Common.FieldControl : #Mandatory;
+    // bowType @Common.FieldControl : #ReadOnly
 };
 
-annotate service.NotificationTypes with {
-    bowType @Common.FieldControl : #ReadOnly
-};
 
 annotate service.RequestTypeConfig with @Capabilities : {FilterRestrictions : {
     $Type                   : 'Capabilities.FilterRestrictionsType',

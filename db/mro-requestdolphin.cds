@@ -188,10 +188,12 @@ entity Ranges {
 };
 
 //Request Type Config used in Admin Screen
+@assert.unique : {requestType : [requestType]}
 entity RequestTypeConfig : managed {
-    key ID                  : UUID @Core.Computed;
-        to_requestType      : Association to RequestTypes;
-        to_notificationType : Association to NotificationTypes;
+    key ID               : UUID @Core.Computed;
+        requestType      : String;
+        notificationType : String;
+        bowType          : String;
 };
 
 //Notification Type used in Admin Screen
