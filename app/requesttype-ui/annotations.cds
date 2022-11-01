@@ -61,7 +61,7 @@ annotate service.RequestTypeConfig with @(UI : {
         $Type          : 'UI.HeaderInfoType',
         TypeName       : 'Request Type Details',
         TypeNamePlural : 'Request Types',
-        Title          : {Value : requestType},
+    //Title          : {Value : requestType},
     //Description    : {Value : requestDesc}
     },
     HeaderFacets                : [
@@ -120,11 +120,11 @@ annotate service.RequestTypeConfig with {
                 LocalDataProperty : 'notificationType',
                 ValueListProperty : 'notifType'
             },
-            {
-                $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'bowType',
-                ValueListProperty : 'bowType'
-            }
+            // {
+            //     $Type             : 'Common.ValueListParameterOut',
+            //     LocalDataProperty : 'bowType',
+            //     ValueListProperty : 'bowType'
+            // }
             ]
         }
     })
@@ -134,7 +134,7 @@ annotate service.RequestTypeConfig with {
 annotate service.RequestTypeConfig with {
     requestType      @Common.FieldControl : #Mandatory;
     notificationType @Common.FieldControl : #Mandatory;
-    // bowType @Common.FieldControl : #ReadOnly
+    bowType          @Common.FieldControl : #ReadOnly
 };
 
 

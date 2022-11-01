@@ -188,7 +188,7 @@ entity Ranges {
 };
 
 //Request Type Config used in Admin Screen
-@assert.unique : {requestType : [requestType]}
+// @assert.unique : {requestType : [requestType]}
 entity RequestTypeConfig : managed {
     key ID               : UUID @Core.Computed;
         requestType      : String;
