@@ -982,27 +982,20 @@ module.exports = cds.service.impl(async function () {
             var vnotifType = result[0].notificationType;
             console.log('notification Type', vnotifType);
             req.error(406, vreqType + ' request type is already mapped to ' + vnotifType + ' notification type');
-
         }
-    });
 
-    //handler for assigning the bowType
-    this.before(['CREATE', 'UPDATE'], 'RequestTypeConfig', async (req) => {
+        //Code for assigning bow type
         var vnotifType = req.data.notificationType;
         //Get transaction of the request
-        const tx = cds.transaction(req);
+        //const tx = cds.transaction(req);
         //query for getting the related bowtype.
         let query = await tx.read(NotificationTypes).where({ notifType: vnotifType });
         var vbowType = query[0].bowType;
         console.log('bowType', vbowType);
         //assigning bowType
         req.data.bowType = vbowType;
-
     });
 })
-
-
-
 
 /*this.on('requestMail', async (req) => {
      for (let i = 0; i < req.params.length; i++) {
