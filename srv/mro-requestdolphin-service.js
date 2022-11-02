@@ -24,7 +24,9 @@ module.exports = cds.service.impl(async function () {
         RequestStatusesDisp,
         MaintNotifications,
         ReferenceTaskListVH,
-        WorkItemTypes } = this.entities
+        WorkItemTypes,
+        RequestTypeConfig,
+        NotificationTypes } = this.entities
     const service1 = await cds.connect.to('NumberRangeService');
     const service2 = await cds.connect.to('MAINTREQ_SB');
 
@@ -963,7 +965,44 @@ module.exports = cds.service.impl(async function () {
         }).where({ ID: id1 })
     };
 
+    //Handler for checking uniqueness in the RequestTypeConfig
+    this.before(['CREATE', 'UPDATE'], 'RequestTypeConfig', async (req) => {
+        var vreqType = req.data.requestType;
+        var vcount = 0;
+        //Get transaction of the request
+        const tx = cds.transaction(req);
+        //Check if there another record with same requestType
+        let result = await tx.read(RequestTypeConfig).where({ requestType: vreqType });
+        console.log('result', result);
+        result.forEach(_ => vcount++);
+        console.log('count', vcount);
+        //To check if the current record is not considered in edit mode
+        if (vcount > 0 && req.data.ID != result[0].ID) {
+
+            var vnotifType = result[0].notificationType;
+            console.log('notification Type', vnotifType);
+            req.error(406, vreqType + ' request type is already mapped to ' + vnotifType + ' notification type');
+
+        }
+    });
+
+    //handler for assigning the bowType
+    this.before(['CREATE', 'UPDATE'], 'RequestTypeConfig', async (req) => {
+        var vnotifType = req.data.notificationType;
+        //Get transaction of the request
+        const tx = cds.transaction(req);
+        //query for getting the related bowtype.
+        let query = await tx.read(NotificationTypes).where({ notifType: vnotifType });
+        var vbowType = query[0].bowType;
+        console.log('bowType', vbowType);
+        //assigning bowType
+        req.data.bowType = vbowType;
+
+    });
 })
+
+
+
 
 /*this.on('requestMail', async (req) => {
      for (let i = 0; i < req.params.length; i++) {
