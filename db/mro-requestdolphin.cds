@@ -204,7 +204,7 @@ entity NotificationTypes {
 
 entity BillOfWorks : managed {
     requestNo             : String @title : 'Request Number';
-    // revisionNo            : String @title : 'Revision Number';
+    //revisionNo            : String @title : 'Revision Number';
     Bowid                 : String @title : 'Bill of Work Number';
     //workCenter            : String ;
     //plant                 : String;

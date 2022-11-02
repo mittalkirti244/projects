@@ -238,7 +238,7 @@ service mrorequestdolphinService {
     entity DocumentStatuses        as projection on maintReq.DocumentStatuses;
     entity Ranges                  as projection on maintReq.Ranges;
 
-    @odata.draft.enabled
+    //@odata.draft.enabled
     entity BillOfWorks             as projection on maintReq.BillOfWorks;
 
     //All views used for Overview page
