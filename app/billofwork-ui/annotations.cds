@@ -20,7 +20,7 @@ annotate service.BillOfWorks with @(UI : {
             },
         },
         {
-            Value                 : to_maintenanceRequest.MaintenanceRevision,
+            Value                 : MaintenanceRevision,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -55,7 +55,7 @@ annotate service.BillOfWorks with @(UI : {
             },
         },
         {
-            Value                 : to_maintenanceRequest.MaintenancePlanningPlant,
+            Value                 : MaintenancePlanningPlant,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -76,7 +76,7 @@ annotate service.BillOfWorks with @(UI : {
             },
         },
         {
-            Value                 : to_maintenanceRequest.locationWC,
+            Value                 : workLocation,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -112,31 +112,58 @@ annotate service.BillOfWorks with @(UI : {
         }
     ],
     //Facets Information in Object Page
-    Facets                   : [{
-        $Type  : 'UI.CollectionFacet',
-        ID     : 'mrInfo',
-        Label  : 'Maintenance Request Information',
-        Facets : [
-            {
-                $Type  : 'UI.ReferenceFacet',
-                ID     : 'mrInfo1',
-                Target : '@UI.FieldGroup#mrInfo1',
-            //Label  : 'Work Item Information'
-            },
-            {
-                $Type  : 'UI.ReferenceFacet',
-                ID     : 'mrInfo2',
-                Target : '@UI.FieldGroup#mrInfo2',
-            //Label  : 'Technical Reference'
-            },
-            {
-                $Type  : 'UI.ReferenceFacet',
-                ID     : 'mrInfo3',
-                Target : '@UI.FieldGroup#mrInfo3',
-            //Label  : 'Additional Information'
-            },
-        ],
-    }, ],
+    Facets                   : [
+        {
+            $Type  : 'UI.CollectionFacet',
+            ID     : 'mrInfo',
+            Label  : 'Maintenance Request Information',
+            Facets : [
+                {
+                    $Type  : 'UI.ReferenceFacet',
+                    ID     : 'mrInfo1',
+                    Target : '@UI.FieldGroup#mrInfo1',
+                //Label  : 'Work Item Information'
+                },
+                {
+                    $Type  : 'UI.ReferenceFacet',
+                    ID     : 'mrInfo2',
+                    Target : '@UI.FieldGroup#mrInfo2',
+                //Label  : 'Technical Reference'
+                },
+                {
+                    $Type  : 'UI.ReferenceFacet',
+                    ID     : 'mrInfo3',
+                    Target : '@UI.FieldGroup#mrInfo3',
+                //Label  : 'Additional Information'
+                },
+            ],
+        },
+        {
+            $Type  : 'UI.CollectionFacet',
+            ID     : 'bowInfo',
+            Label  : 'Bill of Work',
+            Facets : [
+                {
+                    $Type  : 'UI.ReferenceFacet',
+                    ID     : 'bowInfo1',
+                    Target : '@UI.FieldGroup#bowInfo1',
+                //Label  : 'Work Item Information'
+                },
+                {
+                    $Type  : 'UI.ReferenceFacet',
+                    ID     : 'bowInfo2',
+                    Target : '@UI.FieldGroup#bowInfo2',
+                //Label  : 'Technical Reference'
+                },
+                {
+                    $Type  : 'UI.ReferenceFacet',
+                    ID     : 'bowInfo3',
+                    Target : '@UI.FieldGroup#bowInfo3',
+                //Label  : 'Additional Information'
+                },
+            ],
+        }
+    ],
     FieldGroup #basicDetail1 : {
         $Type : 'UI.FieldGroupType',
         Data  : [
@@ -157,29 +184,49 @@ annotate service.BillOfWorks with @(UI : {
         $Type : 'UI.FieldGroupType',
         Data  : [
             {Value : requestNo},
-            {Value : to_maintenanceRequest.to_requestType_rType},
-            {Value : to_maintenanceRequest.businessPartner},
-            {Value : to_maintenanceRequest.SalesContract},
-            {Value : to_maintenanceRequest.MaintenanceRevision}
+            {Value : requestType},
+            {Value : businessPartner},
+            {Value : SalesContract},
+            {Value : MaintenanceRevision}
         ],
     },
     FieldGroup #mrInfo2      : {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {Value : to_maintenanceRequest.locationWC},
-            {Value : to_maintenanceRequest.MaintenancePlanningPlant},
+            {Value : workLocation},
+            {Value : MaintenancePlanningPlant},
             {Value : currency},
-            {Value : to_maintenanceRequest.expectedArrivalDate},
-            {Value : to_maintenanceRequest.expectedDeliveryDate}
+            {Value : expectedArrivalDate},
+            {Value : expectedDeliveryDate}
         ]
     },
     FieldGroup #mrInfo3      : {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {Value : to_maintenanceRequest.functionalLocation},
-            {Value : to_maintenanceRequest.equipment},
-        //{Value : to_maintenanceRequest.to_workItems.workOrderNo}
+            {Value : functionalLocation},
+            {Value : equipment},
+            {Value : workOrderNo}
         ]
+    },
+    FieldGroup #bowInfo1     : {
+        $Type : 'UI.FieldGroupType',
+        Data  : [
+            {Value : bowType},
+            {Value : salesOrganization},
+            {Value : serviceProduct}
+        ]
+    },
+    FieldGroup #bowInfo2     : {
+        $Type : 'UI.FieldGroupType',
+        Data  : [
+            {Value : bowDesc},
+            {Value : distributionChannel},
+            {Value : standardProject}
+        ]
+    },
+    FieldGroup #bowInfo3     : {
+        $Type : 'UI.FieldGroupType',
+        Data  : [{Value : devision}]
     }
 });
 
@@ -195,24 +242,73 @@ annotate service.BillOfWorks with {
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'to_maintenanceRequest/to_requestType_rType',
+                LocalDataProperty : 'requestType',
                 ValueListProperty : 'to_requestType_rType'
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'to_maintenanceRequest/businessPartner',
+                LocalDataProperty : 'businessPartner',
                 ValueListProperty : 'businessPartner'
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'to_maintenanceRequest/locationWC',
+                LocalDataProperty : 'SalesContract',
+                ValueListProperty : 'SalesContract'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'MaintenanceRevision',
+                ValueListProperty : 'MaintenanceRevision'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'workLocation',
                 ValueListProperty : 'locationWC'
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'to_maintenanceRequest/MaintenancePlanningPlant',
+                LocalDataProperty : 'MaintenancePlanningPlant',
                 ValueListProperty : 'MaintenancePlanningPlant'
-            }
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'expectedArrivalDate',
+                ValueListProperty : 'expectedArrivalDate'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'expectedDeliveryDate',
+                ValueListProperty : 'expectedDeliveryDate'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'functionalLocation',
+                ValueListProperty : 'functionalLocation'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'equipment',
+                ValueListProperty : 'equipment'
+            },
+        // {
+        //     $Type             : 'Common.ValueListParameterOut',
+        //     LocalDataProperty : 'workOrderNo',
+        //    // ValueListProperty : 'to_'
+        // }
         ]
     }});
 };
+
+//Readonly and mandatory fields
+annotate service.BillOfWorks {
+    requestType              @readonly;
+    SalesContract            @readonly;
+    businessPartner          @readonly;
+    contract                 @readonly;
+    MaintenanceRevision      @readonly;
+    MaintenancePlanningPlant @readonly;
+    expectedArrivalDate      @readonly;
+    expectedDeliveryDate     @readonly;
+    functionalLocation       @readonly;
+    equipment                @readonly
+}

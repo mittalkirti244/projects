@@ -53,20 +53,20 @@ annotate service.WorkItems with @(UI : {
                 width : '10rem',
             },
         },
-        // {
-        //     Value                 : MaintenanceNotification,
-        //     ![@HTML5.CssDefaults] : {
-        //         $Type : 'HTML5.CssDefaultsType',
-        //         width : '10rem',
-        //     },
-        // },
         {
-            $Type          : 'UI.DataFieldWithIntentBasedNavigation',
-            //Label          : 'My Link for navigation',
-            Value          : MaintenanceNotification,
-            SemanticObject : 'MaintenanceNotification',
-            Action         : 'displayNotification',
+            Value                 : MaintenanceNotification,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            },
         },
+        // {
+        //     $Type          : 'UI.DataFieldWithIntentBasedNavigation',
+        //     //Label          : 'My Link for navigation',
+        //     Value          : MaintenanceNotification,
+        //     SemanticObject : 'MaintenanceNotification',
+        //     Action         : 'displayNotification',
+        // },
         {
             Value                 : customerRef,
             ![@HTML5.CssDefaults] : {

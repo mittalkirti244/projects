@@ -26,9 +26,11 @@ module.exports = cds.service.impl(async function () {
         ReferenceTaskListVH,
         WorkItemTypes,
         RequestTypeConfig,
-        NotificationTypes } = this.entities
+        NotificationTypes,
+        SalesOrgVH } = this.entities
     const service1 = await cds.connect.to('NumberRangeService');
     const service2 = await cds.connect.to('MAINTREQ_SB');
+    const service3 = await cds.connect.to('REUSABLE_SB');
 
     var newFormatedDate, tat, assignedDeliveryDate;
     var queryStatus, queryPhase, query;
@@ -44,6 +46,11 @@ module.exports = cds.service.impl(async function () {
     //Read the BusinessPartnerVH, WorkCenterVH, FunctionLocationVH, SalesContractVH, EquipmentVH, Revisions entity from S4(MaintReq).
     this.on('READ', [BusinessPartnerVH, WorkCenterVH, FunctionLocationVH, SalesContractVH, EquipmentVH, RevisionVH, MaintNotifications, ReferenceTaskListVH], req => {
         return service2.tx(req).run(req.query);
+    });
+
+    //Read Sales Organization
+    this.on('READ', SalesOrgVH, req => {
+        return service3.tx(req).run(req.query);
     });
 
     //Custom handler for new create(To load details at the time of first CREATE Button i.e., present on list page)
@@ -994,6 +1001,31 @@ module.exports = cds.service.impl(async function () {
         console.log('bowType', vbowType);
         //assigning bowType
         req.data.bowType = vbowType;
+    });
+
+    //Handler for create of Bill of Work Application
+    this.before('CREATE', 'BillOfWorks', async (req) => {
+
+        var query = await SELECT.from(MaintenanceRequests).columns('*').where({ requestNo: req.data.requestNo })
+        console.log('query', query)
+        req.data.requestType = query[0].to_requestType_rType
+        req.data.businessPartner = query[0].businessPartner
+        req.data.businessPartnerName = query[0].businessPartnerName
+        req.data.contract = query[0].SalesContract
+        req.data.contractName = query[0].contractName
+        req.data.MaintenanceRevision = query[0].MaintenanceRevision
+        req.data.workLocation = query[0].locationWC
+        req.data.workLocationDetail = query[0].locationWCDetail
+        req.data.MaintenancePlanningPlant = query[0].MaintenancePlanningPlant
+        req.data.plantName = query[0].plantName
+        req.data.expectedArrivalDate = query[0].expectedArrivalDate
+        req.data.expectedDeliveryDate = query[0].expectedDeliveryDate
+        req.data.functionalLocation = query[0].functionalLocation
+        req.data.functionalLocationName = query[0].functionalLocationName
+        req.data.equipment = query[0].equipment
+        req.data.equipmentName = query[0].equipmentName
+        //req.data.workOrderNo = query[0].to_requestType_rType
+
     });
 })
 

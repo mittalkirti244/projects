@@ -1,6 +1,8 @@
 using {com.hcl.mro.requestdolphin as maintReq} from '../db/mro-requestdolphin';
 using {NumberRangeService as numberRange} from './external/NumberRangeService';
 using {MAINTREQ_SB as s4maintReq} from './external/MAINTREQ_SB';
+using {BOW as bow} from './external/BOW';
+using {REUSABLE_SB as reusable} from './external/REUSABLE_SB';
 
 service mrorequestdolphinService {
 
@@ -239,7 +241,7 @@ service mrorequestdolphinService {
     entity DocumentStatuses        as projection on maintReq.DocumentStatuses;
     entity Ranges                  as projection on maintReq.Ranges;
 
-    //@odata.draft.enabled
+    @odata.draft.enabled
     entity BillOfWorks             as projection on maintReq.BillOfWorks;
 
     //All views used for Overview page
@@ -376,6 +378,13 @@ extend service mrorequestdolphinService with {
             TaskListDesc                 @(Common.Label : 'Task List Description'),
             ExternalCustomerReference    @(Common.Label : 'Customer Reference'),
             Plant                        @(Common.Label : 'Work Location Plant')
+    };
+
+    entity SalesOrgVH          as projection on reusable.SalesOrgVH {
+        SalesOrganization,
+        DistributionChannel,
+        Division,
+        Division_Text
     };
 }
 

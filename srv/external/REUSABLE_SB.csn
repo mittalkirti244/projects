@@ -1,0 +1,211 @@
+{
+  "meta": {
+    "creator": "cds-dk 6.1.4"
+  },
+  "$version": "2.0",
+  "definitions": {
+    "REUSABLE_SB": {
+      "kind": "service",
+      "@cds.external": true,
+      "@m.IsDefaultEntityContainer": "true",
+      "@sap.message.scope.supported": "true",
+      "@sap.supported.formats": "atom json xlsx"
+    },
+    "REUSABLE_SB.SalesOrgVH": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.searchable": "true",
+      "@sap.content.version": "1",
+      "@sap.label": "Sales Org/Dis Ch specific Org Division",
+      "elements": {
+        "SalesOrganization": {
+          "key": true,
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Sales Organization"
+        },
+        "DistributionChannel": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Distribution Channel"
+        },
+        "Division": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.text": "Division_Text",
+          "@sap.label": "Division"
+        },
+        "Division_Text": {
+          "type": "cds.String",
+          "length": 20,
+          "@sap.label": "Division Description",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false"
+        }
+      }
+    },
+    "REUSABLE_SB.MaterialVH": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.searchable": "true",
+      "@sap.content.version": "1",
+      "@sap.label": "Material Value Help",
+      "elements": {
+        "Material": {
+          "key": true,
+          "type": "cds.String",
+          "length": 40,
+          "@sap.display.format": "UpperCase",
+          "@sap.text": "Material_Text",
+          "@sap.label": "Material",
+          "@sap.quickinfo": "Material Number"
+        },
+        "Material_Text": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.label": "Material Description",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false"
+        },
+        "MaterialType": {
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Material type"
+        },
+        "MaterialGroup": {
+          "type": "cds.String",
+          "length": 9,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Material Group"
+        },
+        "MaterialBaseUnit": {
+          "type": "cds.String",
+          "length": 3,
+          "@sap.label": "Base Unit of Measure",
+          "@sap.semantics": "unit-of-measure"
+        },
+        "MaterialGrossWeight": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3,
+          "@sap.unit": "MaterialWeightUnit",
+          "@sap.label": "Gross weight"
+        },
+        "MaterialNetWeight": {
+          "type": "cds.Decimal",
+          "precision": 13,
+          "scale": 3,
+          "@sap.unit": "MaterialWeightUnit",
+          "@sap.label": "Net weight"
+        },
+        "MaterialWeightUnit": {
+          "type": "cds.String",
+          "length": 3,
+          "@sap.label": "Weight unit",
+          "@sap.quickinfo": "Weight Unit",
+          "@sap.semantics": "unit-of-measure"
+        },
+        "MaterialManufacturerNumber": {
+          "type": "cds.String",
+          "length": 10,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Manufacturer",
+          "@sap.quickinfo": "Manufacturer number"
+        },
+        "MaterialManufacturerPartNumber": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Mfr Part Number",
+          "@sap.quickinfo": "Manufacturer Part Number"
+        },
+        "AuthorizationGroup": {
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Authorization Group"
+        },
+        "IsBatchManagementRequired": {
+          "type": "cds.Boolean",
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Batch Management",
+          "@sap.quickinfo": "Batch Management Requirement Indicator"
+        }
+      }
+    },
+    "REUSABLE_SB.SAP__Currencies": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "@sap.content.version": "1",
+      "elements": {
+        "CurrencyCode": {
+          "key": true,
+          "type": "cds.String",
+          "length": 5,
+          "@sap.label": "Currency",
+          "@sap.semantics": "currency-code"
+        },
+        "ISOCode": {
+          "type": "cds.String",
+          "length": 3,
+          "@sap.label": "ISO code"
+        },
+        "Text": {
+          "type": "cds.String",
+          "length": 15,
+          "@sap.label": "Short text"
+        },
+        "DecimalPlaces": {
+          "type": "cds.Integer",
+          "@odata.Type": "Edm.Byte",
+          "@sap.label": "Decimals"
+        }
+      }
+    },
+    "REUSABLE_SB.SAP__UnitsOfMeasure": {
+      "kind": "entity",
+      "@cds.persistence.skip": true,
+      "@sap.content.version": "1",
+      "elements": {
+        "UnitCode": {
+          "key": true,
+          "type": "cds.String",
+          "length": 3,
+          "@sap.label": "Internal UoM",
+          "@sap.semantics": "unit-of-measure"
+        },
+        "ISOCode": {
+          "type": "cds.String",
+          "length": 3,
+          "@sap.label": "ISO code"
+        },
+        "ExternalCode": {
+          "type": "cds.String",
+          "length": 3,
+          "@sap.label": "Commercial"
+        },
+        "Text": {
+          "type": "cds.String",
+          "length": 30,
+          "@sap.label": "UoM Text"
+        },
+        "DecimalPlaces": {
+          "type": "cds.Integer",
+          "@sap.label": "Decimal Places"
+        }
+      }
+    }
+  }
+}
