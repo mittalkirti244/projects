@@ -401,7 +401,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             SemanticObject : 'SalesContract',
             Action         : 'manage'
         }*/
-        //{Value : SalesContract}
+        {Value : SalesContract}
     ]},
     //Column 3 in general tab
     FieldGroup #generalGroup3                   : {Data : [

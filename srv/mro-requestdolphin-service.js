@@ -27,10 +27,15 @@ module.exports = cds.service.impl(async function () {
         WorkItemTypes,
         RequestTypeConfig,
         NotificationTypes,
-        SalesOrgVH } = this.entities
+        SalesOrgVH,
+        xHCLPRODSxC_Bow,
+        ServiceProducts,
+        Currencies } = this.entities
     const service1 = await cds.connect.to('NumberRangeService');
     const service2 = await cds.connect.to('MAINTREQ_SB');
     const service3 = await cds.connect.to('REUSABLE_SB');
+    const service4 = await cds.connect.to('BOW');
+    const service5 = await cds.connect.to('BOW_CREATE_SRV');
 
     var newFormatedDate, tat, assignedDeliveryDate;
     var queryStatus, queryPhase, query;
@@ -51,6 +56,14 @@ module.exports = cds.service.impl(async function () {
     //Read Sales Organization
     this.on('READ', SalesOrgVH, req => {
         return service3.tx(req).run(req.query);
+    });
+
+    this.on('READ', xHCLPRODSxC_Bow, req => {
+        return service4.tx(req).run(req.query);
+    });
+
+    this.on('READ', [ServiceProducts, Currencies], req => {
+        return service5.tx(req).run(req.query);
     });
 
     //Custom handler for new create(To load details at the time of first CREATE Button i.e., present on list page)

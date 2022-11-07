@@ -299,6 +299,30 @@ annotate service.BillOfWorks with {
     }});
 };
 
+annotate service.BillOfWorks with {
+    salesOrganization @(Common : {ValueList : {
+        CollectionPath : 'SalesOrgVH',
+        Label          : 'Sales Organization',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'salesOrganization',
+                ValueListProperty : 'SalesOrganization'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'distributionChannel',
+                ValueListProperty : 'DistributionChannel'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'devision',
+                ValueListProperty : 'Division'
+            }
+        ]
+    }});
+};
+
 //Readonly and mandatory fields
 annotate service.BillOfWorks {
     requestType              @readonly;

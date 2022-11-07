@@ -3,6 +3,7 @@ using {NumberRangeService as numberRange} from './external/NumberRangeService';
 using {MAINTREQ_SB as s4maintReq} from './external/MAINTREQ_SB';
 using {BOW as bow} from './external/BOW';
 using {REUSABLE_SB as reusable} from './external/REUSABLE_SB';
+using {BOW_CREATE_SRV as bowCreate} from './external/BOW_CREATE_SRV';
 
 service mrorequestdolphinService {
 
@@ -278,14 +279,14 @@ service mrorequestdolphinService {
 //Maintained all entites that is coming from external
 extend service mrorequestdolphinService with {
 
-    entity NumberRanges        as projection on numberRange.NumberRanges;
+    entity NumberRanges           as projection on numberRange.NumberRanges;
 
     @readonly
     @Capabilities.SearchRestrictions : {
         $Type : 'Capabilities.SearchRestrictionsType',
         Searchable,
     }
-    entity BusinessPartnerVH   as projection on s4maintReq.BusinessPartnerVH {
+    entity BusinessPartnerVH      as projection on s4maintReq.BusinessPartnerVH {
         key BusinessPartner         @(Common.Label : '{i18n>BusinessPartner}'),
         key BusinessPartnerRole     @(Common.Label : '{i18n>BusinessPartnerRole}') @UI.HiddenFilter,
         key SalesContract           @(Common.Label : '{i18n>SalesContract}'),
@@ -303,7 +304,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity WorkCenterVH        as projection on s4maintReq.WorkCenterVH {
+    entity WorkCenterVH           as projection on s4maintReq.WorkCenterVH {
         key Plant                  @(Common.Label : '{i18n>Plant}'),
         key WorkCenter             @(Common.Label : '{i18n>WorkCenter}',
                                                                          /* Common       : {
@@ -317,7 +318,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity FunctionLocationVH  as projection on s4maintReq.FunctionLocationVH {
+    entity FunctionLocationVH     as projection on s4maintReq.FunctionLocationVH {
         key functionalLocation       @(Common.Label : '{i18n>functionalLocation}'),
             FunctionalLocationName   @(Common.Label : '{i18n>FunctionalLocationName}'),
             ManufacturerName         @(Common.Label : '{i18n>ManufacturerName}'),
@@ -328,7 +329,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity SalesContractVH     as projection on s4maintReq.SalesContractVH {
+    entity SalesContractVH        as projection on s4maintReq.SalesContractVH {
         key SalesContract     @(Common.Label : '{i18n>SalesContract}'),
             SalesContractName @(Common.Label : '{i18n>SalesContractName}'),
             TurnAroundTime    @(Common.Label : '{i18n>TurnAroundTime}'),
@@ -336,7 +337,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity EquipmentVH         as projection on s4maintReq.EquipmentVH {
+    entity EquipmentVH            as projection on s4maintReq.EquipmentVH {
         key Equipment,
             EquipmentName      @(Common.Label : '{i18n>EquipmentName}'),
             FunctionalLocation @(Common.Label : '{i18n>functionalLocation}'),
@@ -346,7 +347,7 @@ extend service mrorequestdolphinService with {
             Plant              @UI.HiddenFilter
     };
 
-    entity RevisionVH          as projection on s4maintReq.MaintRevision {
+    entity RevisionVH             as projection on s4maintReq.MaintRevision {
         key PlanningPlant     @UI.HiddenFilter,
         key RevisionNo        @(Common.Label : '{i18n>RevisionNo}'),
             Equipment         @UI.HiddenFilter,
@@ -362,13 +363,13 @@ extend service mrorequestdolphinService with {
     };
 
     //Maintenance Notification number value help on object page
-    entity MaintNotifications  as projection on s4maintReq.MaintNotification {
+    entity MaintNotifications     as projection on s4maintReq.MaintNotification {
         MaintenanceNotification @(Common.Label : 'Notification'),
         NotificationText        @UI.HiddenFilter @(Common.Label : 'Notification Text'),
         NotificationType        @(Common.Label : 'Notification Type')
     };
 
-    entity ReferenceTaskListVH as projection on s4maintReq.ReferenceTaskListVH {
+    entity ReferenceTaskListVH    as projection on s4maintReq.ReferenceTaskListVH {
         key TaskListType                 @(Common.Label : 'Task List Type'),
         key TaskListGroup                @(Common.Label : 'Task List Group'),
         key TaskListGroupCounter         @(Common.Label : 'Task List Group Counter'),
@@ -380,12 +381,38 @@ extend service mrorequestdolphinService with {
             Plant                        @(Common.Label : 'Work Location Plant')
     };
 
-    entity SalesOrgVH          as projection on reusable.SalesOrgVH {
+    entity SalesOrgVH             as projection on reusable.SalesOrgVH {
         SalesOrganization,
         DistributionChannel,
         Division,
         Division_Text
     };
+
+    entity xHCLPRODSxC_Bow        as projection on bow.xHCLPRODSxC_Bow {
+        key Bowid,
+            bowty,
+            Bowtxt,
+            MaintenanceRevision,
+            MaintenancePlanningPlant,
+            vkorg,
+            vtweg,
+            spart,
+            Mainworkcenter,
+            werks,
+            Servicematerial,
+            Standardproject,
+            kunag,
+            CustomerName,
+            Documentcurrency,
+            bstnk,
+            SalesContract,
+            CopyWorklist,
+            Eventdata
+    };
+
+    entity ServiceProducts        as projection on bowCreate.servicematerial_f4Set;
+    entity Currencies as projection on bowCreate.Documentcurrency_f4Set;
+
 }
 
 //Filter restriction that is used for (Semantic date filter) on overview page
