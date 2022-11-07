@@ -410,8 +410,16 @@ extend service mrorequestdolphinService with {
             Eventdata
     };
 
-    entity ServiceProducts        as projection on bowCreate.servicematerial_f4Set;
-    entity Currencies as projection on bowCreate.Documentcurrency_f4Set;
+    entity ServiceProducts        as projection on bowCreate.servicematerial_f4Set{
+        Ordertype,
+        Servicematerial,
+        Project
+    };
+    entity Currencies as projection on bowCreate.Documentcurrency_f4Set{
+        Language,
+        Documentcurrency,
+        Currencyname
+    };
 
 }
 
