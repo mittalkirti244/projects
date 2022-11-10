@@ -1026,6 +1026,7 @@ module.exports = cds.service.impl(async function () {
         //Storing the values in database, after making all these fields as a readonly field
         var query = await SELECT.from(MaintenanceRequests).columns('*').where({ requestNo: req.data.requestNoConcat })
         console.log('query', query)
+        req.data.requestDesc = query[0].requestDesc
         req.data.requestType = query[0].to_requestType_rType
         req.data.businessPartner = query[0].businessPartner
         req.data.businessPartnerName = query[0].businessPartnerName

@@ -251,6 +251,15 @@ service mrorequestdolphinService {
         modifiedBy @(Common.Label : '{i18n>modifiedBy}')
     };
 
+    //Entity used as collection path for Workorder number on object page
+    entity WorkOrderNumbers        as
+        select from maintReq.WorkItems {
+            workOrderNo,
+            requestNoConcat
+        }
+        where
+            workOrderNo != '';
+
     //All views used for Overview page
     view AggregatedMaintenanceReqOnStatuses as select from maintReq.AggregatedMaintenanceReqOnStatuses;
     view AggregatedMaintenanceReqOnPhases as select from maintReq.AggregatedMaintenanceReqOnPhases;
@@ -396,24 +405,24 @@ extend service mrorequestdolphinService with {
 
     entity xHCLPRODSxC_Bow     as projection on bow.xHCLPRODSxC_Bow {
         key Bowid                    @(Common.Label : 'Bill of Work'),
-            bowty,
+            bowty                    @UI.HiddenFilter,
             Bowtxt                   @(Common.Label : 'Bill of Work Description'),
             MaintenanceRevision      @(Common.Label : 'Revision'),
             MaintenancePlanningPlant @(Common.Label : 'Work Location Plant'),
-            vkorg,
-            vtweg,
-            spart,
-            Mainworkcenter,
-            werks,
-            Servicematerial,
-            Standardproject,
-            kunag,
-            CustomerName,
-            Documentcurrency,
-            bstnk,
-            SalesContract,
-            CopyWorklist,
-            Eventdata
+            vkorg                    @UI.HiddenFilter,
+            vtweg                    @UI.HiddenFilter,
+            spart                    @UI.HiddenFilter,
+            Mainworkcenter           @UI.HiddenFilter,
+            werks                    @UI.HiddenFilter,
+            Servicematerial          @UI.HiddenFilter,
+            Standardproject          @UI.HiddenFilter,
+            kunag                    @UI.HiddenFilter,
+            CustomerName             @UI.HiddenFilter,
+            Documentcurrency         @UI.HiddenFilter,
+            bstnk                    @UI.HiddenFilter,
+            SalesContract            @UI.HiddenFilter,
+            CopyWorklist             @UI.HiddenFilter,
+            Eventdata                @UI.HiddenFilter
     };
 
     entity ServiceProducts     as projection on bowCreate.servicematerial_f4Set {

@@ -209,6 +209,7 @@ entity NotificationTypes {
 entity BillOfWorks : managed {
     key ID                       : UUID    @Core.Computed;
         requestNoConcat          : String  @title                 : 'Maintenance Request';
+        requestDesc              : String  @title                 : 'Request Description'; // maintenance request Description
         requestType              : String  @title                 : 'Maintenance Request Type';
         businessPartner          : String  @title                 : 'Business Partner';
         businessPartnerName      : String  @title                 : 'Business Partner Name';

@@ -1,2 +1,2 @@
-ID;Bowid;to_maintenanceRequest_ID
-8c1714f6-bef3-43a5-b76b-b4ae38a05d30;1390;a0a502fc-4d40-43df-bbe9-cdb6de42392f
+ID;requestNoConcat;requestDesc;requestType;businessPartner;businessPartnerName;SalesContract;contractName;MaintenanceRevision;revisionText;workLocation;workLocationDetail;MaintenancePlanningPlant;plantName;expectedArrivalDate;expectedDeliveryDate;functionalLocation;functionalLocationName;workOrderNo;Bowid;bowType;bowTypeDesc;bowDesc;currency;salesOrganization;distributionChannel;division;serviceProduct;standardProject;to_maintenanceRequest_ID
+24d63eb0-64ca-41d5-8f4f-00240828f001;1018;req desc;Complete Asset;BP1;Customer 1;40000003;Customer 1;00000319;1018 Complete Asset;E_W3;Inspection Work Center;X003;Aircraft;2022-11-10;2023-05-09;9V-S-A;787 -2021 New AC;jhj;1401;B001;BOW TYPE 1;1018 Complete Asset;ADP;0001;01;01;REPAIR_COMP;COMPONENT_PRJ;64f491a1-8a18-4b45-a68d-49b8a1f5f782

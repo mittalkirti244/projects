@@ -243,6 +243,22 @@ annotate service.BillOfWorks with @(UI : {
 });
 
 //Text arrangement
+//Text arrangemennt for Request Number
+annotate service.BillOfWorks with {
+    requestNoConcat @(Common : {Text : {
+        $value                 : requestDesc,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
+//Text arrangement for BOW
+annotate service.BillOfWorks with {
+    Bowid @(Common : {Text : {
+        $value                 : bowDesc,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
 //Text arrangement for Business partner
 annotate service.BillOfWorks with {
     businessPartner @(Common : {Text : {
@@ -450,7 +466,7 @@ annotate service.BillOfWorks with {
     workOrderNo @(Common : {
         ValueListWithFixedValues,
         ValueList : {
-            CollectionPath : 'WorkItems',
+            CollectionPath : 'WorkOrderNumbers',
             Label          : 'Work Order Number',
             Parameters     : [
                 {
