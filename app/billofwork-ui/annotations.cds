@@ -63,7 +63,41 @@ annotate service.BillOfWorks with @(UI : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
             },
+        },
+        //Hide fields from settings tab
+        {
+            Value : businessPartnerName,
+            ![@UI.Hidden]
+        },
+         {
+            Value : contractName,
+            ![@UI.Hidden]
+        },
+         {
+            Value : equipmentName,
+            ![@UI.Hidden]
+        },
+         {
+            Value : functionalLocationName,
+            ![@UI.Hidden]
+        },
+         {
+            Value : plantName,
+            ![@UI.Hidden]
+        },
+         {
+            Value : revisionText,
+            ![@UI.Hidden]
+        },
+         {
+            Value : workLocationDetail,
+            ![@UI.Hidden]
+        },
+         {
+            Value : to_maintenanceRequest_ID,
+            ![@UI.Hidden]
         }
+
     ],
     PresentationVariant      : {
         SortOrder      : [{
@@ -520,3 +554,21 @@ annotate service.BillOfWorks {
     bowType              @readonly;
     bowDesc              @readonly;
 }
+
+//Hide fields in Adapt filters on list report page
+annotate service.BillOfWorks with @Capabilities : {FilterRestrictions : {
+    $Type                   : 'Capabilities.FilterRestrictionsType',
+    NonFilterableProperties : [
+        businessPartnerName,
+        equipmentName,
+        functionalLocationName,
+        contractName,
+        revisionText,
+        modifiedAt,
+        modifiedBy,
+        plantName,
+        revisionText,
+        to_maintenanceRequest_ID,
+        workLocationDetail
+    ]
+}};
