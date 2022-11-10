@@ -1055,7 +1055,7 @@ module.exports = cds.service.impl(async function () {
             req.data.bowTypeDesc = query1[0].bowTypeDesc
         }
         else {
-            req.error(406, 'Request Type is not present in Request Type Config')
+            req.error(406, 'Request Type ' + query[0].to_requestType_rType +' is not present in Maintain Request Types')
         }
 
         //Storing the values of distribution channel and devision in db after making it as readonly field

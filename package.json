@@ -79,43 +79,35 @@
         "kind": "odata-v2",
         "model": "srv/external/MAINTREQ_SB",
         "credentials": {
-          "url": "http://52.179.137.65:8002/sap/opu/odata/ISAMMRCO/MAINTREQ_SB/",
-          "username": "SANGITAP",
-          "password": "Admin@12345"
+          "destination": "MaintReq"
         }
       },
       "NumberRangeService": {
         "kind": "odata",
         "model": "srv/external/NumberRangeService",
         "credentials": {
-          "url": "http://localhost:35337/number-range"
+          "destination": "NumberRange"
         }
       },
       "BOW": {
         "kind": "odata-v2",
         "model": "srv/external/BOW",
         "credentials": {
-          "url": "http://52.179.137.65:8002/sap/opu/odata/hclprods/BOW/",
-          "username": "KMITTAL",
-          "password": "Kirti@7062382326"
+          "destination": "BOW"
         }
       },
       "REUSABLE_SB": {
         "kind": "odata-v2",
         "model": "srv/external/REUSABLE_SB",
         "credentials": {
-          "url": "http://52.179.137.65:8002/sap/opu/odata/ISAMCCCO/REUSABLE_SB/",
-          "username": "KMITTAL",
-          "password": "Kirti@7062382326"
+          "destination": "Reusable"
         }
       },
       "BOW_CREATE_SRV": {
         "kind": "odata-v2",
         "model": "srv/external/BOW_CREATE_SRV",
         "credentials": {
-          "url": "http://52.179.137.65:8002/sap/opu/odata/hclprods/BOW_CREATE_SRV/",
-          "username": "KMITTAL",
-          "password": "Kirti@7062382326"
+          "destination": "BOWCreate"
         }
       }
     },
