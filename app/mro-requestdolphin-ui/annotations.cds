@@ -36,6 +36,13 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Action          : 'manage',
             RequiresContext : true
         },
+        {
+            $Type           : 'UI.DataFieldForIntentBasedNavigation',
+            Label           : '{i18n>CreateBOW}',
+            SemanticObject  : 'MaintenanceWorkItem',
+            Action          : 'manage',
+            RequiresContext : true
+        },
         /*{
             $Type  : 'UI.DataFieldForAction',
             Action : 'mrorequestdolphinService.calculateAging',
@@ -163,14 +170,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ![@UI.Hidden]
         },
         {
-            Value : to_botStatus_bStatus,
-            ![@UI.Hidden]
-        },
-        {
-            Value : to_botStatus_ID,
-            ![@UI.Hidden]
-        },
-        {
             Value : mrCount,
             ![@UI.Hidden]
         },
@@ -200,18 +199,6 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         },
         {
             Value : requestDesc,
-            ![@UI.Hidden]
-        },
-        {
-            Value : to_requestStatus_ID,
-            ![@UI.Hidden]
-        },
-        {
-            Value : to_requestStatusDisp_ID,
-            ![@UI.Hidden]
-        },
-        {
-            Value : to_requestPhase_ID,
             ![@UI.Hidden]
         },
         {
@@ -739,7 +726,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
     }});
 }
 
-//Work Center Value help on object page
+//Work Loacation Value help on object page
 annotate mrorequestdolphinService.MaintenanceRequests with {
     locationWC @(Common : {ValueList : {
         CollectionPath  : 'WorkCenterVH',
@@ -1015,8 +1002,6 @@ annotate mrorequestdolphinService.MaintenanceRequests {
 annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {FilterRestrictions : {
     $Type                   : 'Capabilities.FilterRestrictionsType',
     NonFilterableProperties : [
-        to_botStatus_ID,
-        to_botStatus_bStatus,
         businessPartner,
         businessPartnerName,
         businessPartnerNameDisp,
@@ -1047,15 +1032,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         changeStatusFlag,
         updateRevisionFlag,
         requestTypeDisp,
-        to_requestType_ID,
-        to_requestStatus_ID,
-        to_requestStatusDisp_ID,
         to_requestStatus_rStatus,
         to_requestStatus_rStatusDesc,
         to_requestStatusDisp_rStatus,
         to_requestPhase_rPhase,
-        to_requestPhase_ID,
-        to_ranges_ID,
         modifiedAt,
         modifiedBy,
         startDate,

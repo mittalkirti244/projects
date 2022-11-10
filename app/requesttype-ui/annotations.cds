@@ -130,6 +130,13 @@ annotate service.RequestTypeConfig with {
     })
 };
 
+//Text arrangement for Bow Type
+annotate service.RequestTypeConfig with {
+    bowType @(Common : {Text : {
+        $value                 : bowTypeDesc,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
 
 annotate service.RequestTypeConfig with {
     requestType      @Common.FieldControl : #Mandatory;

@@ -3,6 +3,9 @@ const date = require('date-and-time')
 cds.env.features.fetch_csrf = true
 const validatePhoneNumber = require('validate-phone-number-node-js');
 var validator = require("email-validator");
+var express = require("express");
+var app = express();
+var request = require("request");
 
 module.exports = cds.service.impl(async function () {
     const {
@@ -1014,19 +1017,22 @@ module.exports = cds.service.impl(async function () {
         console.log('bowType', vbowType);
         //assigning bowType
         req.data.bowType = vbowType;
+        req.data.bowTypeDesc = query[0].bowTypeDesc
     });
 
     //Handler for create of Bill of Work Application
     this.before('CREATE', 'BillOfWorks', async (req) => {
 
-        var query = await SELECT.from(MaintenanceRequests).columns('*').where({ requestNo: req.data.requestNo })
+        //Storing the values in database, after making all these fields as a readonly field
+        var query = await SELECT.from(MaintenanceRequests).columns('*').where({ requestNo: req.data.requestNoConcat })
         console.log('query', query)
         req.data.requestType = query[0].to_requestType_rType
         req.data.businessPartner = query[0].businessPartner
         req.data.businessPartnerName = query[0].businessPartnerName
-        req.data.contract = query[0].SalesContract
+        req.data.SalesContract = query[0].SalesContract
         req.data.contractName = query[0].contractName
         req.data.MaintenanceRevision = query[0].MaintenanceRevision
+        req.data.revisionText = query[0].revisionText
         req.data.workLocation = query[0].locationWC
         req.data.workLocationDetail = query[0].locationWCDetail
         req.data.MaintenancePlanningPlant = query[0].MaintenancePlanningPlant
@@ -1037,9 +1043,63 @@ module.exports = cds.service.impl(async function () {
         req.data.functionalLocationName = query[0].functionalLocationName
         req.data.equipment = query[0].equipment
         req.data.equipmentName = query[0].equipmentName
-        //req.data.workOrderNo = query[0].to_requestType_rType
 
+        //Bow Desc is Request Number + Request Type
+        req.data.bowDesc = req.data.requestNoConcat + ' ' + query[0].to_requestType_rType
+
+        //Storing Bow type based on request Type from Request Type config screen
+        var query1 = await SELECT.from(RequestTypeConfig).columns('*').where({ requestType: query[0].to_requestType_rType })
+        console.log('query1', query1)
+        if (query1[0] != null) {
+            req.data.bowType = query1[0].bowType
+            req.data.bowTypeDesc = query1[0].bowTypeDesc
+        }
+        else {
+            req.error(406, 'Request Type is not present in Request Type Config')
+        }
+
+        //Storing the values of distribution channel and devision in db after making it as readonly field
+        if (req.data.salesOrganization) {
+            var vsalesOrg = await service3.read(SalesOrgVH).columns('*').where({ SalesOrganization: req.data.salesOrganization })
+            console.log('vsalesOrg', vsalesOrg)
+            req.data.distributionChannel = vsalesOrg[0].DistributionChannel
+            req.data.division = vsalesOrg[0].Division
+        }
+
+        //Storing the values of standardProject in db after making it as readonly field
+        if (req.data.serviceProduct) {
+            var vstandardProduct = await service5.read(ServiceProducts).columns('*').where({ Servicematerial: req.data.serviceProduct })
+            console.log('vstandardProduct', vstandardProduct)
+            req.data.standardProject = vstandardProduct[0].Project
+        }
+
+        //performig post operation to create BOW in create handler
+        const tx = cds.transaction(req)
+        const tx1 = service4.tx(req)
+        var data = {
+            "bowty": req.data.bowType,
+            "Bowtxt": req.data.bowDesc,
+            "MaintenanceRevision": req.data.MaintenanceRevision,
+            "MaintenancePlanningPlant": req.data.MaintenancePlanningPlant,
+            "vkorg": req.data.salesOrganization,
+            "vtweg": req.data.distributionChannel,
+            "spart": req.data.division,
+            "Mainworkcenter": req.data.workLocation,
+            "werks": req.data.MaintenancePlanningPlant,
+            "Servicematerial": req.data.serviceProduct,
+            "Standardproject": req.data.standardProject,
+            "kunag": req.data.businessPartner,
+            "CustomerName": req.data.businessPartnerName,
+            "Documentcurrency": req.data.currency,
+            "bstnk": "",
+            "SalesContract": req.data.SalesContract,
+            "CopyWorklist": "",
+            "Eventdata": ""
+        }
+        var result = await tx1.send({ method: 'POST', path: 'xHCLPRODSxC_Bow', data })
+        console.log('result', result)
     });
+
 })
 
 /*this.on('requestMail', async (req) => {

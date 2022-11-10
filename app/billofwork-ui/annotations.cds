@@ -2,7 +2,10 @@ using mrorequestdolphinService as service from '../../srv/mro-requestdolphin-ser
 
 annotate service.BillOfWorks with @(UI : {
     //Selection Fields in Header of List Report Page
-    SelectionFields          : [Bowid],
+    SelectionFields          : [
+        Bowid,
+        requestNoConcat
+    ],
     //Line Item in List Report Page
     LineItem                 : [
         {
@@ -13,7 +16,7 @@ annotate service.BillOfWorks with @(UI : {
             },
         },
         {
-            Value                 : requestNo,
+            Value                 : requestNoConcat,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -27,28 +30,7 @@ annotate service.BillOfWorks with @(UI : {
             },
         },
         {
-            Value                 : salesOrganization,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            },
-        },
-        {
-            Value                 : currency,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            },
-        },
-        {
-            Value                 : devision,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            },
-        },
-        {
-            Value                 : distributionChannel,
+            Value                 : workLocation,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -62,6 +44,13 @@ annotate service.BillOfWorks with @(UI : {
             },
         },
         {
+            Value                 : salesOrganization,
+            ![@HTML5.CssDefaults] : {
+                $Type : 'HTML5.CssDefaultsType',
+                width : '10rem',
+            },
+        },
+        {
             Value                 : serviceProduct,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
@@ -69,14 +58,7 @@ annotate service.BillOfWorks with @(UI : {
             },
         },
         {
-            Value                 : standardProject,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            },
-        },
-        {
-            Value                 : workLocation,
+            Value                 : currency,
             ![@HTML5.CssDefaults] : {
                 $Type : 'HTML5.CssDefaultsType',
                 width : '10rem',
@@ -95,9 +77,9 @@ annotate service.BillOfWorks with @(UI : {
     HeaderInfo               : {
         $Type          : 'UI.HeaderInfoType',
         TypeName       : 'Bill of Work Details', //Label of object page
-        TypeNamePlural : 'Bill of Work', //Label on list
+        TypeNamePlural : 'Bill of Works', //Label on list
         Title          : {Value : Bowid},
-    //Description    : {Value : }
+        Description    : {Value : bowDesc}
     },
     HeaderFacets             : [
         {
@@ -122,21 +104,18 @@ annotate service.BillOfWorks with @(UI : {
                     $Type  : 'UI.ReferenceFacet',
                     ID     : 'mrInfo1',
                     Target : '@UI.FieldGroup#mrInfo1',
-                //Label  : 'Work Item Information'
                 },
                 {
                     $Type  : 'UI.ReferenceFacet',
                     ID     : 'mrInfo2',
                     Target : '@UI.FieldGroup#mrInfo2',
-                //Label  : 'Technical Reference'
                 },
                 {
                     $Type  : 'UI.ReferenceFacet',
                     ID     : 'mrInfo3',
                     Target : '@UI.FieldGroup#mrInfo3',
-                //Label  : 'Additional Information'
-                },
-            ],
+                }
+            ]
         },
         {
             $Type  : 'UI.CollectionFacet',
@@ -147,19 +126,16 @@ annotate service.BillOfWorks with @(UI : {
                     $Type  : 'UI.ReferenceFacet',
                     ID     : 'bowInfo1',
                     Target : '@UI.FieldGroup#bowInfo1',
-                //Label  : 'Work Item Information'
                 },
                 {
                     $Type  : 'UI.ReferenceFacet',
                     ID     : 'bowInfo2',
                     Target : '@UI.FieldGroup#bowInfo2',
-                //Label  : 'Technical Reference'
                 },
                 {
                     $Type  : 'UI.ReferenceFacet',
                     ID     : 'bowInfo3',
                     Target : '@UI.FieldGroup#bowInfo3',
-                //Label  : 'Additional Information'
                 },
             ],
         }
@@ -183,7 +159,7 @@ annotate service.BillOfWorks with @(UI : {
     FieldGroup #mrInfo1      : {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {Value : requestNo},
+            {Value : requestNoConcat},
             {Value : requestType},
             {Value : businessPartner},
             {Value : SalesContract},
@@ -212,32 +188,100 @@ annotate service.BillOfWorks with @(UI : {
         $Type : 'UI.FieldGroupType',
         Data  : [
             {Value : bowType},
-            {Value : salesOrganization},
-            {Value : serviceProduct}
+            {Value : bowDesc},
         ]
     },
     FieldGroup #bowInfo2     : {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {Value : bowDesc},
+            {Value : salesOrganization},
             {Value : distributionChannel},
-            {Value : standardProject}
+            {Value : division}
         ]
     },
     FieldGroup #bowInfo3     : {
         $Type : 'UI.FieldGroupType',
-        Data  : [{Value : devision}]
+        Data  : [
+            {Value : serviceProduct},
+            {Value : standardProject}
+        ]
     }
 });
 
+//Text arrangement
+//Text arrangement for Business partner
 annotate service.BillOfWorks with {
-    requestNo @(Common : {ValueList : {
+    businessPartner @(Common : {Text : {
+        $value                 : businessPartnerName,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
+//text arrangement of sales contract
+annotate service.BillOfWorks with {
+    SalesContract @(Common : {Text : {
+        $value                 : contractName,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
+//Text arrangement of Revision
+annotate service.BillOfWorks with {
+    MaintenanceRevision @(Common : {Text : {
+        $value                 : revisionText,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
+//Text arrangement for Work Location
+annotate service.BillOfWorks with {
+    workLocation @(Common : {Text : {
+        $value                 : workLocationDetail,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
+//Text arrangement of Plant
+annotate service.BillOfWorks with {
+    MaintenancePlanningPlant @(Common : {Text : {
+        $value                 : plantName,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
+//Text arrangement of floc
+annotate service.BillOfWorks with {
+    functionalLocation @(Common : {Text : {
+        $value                 : functionalLocationName,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
+//Text arrangement for equipment
+annotate service.BillOfWorks with {
+    equipment @(Common : {Text : {
+        $value                 : equipmentName,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
+//Text arrangement for Bow Type
+annotate service.BillOfWorks with {
+    bowType @(Common : {Text : {
+        $value                 : bowTypeDesc,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
+//value Help for Request Number
+annotate service.BillOfWorks with {
+    requestNoConcat @(Common : {ValueList : {
         CollectionPath : 'MaintenanceRequests',
         Label          : 'Maintenance Request',
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
-                LocalDataProperty : 'requestNo',
+                LocalDataProperty : 'requestNoConcat',
                 ValueListProperty : 'requestNo'
             },
             {
@@ -299,7 +343,7 @@ annotate service.BillOfWorks with {
     }});
 };
 
-//value help for sales Organization
+//value Help for sales Organization
 annotate service.BillOfWorks with {
     salesOrganization @(Common : {ValueList : {
         CollectionPath : 'SalesOrgVH',
@@ -317,23 +361,163 @@ annotate service.BillOfWorks with {
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
-                LocalDataProperty : 'devision',
+                LocalDataProperty : 'division',
                 ValueListProperty : 'Division'
             }
         ]
     }});
 };
 
+//value Help of service Product
+annotate service.BillOfWorks with {
+    serviceProduct @(Common : {ValueList : {
+        CollectionPath : 'ServiceProducts',
+        Label          : 'Service Products',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'serviceProduct',
+                ValueListProperty : 'Servicematerial'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'standardProject',
+                ValueListProperty : 'Project'
+            }
+        ]
+    }});
+};
+
+//Value help for currencies
+annotate service.BillOfWorks with {
+    currency @(Common : {ValueList : {
+        CollectionPath : 'Currencies',
+        Label          : 'Currency',
+        Parameters     : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'currency',
+                ValueListProperty : 'Documentcurrency'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'Currencyname'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'Language'
+            }
+        ]
+    }});
+};
+
+//Drop down for WorkOrder Number
+annotate service.BillOfWorks with {
+    workOrderNo @(Common : {
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'WorkItems',
+            Label          : 'Work Order Number',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterIn',
+                    LocalDataProperty : 'requestNoConcat',
+                    ValueListProperty : 'requestNoConcat'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'workOrderNo',
+                    ValueListProperty : 'workOrderNo'
+                }
+            ]
+        }
+    });
+};
+
+//Value help for Work Location on object page
+annotate service.BillOfWorks with {
+    workLocation @(Common : {ValueList : {
+        CollectionPath  : 'WorkCenterVH',
+        Label           : '{i18n>locationWC}',
+        SearchSupported : true,
+        Parameters      : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'workLocation',
+                ValueListProperty : 'WorkCenter'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'workLocationDetail',
+                ValueListProperty : 'WorkCenterText'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'WorkCenterCategoryCode'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'MaintenancePlanningPlant',
+                ValueListProperty : 'Plant'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'plantName',
+                ValueListProperty : 'PlantName'
+            }
+        ]
+    }});
+};
+
+//Value help for Bill of Work on list report page
+annotate service.BillOfWorks with {
+    Bowid @(Common : {ValueList : {
+        CollectionPath  : 'xHCLPRODSxC_Bow',
+        Label           : 'Bill of Work',
+        SearchSupported : true,
+        Parameters      : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'Bowid',
+                ValueListProperty : 'Bowid'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'Bowtxt'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'bowty'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'vkorg'
+            }
+        ]
+    }});
+};
+
+
 //Readonly and mandatory fields
 annotate service.BillOfWorks {
-    requestType              @readonly;
-    SalesContract            @readonly;
-    businessPartner          @readonly;
-    contract                 @readonly;
-    MaintenanceRevision      @readonly;
-    MaintenancePlanningPlant @readonly;
-    expectedArrivalDate      @readonly;
-    expectedDeliveryDate     @readonly;
-    functionalLocation       @readonly;
-    equipment                @readonly
+    requestNoConcat      @mandatory;
+    workLocation         @mandatory;
+    currency             @mandatory;
+    salesOrganization    @mandatory;
+    serviceProduct       @mandatory;
+    requestType          @readonly;
+    SalesContract        @readonly;
+    businessPartner      @readonly;
+    contract             @readonly;
+    MaintenanceRevision  @readonly;
+    //MaintenancePlanningPlant @readonly;
+    expectedArrivalDate  @readonly;
+    expectedDeliveryDate @readonly;
+    functionalLocation   @readonly;
+    equipment            @readonly;
+    distributionChannel  @readonly;
+    standardProject      @readonly;
+    division             @readonly;
+    bowType              @readonly;
+    bowDesc              @readonly;
 }
