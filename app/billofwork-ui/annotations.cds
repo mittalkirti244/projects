@@ -487,16 +487,15 @@ annotate service.BillOfWorks with {
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'bowty'
+                ValueListProperty : 'MaintenanceRevision'
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'vkorg'
+                ValueListProperty : 'MaintenancePlanningPlant'
             }
         ]
     }});
 };
-
 
 //Readonly and mandatory fields
 annotate service.BillOfWorks {

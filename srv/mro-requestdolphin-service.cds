@@ -34,7 +34,7 @@ service mrorequestdolphinService {
         )
         //@core.operation available is used for disable and enable of action button
         //change Status will be disable at the time of create - set as false in db
-        @Core :                                       {OperationAvailable : _it.changeStatusFlag}
+        @Core : {OperationAvailable : _it.changeStatusFlag}
         action changeStatus(status : String @Common : {
             Label     : '{i18n>status}',
             ValueListWithFixedValues,
@@ -57,7 +57,7 @@ service mrorequestdolphinService {
                     }
                 ]
             }
-        });
+        } );
 
         //Update the UI after action revisionCreated
         @(
@@ -76,7 +76,7 @@ service mrorequestdolphinService {
         )
         //@core.operation available is used for disable and enable of action button
         //Update Revision will be disable at the time of create - set as false in db
-        @Core :                                       {OperationAvailable : _it.updateRevisionFlag}
+        @Core : {OperationAvailable : _it.updateRevisionFlag}
         action revisionCreated();
     };
 
@@ -243,7 +243,13 @@ service mrorequestdolphinService {
     entity Ranges                  as projection on maintReq.Ranges;
 
     @odata.draft.enabled
-    entity BillOfWorks             as projection on maintReq.BillOfWorks;
+    entity BillOfWorks             as projection on maintReq.BillOfWorks {
+        *,
+        createdAt  @(Common.Label : '{i18n>createdAt}'),
+        createdBy  @(Common.Label : '{i18n>createdBy}'),
+        modifiedAt @(Common.Label : '{i18n>modifiedAt}'),
+        modifiedBy @(Common.Label : '{i18n>modifiedBy}')
+    };
 
     //All views used for Overview page
     view AggregatedMaintenanceReqOnStatuses as select from maintReq.AggregatedMaintenanceReqOnStatuses;
@@ -279,14 +285,14 @@ service mrorequestdolphinService {
 //Maintained all entites that is coming from external
 extend service mrorequestdolphinService with {
 
-    entity NumberRanges           as projection on numberRange.NumberRanges;
+    entity NumberRanges        as projection on numberRange.NumberRanges;
 
     @readonly
     @Capabilities.SearchRestrictions : {
         $Type : 'Capabilities.SearchRestrictionsType',
         Searchable,
     }
-    entity BusinessPartnerVH      as projection on s4maintReq.BusinessPartnerVH {
+    entity BusinessPartnerVH   as projection on s4maintReq.BusinessPartnerVH {
         key BusinessPartner         @(Common.Label : '{i18n>BusinessPartner}'),
         key BusinessPartnerRole     @(Common.Label : '{i18n>BusinessPartnerRole}') @UI.HiddenFilter,
         key SalesContract           @(Common.Label : '{i18n>SalesContract}'),
@@ -304,7 +310,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity WorkCenterVH           as projection on s4maintReq.WorkCenterVH {
+    entity WorkCenterVH        as projection on s4maintReq.WorkCenterVH {
         key Plant                  @(Common.Label : '{i18n>Plant}'),
         key WorkCenter             @(Common.Label : '{i18n>WorkCenter}',
                                                                          /* Common       : {
@@ -318,7 +324,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity FunctionLocationVH     as projection on s4maintReq.FunctionLocationVH {
+    entity FunctionLocationVH  as projection on s4maintReq.FunctionLocationVH {
         key functionalLocation       @(Common.Label : '{i18n>functionalLocation}'),
             FunctionalLocationName   @(Common.Label : '{i18n>FunctionalLocationName}'),
             ManufacturerName         @(Common.Label : '{i18n>ManufacturerName}'),
@@ -329,7 +335,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity SalesContractVH        as projection on s4maintReq.SalesContractVH {
+    entity SalesContractVH     as projection on s4maintReq.SalesContractVH {
         key SalesContract     @(Common.Label : '{i18n>SalesContract}'),
             SalesContractName @(Common.Label : '{i18n>SalesContractName}'),
             TurnAroundTime    @(Common.Label : '{i18n>TurnAroundTime}'),
@@ -337,7 +343,7 @@ extend service mrorequestdolphinService with {
     };
 
     @readonly
-    entity EquipmentVH            as projection on s4maintReq.EquipmentVH {
+    entity EquipmentVH         as projection on s4maintReq.EquipmentVH {
         key Equipment,
             EquipmentName      @(Common.Label : '{i18n>EquipmentName}'),
             FunctionalLocation @(Common.Label : '{i18n>functionalLocation}'),
@@ -347,7 +353,7 @@ extend service mrorequestdolphinService with {
             Plant              @UI.HiddenFilter
     };
 
-    entity RevisionVH             as projection on s4maintReq.MaintRevision {
+    entity RevisionVH          as projection on s4maintReq.MaintRevision {
         key PlanningPlant     @UI.HiddenFilter,
         key RevisionNo        @(Common.Label : '{i18n>RevisionNo}'),
             Equipment         @UI.HiddenFilter,
@@ -363,13 +369,13 @@ extend service mrorequestdolphinService with {
     };
 
     //Maintenance Notification number value help on object page
-    entity MaintNotifications     as projection on s4maintReq.MaintNotification {
+    entity MaintNotifications  as projection on s4maintReq.MaintNotification {
         MaintenanceNotification @(Common.Label : 'Notification'),
         NotificationText        @UI.HiddenFilter @(Common.Label : 'Notification Text'),
         NotificationType        @(Common.Label : 'Notification Type')
     };
 
-    entity ReferenceTaskListVH    as projection on s4maintReq.ReferenceTaskListVH {
+    entity ReferenceTaskListVH as projection on s4maintReq.ReferenceTaskListVH {
         key TaskListType                 @(Common.Label : 'Task List Type'),
         key TaskListGroup                @(Common.Label : 'Task List Group'),
         key TaskListGroupCounter         @(Common.Label : 'Task List Group Counter'),
@@ -381,19 +387,19 @@ extend service mrorequestdolphinService with {
             Plant                        @(Common.Label : 'Work Location Plant')
     };
 
-    entity SalesOrgVH             as projection on reusable.SalesOrgVH {
-        SalesOrganization,
-        DistributionChannel,
-        Division,
-        Division_Text
+    entity SalesOrgVH          as projection on reusable.SalesOrgVH {
+        SalesOrganization   @(Common.Label : 'Sales Organization'),
+        DistributionChannel @(Common.Label : 'Distribution Channel'),
+        Division            @(Common.Label : 'Division'),
+        Division_Text       @UI.HiddenFilter
     };
 
-    entity xHCLPRODSxC_Bow        as projection on bow.xHCLPRODSxC_Bow {
-        key Bowid,
+    entity xHCLPRODSxC_Bow     as projection on bow.xHCLPRODSxC_Bow {
+        key Bowid                    @(Common.Label : 'Bill of Work'),
             bowty,
-            Bowtxt,
-            MaintenanceRevision,
-            MaintenancePlanningPlant,
+            Bowtxt                   @(Common.Label : 'Bill of Work Description'),
+            MaintenanceRevision      @(Common.Label : 'Revision'),
+            MaintenancePlanningPlant @(Common.Label : 'Work Location Plant'),
             vkorg,
             vtweg,
             spart,
@@ -410,15 +416,15 @@ extend service mrorequestdolphinService with {
             Eventdata
     };
 
-    entity ServiceProducts        as projection on bowCreate.servicematerial_f4Set{
-        Ordertype,
-        Servicematerial,
-        Project
+    entity ServiceProducts     as projection on bowCreate.servicematerial_f4Set {
+        Servicematerial @(Common.Label : 'Service Product'),
+        Project         @(Common.Label : 'Standard Project')
     };
-    entity Currencies as projection on bowCreate.Documentcurrency_f4Set{
-        Language,
-        Documentcurrency,
-        Currencyname
+
+    entity Currencies          as projection on bowCreate.Documentcurrency_f4Set {
+        Language         @(Common.Label : 'Language'),
+        Documentcurrency @(Common.Label : 'Currency'),
+        Currencyname     @(Common.Label : 'Currency Name')
     };
 
 }
