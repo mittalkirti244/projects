@@ -499,7 +499,7 @@ annotate service.WorkItems with {
             {
                 $Type             : 'Common.ValueListParameterIn',
                 LocalDataProperty : 'planningPlant',
-                ValueListProperty : 'Plant'
+                ValueListProperty : 'MaintenancePlanningPlant'
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
@@ -541,7 +541,7 @@ annotate service.WorkItems with {
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'Plant'
+                ValueListProperty : 'MaintenancePlanningPlant'
             }
         ]
     }});
@@ -566,7 +566,7 @@ annotate service.WorkItems with {
             {
                 $Type             : 'Common.ValueListParameterIn',
                 LocalDataProperty : 'planningPlant',
-                ValueListProperty : 'Plant'
+                ValueListProperty : 'MaintenancePlanningPlant'
             },
             {
                 $Type             : 'Common.ValueListParameterInOut',
@@ -608,7 +608,7 @@ annotate service.WorkItems with {
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'Plant'
+                ValueListProperty : 'MaintenancePlanningPlant'
             }
         ]
     }});
@@ -633,7 +633,7 @@ annotate service.WorkItems with {
             {
                 $Type             : 'Common.ValueListParameterIn',
                 LocalDataProperty : 'planningPlant',
-                ValueListProperty : 'Plant'
+                ValueListProperty : 'MaintenancePlanningPlant'
             },
             {
                 $Type             : 'Common.ValueListParameterInOut',
@@ -675,7 +675,7 @@ annotate service.WorkItems with {
             },
             {
                 $Type             : 'Common.ValueListParameterDisplayOnly',
-                ValueListProperty : 'Plant'
+                ValueListProperty : 'MaintenancePlanningPlant'
             }
         ]
     }});
@@ -698,10 +698,6 @@ annotate service.WorkItems with @Capabilities : {FilterRestrictions : {
     $Type                   : 'Capabilities.FilterRestrictionsType',
     NonFilterableProperties : [
         ID,
-        functionalLocation,
-        functionalLocationName,
-        equipment,
-        contractName,
         requestNo,
         requestNoDisp,
         uiHidden,

@@ -8,13 +8,14 @@ using {
 entity MaintenanceRequests : managed {
     key ID                               : UUID                                                                         @title                 : '{i18n>ID}'                    @Core.Computed; //unique ID for Maintenace request
         requestNo                        : String                                                                       @title                 : '{i18n>requestNo}'; // will generate after selecting request type
-        requestNoConcat                  : String                                                                       @Common.SemanticObject : 'MaintenanceWorkItem'          @title                                           : '{i18n>requestNo}';
+        requestNoConcat                  : String                                                                       @Common.SemanticObject : 'MaintenanceRequest'          @title                                           : '{i18n>requestNo}';
         requestDesc                      : String                                                                       @title                 : '{i18n>requestDesc}'; // maintenance request Description
         businessPartner                  : String                                                                       @title                 : '{i18n>businessPartner}'; //bp service from s4
         businessPartnerDisp              : String                                                                       @title                 : '{i18n>businessPartner}'; // bp to be display on only list report page to perform filteration
         businessPartnerName              : String                                                                       @title                 : '{i18n>businessPartnerName}'; //autopopulate after selecting business partner
         businessPartnerNameDisp          : String                                                                       @title                 : '{i18n>businessPartnerName}'; //bp name to be display on list report page so that user see bp name after selecting bp from selection
         bpConcatenation                  : String; //Concatenated BP value 101(Boeing Ltd.) used in ovp card of Busines partner
+        soldToParty                      : String                                                                       @title                 : 'soldToParty';
         eqMaterial                       : String                                                                       @title                 : '{i18n>eqMaterial}'; //Equipment Material
         eqSerialNumber                   : String                                                                       @title                 : '{i18n>eqSerialNumber}'; //Equipment serial number
         equipment                        : String                                                                       @title                 : '{i18n>equipment}'; // Equipment VH having filterable property(Material and serial number)

@@ -922,8 +922,8 @@ module.exports = cds.service.impl(async function () {
 
             if (query[0].taskListType == null || query[0].taskListType == '') {
                 var count = 0;
-                var query1 = await service2.read(ReferenceTaskListVH).where({ ExternalReference: query[0].genericRef, ExternalCustomerReference: query[0].customerRef, Plant: query2[0].MaintenancePlanningPlant })
-
+                var query1 = await service2.read(ReferenceTaskListVH).where({ ExternalReference: query[0].genericRef, ExternalCustomerReference: query[0].customerRef, MaintenancePlanningPlant: query2[0].MaintenancePlanningPlant })
+                console.log('query1', query1)
                 //.length function is not supportive in HANA DB, So to resolve that use count
                 query1.forEach(_ => count++)
                 console.log('count', count)
@@ -1048,6 +1048,13 @@ module.exports = cds.service.impl(async function () {
         //Bow Desc is Request Number + Request Type
         req.data.bowDesc = req.data.requestNoConcat + ' ' + query[0].to_requestType_rType
 
+        //------------------------------------------------------------------
+        //Currently using it for Revision created as it required for generating BOW
+        //Once Notification will work will change it to the Notification validation
+        if (query[0].to_requestStatusDisp_rStatus != 'RVCRTD') {
+            req.error(406, 'Bill of Work cannot be created as current status of Request ' + query[0].requestNo + ' is ' + query[0].to_requestStatusDisp_rStatusDesc + '.');
+        }
+
         //Storing Bow type based on request Type from Request Type config screen
         var query1 = await SELECT.from(RequestTypeConfig).columns('*').where({ requestType: query[0].to_requestType_rType })
         console.log('query1', query1)
@@ -1056,7 +1063,7 @@ module.exports = cds.service.impl(async function () {
             req.data.bowTypeDesc = query1[0].bowTypeDesc
         }
         else {
-            req.error(406, 'Request Type ' + query[0].to_requestType_rType +' is not present in Maintain Request Types')
+            req.error(406, 'Request Type ' + query[0].to_requestType_rType + ' is not present in Maintain Request Types')
         }
 
         //Storing the values of distribution channel and devision in db after making it as readonly field
@@ -1089,7 +1096,7 @@ module.exports = cds.service.impl(async function () {
             "werks": req.data.MaintenancePlanningPlant,
             "Servicematerial": req.data.serviceProduct,
             "Standardproject": req.data.standardProject,
-            "kunag": req.data.businessPartner,
+            "kunag": query[0].soldToParty,
             "CustomerName": req.data.businessPartnerName,
             "Documentcurrency": req.data.currency,
             "bstnk": "",
@@ -1099,6 +1106,7 @@ module.exports = cds.service.impl(async function () {
         }
         var result = await tx1.send({ method: 'POST', path: 'xHCLPRODSxC_Bow', data })
         console.log('result', result)
+        req.data.Bowid = result.Bowid
     });
 
 })

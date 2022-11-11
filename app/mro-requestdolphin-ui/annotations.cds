@@ -32,14 +32,14 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {
             $Type           : 'UI.DataFieldForIntentBasedNavigation',
             Label           : '{i18n>CreateWorkItems}',
-            SemanticObject  : 'MaintenanceWorkItem',
-            Action          : 'manage',
+            SemanticObject  : 'MaintenanceRequest',
+            Action          : 'manageWItem',
             RequiresContext : true
         },
         {
             $Type           : 'UI.DataFieldForIntentBasedNavigation',
             Label           : '{i18n>CreateBOW}',
-            SemanticObject  : 'MaintenanceWorkItem',
+            SemanticObject  : 'MaintenanceRequest',
             Action          : 'manageBOW',
             RequiresContext : true
         },
@@ -235,6 +235,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         },
         {
             Value : endDate,
+            ![@UI.Hidden]
+        },
+        {
+            Value:soldToParty,
             ![@UI.Hidden]
         }
     ],
@@ -677,6 +681,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'ccphoneNumber',
                 ValueListProperty : 'TelephoneNo'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'soldToParty',
+                ValueListProperty : 'SoldToParty'
             }
         ]
     }});
@@ -1039,7 +1048,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         modifiedAt,
         modifiedBy,
         startDate,
-        endDate
+        endDate,
+        soldToParty
     ]
 }};
 

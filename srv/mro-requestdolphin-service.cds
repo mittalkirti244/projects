@@ -314,7 +314,8 @@ extend service mrorequestdolphinService with {
             ContactPersonName       @(Common.Label : '{i18n>ContactPersonName}') @UI.HiddenFilter,
             ContactPersonEmailID    @(Common.Label : '{i18n>ContactPersonEmailID}'),
             TelephoneNo             @(Common.Label : '{i18n>TelephoneNo}'),
-            TurnAroundTime          @(Common.Label : '{i18n>TurnAroundTime}') @UI.HiddenFilter
+            TurnAroundTime          @(Common.Label : '{i18n>TurnAroundTime}') @UI.HiddenFilter,
+            SoldToParty             @(Common.Label : '{i18n>SoldToParty}') @UI.HiddenFilter
 
     };
 
@@ -393,7 +394,7 @@ extend service mrorequestdolphinService with {
         key DocumentInfoRecordDocVersion @(Common.Label : 'Document Version'),
             TaskListDesc                 @(Common.Label : 'Task List Description'),
             ExternalCustomerReference    @(Common.Label : 'Customer Reference'),
-            Plant                        @(Common.Label : 'Work Location Plant')
+            MaintenancePlanningPlant                        @(Common.Label : 'Work Location Plant')
     };
 
     entity SalesOrgVH          as projection on reusable.SalesOrgVH {

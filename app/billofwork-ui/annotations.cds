@@ -252,12 +252,12 @@ annotate service.BillOfWorks with {
 };
 
 //Text arrangement for BOW
-annotate service.BillOfWorks with {
+/*annotate service.BillOfWorks with {
     Bowid @(Common : {Text : {
         $value                 : bowDesc,
         ![@UI.TextArrangement] : #TextFirst
     }});
-};
+};*/
 
 //Text arrangement for Business partner
 annotate service.BillOfWorks with {

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "creator": "cds-dk 6.1.4"
+    "creator": "cds-dk 6.3.1"
   },
   "$version": "2.0",
   "definitions": {
@@ -13,6 +13,7 @@
     },
     "BOW.xHCLPRODSxC_Bow": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.content.version": "1",
       "@sap.deletable.path": "Delete_mc",
@@ -26,7 +27,8 @@
           "@sap.display.format": "UpperCase",
           "@sap.label": "Bill of Work",
           "@sap.quickinfo": "Bill Of Work ID",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": true
         },
         "complete_status_ac": {
           "type": "cds.Boolean",
@@ -34,7 +36,8 @@
           "@sap.creatable": "false",
           "@sap.updatable": "false",
           "@sap.sortable": "false",
-          "@sap.filterable": "false"
+          "@sap.filterable": "false",
+          "notNull": false
         },
         "navigate_materialreview_ac": {
           "type": "cds.Boolean",
@@ -42,7 +45,8 @@
           "@sap.creatable": "false",
           "@sap.updatable": "false",
           "@sap.sortable": "false",
-          "@sap.filterable": "false"
+          "@sap.filterable": "false",
+          "notNull": false
         },
         "reverse_complete_status_ac": {
           "type": "cds.Boolean",
@@ -50,7 +54,8 @@
           "@sap.creatable": "false",
           "@sap.updatable": "false",
           "@sap.sortable": "false",
-          "@sap.filterable": "false"
+          "@sap.filterable": "false",
+          "notNull": false
         },
         "reverse_delete_ac": {
           "type": "cds.Boolean",
@@ -58,7 +63,8 @@
           "@sap.creatable": "false",
           "@sap.updatable": "false",
           "@sap.sortable": "false",
-          "@sap.filterable": "false"
+          "@sap.filterable": "false",
+          "notNull": false
         },
         "work_detail_ac": {
           "type": "cds.Boolean",
@@ -66,7 +72,8 @@
           "@sap.creatable": "false",
           "@sap.updatable": "false",
           "@sap.sortable": "false",
-          "@sap.filterable": "false"
+          "@sap.filterable": "false",
+          "notNull": false
         },
         "work_list_ac": {
           "type": "cds.Boolean",
@@ -74,7 +81,8 @@
           "@sap.creatable": "false",
           "@sap.updatable": "false",
           "@sap.sortable": "false",
-          "@sap.filterable": "false"
+          "@sap.filterable": "false",
+          "notNull": false
         },
         "Delete_mc": {
           "type": "cds.Boolean",
@@ -82,7 +90,8 @@
           "@sap.creatable": "false",
           "@sap.updatable": "false",
           "@sap.sortable": "false",
-          "@sap.filterable": "false"
+          "@sap.filterable": "false",
+          "notNull": false
         },
         "Update_mc": {
           "type": "cds.Boolean",
@@ -90,7 +99,8 @@
           "@sap.creatable": "false",
           "@sap.updatable": "false",
           "@sap.sortable": "false",
-          "@sap.filterable": "false"
+          "@sap.filterable": "false",
+          "notNull": false
         },
         "bowty": {
           "type": "cds.String",
@@ -99,13 +109,15 @@
           "@sap.text": "Type_Description",
           "@sap.label": "Type",
           "@sap.quickinfo": "Bill of Work Type",
-          "@sap.value.list": "fixed-values"
+          "@sap.value.list": "fixed-values",
+          "notNull": false
         },
         "Bowtxt": {
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Description",
-          "@sap.quickinfo": "Bill of Work Description"
+          "@sap.quickinfo": "Bill of Work Description",
+          "notNull": false
         },
         "status": {
           "type": "cds.String",
@@ -114,19 +126,22 @@
           "@sap.text": "Status_Text",
           "@sap.label": "Status",
           "@sap.quickinfo": "Bill of Work Status",
-          "@sap.value.list": "fixed-values"
+          "@sap.value.list": "fixed-values",
+          "notNull": false
         },
         "Criticality": {
           "type": "cds.Integer",
           "@odata.Type": "Edm.Byte",
-          "@sap.label": "Bow Status Criticality"
+          "@sap.label": "Bow Status Criticality",
+          "notNull": false
         },
         "werks": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Plant for Work Centre",
-          "@sap.quickinfo": "Plant"
+          "@sap.quickinfo": "Plant",
+          "notNull": false
         },
         "ernam": {
           "type": "cds.String",
@@ -134,31 +149,36 @@
           "@sap.display.format": "UpperCase",
           "@sap.label": "Created By",
           "@sap.quickinfo": "Name of Person Responsible for Creating the Object",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "erdat": {
           "type": "cds.Date",
           "@sap.display.format": "Date",
           "@sap.label": "Created On",
-          "@sap.quickinfo": "Date on which the record was created"
+          "@sap.quickinfo": "Date on which the record was created",
+          "notNull": false
         },
         "aenam": {
           "type": "cds.String",
           "length": 12,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Changed By",
-          "@sap.quickinfo": "Name of Person Who Changed Object"
+          "@sap.quickinfo": "Name of Person Who Changed Object",
+          "notNull": false
         },
         "aedat": {
           "type": "cds.Date",
           "@sap.display.format": "Date",
           "@sap.label": "Changed On",
-          "@sap.quickinfo": "Last Changed On"
+          "@sap.quickinfo": "Last Changed On",
+          "notNull": false
         },
         "bow_date": {
           "type": "cds.Date",
           "@sap.display.format": "Date",
-          "@sap.label": "Bill of Work Date"
+          "@sap.label": "Bill of Work Date",
+          "notNull": false
         },
         "auart": {
           "type": "cds.String",
@@ -168,28 +188,32 @@
           "@sap.quickinfo": "Sales Document Type",
           "@sap.creatable": "false",
           "@sap.updatable": "false",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "vkorg": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Sales Organization",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "vtweg": {
           "type": "cds.String",
           "length": 2,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Distribution Channel",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "spart": {
           "type": "cds.String",
           "length": 2,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Division",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "vkbur": {
           "type": "cds.String",
@@ -197,7 +221,8 @@
           "@sap.display.format": "UpperCase",
           "@sap.label": "Sales Office",
           "@sap.quickinfo": "Sales office",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "vkgrp": {
           "type": "cds.String",
@@ -205,7 +230,8 @@
           "@sap.display.format": "UpperCase",
           "@sap.label": "Sales Group",
           "@sap.quickinfo": "Sales group",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "kunag": {
           "type": "cds.String",
@@ -214,12 +240,14 @@
           "@sap.text": "to_SoldToParty/CustomerName",
           "@sap.label": "Customer",
           "@sap.quickinfo": "Sold-to Party",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "bstnk": {
           "type": "cds.String",
           "length": 35,
-          "@sap.label": "Customer Reference"
+          "@sap.label": "Customer Reference",
+          "notNull": false
         },
         "MaintenanceRevision": {
           "type": "cds.String",
@@ -227,7 +255,8 @@
           "@sap.display.format": "UpperCase",
           "@sap.label": "Maintenance Revision",
           "@sap.quickinfo": "Revision for Plant Maintenance and Customer Service",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "MaintenancePlanningPlant": {
           "type": "cds.String",
@@ -235,7 +264,8 @@
           "@sap.display.format": "UpperCase",
           "@sap.label": "Planning Plant",
           "@sap.quickinfo": "Maintenance Planning Plant",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "MaintenanceNotification": {
           "type": "cds.String",
@@ -244,7 +274,8 @@
           "@sap.label": "Notification",
           "@sap.quickinfo": "Notification Number",
           "@sap.creatable": "false",
-          "@sap.updatable": "false"
+          "@sap.updatable": "false",
+          "notNull": false
         },
         "vbeln": {
           "type": "cds.String",
@@ -252,7 +283,8 @@
           "@sap.display.format": "UpperCase",
           "@sap.label": "Sales Document",
           "@sap.creatable": "false",
-          "@sap.updatable": "false"
+          "@sap.updatable": "false",
+          "notNull": false
         },
         "SalesContract": {
           "type": "cds.String",
@@ -260,21 +292,24 @@
           "@sap.display.format": "UpperCase",
           "@sap.label": "Contract Number",
           "@sap.quickinfo": "Contract",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "project": {
           "type": "cds.String",
           "length": 24,
           "@sap.label": "Project",
           "@sap.creatable": "false",
-          "@sap.updatable": "false"
+          "@sap.updatable": "false",
+          "notNull": false
         },
         "MaintenanceOrder": {
           "type": "cds.String",
           "length": 12,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Order",
-          "@sap.quickinfo": "Order Number"
+          "@sap.quickinfo": "Order Number",
+          "notNull": false
         },
         "matnr": {
           "type": "cds.String",
@@ -283,7 +318,8 @@
           "@sap.label": "Material",
           "@sap.quickinfo": "Material Number",
           "@sap.creatable": "false",
-          "@sap.updatable": "false"
+          "@sap.updatable": "false",
+          "notNull": false
         },
         "menge": {
           "type": "cds.Decimal",
@@ -292,27 +328,31 @@
           "@sap.label": "Target Quantity",
           "@sap.quickinfo": "Target Quantity in Sales Units",
           "@sap.creatable": "false",
-          "@sap.updatable": "false"
+          "@sap.updatable": "false",
+          "notNull": false
         },
         "meins": {
           "type": "cds.String",
           "length": 3,
           "@sap.label": "UoM",
           "@sap.quickinfo": "Base Unit of Measure",
-          "@sap.semantics": "unit-of-measure"
+          "@sap.semantics": "unit-of-measure",
+          "notNull": false
         },
         "equnr": {
           "type": "cds.String",
           "length": 18,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Equipment",
-          "@sap.quickinfo": "Equipment Number"
+          "@sap.quickinfo": "Equipment Number",
+          "notNull": false
         },
         "Floc": {
           "type": "cds.String",
           "length": 30,
           "@sap.label": "Functional Location",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "TechnicalObject": {
           "type": "cds.String",
@@ -320,42 +360,49 @@
           "@sap.label": "Technical Object",
           "@sap.creatable": "false",
           "@sap.updatable": "false",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "TechnicalObjectDescription": {
           "type": "cds.String",
           "length": 19,
           "@sap.label": "Technical Object Type",
           "@sap.creatable": "false",
-          "@sap.updatable": "false"
+          "@sap.updatable": "false",
+          "notNull": false
         },
         "no_dup_tl": {
           "type": "cds.Boolean",
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Eliminate Duplicate Task List"
+          "@sap.label": "Eliminate Duplicate Task List",
+          "notNull": false
         },
         "skip_tl": {
           "type": "cds.Boolean",
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Skip Task List"
+          "@sap.label": "Skip Task List",
+          "notNull": false
         },
         "loekz": {
           "type": "cds.Boolean",
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Deletion Flag"
+          "@sap.label": "Deletion Flag",
+          "notNull": false
         },
         "Status_Text": {
           "type": "cds.String",
           "length": 60,
           "@sap.label": "Short Descript.",
-          "@sap.quickinfo": "Short Text for Fixed Values"
+          "@sap.quickinfo": "Short Text for Fixed Values",
+          "notNull": false
         },
         "Type_Description": {
           "type": "cds.String",
           "length": 40,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Bow Description",
-          "@sap.quickinfo": "Bill of Work Type Description"
+          "@sap.quickinfo": "Bill of Work Type Description",
+          "notNull": false
         },
         "CustomerName": {
           "type": "cds.String",
@@ -363,109 +410,127 @@
           "@sap.label": "Name of Customer",
           "@sap.quickinfo": "Name 1",
           "@sap.creatable": "false",
-          "@sap.updatable": "false"
+          "@sap.updatable": "false",
+          "notNull": false
         },
         "TotalNetPrice": {
           "type": "cds.Decimal",
           "precision": 16,
           "scale": 2,
-          "@sap.label": "Total Net Price"
+          "@sap.label": "Total Net Price",
+          "notNull": false
         },
         "TotalQuoteCost": {
           "type": "cds.Decimal",
           "precision": 16,
           "scale": 2,
-          "@sap.label": "Total Quote Cost"
+          "@sap.label": "Total Quote Cost",
+          "notNull": false
         },
         "Criticality1": {
           "type": "cds.String",
           "length": 1,
           "@sap.display.format": "NonNegative",
-          "@sap.label": "Total Net Price Criticality"
+          "@sap.label": "Total Net Price Criticality",
+          "notNull": false
         },
         "MaintenanceOrderDesc": {
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Order Description",
-          "@sap.quickinfo": "Description"
+          "@sap.quickinfo": "Description",
+          "notNull": false
         },
         "RevisionDescription": {
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Revision Description",
-          "@sap.quickinfo": "Revision description"
+          "@sap.quickinfo": "Revision description",
+          "notNull": false
         },
         "MaterialDescription": {
           "type": "cds.String",
           "length": 40,
-          "@sap.label": "Material Description"
+          "@sap.label": "Material Description",
+          "notNull": false
         },
         "NotificationText": {
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Notification Description",
-          "@sap.quickinfo": "Short Text"
+          "@sap.quickinfo": "Short Text",
+          "notNull": false
         },
         "TechnicalObjectDesc": {
           "type": "cds.String",
           "length": 40,
-          "@sap.label": "Technical Object Description"
+          "@sap.label": "Technical Object Description",
+          "notNull": false
         },
         "Mainworkcenter": {
           "type": "cds.String",
           "length": 8,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Main Work Centre",
-          "@sap.quickinfo": "Main work center for maintenance tasks"
+          "@sap.quickinfo": "Main work center for maintenance tasks",
+          "notNull": false
         },
         "Servicematerial": {
           "type": "cds.String",
           "length": 40,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Service Product",
-          "@sap.quickinfo": "Material Number"
+          "@sap.quickinfo": "Material Number",
+          "notNull": false
         },
         "Documentcurrency": {
           "type": "cds.String",
           "length": 5,
           "@sap.label": "Document Currency",
           "@sap.quickinfo": "Currency of sales figure",
-          "@sap.semantics": "currency-code"
+          "@sap.semantics": "currency-code",
+          "notNull": false
         },
         "EventDataInconsistencyInd": {
           "type": "cds.Boolean",
           "@sap.display.format": "UpperCase",
           "@sap.label": "Event Data Inconsistency",
-          "@sap.quickinfo": "Event Data Inconsistency indicator"
+          "@sap.quickinfo": "Event Data Inconsistency indicator",
+          "notNull": false
         },
         "Standardproject": {
           "type": "cds.String",
           "length": 24,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Standard Project",
-          "@sap.quickinfo": "Character field length 24"
+          "@sap.quickinfo": "Character field length 24",
+          "notNull": false
         },
         "alternate_bow_ind": {
           "type": "cds.Boolean",
           "@sap.display.format": "UpperCase",
           "@sap.label": "Alternative Bill of Work Indicator",
-          "@sap.quickinfo": "Alternate Bill of Work indicator"
+          "@sap.quickinfo": "Alternate Bill of Work indicator",
+          "notNull": false
         },
         "CopyWorklist": {
           "type": "cds.String",
           "length": 1,
-          "@sap.label": "Copy Work List"
+          "@sap.label": "Copy Work List",
+          "notNull": false
         },
         "Eventdata": {
           "type": "cds.String",
           "length": 3,
-          "@sap.label": "Event Data"
+          "@sap.label": "Event Data",
+          "notNull": false
         },
         "Eventdataexist": {
           "type": "cds.Boolean",
           "@sap.display.format": "UpperCase",
           "@sap.label": "Event Data Found",
-          "@sap.quickinfo": "Event Data found"
+          "@sap.quickinfo": "Event Data found",
+          "notNull": false
         },
         "to_QuoteChart1": {
           "@cds.ambiguous": "missing on condition?",
@@ -519,43 +584,50 @@
         "complete_status": {
           "kind": "action",
           "returns": {
-            "type": "BOW.xHCLPRODSxC_Bow"
+            "type": "BOW.xHCLPRODSxC_Bow",
+            "notNull": false
           }
         },
         "navigate_materialreview": {
           "kind": "action",
           "returns": {
-            "type": "BOW.xHCLPRODSxC_Bow"
+            "type": "BOW.xHCLPRODSxC_Bow",
+            "notNull": false
           }
         },
         "reverse_complete_status": {
           "kind": "action",
           "returns": {
-            "type": "BOW.xHCLPRODSxC_Bow"
+            "type": "BOW.xHCLPRODSxC_Bow",
+            "notNull": false
           }
         },
         "reverse_delete": {
           "kind": "action",
           "returns": {
-            "type": "BOW.xHCLPRODSxC_Bow"
+            "type": "BOW.xHCLPRODSxC_Bow",
+            "notNull": false
           }
         },
         "work_detail": {
           "kind": "action",
           "returns": {
-            "type": "BOW.xHCLPRODSxC_Bow"
+            "type": "BOW.xHCLPRODSxC_Bow",
+            "notNull": false
           }
         },
         "work_list": {
           "kind": "action",
           "returns": {
-            "type": "BOW.xHCLPRODSxC_Bow"
+            "type": "BOW.xHCLPRODSxC_Bow",
+            "notNull": false
           }
         }
       }
     },
     "BOW.xHCLPRODSxC_BowItemStatusChart": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.updatable": "false",
       "@sap.deletable": "false",
@@ -569,7 +641,8 @@
           "length": 12,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Bill Of Work",
-          "@sap.quickinfo": "Bill Of Work ID"
+          "@sap.quickinfo": "Bill Of Work ID",
+          "notNull": true
         },
         "status": {
           "key": true,
@@ -578,16 +651,19 @@
           "@sap.display.format": "UpperCase",
           "@sap.text": "StatusText",
           "@sap.label": "BOW - WL Item Status",
-          "@sap.quickinfo": "Bill of Work - Work List Item Status"
+          "@sap.quickinfo": "Bill of Work - Work List Item Status",
+          "notNull": true
         },
         "StatusText": {
           "type": "cds.String",
           "length": 60,
           "@sap.label": "Short Descript.",
-          "@sap.quickinfo": "Short Text for Fixed Values"
+          "@sap.quickinfo": "Short Text for Fixed Values",
+          "notNull": false
         },
         "Total": {
-          "type": "cds.Integer"
+          "type": "cds.Integer",
+          "notNull": false
         },
         "to_bowh": {
           "@cds.ambiguous": "missing on condition?",
@@ -599,6 +675,7 @@
     },
     "BOW.xHCLPRODSxC_BowStatusVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -615,18 +692,21 @@
           "@sap.display.format": "UpperCase",
           "@sap.text": "Text",
           "@sap.label": "Status",
-          "@sap.quickinfo": "Values for Domains: Single Value/Lower Limit"
+          "@sap.quickinfo": "Values for Domains: Single Value/Lower Limit",
+          "notNull": true
         },
         "Text": {
           "type": "cds.String",
           "length": 60,
           "@sap.label": "Short Descript.",
-          "@sap.quickinfo": "Short Text for Fixed Values"
+          "@sap.quickinfo": "Short Text for Fixed Values",
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxC_BowTypeVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -643,19 +723,22 @@
           "@sap.display.format": "UpperCase",
           "@sap.text": "description",
           "@sap.label": "BOW Type",
-          "@sap.quickinfo": "Bill of Work Type"
+          "@sap.quickinfo": "Bill of Work Type",
+          "notNull": true
         },
         "description": {
           "type": "cds.String",
           "length": 40,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Bow Description",
-          "@sap.quickinfo": "Bill of Work Type Description"
+          "@sap.quickinfo": "Bill of Work Type Description",
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxC_Bow_CreateForm": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -669,7 +752,8 @@
           "length": 12,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Bill Of Work",
-          "@sap.quickinfo": "Bill Of Work ID"
+          "@sap.quickinfo": "Bill Of Work ID",
+          "notNull": true
         },
         "revnr": {
           "type": "cds.String",
@@ -677,14 +761,16 @@
           "@sap.display.format": "UpperCase",
           "@sap.label": "Revision",
           "@sap.quickinfo": "Revision for Plant Maintenance and Customer Service",
-          "@sap.value.list": "standard"
+          "@sap.value.list": "standard",
+          "notNull": false
         },
         "iwerk": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Plant for Revision",
-          "@sap.quickinfo": "Maintenance Planning Plant"
+          "@sap.quickinfo": "Maintenance Planning Plant",
+          "notNull": false
         },
         "bowty": {
           "type": "cds.String",
@@ -693,123 +779,142 @@
           "@sap.text": "Type_Description",
           "@sap.label": "BOW Type",
           "@sap.quickinfo": "Bill of Work Type",
-          "@sap.value.list": "fixed-values"
+          "@sap.value.list": "fixed-values",
+          "notNull": false
         },
         "bowtxt": {
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Description",
-          "@sap.quickinfo": "Bill of Work Description"
+          "@sap.quickinfo": "Bill of Work Description",
+          "notNull": false
         },
         "Type_Description": {
           "type": "cds.String",
           "length": 40,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Bow Description",
-          "@sap.quickinfo": "Bill of Work Type Description"
+          "@sap.quickinfo": "Bill of Work Type Description",
+          "notNull": false
         },
         "Salesorganization": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales Organization"
+          "@sap.label": "Sales Organization",
+          "notNull": false
         },
         "Distributionchannel": {
           "type": "cds.String",
           "length": 2,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Distribution Channel"
+          "@sap.label": "Distribution Channel",
+          "notNull": false
         },
         "Mainworkcenter": {
           "type": "cds.String",
           "length": 8,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Main Work Center",
-          "@sap.quickinfo": "Main work center for maintenance tasks"
+          "@sap.quickinfo": "Main work center for maintenance tasks",
+          "notNull": false
         },
         "Wkctrplant": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Plant for WorkCenter",
-          "@sap.quickinfo": "Plant associated with main work center"
+          "@sap.quickinfo": "Plant associated with main work center",
+          "notNull": false
         },
         "Servicematerial": {
           "type": "cds.String",
           "length": 40,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Material",
-          "@sap.quickinfo": "Material Number"
+          "@sap.quickinfo": "Material Number",
+          "notNull": false
         },
         "Standardproject": {
           "type": "cds.String",
           "length": 24,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Standard Project",
-          "@sap.quickinfo": "Character field length 24"
+          "@sap.quickinfo": "Character field length 24",
+          "notNull": false
         },
         "Customer": {
           "type": "cds.String",
           "length": 10,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Customer",
-          "@sap.quickinfo": "Customer Number"
+          "@sap.quickinfo": "Customer Number",
+          "notNull": false
         },
         "Customername": {
           "type": "cds.String",
           "length": 35,
           "@sap.label": "Name",
-          "@sap.quickinfo": "Name 1"
+          "@sap.quickinfo": "Name 1",
+          "notNull": false
         },
         "Documentcurrency": {
           "type": "cds.String",
           "length": 5,
           "@sap.label": "Currency of sales",
           "@sap.quickinfo": "Currency of sales figure",
-          "@sap.semantics": "currency-code"
+          "@sap.semantics": "currency-code",
+          "notNull": false
         },
         "Customerreference": {
           "type": "cds.String",
           "length": 35,
-          "@sap.label": "Customer Reference"
+          "@sap.label": "Customer Reference",
+          "notNull": false
         },
         "Contract": {
           "type": "cds.String",
           "length": 10,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Contract Number",
-          "@sap.quickinfo": "Contract"
+          "@sap.quickinfo": "Contract",
+          "notNull": false
         },
         "Division": {
           "type": "cds.String",
           "length": 2,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Division"
+          "@sap.label": "Division",
+          "notNull": false
         },
         "copywl": {
           "type": "cds.String",
           "length": 1,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Copy Work List",
-          "@sap.quickinfo": "Copy Work List Check Box"
+          "@sap.quickinfo": "Copy Work List Check Box",
+          "notNull": false
         },
         "Eventdata": {
           "type": "cds.String",
           "length": 3,
           "@sap.display.format": "UpperCase",
           "@sap.label": "3-Byte field",
-          "@sap.heading": ""
+          "@sap.heading": "",
+          "notNull": false
         },
         "geteventdata": {
           "type": "cds.Boolean",
           "@sap.display.format": "UpperCase",
           "@sap.label": "Indicator",
-          "@sap.quickinfo": "General Flag"
+          "@sap.quickinfo": "General Flag",
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxC_DisChannelVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -824,7 +929,8 @@
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales Organization"
+          "@sap.label": "Sales Organization",
+          "notNull": true
         },
         "DistributionChannel": {
           "key": true,
@@ -832,19 +938,22 @@
           "length": 2,
           "@sap.display.format": "UpperCase",
           "@sap.text": "DistributionChannel_Text",
-          "@sap.label": "Distribution Channel"
+          "@sap.label": "Distribution Channel",
+          "notNull": true
         },
         "DistributionChannel_Text": {
           "type": "cds.String",
           "length": 20,
           "@sap.label": "Distribution Channel Description",
           "@sap.creatable": "false",
-          "@sap.updatable": "false"
+          "@sap.updatable": "false",
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxC_FunctionalLocVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -857,18 +966,21 @@
           "key": true,
           "type": "cds.String",
           "length": 30,
-          "@sap.label": "Functional Location"
+          "@sap.label": "Functional Location",
+          "notNull": true
         },
         "pltxt": {
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Description",
-          "@sap.quickinfo": "Description of functional location"
+          "@sap.quickinfo": "Description of functional location",
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxC_OrgDivisionVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -883,14 +995,16 @@
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales Organization"
+          "@sap.label": "Sales Organization",
+          "notNull": true
         },
         "DistributionChannel": {
           "key": true,
           "type": "cds.String",
           "length": 2,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Distribution Channel"
+          "@sap.label": "Distribution Channel",
+          "notNull": true
         },
         "Division": {
           "key": true,
@@ -898,19 +1012,22 @@
           "length": 2,
           "@sap.display.format": "UpperCase",
           "@sap.text": "Division_Text",
-          "@sap.label": "Division"
+          "@sap.label": "Division",
+          "notNull": true
         },
         "Division_Text": {
           "type": "cds.String",
           "length": 20,
           "@sap.label": "Division Description",
           "@sap.creatable": "false",
-          "@sap.updatable": "false"
+          "@sap.updatable": "false",
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxC_SalesGroupVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -925,24 +1042,28 @@
           "type": "cds.String",
           "length": 3,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales group"
+          "@sap.label": "Sales group",
+          "notNull": true
         },
         "SalesOffice": {
           "key": true,
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales office"
+          "@sap.label": "Sales office",
+          "notNull": true
         },
         "SalesGroupName": {
           "type": "cds.String",
           "length": 20,
-          "@sap.label": "Sales Group Description"
+          "@sap.label": "Sales Group Description",
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxC_SalesOfficeVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -957,38 +1078,44 @@
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales office"
+          "@sap.label": "Sales office",
+          "notNull": true
         },
         "SalesOrganization": {
           "key": true,
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales Organization"
+          "@sap.label": "Sales Organization",
+          "notNull": true
         },
         "DistributionChannel": {
           "key": true,
           "type": "cds.String",
           "length": 2,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Distribution Channel"
+          "@sap.label": "Distribution Channel",
+          "notNull": true
         },
         "OrganizationDivision": {
           "key": true,
           "type": "cds.String",
           "length": 2,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Division"
+          "@sap.label": "Division",
+          "notNull": true
         },
         "SalesOfficeName": {
           "type": "cds.String",
           "length": 20,
-          "@sap.label": "Sales Office Description"
+          "@sap.label": "Sales Office Description",
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxC_SoldToQuickView": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -1004,54 +1131,64 @@
           "@sap.display.format": "UpperCase",
           "@sap.text": "CustomerName",
           "@sap.label": "Customer",
-          "@sap.quickinfo": "Customer Number"
+          "@sap.quickinfo": "Customer Number",
+          "notNull": true
         },
         "AddressID": {
           "type": "cds.String",
           "length": 10,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Address"
+          "@sap.label": "Address",
+          "notNull": false
         },
         "CustomerName": {
           "type": "cds.String",
           "length": 80,
           "@sap.label": "Name",
-          "@sap.quickinfo": "Name of Customer"
+          "@sap.quickinfo": "Name of Customer",
+          "notNull": false
         },
         "PostalCode": {
           "type": "cds.String",
           "length": 10,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Postal Code",
-          "@sap.quickinfo": "City postal code"
+          "@sap.quickinfo": "City postal code",
+          "notNull": false
         },
         "CityName": {
           "type": "cds.String",
           "length": 40,
-          "@sap.label": "City"
+          "@sap.label": "City",
+          "notNull": false
         },
         "Country": {
           "type": "cds.String",
           "length": 3,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Country/Region Key"
+          "@sap.label": "Country/Region Key",
+          "notNull": false
         },
         "bowid": {
           "type": "cds.String",
-          "length": 10
+          "length": 10,
+          "notNull": false
         },
         "quote": {
           "type": "cds.String",
-          "length": 10
+          "length": 10,
+          "notNull": false
         },
         "waers": {
           "type": "cds.String",
-          "length": 10
+          "length": 10,
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxI_BowIdVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -1067,46 +1204,53 @@
           "length": 12,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Bill of Work",
-          "@sap.quickinfo": "Bill Of Work ID"
+          "@sap.quickinfo": "Bill Of Work ID",
+          "notNull": true
         },
         "bowtxt": {
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Description",
-          "@sap.quickinfo": "Bill of Work Description"
+          "@sap.quickinfo": "Bill of Work Description",
+          "notNull": false
         },
         "revnr": {
           "type": "cds.String",
           "length": 8,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Revision",
-          "@sap.quickinfo": "Revision for Plant Maintenance and Customer Service"
+          "@sap.quickinfo": "Revision for Plant Maintenance and Customer Service",
+          "notNull": false
         },
         "iwerk": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Planning Plant",
-          "@sap.quickinfo": "Maintenance Planning Plant"
+          "@sap.quickinfo": "Maintenance Planning Plant",
+          "notNull": false
         },
         "bowty": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
           "@sap.label": "BOW Type",
-          "@sap.quickinfo": "Bill of Work Type"
+          "@sap.quickinfo": "Bill of Work Type",
+          "notNull": false
         },
         "status": {
           "type": "cds.String",
           "length": 1,
           "@sap.display.format": "UpperCase",
           "@sap.label": "BOW Status",
-          "@sap.quickinfo": "Bill of Work Status"
+          "@sap.quickinfo": "Bill of Work Status",
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxI_ContractVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -1122,12 +1266,14 @@
           "length": 10,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Contract Number",
-          "@sap.quickinfo": "Sales Document"
+          "@sap.quickinfo": "Sales Document",
+          "notNull": true
         }
       }
     },
     "BOW.xHCLPRODSxI_MaintRevisionVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -1142,7 +1288,8 @@
           "length": 4,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Planning Plant",
-          "@sap.quickinfo": "Maintenance Planning Plant"
+          "@sap.quickinfo": "Maintenance Planning Plant",
+          "notNull": true
         },
         "MaintenanceRevision": {
           "key": true,
@@ -1151,56 +1298,65 @@
           "@sap.display.format": "UpperCase",
           "@sap.text": "MaintenanceRevisionDesc",
           "@sap.label": "Revision",
-          "@sap.quickinfo": "Revision for Plant Maintenance and Customer Service"
+          "@sap.quickinfo": "Revision for Plant Maintenance and Customer Service",
+          "notNull": true
         },
         "MaintenanceRevisionDesc": {
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Rev. description",
-          "@sap.quickinfo": "Revision description"
+          "@sap.quickinfo": "Revision description",
+          "notNull": false
         },
         "RevisionStartDate": {
           "type": "cds.Date",
           "@sap.display.format": "Date",
           "@sap.label": "Start Date",
-          "@sap.quickinfo": "Date of revision start"
+          "@sap.quickinfo": "Date of revision start",
+          "notNull": false
         },
         "RevisionEndDate": {
           "type": "cds.Date",
           "@sap.display.format": "Date",
           "@sap.label": "End Date",
-          "@sap.quickinfo": "Date of revision end"
+          "@sap.quickinfo": "Date of revision end",
+          "notNull": false
         },
         "bowid": {
           "type": "cds.String",
           "length": 12,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Bill Of Work",
-          "@sap.quickinfo": "Bill Of Work ID"
+          "@sap.quickinfo": "Bill Of Work ID",
+          "notNull": false
         },
         "RevisionInUse": {
           "type": "cds.String",
           "length": 3,
-          "@sap.label": "Revision in Use"
+          "@sap.label": "Revision in Use",
+          "notNull": false
         },
         "Mainworkcenter": {
           "type": "cds.String",
           "length": 8,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Main Work Center",
-          "@sap.quickinfo": "Main work center for maintenance tasks"
+          "@sap.quickinfo": "Main work center for maintenance tasks",
+          "notNull": false
         },
         "Wkctrplant": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Plant for WorkCenter",
-          "@sap.quickinfo": "Plant associated with main work center"
+          "@sap.quickinfo": "Plant associated with main work center",
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxI_QuoteTypeVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -1215,18 +1371,21 @@
           "length": 4,
           "@sap.display.format": "UpperCase",
           "@sap.label": "BOW Type",
-          "@sap.quickinfo": "Bill of Work Type"
+          "@sap.quickinfo": "Bill of Work Type",
+          "notNull": true
         },
         "quote_type": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Quotation Type"
+          "@sap.label": "Quotation Type",
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxI_TechnicalObjectVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -1239,37 +1398,43 @@
         "TechnicalObject": {
           "key": true,
           "type": "cds.String",
-          "length": 40
+          "length": 40,
+          "notNull": true
         },
         "TechnicalObjectCategory": {
           "type": "cds.String",
           "length": 1,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Tech. Obj. Category",
-          "@sap.quickinfo": "Technical Object Category"
+          "@sap.quickinfo": "Technical Object Category",
+          "notNull": false
         },
         "TechObjIsEquipOrFuncnlLocDesc": {
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Technical Object Type",
-          "@sap.quickinfo": "Description of Technical Object Type"
+          "@sap.quickinfo": "Description of Technical Object Type",
+          "notNull": false
         },
         "TechnicalObjectDescription": {
           "type": "cds.String",
           "length": 40,
-          "@sap.label": "Technical Object Description"
+          "@sap.label": "Technical Object Description",
+          "notNull": false
         },
         "TechObject": {
           "type": "cds.String",
           "length": 40,
           "@sap.display.format": "UpperCase",
           "@sap.text": "TechnicalObjectDescription",
-          "@sap.label": "Technical Object"
+          "@sap.label": "Technical Object",
+          "notNull": false
         }
       }
     },
     "BOW.xHCLPRODSxI_TotalSalesVsCost": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -1283,22 +1448,26 @@
           "length": 12,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Bill Of Work",
-          "@sap.quickinfo": "Bill Of Work ID"
+          "@sap.quickinfo": "Bill Of Work ID",
+          "notNull": true
         },
         "TotalNetPrice": {
           "type": "cds.Decimal",
           "precision": 16,
-          "scale": 2
+          "scale": 2,
+          "notNull": false
         },
         "TotalQuoteCost": {
           "type": "cds.Decimal",
           "precision": 16,
-          "scale": 2
+          "scale": 2,
+          "notNull": false
         }
       }
     },
     "BOW.C_MaintenancePlanPlantVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -1315,22 +1484,26 @@
           "@sap.display.format": "UpperCase",
           "@sap.text": "PlantName1",
           "@sap.label": "Planning Plant",
-          "@sap.quickinfo": "Maintenance Planning Plant"
+          "@sap.quickinfo": "Maintenance Planning Plant",
+          "notNull": true
         },
         "PlantName1": {
           "type": "cds.String",
           "length": 30,
-          "@sap.label": "Name 1"
+          "@sap.label": "Name 1",
+          "notNull": false
         },
         "PlantName2": {
           "type": "cds.String",
           "length": 30,
-          "@sap.label": "Name 2"
+          "@sap.label": "Name 2",
+          "notNull": false
         }
       }
     },
     "BOW.C_PurOrdMaintainCustValHelp": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -1346,31 +1519,36 @@
           "@sap.display.format": "UpperCase",
           "@sap.text": "CustomerName",
           "@sap.label": "Customer",
-          "@sap.quickinfo": "Customer Number"
+          "@sap.quickinfo": "Customer Number",
+          "notNull": true
         },
         "CustomerName": {
           "type": "cds.String",
           "length": 80,
-          "@sap.label": "Name of Customer"
+          "@sap.label": "Name of Customer",
+          "notNull": false
         },
         "CustomerAccountGroup": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Account group",
-          "@sap.quickinfo": "Customer Account Group"
+          "@sap.quickinfo": "Customer Account Group",
+          "notNull": false
         },
         "AuthorizationGroup": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Authorization",
-          "@sap.quickinfo": "Authorization Group"
+          "@sap.quickinfo": "Authorization Group",
+          "notNull": false
         }
       }
     },
     "BOW.I_ChangeDocUser": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -1385,18 +1563,21 @@
           "length": 12,
           "@sap.display.format": "UpperCase",
           "@sap.label": "User Name",
-          "@sap.quickinfo": "User Name in User Master Record"
+          "@sap.quickinfo": "User Name in User Master Record",
+          "notNull": true
         },
         "NAME_TEXTC": {
           "type": "cds.String",
           "length": 80,
           "@sap.label": "Full Name",
-          "@sap.quickinfo": "Full Name of Person"
+          "@sap.quickinfo": "Full Name of Person",
+          "notNull": false
         }
       }
     },
     "BOW.I_SalesOrganizationText": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -1411,23 +1592,27 @@
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales Organization"
+          "@sap.label": "Sales Organization",
+          "notNull": true
         },
         "Language": {
           "key": true,
           "type": "cds.String",
           "length": 2,
-          "@sap.label": "Language Key"
+          "@sap.label": "Language Key",
+          "notNull": true
         },
         "SalesOrganizationName": {
           "type": "cds.String",
           "length": 20,
-          "@sap.label": "Sales Organization Description"
+          "@sap.label": "Sales Organization Description",
+          "notNull": false
         }
       }
     },
     "BOW.SAP__Currencies": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.content.version": "1",
       "elements": {
@@ -1436,27 +1621,32 @@
           "type": "cds.String",
           "length": 5,
           "@sap.label": "Currency",
-          "@sap.semantics": "currency-code"
+          "@sap.semantics": "currency-code",
+          "notNull": true
         },
         "ISOCode": {
           "type": "cds.String",
           "length": 3,
-          "@sap.label": "ISO code"
+          "@sap.label": "ISO code",
+          "notNull": true
         },
         "Text": {
           "type": "cds.String",
           "length": 15,
-          "@sap.label": "Short text"
+          "@sap.label": "Short text",
+          "notNull": true
         },
         "DecimalPlaces": {
           "type": "cds.Integer",
           "@odata.Type": "Edm.Byte",
-          "@sap.label": "Decimals"
+          "@sap.label": "Decimals",
+          "notNull": true
         }
       }
     },
     "BOW.SAP__UnitsOfMeasure": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.content.version": "1",
       "elements": {
@@ -1465,26 +1655,31 @@
           "type": "cds.String",
           "length": 3,
           "@sap.label": "Internal UoM",
-          "@sap.semantics": "unit-of-measure"
+          "@sap.semantics": "unit-of-measure",
+          "notNull": true
         },
         "ISOCode": {
           "type": "cds.String",
           "length": 3,
-          "@sap.label": "ISO code"
+          "@sap.label": "ISO code",
+          "notNull": true
         },
         "ExternalCode": {
           "type": "cds.String",
           "length": 3,
-          "@sap.label": "Commercial"
+          "@sap.label": "Commercial",
+          "notNull": true
         },
         "Text": {
           "type": "cds.String",
           "length": 30,
-          "@sap.label": "UoM Text"
+          "@sap.label": "UoM Text",
+          "notNull": true
         },
         "DecimalPlaces": {
           "type": "cds.Integer",
-          "@sap.label": "Decimal Places"
+          "@sap.label": "Decimal Places",
+          "notNull": false
         }
       }
     }
