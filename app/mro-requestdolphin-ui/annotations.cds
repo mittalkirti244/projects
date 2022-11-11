@@ -36,14 +36,13 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             Action          : 'manage',
             RequiresContext : true
         },
-        //Issue - Only one type is possible with same details - need to find solution for grouping
-        /*{
+        {
             $Type           : 'UI.DataFieldForIntentBasedNavigation',
             Label           : '{i18n>CreateBOW}',
             SemanticObject  : 'MaintenanceWorkItem',
-            Action          : 'manage',
+            Action          : 'manageBOW',
             RequiresContext : true
-        },*/
+        },
         /*{
             $Type  : 'UI.DataFieldForAction',
             Action : 'mrorequestdolphinService.calculateAging',

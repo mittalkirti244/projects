@@ -585,6 +585,9 @@ annotate service.BillOfWorks with @Capabilities : {FilterRestrictions : {
         plantName,
         revisionText,
         to_maintenanceRequest_ID,
-        workLocationDetail
+        workLocationDetail,
+        ID,
+        requestDesc,
+        expectedArrivalDate
     ]
 }};
