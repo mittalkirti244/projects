@@ -8,7 +8,7 @@ using {
 entity MaintenanceRequests : managed {
     key ID                               : UUID                                                                         @title                 : '{i18n>ID}'                    @Core.Computed; //unique ID for Maintenace request
         requestNo                        : String                                                                       @title                 : '{i18n>requestNo}'; // will generate after selecting request type
-        requestNoConcat                  : String                                                                       @Common.SemanticObject : 'MaintenanceRequest'          @title                                           : '{i18n>requestNo}';
+        requestNoConcat                  : String                                                                       @Common.SemanticObject : 'MaintenanceRequest'           @title                                           : '{i18n>requestNo}';
         requestDesc                      : String                                                                       @title                 : '{i18n>requestDesc}'; // maintenance request Description
         businessPartner                  : String                                                                       @title                 : '{i18n>businessPartner}'; //bp service from s4
         businessPartnerDisp              : String                                                                       @title                 : '{i18n>businessPartner}'; // bp to be display on only list report page to perform filteration
@@ -135,6 +135,8 @@ entity WorkItems : managed {
         taskListType             : String                          @title                 : 'Task List Type'; //task List Type
         taskListDescription      : String                          @title                 : 'Task List Description'; //task List Description
         documentNo               : String                          @title                 : 'Document Number'; // Auto populate from Task List Value Help
+        documentType             : String                          @title                 : 'Document Type'; // Auto populate from Task List Value Help
+        documentPart             : String                          @title                 : 'Document Part'; // Auto populate from Task List Value Help
         documentVersion          : String                          @title                 : 'Document Version'; //Auto Populate from Task List Value Help
         taskListFlag             : Boolean not null default false  @title                 : 'Task List Flag'; //Once the task list is created for workitem, the flag will set as true
         assignTaskListFlag       : Boolean not null default false  @title                 : 'Assign Task List Flag'; //Enable and disable of Assign tasklist button

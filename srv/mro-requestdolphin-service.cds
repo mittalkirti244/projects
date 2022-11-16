@@ -390,11 +390,13 @@ extend service mrorequestdolphinService with {
         key TaskListGroup                @(Common.Label : 'Task List Group'),
         key TaskListGroupCounter         @(Common.Label : 'Task List Group Counter'),
         key ExternalReference            @(Common.Label : 'Generic Reference'),
+        key DocumentInfoRecordDocType    @(Common.Label : 'Document Type'),
         key DocumentInfoRecordDocNumber  @(Common.Label : 'Document Number'),
+        key DocumentInfoRecordDocPart    @(Common.Label : 'Document Part'),
         key DocumentInfoRecordDocVersion @(Common.Label : 'Document Version'),
             TaskListDesc                 @(Common.Label : 'Task List Description'),
             ExternalCustomerReference    @(Common.Label : 'Customer Reference'),
-            MaintenancePlanningPlant                        @(Common.Label : 'Work Location Plant')
+            MaintenancePlanningPlant     @(Common.Label : 'Work Location Plant')
     };
 
     entity SalesOrgVH          as projection on reusable.SalesOrgVH {

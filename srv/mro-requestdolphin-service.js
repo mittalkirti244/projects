@@ -860,7 +860,7 @@ module.exports = cds.service.impl(async function () {
 
                         var data = {
                             "NotificationText": shortTaskDescription,//MR no. + task descr
-                            "NotificationType": 'M1',
+                            "NotificationType": 'N1',
                             "RequiredStartDate": vformatedexpectedArrivalDate,//Expected Arrival Date from MR
                             "MaintenanceRevisionWPS": query1[0].MaintenanceRevision,//From MR
                             "MaintenancePlanningPlant": query1[0].MaintenancePlanningPlant,//From MR
@@ -871,7 +871,11 @@ module.exports = cds.service.impl(async function () {
                             "NotificationLongTextCreate": vNotificationLongTextCreate,//MRNO + MR Type + WorkOrderNo + Sequence No + Task Description
                             "TaskListType": query[i].taskListType,
                             "TaskListGroup": query[i].taskListGroup,
-                            "TaskListGroupCounter": query[i].taskListGroupCounter
+                            "TaskListGroupCounter": query[i].taskListGroupCounter,
+                            "DocumentNumber" : query[i].documentNo,
+                            "DocumentType" : query[i].documentType,
+                            "DocumentPart" : query[i].documentPart,
+                            "DocumentVersion" : query[i].documentVersion
                         }
                         console.log('data', data)
                         var result = await tx.send({ method: 'POST', path: 'MaintNotification', data })

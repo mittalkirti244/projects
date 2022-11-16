@@ -268,15 +268,18 @@ annotate service.WorkItems with @(UI : {
             {Value : multiTaskListFlag},
             {Value : taskListIdentifiedDate},
             {Value : documentNo},
+            {Value : documentType},
+            {Value : documentPart},
             {Value : documentVersion},
-            {
-                $Type          : 'UI.DataFieldWithIntentBasedNavigation',
-                //Label          : 'My Link for navigation',
-                Value          : MaintenanceNotification,
-                SemanticObject : 'MaintenanceNotification',
-                Action         : 'displayNotification',
-            },
-        //{Value : MaintenanceNotification}
+            {Value : MaintenanceNotification},
+        /* {
+             $Type          : 'UI.DataFieldWithIntentBasedNavigation',
+             //Label          : 'My Link for navigation',
+             Value          : MaintenanceNotification,
+             SemanticObject : 'MaintenanceNotification',
+             Action         : 'displayNotification',
+         },*/
+
         ],
     },
     FieldGroup #customerGroup3 : {
@@ -523,8 +526,18 @@ annotate service.WorkItems with {
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'documentType',
+                ValueListProperty : 'DocumentInfoRecordDocType'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'documentNo',
                 ValueListProperty : 'DocumentInfoRecordDocNumber'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'documentPart',
+                ValueListProperty : 'DocumentInfoRecordDocPart'
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
@@ -590,8 +603,18 @@ annotate service.WorkItems with {
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'documentType',
+                ValueListProperty : 'DocumentInfoRecordDocType'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'documentNo',
                 ValueListProperty : 'DocumentInfoRecordDocNumber'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'documentPart',
+                ValueListProperty : 'DocumentInfoRecordDocPart'
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
@@ -657,8 +680,18 @@ annotate service.WorkItems with {
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'documentType',
+                ValueListProperty : 'DocumentInfoRecordDocType'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'documentNo',
                 ValueListProperty : 'DocumentInfoRecordDocNumber'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'documentPart',
+                ValueListProperty : 'DocumentInfoRecordDocPart'
             },
             {
                 $Type             : 'Common.ValueListParameterOut',

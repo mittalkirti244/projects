@@ -238,7 +238,7 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
             ![@UI.Hidden]
         },
         {
-            Value:soldToParty,
+            Value : soldToParty,
             ![@UI.Hidden]
         }
     ],

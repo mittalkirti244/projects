@@ -11,6 +11,44 @@
       "@sap.message.scope.supported": "true",
       "@sap.supported.formats": "atom json xlsx"
     },
+    "MAINTREQ_SB.NotificationTypeVH": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@cds.persistence.skip": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.searchable": "true",
+      "@sap.content.version": "1",
+      "@sap.label": "Bill of Work - Induction Notification Type Assignation",
+      "elements": {
+        "BOWTY": {
+          "key": true,
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "BOW Type",
+          "@sap.quickinfo": "Bill of Work Type",
+          "notNull": true
+        },
+        "QMART": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Notification Type",
+          "notNull": true
+        },
+        "WERKS": {
+          "key": true,
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Plant",
+          "notNull": true
+        }
+      }
+    },
     "MAINTREQ_SB.ExtCustomerReferenceVH": {
       "kind": "entity",
       "@cds.external": true,
@@ -894,36 +932,26 @@
         "SalesOrganization": {
           "type": "cds.String",
           "length": 4,
-          "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales Organization",
           "notNull": false
         },
         "DistributionChannel": {
           "type": "cds.String",
           "length": 2,
-          "@sap.display.format": "UpperCase",
-          "@sap.label": "Distribution Channel",
           "notNull": false
         },
         "Division": {
           "type": "cds.String",
           "length": 2,
-          "@sap.display.format": "UpperCase",
-          "@sap.label": "Division",
           "notNull": false
         },
         "SalesOffice": {
           "type": "cds.String",
           "length": 4,
-          "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales office",
           "notNull": false
         },
         "SalesGroup": {
           "type": "cds.String",
           "length": 3,
-          "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales group",
           "notNull": false
         },
         "NotificationHasLongText": {
@@ -1176,6 +1204,13 @@
           "@sap.display.format": "UpperCase",
           "@sap.label": "Plant",
           "@sap.value.list": "standard",
+          "notNull": false
+        },
+        "BaseUnit": {
+          "type": "cds.String",
+          "length": 3,
+          "@sap.label": "Base Unit of Measure",
+          "@sap.semantics": "unit-of-measure",
           "notNull": false
         }
       }
