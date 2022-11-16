@@ -1053,9 +1053,8 @@ module.exports = cds.service.impl(async function () {
         req.data.bowDesc = req.data.requestNoConcat + ' ' + query[0].to_requestType_rType
 
         //------------------------------------------------------------------
-        //Currently using it for Revision created as it required for generating BOW
-        //Once Notification will work will change it to the Notification validation
-        if (query[0].to_requestStatusDisp_rStatus != 'RVCRTD') {
+       //Once the notification is created then we can create BOW
+        if (query[0].to_requestStatusDisp_rStatus != 'NTCRTD') {
             req.error(406, 'Bill of Work cannot be created as current status of Request ' + query[0].requestNo + ' is ' + query[0].to_requestStatusDisp_rStatusDesc + '.');
         }
 

@@ -211,14 +211,14 @@ entity NotificationTypes {
 
 entity BillOfWorks : managed {
     key ID                       : UUID    @Core.Computed;
-        requestNoConcat          : String  @title                 : 'Maintenance Request';
+        requestNoConcat          : String  @Common.SemanticObject : 'MaintenanceRequest'   @title                 : 'Maintenance Request';
         requestDesc              : String  @title                 : 'Request Description'; // maintenance request Description
         requestType              : String  @title                 : 'Maintenance Request Type';
         businessPartner          : String  @title                 : 'Business Partner';
         businessPartnerName      : String  @title                 : 'Business Partner Name';
-        SalesContract            : String  @title                 : 'Contract';
+        SalesContract            : String  @Common.SemanticObject : 'SalesContract'  @title                 : 'Contract';
         contractName             : String  @title                 : 'Contract name';
-        MaintenanceRevision      : String  @title                 : 'Revision';
+        MaintenanceRevision      : String  @Common.SemanticObject : 'MaintenanceRevisionOverview'   @title                 : 'Revision';
         revisionText             : String  @title                 : 'Revision Text';
         workLocation             : String  @title                 : 'Work Location';
         workLocationDetail       : String  @title                 : 'Work Location Detail';
