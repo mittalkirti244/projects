@@ -344,6 +344,7 @@ annotate service.BillOfWorks with {
     requestNoConcat @(Common : {ValueList : {
         CollectionPath : 'MaintenanceRequests',
         Label          : 'Maintenance Request',
+        SearchSupported : true,
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
@@ -414,6 +415,7 @@ annotate service.BillOfWorks with {
     salesOrganization @(Common : {ValueList : {
         CollectionPath : 'SalesOrgVH',
         Label          : 'Sales Organization',
+        SearchSupported : true,
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
@@ -439,6 +441,7 @@ annotate service.BillOfWorks with {
     serviceProduct @(Common : {ValueList : {
         CollectionPath : 'ServiceProducts',
         Label          : 'Service Products',
+        SearchSupported : true,
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
@@ -459,6 +462,7 @@ annotate service.BillOfWorks with {
     currency @(Common : {ValueList : {
         CollectionPath : 'Currencies',
         Label          : 'Currency',
+        SearchSupported : true,
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',

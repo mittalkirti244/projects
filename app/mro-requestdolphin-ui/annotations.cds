@@ -1049,7 +1049,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         modifiedBy,
         startDate,
         endDate,
-        soldToParty
+        soldToParty,
+        ID
     ]
 }};
 

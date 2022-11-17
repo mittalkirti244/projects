@@ -330,6 +330,7 @@ annotate service.WorkItems with {
     requestNo @(Common : {ValueList : {
         CollectionPath : 'MaintenanceRequests',
         Label          : 'Maintenance Request',
+        SearchSupported : true,
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
@@ -401,6 +402,7 @@ annotate service.WorkItems with {
     requestNoConcat @(Common : {ValueList : {
         CollectionPath : 'MaintenanceRequests',
         Label          : 'Maintenance Request',
+        SearchSupported : true,
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
@@ -465,6 +467,7 @@ annotate service.WorkItems with {
     MaintenanceNotification @(Common : {ValueList : {
         CollectionPath : 'MaintNotifications',
         Label          : 'Notification',
+        SearchSupported : true,
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterInOut',
@@ -511,6 +514,7 @@ annotate service.WorkItems with {
     taskListType @(Common : {ValueList : {
         CollectionPath : 'ReferenceTaskListVH',
         Label          : 'Task List Type',
+        SearchSupported : true,
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterIn',
@@ -588,6 +592,7 @@ annotate service.WorkItems with {
     taskListGroup @(Common : {ValueList : {
         CollectionPath : 'ReferenceTaskListVH',
         Label          : 'Task List Group',
+        SearchSupported : true,
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterIn',
@@ -665,6 +670,7 @@ annotate service.WorkItems with {
     taskListGroupCounter @(Common : {ValueList : {
         CollectionPath : 'ReferenceTaskListVH',
         Label          : 'Task List Group Counter',
+        SearchSupported : true,
         Parameters     : [
             {
                 $Type             : 'Common.ValueListParameterIn',
