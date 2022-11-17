@@ -230,6 +230,7 @@ service mrorequestdolphinService {
         $Type    : 'Capabilities.SortRestrictionsType',
         Sortable : false
     }
+     @cds.redirection.target
     entity Documents               as projection on maintReq.Documents {
         *,
         createdAt  @(Common.Label : '{i18n>createdAt}'),
@@ -259,6 +260,15 @@ service mrorequestdolphinService {
         }
         where
             workOrderNo != '';
+
+    //Entity used as collection path for Workorder number on object page
+    entity DocumentIDs        as
+        select from maintReq.MaintenanceRequests {
+            to_document.ID as documentID,
+            requestNoConcat 
+        }
+        where
+            to_document.ID  != '';
 
     //All views used for Overview page
     view AggregatedMaintenanceReqOnStatuses as select from maintReq.AggregatedMaintenanceReqOnStatuses;
@@ -380,14 +390,14 @@ extend service mrorequestdolphinService with {
 
     //Maintenance Notification number value help on object page
     entity MaintNotifications  as projection on s4maintReq.MaintNotification {
-        MaintenanceNotification @(Common.Label : 'Notification'),
-        NotificationText        @UI.HiddenFilter @(Common.Label : 'Notification Text'),
-        NotificationType        @(Common.Label : 'Notification Type'),
+        MaintenanceNotification    @(Common.Label : 'Notification'),
+        NotificationText           @UI.HiddenFilter @(Common.Label : 'Notification Text'),
+        NotificationType           @(Common.Label : 'Notification Type'),
         MaintenanceWorkCenterPlant @(Common.Label : 'Work Location Plant'),
-        FunctionalLocation @(Common.Label : 'Functional Location'),
-        Equipment @(Common.Label : 'Equipment'),
-        Material @(Common.Label : 'Material'),
-        MaintenanceRevision @(Common.Label : 'Revision')
+        FunctionalLocation         @(Common.Label : 'Functional Location'),
+        Equipment                  @(Common.Label : 'Equipment'),
+        Material                   @(Common.Label : 'Material'),
+        MaintenanceRevision        @(Common.Label : 'Revision')
     };
 
     entity ReferenceTaskListVH as projection on s4maintReq.ReferenceTaskListVH {

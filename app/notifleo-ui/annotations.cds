@@ -743,6 +743,28 @@ annotate service.WorkItems with {
     }});
 };
 
+//Drop down for WorkOrder Number
+annotate service.WorkItems with {
+    documentID @(Common : {
+        ValueListWithFixedValues,
+        ValueList : {
+            CollectionPath : 'DocumentIDs',
+            Label          : 'Document ID',
+            Parameters     : [
+                {
+                    $Type             : 'Common.ValueListParameterIn',
+                    LocalDataProperty : 'requestNo',
+                    ValueListProperty : 'requestNoConcat'
+                },
+                {
+                    $Type             : 'Common.ValueListParameterInOut',
+                    LocalDataProperty : 'documentID',
+                    ValueListProperty : 'documentID'
+                }
+            ]
+        }
+    });
+};
 
 annotate service.WorkItems {
     requestNo               @mandatory;
