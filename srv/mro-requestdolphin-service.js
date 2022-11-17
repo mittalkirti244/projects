@@ -1052,6 +1052,13 @@ module.exports = cds.service.impl(async function () {
         //Bow Desc is Request Number + Request Type
         req.data.bowDesc = req.data.requestNoConcat + ' ' + query[0].to_requestType_rType
 
+        //Insert and update restrictions using hidden criteria
+        //To set the request type disable after create
+        req.data.uiHidden = true
+        req.data.uiHidden1 = false
+
+        req.data.requestNoDisp= req.data.requestNoConcat
+
         //------------------------------------------------------------------
        //Once the notification is created then we can create BOW
         if (query[0].to_requestStatusDisp_rStatus != 'NTCRTD') {

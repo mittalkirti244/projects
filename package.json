@@ -80,6 +80,7 @@
         "model": "srv/external/MAINTREQ_SB",
         "credentials": {
           "destination": "MaintReq"
+
         }
       },
       "NumberRangeService": {

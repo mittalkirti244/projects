@@ -121,6 +121,15 @@
                     "route": "BillOfWorksObjectPage"
                   }
                 }
+              },
+              "initialLoad": "Enabled",
+              "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "tableSettings": {
+                    "selectAll": false,
+                    "selectionMode": "Single"
+                  }
+                }
               }
             }
           }

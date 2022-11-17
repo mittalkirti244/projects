@@ -4,7 +4,8 @@ annotate service.BillOfWorks with @(UI : {
     //Selection Fields in Header of List Report Page
     SelectionFields          : [
         Bowid,
-        requestNoConcat
+        requestNoConcat,
+        MaintenanceRevision
     ],
     //Line Item in List Report Page
     LineItem                 : [
@@ -69,31 +70,31 @@ annotate service.BillOfWorks with @(UI : {
             Value : businessPartnerName,
             ![@UI.Hidden]
         },
-         {
+        {
             Value : contractName,
             ![@UI.Hidden]
         },
-         {
+        {
             Value : equipmentName,
             ![@UI.Hidden]
         },
-         {
+        {
             Value : functionalLocationName,
             ![@UI.Hidden]
         },
-         {
+        {
             Value : plantName,
             ![@UI.Hidden]
         },
-         {
+        {
             Value : revisionText,
             ![@UI.Hidden]
         },
-         {
+        {
             Value : workLocationDetail,
             ![@UI.Hidden]
         },
-         {
+        {
             Value : to_maintenanceRequest_ID,
             ![@UI.Hidden]
         }
@@ -110,7 +111,7 @@ annotate service.BillOfWorks with @(UI : {
     //Header Information in Object Page
     HeaderInfo               : {
         $Type          : 'UI.HeaderInfoType',
-        TypeName       : 'Bill of Work Details', //Label of object page
+        TypeName       : 'Manage Bill of Work', //Label of object page
         TypeNamePlural : 'Bill of Works', //Label on list
         Title          : {Value : Bowid},
         Description    : {Value : bowDesc}
@@ -193,7 +194,14 @@ annotate service.BillOfWorks with @(UI : {
     FieldGroup #mrInfo1      : {
         $Type : 'UI.FieldGroupType',
         Data  : [
-            {Value : requestNoConcat},
+            {
+                Value         : requestNoConcat, //this field will be used at the time of create
+                ![@UI.Hidden] : uiHidden
+            },
+            {
+                Value         : requestNoDisp, // this field will used at the time of edit (read only)
+                ![@UI.Hidden] : uiHidden1
+            },
             {Value : requestType},
             {Value : businessPartner},
             {Value : SalesContract},
@@ -246,6 +254,14 @@ annotate service.BillOfWorks with @(UI : {
 //Text arrangemennt for Request Number
 annotate service.BillOfWorks with {
     requestNoConcat @(Common : {Text : {
+        $value                 : requestDesc,
+        ![@UI.TextArrangement] : #TextFirst
+    }});
+};
+
+//Text arrangemennt for Request Number
+annotate service.BillOfWorks with {
+    requestNoDisp @(Common : {Text : {
         $value                 : requestDesc,
         ![@UI.TextArrangement] : #TextFirst
     }});
@@ -547,6 +563,50 @@ annotate service.BillOfWorks with {
     }});
 };
 
+//Revision Number Value help on object page
+annotate service.BillOfWorks with {
+    MaintenanceRevision @(Common : {ValueList : {
+        CollectionPath  : 'RevisionVH',
+        SearchSupported : true,
+        Label           : '{i18n>MaintenanceRevision}',
+        Parameters      : [
+            {
+                $Type             : 'Common.ValueListParameterInOut',
+                LocalDataProperty : 'MaintenanceRevision',
+                ValueListProperty : 'RevisionNo'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'revisionText',
+                ValueListProperty : 'RevisionText'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'RevisionType'
+            },
+            // {
+            //     $Type             : 'Common.ValueListParameterIn',
+            //     LocalDataProperty : 'locationWC',
+            //     ValueListProperty : 'WorkCenter'
+            // },
+            {
+                $Type             : 'Common.ValueListParameterIn',
+                LocalDataProperty : 'MaintenancePlanningPlant',
+                ValueListProperty : 'WorkCenterPlant'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'WorkCenter'
+            },
+            {
+                $Type             : 'Common.ValueListParameterDisplayOnly',
+                ValueListProperty : 'WorkCenterPlant'
+            }
+
+        ]
+    }});
+}
+
 //Readonly and mandatory fields
 annotate service.BillOfWorks {
     requestNoConcat      @mandatory;
@@ -554,6 +614,7 @@ annotate service.BillOfWorks {
     currency             @mandatory;
     salesOrganization    @mandatory;
     serviceProduct       @mandatory;
+    requestNoDisp        @readonly;
     requestType          @readonly;
     SalesContract        @readonly;
     businessPartner      @readonly;
@@ -576,6 +637,7 @@ annotate service.BillOfWorks with @Capabilities : {FilterRestrictions : {
     $Type                   : 'Capabilities.FilterRestrictionsType',
     NonFilterableProperties : [
         businessPartnerName,
+        requestNoDisp,
         equipmentName,
         functionalLocationName,
         contractName,

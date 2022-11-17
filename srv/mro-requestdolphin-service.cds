@@ -382,7 +382,12 @@ extend service mrorequestdolphinService with {
     entity MaintNotifications  as projection on s4maintReq.MaintNotification {
         MaintenanceNotification @(Common.Label : 'Notification'),
         NotificationText        @UI.HiddenFilter @(Common.Label : 'Notification Text'),
-        NotificationType        @(Common.Label : 'Notification Type')
+        NotificationType        @(Common.Label : 'Notification Type'),
+        MaintenanceWorkCenterPlant @(Common.Label : 'Work Location Plant'),
+        FunctionalLocation @(Common.Label : 'Functional Location'),
+        Equipment @(Common.Label : 'Equipment'),
+        Material @(Common.Label : 'Material'),
+        MaintenanceRevision @(Common.Label : 'Revision')
     };
 
     entity ReferenceTaskListVH as projection on s4maintReq.ReferenceTaskListVH {

@@ -1,6 +1,6 @@
 {
   "meta": {
-    "creator": "cds-dk 6.1.4"
+    "creator": "cds-dk 6.3.1"
   },
   "$version": "2.0",
   "definitions": {
@@ -13,6 +13,7 @@
     },
     "REUSABLE_SB.SalesOrgVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -26,14 +27,16 @@
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Sales Organization"
+          "@sap.label": "Sales Organization",
+          "notNull": true
         },
         "DistributionChannel": {
           "key": true,
           "type": "cds.String",
           "length": 2,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Distribution Channel"
+          "@sap.label": "Distribution Channel",
+          "notNull": true
         },
         "Division": {
           "key": true,
@@ -41,19 +44,489 @@
           "length": 2,
           "@sap.display.format": "UpperCase",
           "@sap.text": "Division_Text",
-          "@sap.label": "Division"
+          "@sap.label": "Division",
+          "notNull": true
         },
         "Division_Text": {
           "type": "cds.String",
           "length": 20,
           "@sap.label": "Division Description",
           "@sap.creatable": "false",
-          "@sap.updatable": "false"
+          "@sap.updatable": "false",
+          "notNull": false
+        }
+      }
+    },
+    "REUSABLE_SB.I_InspectionCodeGroupStdVH": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@cds.persistence.skip": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.content.version": "1",
+      "@sap.label": "Inspection Code Group",
+      "@sap.value.list": "true",
+      "elements": {
+        "InspectionCatalog": {
+          "key": true,
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Catalog",
+          "notNull": true
+        },
+        "InspectionCodeGroup": {
+          "key": true,
+          "type": "cds.String",
+          "length": 8,
+          "@sap.display.format": "UpperCase",
+          "@sap.text": "InspectionCodeGroup_Text",
+          "@sap.label": "Code Group",
+          "notNull": true
+        },
+        "InspectionCodeGroup_Text": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.label": "Code Group Text",
+          "@sap.quickinfo": "Text for Code Group",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "notNull": false
+        }
+      }
+    },
+    "REUSABLE_SB.I_InspectionCodeStdVH": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@cds.persistence.skip": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.content.version": "1",
+      "@sap.label": "Inspection Code",
+      "@sap.value.list": "true",
+      "elements": {
+        "InspectionCatalog": {
+          "key": true,
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Catalog",
+          "notNull": true
+        },
+        "InspectionCodeGroup": {
+          "key": true,
+          "type": "cds.String",
+          "length": 8,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Code Group",
+          "notNull": true
+        },
+        "InspectionCode": {
+          "key": true,
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.text": "InspectionCode_Text",
+          "@sap.label": "Code",
+          "notNull": true
+        },
+        "InspectionCode_Text": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.label": "Code Text",
+          "@sap.quickinfo": "Text for Code",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "notNull": false
+        }
+      }
+    },
+    "REUSABLE_SB.NotificationVH": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@cds.persistence.skip": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.content.version": "1",
+      "@sap.label": "Maintenance Notification",
+      "elements": {
+        "MaintenanceNotification": {
+          "key": true,
+          "type": "cds.String",
+          "length": 12,
+          "@sap.display.format": "UpperCase",
+          "@sap.text": "NotificationText",
+          "@sap.label": "Notification",
+          "@sap.quickinfo": "Notification Number",
+          "notNull": true
+        },
+        "MaintPriority": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Priority",
+          "notNull": false
+        },
+        "MaintPriorityType": {
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Priority Type",
+          "notNull": false
+        },
+        "NotificationType": {
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Notification Type",
+          "@sap.value.list": "fixed-values",
+          "notNull": false
+        },
+        "NotifProcessingPhase": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Notification Phase",
+          "@sap.quickinfo": "Notification Processing Phase",
+          "notNull": false
+        },
+        "CreatedByUser": {
+          "type": "cds.String",
+          "length": 12,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Created By",
+          "@sap.quickinfo": "Name of Person Responsible for Creating the Object",
+          "notNull": false
+        },
+        "LastChangedByUser": {
+          "type": "cds.String",
+          "length": 12,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Changed By",
+          "@sap.quickinfo": "Name of Person Who Changed Object",
+          "notNull": false
+        },
+        "ReportedByUser": {
+          "type": "cds.String",
+          "length": 12,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Reported By",
+          "@sap.quickinfo": "Name of Person Reporting Notification",
+          "notNull": false
+        },
+        "CreationDate": {
+          "type": "cds.Date",
+          "@sap.display.format": "Date",
+          "@sap.label": "Created on",
+          "@sap.quickinfo": "Date on which the record was created",
+          "notNull": false
+        },
+        "LastChangeTime": {
+          "type": "cds.Time",
+          "@sap.label": "Time of Change",
+          "notNull": false
+        },
+        "LastChangeDate": {
+          "type": "cds.Date",
+          "@sap.display.format": "Date",
+          "@sap.label": "Changed On",
+          "@sap.quickinfo": "Last Changed On",
+          "notNull": false
+        },
+        "CreationTime": {
+          "type": "cds.Time",
+          "@sap.label": "Created At",
+          "@sap.quickinfo": "Time at Which Record Was Added",
+          "notNull": false
+        },
+        "CreationDateTime": {
+          "type": "cds.String",
+          "length": 14,
+          "@sap.label": "Creation Time Stamp",
+          "notNull": false
+        },
+        "NotificationText": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.label": "Description",
+          "@sap.quickinfo": "Short Text",
+          "notNull": false
+        },
+        "LongTextLanguage": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Primary language",
+          "@sap.quickinfo": "Primary language indicator for text segment",
+          "notNull": false
+        },
+        "MaintenanceOrder": {
+          "type": "cds.String",
+          "length": 12,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Order",
+          "@sap.quickinfo": "Order Number",
+          "@sap.value.list": "standard",
+          "notNull": false
+        },
+        "RequiredStartDate": {
+          "type": "cds.Date",
+          "@sap.display.format": "Date",
+          "@sap.label": "Required Start Date",
+          "notNull": false
+        },
+        "RequiredStartTime": {
+          "type": "cds.Time",
+          "@sap.label": "Req. start time",
+          "@sap.quickinfo": "Required Start Time",
+          "notNull": false
+        },
+        "RequiredEndDate": {
+          "type": "cds.Date",
+          "@sap.display.format": "Date",
+          "@sap.label": "Required End Date",
+          "notNull": false
+        },
+        "RequiredEndTime": {
+          "type": "cds.Time",
+          "@sap.label": "Req. end time",
+          "@sap.quickinfo": "Required End Time",
+          "notNull": false
+        },
+        "NotificationCreationDate": {
+          "type": "cds.Date",
+          "@sap.display.format": "Date",
+          "@sap.label": "Notification Date",
+          "@sap.quickinfo": "Date of Notification",
+          "notNull": false
+        },
+        "NotificationCreationTime": {
+          "type": "cds.Time",
+          "@sap.label": "Notification Time",
+          "@sap.quickinfo": "Time of Notification",
+          "notNull": false
+        },
+        "NotificationReferenceDate": {
+          "type": "cds.Date",
+          "@sap.display.format": "Date",
+          "@sap.label": "Reference Date",
+          "@sap.quickinfo": "Notification Reference Date",
+          "notNull": false
+        },
+        "NotificationHasLongText": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Long text",
+          "@sap.quickinfo": "Object Long Text Available",
+          "notNull": false
+        },
+        "MaintNotifInternalID": {
+          "type": "cds.String",
+          "length": 22,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Object number",
+          "@sap.quickinfo": "Object Number for Status Management",
+          "notNull": false
+        },
+        "NotificationTimeZone": {
+          "type": "cds.String",
+          "length": 6,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Notif. Time Zone",
+          "@sap.quickinfo": "Time Zone for Notification",
+          "notNull": false
+        },
+        "NotificationReferenceTime": {
+          "type": "cds.Time",
+          "@sap.label": "Reference Time",
+          "@sap.quickinfo": "Notification Reference Time",
+          "notNull": false
+        },
+        "NotificationCompletionDate": {
+          "type": "cds.Date",
+          "@sap.display.format": "Date",
+          "@sap.label": "Completion by Date",
+          "@sap.quickinfo": "Date for Notification Completion",
+          "notNull": false
+        },
+        "NotificationCompletionTime": {
+          "type": "cds.Time",
+          "@sap.label": "Completion Time",
+          "@sap.quickinfo": "Completion Time of Notification",
+          "notNull": false
+        },
+        "WorkCenterInternalID": {
+          "type": "cds.String",
+          "length": 8,
+          "@sap.display.format": "NonNegative",
+          "@sap.label": "Work Center",
+          "@sap.quickinfo": "Object ID of the Work Center",
+          "notNull": false
+        },
+        "WorkCenterTypeCode": {
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Object Type",
+          "@sap.quickinfo": "Object types of the CIM resource",
+          "notNull": false
+        },
+        "MaintenanceWorkCenterPlant": {
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Plant for Work Ctr",
+          "@sap.quickinfo": "Plant for Work Center",
+          "@sap.value.list": "standard",
+          "notNull": false
+        },
+        "MaintNotificationCatalog": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Catalog Coding",
+          "@sap.quickinfo": "Catalog Type - Coding",
+          "notNull": false
+        },
+        "MaintNotificationCode": {
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Coding Code",
+          "@sap.quickinfo": "Coding",
+          "@sap.value.list": "standard",
+          "notNull": false
+        },
+        "MaintNotificationCodeGroup": {
+          "type": "cds.String",
+          "length": 8,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Code Group",
+          "@sap.quickinfo": "Code Group - Coding",
+          "@sap.value.list": "standard",
+          "notNull": false
+        },
+        "CatalogProfile": {
+          "type": "cds.String",
+          "length": 9,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Catalog Profile",
+          "notNull": false
+        },
+        "NotificationOrigin": {
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Notification Origin",
+          "@sap.quickinfo": "Origin of Notification",
+          "notNull": false
+        },
+        "IsDeleted": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Deleted",
+          "@sap.quickinfo": "Object is deleted",
+          "notNull": false
+        },
+        "IsCompleted": {
+          "type": "cds.String",
+          "length": 1,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Completed",
+          "@sap.quickinfo": "Object is completed",
+          "notNull": false
+        },
+        "LastChangeDateTime": {
+          "type": "cds.DateTime",
+          "@odata.Type": "Edm.DateTimeOffset",
+          "@sap.label": "Short Time Stamp",
+          "@sap.quickinfo": "UTC Time Stamp in Short Form (YYYYMMDDhhmmss)",
+          "notNull": false
+        },
+        "SerialNumber": {
+          "type": "cds.String",
+          "length": 18,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Serial Number",
+          "notNull": false
+        },
+        "Material": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Material",
+          "@sap.quickinfo": "Material Number",
+          "notNull": false
+        },
+        "AdditionalDeviceData": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Addit. device data",
+          "@sap.quickinfo": "Additional Device Data",
+          "notNull": false
+        },
+        "MaintNotifExtReferenceNumber": {
+          "type": "cds.String",
+          "length": 20,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Reference number",
+          "@sap.quickinfo": "External Reference Number",
+          "notNull": false
+        },
+        "MasterLanguage": {
+          "type": "cds.String",
+          "length": 2,
+          "@sap.label": "Master Language",
+          "notNull": false
+        },
+        "DfsMaintNotificationObjectNmbr": {
+          "type": "cds.String",
+          "length": 22,
+          "@sap.display.format": "UpperCase",
+          "@sap.label": "Object number",
+          "notNull": false
+        }
+      }
+    },
+    "REUSABLE_SB.I_MaintenanceOrderStdVH": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@cds.persistence.skip": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.searchable": "true",
+      "@sap.content.version": "1",
+      "@sap.label": "Maintenance Order",
+      "@sap.value.list": "true",
+      "elements": {
+        "MaintenanceOrder": {
+          "key": true,
+          "type": "cds.String",
+          "length": 12,
+          "@sap.display.format": "UpperCase",
+          "@sap.text": "MaintenanceOrderDesc",
+          "@sap.label": "Order",
+          "@sap.quickinfo": "Order Number",
+          "notNull": true
+        },
+        "MaintenanceOrderDesc": {
+          "type": "cds.String",
+          "length": 40,
+          "@sap.label": "Description",
+          "notNull": false
         }
       }
     },
     "REUSABLE_SB.MaterialVH": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.creatable": "false",
       "@sap.updatable": "false",
@@ -69,84 +542,157 @@
           "@sap.display.format": "UpperCase",
           "@sap.text": "Material_Text",
           "@sap.label": "Material",
-          "@sap.quickinfo": "Material Number"
+          "@sap.quickinfo": "Material Number",
+          "notNull": true
         },
         "Material_Text": {
           "type": "cds.String",
           "length": 40,
           "@sap.label": "Material Description",
           "@sap.creatable": "false",
-          "@sap.updatable": "false"
+          "@sap.updatable": "false",
+          "notNull": false
         },
         "MaterialType": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Material type"
+          "@sap.label": "Material type",
+          "notNull": false
         },
         "MaterialGroup": {
           "type": "cds.String",
           "length": 9,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Material Group"
+          "@sap.label": "Material Group",
+          "notNull": false
         },
         "MaterialBaseUnit": {
           "type": "cds.String",
           "length": 3,
           "@sap.label": "Base Unit of Measure",
-          "@sap.semantics": "unit-of-measure"
+          "@sap.semantics": "unit-of-measure",
+          "notNull": false
         },
         "MaterialGrossWeight": {
           "type": "cds.Decimal",
           "precision": 13,
           "scale": 3,
           "@sap.unit": "MaterialWeightUnit",
-          "@sap.label": "Gross weight"
+          "@sap.label": "Gross weight",
+          "notNull": false
         },
         "MaterialNetWeight": {
           "type": "cds.Decimal",
           "precision": 13,
           "scale": 3,
           "@sap.unit": "MaterialWeightUnit",
-          "@sap.label": "Net weight"
+          "@sap.label": "Net weight",
+          "notNull": false
         },
         "MaterialWeightUnit": {
           "type": "cds.String",
           "length": 3,
           "@sap.label": "Weight unit",
           "@sap.quickinfo": "Weight Unit",
-          "@sap.semantics": "unit-of-measure"
+          "@sap.semantics": "unit-of-measure",
+          "notNull": false
         },
         "MaterialManufacturerNumber": {
           "type": "cds.String",
           "length": 10,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Manufacturer",
-          "@sap.quickinfo": "Manufacturer number"
+          "@sap.quickinfo": "Manufacturer number",
+          "notNull": false
         },
         "MaterialManufacturerPartNumber": {
           "type": "cds.String",
           "length": 40,
           "@sap.display.format": "UpperCase",
           "@sap.label": "Mfr Part Number",
-          "@sap.quickinfo": "Manufacturer Part Number"
+          "@sap.quickinfo": "Manufacturer Part Number",
+          "notNull": false
         },
         "AuthorizationGroup": {
           "type": "cds.String",
           "length": 4,
           "@sap.display.format": "UpperCase",
-          "@sap.label": "Authorization Group"
+          "@sap.label": "Authorization Group",
+          "notNull": false
         },
         "IsBatchManagementRequired": {
           "type": "cds.Boolean",
           "@sap.display.format": "UpperCase",
           "@sap.label": "Batch Management",
-          "@sap.quickinfo": "Batch Management Requirement Indicator"
+          "@sap.quickinfo": "Batch Management Requirement Indicator",
+          "notNull": false
+        }
+      }
+    },
+    "REUSABLE_SB.I_PlantStdVH": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@cds.persistence.skip": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.searchable": "true",
+      "@sap.content.version": "1",
+      "@sap.label": "Plant",
+      "@sap.value.list": "true",
+      "elements": {
+        "Plant": {
+          "key": true,
+          "type": "cds.String",
+          "length": 4,
+          "@sap.display.format": "UpperCase",
+          "@sap.text": "PlantName",
+          "@sap.label": "Plant",
+          "notNull": true
+        },
+        "PlantName": {
+          "type": "cds.String",
+          "length": 30,
+          "@sap.label": "Plant Name",
+          "notNull": false
+        }
+      }
+    },
+    "REUSABLE_SB.I_PMNotificationTypeStdVH": {
+      "kind": "entity",
+      "@cds.external": true,
+      "@cds.persistence.skip": true,
+      "@sap.creatable": "false",
+      "@sap.updatable": "false",
+      "@sap.deletable": "false",
+      "@sap.content.version": "1",
+      "@sap.label": "Notification Type",
+      "@sap.value.list": "true",
+      "elements": {
+        "NotificationType": {
+          "key": true,
+          "type": "cds.String",
+          "length": 2,
+          "@sap.display.format": "UpperCase",
+          "@sap.text": "NotificationType_Text",
+          "@sap.label": "Notification Type",
+          "notNull": true
+        },
+        "NotificationType_Text": {
+          "type": "cds.String",
+          "length": 20,
+          "@sap.label": "Notifcatn Type Text",
+          "@sap.quickinfo": "Notification Type Text",
+          "@sap.creatable": "false",
+          "@sap.updatable": "false",
+          "notNull": false
         }
       }
     },
     "REUSABLE_SB.SAP__Currencies": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.content.version": "1",
       "elements": {
@@ -155,27 +701,32 @@
           "type": "cds.String",
           "length": 5,
           "@sap.label": "Currency",
-          "@sap.semantics": "currency-code"
+          "@sap.semantics": "currency-code",
+          "notNull": true
         },
         "ISOCode": {
           "type": "cds.String",
           "length": 3,
-          "@sap.label": "ISO code"
+          "@sap.label": "ISO code",
+          "notNull": true
         },
         "Text": {
           "type": "cds.String",
           "length": 15,
-          "@sap.label": "Short text"
+          "@sap.label": "Short text",
+          "notNull": true
         },
         "DecimalPlaces": {
           "type": "cds.Integer",
           "@odata.Type": "Edm.Byte",
-          "@sap.label": "Decimals"
+          "@sap.label": "Decimals",
+          "notNull": true
         }
       }
     },
     "REUSABLE_SB.SAP__UnitsOfMeasure": {
       "kind": "entity",
+      "@cds.external": true,
       "@cds.persistence.skip": true,
       "@sap.content.version": "1",
       "elements": {
@@ -184,26 +735,31 @@
           "type": "cds.String",
           "length": 3,
           "@sap.label": "Internal UoM",
-          "@sap.semantics": "unit-of-measure"
+          "@sap.semantics": "unit-of-measure",
+          "notNull": true
         },
         "ISOCode": {
           "type": "cds.String",
           "length": 3,
-          "@sap.label": "ISO code"
+          "@sap.label": "ISO code",
+          "notNull": true
         },
         "ExternalCode": {
           "type": "cds.String",
           "length": 3,
-          "@sap.label": "Commercial"
+          "@sap.label": "Commercial",
+          "notNull": true
         },
         "Text": {
           "type": "cds.String",
           "length": 30,
-          "@sap.label": "UoM Text"
+          "@sap.label": "UoM Text",
+          "notNull": true
         },
         "DecimalPlaces": {
           "type": "cds.Integer",
-          "@sap.label": "Decimal Places"
+          "@sap.label": "Decimal Places",
+          "notNull": false
         }
       }
     }

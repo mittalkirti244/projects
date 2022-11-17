@@ -212,6 +212,9 @@ entity NotificationTypes {
 entity BillOfWorks : managed {
     key ID                       : UUID    @Core.Computed;
         requestNoConcat          : String  @Common.SemanticObject : 'MaintenanceRequest'   @title                 : 'Maintenance Request';
+        requestNoDisp            : String  @title                 : 'Maintenance Request'; //Maintenance Request No using on object on edit
+        uiHidden                 : Boolean not null default false; //this field will be used at the time of create for requestNo
+        uiHidden1                : Boolean not null default true; //this field will used at the time of edit (read only) for requestNoDisp
         requestDesc              : String  @title                 : 'Request Description'; // maintenance request Description
         requestType              : String  @title                 : 'Maintenance Request Type';
         businessPartner          : String  @title                 : 'Business Partner';
