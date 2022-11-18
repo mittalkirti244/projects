@@ -253,11 +253,11 @@ service mrorequestdolphinService {
     };
 
     //Entity used as collection path for Workorder number on object page
-    entity WorkOrderNumbers        as
-        select from maintReq.WorkItems {
+entity WorkOrderNumbers        as
+        select distinct
             workOrderNo,
             requestNoConcat
-        }
+        from maintReq.WorkItems
         where
             workOrderNo != '';
 
