@@ -979,30 +979,21 @@
         "DocumentType": {
           "type": "cds.String",
           "length": 3,
-          "@sap.display.format": "UpperCase",
-          "@sap.label": "Document Type",
           "notNull": false
         },
         "DocumentNumber": {
           "type": "cds.String",
           "length": 25,
-          "@sap.display.format": "UpperCase",
-          "@sap.label": "Document",
-          "@sap.quickinfo": "Document number",
           "notNull": false
         },
         "DocumentVersion": {
           "type": "cds.String",
           "length": 2,
-          "@sap.display.format": "UpperCase",
-          "@sap.label": "Document Version",
           "notNull": false
         },
         "DocumentPart": {
           "type": "cds.String",
           "length": 3,
-          "@sap.display.format": "UpperCase",
-          "@sap.label": "Document Part",
           "notNull": false
         },
         "to_NotificationHeaderItem": {
@@ -1580,11 +1571,18 @@
         "TurnAroundTime": {
           "type": "cds.String",
           "length": 260,
-          "@sap.label": "Turn Around Time(in Days)",
+          "@sap.label": "Turn Around Time(innnnn Days)",
           "@sap.creatable": "false",
           "@sap.updatable": "false",
           "@sap.sortable": "false",
           "@sap.filterable": "false",
+          "notNull": false
+        },
+        "Currency": {
+          "type": "cds.String",
+          "length": 5,
+          "@sap.label": "Currency",
+          "@sap.semantics": "currency-code",
           "notNull": false
         },
         "SoldToParty": {

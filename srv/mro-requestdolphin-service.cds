@@ -325,7 +325,8 @@ extend service mrorequestdolphinService with {
             ContactPersonEmailID    @(Common.Label : '{i18n>ContactPersonEmailID}'),
             TelephoneNo             @(Common.Label : '{i18n>TelephoneNo}'),
             TurnAroundTime          @(Common.Label : '{i18n>TurnAroundTime}') @UI.HiddenFilter,
-            SoldToParty             @(Common.Label : '{i18n>SoldToParty}') @UI.HiddenFilter
+            SoldToParty             @(Common.Label : '{i18n>SoldToParty}') @UI.HiddenFilter,
+            Currency                @(Common.Label : '{i18n>Currency}') @UI.HiddenFilter
 
     };
 

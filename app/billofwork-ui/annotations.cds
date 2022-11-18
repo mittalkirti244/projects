@@ -378,6 +378,11 @@ annotate service.BillOfWorks with {
             },
             {
                 $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'currency',
+                ValueListProperty : 'currency'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'MaintenancePlanningPlant',
                 ValueListProperty : 'MaintenancePlanningPlant'
             },

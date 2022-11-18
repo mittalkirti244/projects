@@ -240,6 +240,10 @@ annotate mrorequestdolphinService.MaintenanceRequests with @(UI : {
         {
             Value : soldToParty,
             ![@UI.Hidden]
+        },
+        {
+            Value : currency,
+            ![@UI.Hidden]
         }
     ],
     //Sort all Requests based on createdAt in list report page
@@ -686,6 +690,11 @@ annotate mrorequestdolphinService.MaintenanceRequests with {
                 $Type             : 'Common.ValueListParameterOut',
                 LocalDataProperty : 'soldToParty',
                 ValueListProperty : 'SoldToParty'
+            },
+            {
+                $Type             : 'Common.ValueListParameterOut',
+                LocalDataProperty : 'currency',
+                ValueListProperty : 'Currency'
             }
         ]
     }});
@@ -1050,7 +1059,8 @@ annotate mrorequestdolphinService.MaintenanceRequests with @Capabilities : {Filt
         startDate,
         endDate,
         soldToParty,
-        ID
+        ID,
+        currency
     ]
 }};
 
