@@ -191,10 +191,6 @@
           "key": true,
           "type": "cds.UUID"
         },
-        "mrequestType": {
-          "@title": "Maintenance Request Type",
-          "type": "cds.String"
-        },
         "to_maintenanceRequest": {
           "type": "cds.Association",
           "cardinality": {
@@ -218,7 +214,6 @@
     "mrorequestdolphinService.MaintenanceRequests": {
       "kind": "entity",
       "@odata.draft.enabled": true,
-      "@cds.redirection.target": true,
       "@UI.LineItem": [
         {
           "Value": {
@@ -472,7 +467,7 @@
           "cardinality": {
             "max": "*"
           },
-          "target": "mrorequestdolphinService.WorkItems",
+          "target": "com.hcl.mro.requestdolphin.WorkItems",
           "keys": [
             {
               "ref": [
@@ -502,11 +497,11 @@
     "mrorequestdolphinService.WorkItems": {
       "kind": "entity",
       "@odata.draft.enabled": true,
-      "@cds.redirection.target": true,
+      "@cds.redirection.target": false,
       "@UI.LineItem": [
         {
           "Value": {
-            "=": "mrequestType"
+            "=": "to_maintenanceRequest.to_requestType_rType"
           },
           "@HTML5.CssDefaults": {
             "$Type": "HTML5.CssDefaultsType",
@@ -689,10 +684,6 @@
           "@Core.Computed": true,
           "key": true,
           "type": "cds.UUID"
-        },
-        "mrequestType": {
-          "@title": "Maintenance Request Type",
-          "type": "cds.String"
         },
         "to_maintenanceRequest": {
           "type": "cds.Association",

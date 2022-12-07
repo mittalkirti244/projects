@@ -2,15 +2,13 @@ using mrorequestdolphinService as service from '../../srv/mro-requestdolphin-ser
 
 annotate service.WorkItems with @(UI : {
     //Line Item in List Report Page
-    LineItem                   : [
-        {
-            Value                 : mrequestType,
-            ![@HTML5.CssDefaults] : {
-                $Type : 'HTML5.CssDefaultsType',
-                width : '10rem',
-            },
-        }
-    ],
+    LineItem                   : [{
+        Value                 : to_maintenanceRequest.to_requestType_rType,
+        ![@HTML5.CssDefaults] : {
+            $Type : 'HTML5.CssDefaultsType',
+            width : '10rem',
+        },
+    }],
     PresentationVariant        : {
         SortOrder      : [{
             $Type      : 'Common.SortOrderType',
@@ -41,14 +39,12 @@ annotate service.WorkItems with @(UI : {
     Facets                     : [{
         $Type  : 'UI.CollectionFacet',
         ID     : 'customerGroup',
-        Facets : [
-            {
-                $Type  : 'UI.ReferenceFacet',
-                ID     : 'customerGroup1',
-                Target : '@UI.FieldGroup#customerGroup1',
-                Label  : 'Work Item Information'
-            }
-        ],
+        Facets : [{
+            $Type  : 'UI.ReferenceFacet',
+            ID     : 'customerGroup1',
+            Target : '@UI.FieldGroup#customerGroup1',
+            Label  : 'Work Item Information'
+        }],
     }, ],
     FieldGroup #basicDetail2   : {
         $Type : 'UI.FieldGroupType',
@@ -68,8 +64,6 @@ annotate service.WorkItems with @(UI : {
     //Tab 2 = Customer Information Field Group
     FieldGroup #customerGroup1 : {
         $Type : 'UI.FieldGroupType',
-        Data  : [
-            {Value : to_maintenanceRequest.to_requestType_rType}
-        ],
+        Data  : [{Value : to_maintenanceRequest.to_requestType_rType}]
     }
 });
